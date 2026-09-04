@@ -26,6 +26,9 @@ CLOUDFLARE_API_TOKEN = os.environ.get("CLOUDFLARE_API_TOKEN")
 CF_MODEL = "@cf/mistral/mistral-7b-instruct-v0.1"
 CF_API_URL = f"https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}/ai/run/{CF_MODEL}"
 
+CLOUDFLARE_API_TOKEN = os.environ.get("CLOUDFLARE_API_TOKEN")
+print(f"DEBUG - 讀取到的 Token: {repr(CLOUDFLARE_API_TOKEN)}")  # 幫手睇下係咪 None
+
 headers = {
     "Authorization": f"Bearer {CLOUDFLARE_API_TOKEN}",
     "Content-Type": "application/json"
