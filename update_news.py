@@ -12,9 +12,9 @@ from googlenewsdecoder import gnewsdecoder
 SITE_DOMAIN = "https://www.behavior-report.com"
 SITE_NAME = "ABRG 大數據行為觀察中心"
 
-# Cloudflare 認證資訊
+# Cloudflare 認證資訊（改為完全從環境變數讀取，確保安全不外洩）
 CLOUDFLARE_ACCOUNT_ID = os.environ.get("CLOUDFLARE_ACCOUNT_ID", "d15b83e3434840eb29469592d22bb2bc")
-CLOUDFLARE_API_TOKEN = os.environ.get("CLOUDFLARE_API_TOKEN", "cfut_bQ78UoM1J2BTNIBDuwMDPmNv2gYeY2fjVZ3eNQ4o5ddc7983")
+CLOUDFLARE_API_TOKEN = os.environ.get("CLOUDFLARE_API_TOKEN")
 
 CF_MODEL = "@cf/meta/llama-3.1-8b-instruct"
 CF_API_URL = f"https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}/ai/run/{CF_MODEL}"
@@ -99,11 +99,9 @@ def fetch_and_generate():
             article_filename = f"articles/{global_article_id}.html"
             canonical_url = f"{SITE_DOMAIN}/{article_filename}"
             
-            # 清理標題與生成 SEO Description 摘要 (移除換行與過長字數)
             clean_title = html.escape(entry.title.strip())
             seo_description = html.escape(ai_content.replace("\n", " ").strip()[:150]) + "..."
             
-            # 高強度 SEO 優化版內頁 HTML
             article_html = f"""<!DOCTYPE html>
 <html lang="zh-Hant-HK">
 <head>
@@ -115,14 +113,12 @@ def fetch_and_generate():
     <link rel="canonical" href="{canonical_url}" />
     <meta name="robots" content="index, follow">
 
-    <!-- Open Graph (Facebook / WhatsApp / Line 分享縮圖與卡片) -->
     <meta property="og:type" content="article">
     <meta property="og:title" content="{clean_title}">
     <meta property="og:description" content="{seo_description}">
     <meta property="og:url" content="{canonical_url}">
     <meta property="og:site_name" content="{SITE_NAME}">
 
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="{clean_title}">
     <meta name="twitter:description" content="{seo_description}">
@@ -236,9 +232,10 @@ def update_sitemap(news_items):
     <priority>0.7</priority>
   </url>""")
 
+    joined_urls = "\n".join(urls)
     sitemap_content = f"""<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-{'\n'.join(urls)}
+{joined_urls}
 </urlset>"""
 
     with open("sitemap.xml", "w", encoding="utf-8") as f:
