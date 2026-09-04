@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【薪資計算器教學】精算時薪月薪換算、OT加班費與稅後實收薪資｜Free Payroll Calculator Guide</title>
+    <meta name="description" content="薪資計算器完整教學！支援月薪時薪換算、加班費 (OT Pay) 計算、強積金/稅金扣除，即時精算每月實收淨薪資。Free online payroll calculator guide.">
+    <meta name="keywords" content="薪資計算器, 出糧計算機, 時薪轉月薪, OT加班費計算, 稅後薪資, 強積金計算, payroll calculator, take home pay, overtime pay calculator, net salary, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/payroll-calculator-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【薪資計算器教學】精算時薪月薪換算、OT加班費與稅後實收薪資｜Free Payroll Calculator Guide">
+    <meta property="og:description" content="支援月薪時薪換算、加班費計算、強積金/稅金扣除，即時精算每月實收淨薪資。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/payroll-calculator-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Payroll Calculator Guide – Calculate OT Pay & Net Take-Home Salary">
+    <meta name="twitter:description" content="Calculate monthly salary, hourly rate conversion, overtime pay, and net salary after deductions.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "薪資計算器教學：精算時薪月薪換算、OT加班費與稅後實收薪資",
+      "description": "介紹如何使用薪資計算器進行月薪時薪換算、加班費計算及稅後實收薪資估算，適用於打工仔、HR 與財務規劃。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>薪資計算器教學：精算時薪月薪換算、OT加班費與稅後實收薪資</h1>
+
+        <h2>1. 導言</h2>
+        <p>你每個月出糧嗰陣，有冇試過唔明點解扣咗咁多錢？或者你想轉工，但係唔知時薪制同月薪制邊個著數啲？<strong>薪資計算（Payroll Calculation）</strong> 就係為咗解答呢啲問題而存在。我哋嘅免費薪資計算器支援 <strong>月薪時薪換算、OT 加班費計算、強積金/稅金扣除</strong>，即時精算你嘅 <strong>實收淨薪資（Net Take-Home Pay）</strong>。所有運算喺瀏覽器入面完成，數據唔會離開你嘅裝置，私隱 100% 安全。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>薪資計算（Payroll Calculation）</strong> 係將員工嘅基本薪資、加班費、法定扣除額等項目綜合計算，得出實際到手收入嘅過程。主要概念包括：</p>
+        <ul>
+            <li><strong>月薪制（Monthly Salary）：</strong> 每月固定薪資，適合全職員工。</li>
+            <li><strong>時薪制（Hourly Rate）：</strong> 按工作時數計算薪資，適合兼職或合約員工。</li>
+            <li><strong>加班費（OT Pay）：</strong> 超出正常工作時數嘅額外報酬，通常以 1.25x-2.0x 計算。</li>
+            <li><strong>強積金（MPF）/ 稅金扣除：</strong> 法定強制扣除項目，影響實收薪資。</li>
+            <li><strong>實收淨薪資（Net Take-Home Pay）：</strong> 扣除所有項目後嘅實際到手收入。</li>
+        </ul>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>打工仔：</strong> 了解自己嘅實際時薪同加班費收益，評估工作價值。</li>
+            <li><strong>轉工評估：</strong> 比較不同公司嘅薪資結構同實際到手收入。</li>
+            <li><strong>HR / 財務人員：</strong> 計算員工出糧金額，確保扣除項目準確。</li>
+            <li><strong>兼職 / Freelance：</strong> 計算時薪制下嘅預期收入。</li>
+            <li><strong>財務規劃：</strong> 了解每月實際可支配收入，做好預算管理。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>選擇計薪模式：</strong>
+                <ul>
+                    <li>月薪制（Monthly Salary）</li>
+                    <li>時薪制（Hourly Rate）</li>
+                </ul>
+            </li>
+            <li><strong>輸入基本資料：</strong>
+                <ul>
+                    <li>基本薪資（Base Pay Amount）</li>
+                    <li>每月工作天數（Work Days / Month）</li>
+                    <li>每日工作時數（Hours / Day）</li>
+                    <li>每月 OT 加班時數（OT Hours / Month）</li>
+                    <li>加班費倍率（OT Pay Rate Multiplier）</li>
+                    <li>強積金/稅扣除 %（Deduction Rate %）</li>
+                </ul>
+            </li>
+            <li><strong>計算：</strong> 點擊「精算薪資發放」按鈕。</li>
+            <li><strong>檢視結果：</strong>
+                <ul>
+                    <li>💚 實收淨薪資 — 扣除所有項目後嘅實際到手收入</li>
+                    <li>📊 應發總薪資 — 底薪 + OT</li>
+                    <li>📊 加班費收益 — OT 總金額</li>
+                    <li>📊 換算等效時薪 — 時薪制下嘅時薪</li>
+                    <li>📊 法定扣除額 — MPF/稅金總額</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站薪資計算器</th>
+                    <th>Excel 手動計算</th>
+                    <th>HR 系統</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>需購買軟件</td>
+                    <td>需付費訂閱</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>✅ 本地處理</td>
+                    <td>⚠️ 視乎系統</td>
+                </tr>
+                <tr>
+                    <td><strong>計算速度</strong></td>
+                    <td>⚡ 即時</td>
+                    <td>🐢 需設定公式</td>
+                    <td>⚡ 即時</td>
+                </tr>
+                <tr>
+                    <td><strong>OT 加班費計算</strong></td>
+                    <td>✅ 自動計算</td>
+                    <td>⚠️ 需手動設定</td>
+                    <td>✅ 自動</td>
+                </tr>
+                <tr>
+                    <td><strong>強積金/稅務扣除</strong></td>
+                    <td>✅ 自動計算</td>
+                    <td>⚠️ 需手動輸入</td>
+                    <td>✅ 自動</td>
+                </tr>
+                <tr>
+                    <td><strong>無需安裝</strong></td>
+                    <td>✅ 瀏覽器即用</td>
+                    <td>❌ 需安裝軟件</td>
+                    <td>❌ 需系統</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>中等</td>
+                    <td>高</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「以前返第一份工嗰陣，月薪 $18,000，我以為好好。直到有一次心血來潮計吓自己嘅實際時薪——每日做 10 個鐘，每星期返 6 日，一個月返 26 日——<strong>實際時薪得 $69</strong>。嗰陣我先知道，<strong>月薪靚仔唔代表時薪靚仔</strong>。呢個工具俾你嘅，就係 <strong>用 10 秒鐘揭穿你份工嘅『真實時薪』</strong>—等你知道自己嘅時間值唔值得呢個價錢。OT 係咪值得做？扣完 MPF 仲有幾多？呢啲問題唔應該靠估，而係 <strong>靠數據</strong>。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">💵 想知自己嘅實際時薪同稅後收入？即時計算！</h3>
+            <p style="margin:0; font-size:0.9rem;">輸入薪資資料即時計算 OT 加班費與實收淨薪資，完全免費且保護私隱。</p>
+            <a href="../tools/payroll-calculator.html?lang=hk" class="cta-btn-link" id="ctaBtnZh">👉 立即免費試用薪資計算器</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Payroll Calculator Guide: Calculate OT Pay & Net Take-Home Salary</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Ever looked at your payslip and wondered why so much was deducted? Or considering a job switch but unsure whether hourly or monthly pay is better? <strong>Payroll calculation</strong> is exactly for answering these questions. Our free payroll calculator supports <strong>monthly/hourly conversion, OT pay calculation, MPF/tax deductions</strong>, and instantly calculates your <strong>net take-home pay</strong>. All processing happens in your browser—your data never leaves your device, ensuring 100% privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>Payroll calculation</strong> is the process of combining base salary, overtime pay, statutory deductions, and other items to determine the actual take-home income. Key concepts include:</p>
+        <ul>
+            <li><strong>Monthly Salary:</strong> Fixed monthly pay—ideal for full-time employees.</li>
+            <li><strong>Hourly Rate:</strong> Pay calculated by hours worked—ideal for part-time or contract workers.</li>
+            <li><strong>Overtime Pay (OT):</strong> Extra compensation for hours beyond standard working hours, typically at 1.25x-2.0x.</li>
+            <li><strong>MPF / Tax Deductions:</strong> Statutory mandatory deductions that affect take-home pay.</li>
+            <li><strong>Net Take-Home Pay:</strong> The actual amount you receive after all deductions.</li>
+        </ul>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Employees:</strong> Understand your actual hourly rate and OT earnings to evaluate job value.</li>
+            <li><strong>Job Change Assessment:</strong> Compare salary structures and actual take-home pay across companies.</li>
+            <li><strong>HR / Finance:</strong> Calculate employee pay and ensure accurate deductions.</li>
+            <li><strong>Part-time / Freelance:</strong> Estimate expected income under hourly rate arrangements.</li>
+            <li><strong>Financial Planning:</strong> Know your monthly disposable income for better budgeting.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Select Pay Type:</strong>
+                <ul>
+                    <li>Monthly Salary</li>
+                    <li>Hourly Rate</li>
+                </ul>
+            </li>
+            <li><strong>Enter Basic Information:</strong>
+                <ul>
+                    <li>Base Pay Amount</li>
+                    <li>Work Days Per Month</li>
+                    <li>Hours Per Day</li>
+                    <li>Monthly OT Hours</li>
+                    <li>OT Multiplier</li>
+                    <li>Statutory Deduction Rate (%)</li>
+                </ul>
+            </li>
+            <li><strong>Calculate:</strong> Click the "Calculate Net Pay" button.</li>
+            <li><strong>View Results:</strong>
+                <ul>
+                    <li>💚 Net Take-Home Pay — Actual amount after deductions</li>
+                    <li>📊 Gross Salary — Base + OT</li>
+                    <li>📊 Overtime Pay Earned — Total OT amount</li>
+                    <li>📊 Equivalent Hourly Rate — Your calculated hourly rate</li>
+                    <li>📊 Total Deductions — MPF/Tax total</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Payroll Tool (Us)</th>
+                    <th>Excel Manual</th>
+                    <th>HR System</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Software Purchase</td>
+                    <td>Paid Subscription</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>✅ Local</td>
+                    <td>⚠️ System-dependent</td>
+                </tr>
+                <tr>
+                    <td><strong>Speed</strong></td>
+                    <td>⚡ Instant</td>
+                    <td>🐢 Formula setup</td>
+                    <td>⚡ Instant</td>
+                </tr>
+                <tr>
+                    <td><strong>OT Calculation</strong></td>
+                    <td>✅ Auto</td>
+                    <td>⚠️ Manual setup</td>
+                    <td>✅ Auto</td>
+                </tr>
+                <tr>
+                    <td><strong>MPF/Tax Deductions</strong></td>
+                    <td>✅ Auto</td>
+                    <td>⚠️ Manual input</td>
+                    <td>✅ Auto</td>
+                </tr>
+                <tr>
+                    <td><strong>No Installation</strong></td>
+                    <td>✅ Browser</td>
+                    <td>❌ Software</td>
+                    <td>❌ System needed</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Medium</td>
+                    <td>High</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"Back in my first job, I thought an $18,000 monthly salary was pretty good. Until one day I calculated my actual hourly rate—10 hours a day, 6 days a week, 26 days a month—<strong>my actual hourly rate was just $69</strong>. That's when I realized: <strong>a nice monthly salary doesn't mean a nice hourly rate</strong>. This tool gives you exactly that <strong>ability to reveal your job's 'real hourly rate' in 10 seconds</strong>—so you know if your time is worth the price. Is OT worth it? How much is left after MPF? These questions shouldn't be guesses—they should be <strong>based on data</strong>."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">💵 Want to Know Your Actual Hourly Rate & Take-Home Pay? Calculate Instantly!</h3>
+            <p style="margin:0; font-size:0.9rem;">Enter salary details for instant OT pay and net take-home salary—completely free with privacy protection.</p>
+            <a href="../tools/payroll-calculator.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Payroll Calculator Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtnZh = document.getElementById('ctaBtnZh');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtnZh.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtnZh.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

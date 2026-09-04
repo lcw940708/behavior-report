@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【時間戳轉換器教學】Unix Timestamp 係咩？｜秒數轉日期時間｜Free Unix Timestamp Converter Guide</title>
+    <meta name="description" content="時間戳轉換器完整教學！解析 Unix Timestamp (Epoch Time) 概念、運作原理，支援秒數與日期時間雙向即時轉換。Free online Unix timestamp converter guide.">
+    <meta name="keywords" content="時間戳轉換器, Unix Timestamp, Epoch Time, 時間戳轉日期, 日期轉時間戳, Timestamp Converter, 開發者工具, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/timestamp-converter-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【時間戳轉換器教學】Unix Timestamp 係咩？｜秒數轉日期時間｜Free Unix Timestamp Converter Guide">
+    <meta property="og:description" content="深入解析 Unix Timestamp (Epoch Time) 的概念、計算方式，以及如何透過線上工具快速完成日期與時間戳的雙向轉換。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/timestamp-converter-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Unix Timestamp Converter Guide – What is Epoch Time & How to Convert It">
+    <meta name="twitter:description" content="Learn Unix Timestamp (Epoch Time) mechanics and use our free bidirectional converter tool.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "時間戳轉換器教學：Unix Timestamp 係咩？— 秒數轉日期時間完整指南",
+      "description": "介紹 Unix Timestamp (Epoch Time) 的概念、運作原理與雙向轉換方法，適用於開發者、數據分析師與系統管理員。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>時間戳轉換器教學：Unix Timestamp 係咩？— 秒數轉日期時間完整指南</h1>
+
+        <h2>1. 導言</h2>
+        <p>你試過喺 API 回傳入面見到一串「1724147200」嘅數字，完全唔知佢代表咩時間？或者你寫緊程式嗰陣需要將日期時間轉換成 Unix Timestamp 存入資料庫？<strong>Unix 時間戳（Unix Timestamp）</strong> 就係為咗呢個情況而存在。我哋嘅免費時間戳轉換器支援 <strong>秒數 ↔ 日期時間雙向即時轉換</strong>，仲可以一鍵獲取當前時間戳同複製結果。所有運算喺瀏覽器入面完成，你嘅資料唔會離開你嘅裝置，私隱 100% 安全。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>Unix 時間戳（Unix Timestamp / Epoch Time）</strong> 係電腦系統中儲存時間嘅標準格式。主要概念包括：</p>
+        <ul>
+            <li><strong>定義：</strong> 從 UTC 1970 年 1 月 1 日 00:00:00（稱為 Unix 紀元）開始計算嘅總秒數。</li>
+            <li><strong>用途：</strong> 程式語言、資料庫、API 通常以時間戳儲存時間，因為佢係一個簡單嘅數字，唔受時區影響。</li>
+            <li><strong>時區問題：</strong> Unix 時間戳本身係 UTC 時間，轉換成日期時間時會根據你嘅本地時區顯示。</li>
+            <li><strong>Y2K38 問題：</strong> 2038 年 1 月 19 日，32-bit 系統嘅時間戳會 overflow，但 64-bit 系統可以撐到 2920 億年後。</li>
+        </ul>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>API 開發與除錯：</strong> 將 API 回傳嘅時間戳轉換為人類可讀嘅日期時間。</li>
+            <li><strong>資料庫查詢：</strong> 將日期時間轉換為時間戳，方便喺資料庫中儲存與比較。</li>
+            <li><strong>系統日誌分析：</strong> 將 Log 入面嘅時間戳轉換為正常時間，方便閱讀。</li>
+            <li><strong>跨時區協作：</strong> 使用統一的時間戳格式，避免時區混亂。</li>
+            <li><strong>程式碼開發：</strong> 測試日期時間相關嘅功能，快速生成測試數據。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>選擇轉換模式：</strong>
+                <ul>
+                    <li>📅 「時間戳 → 日期」— 輸入秒數，轉換為人類可讀嘅日期時間</li>
+                    <li>📅 「日期 → 時間戳」— 選擇日期時間，轉換為 Unix 秒數</li>
+                </ul>
+            </li>
+            <li><strong>輸入數值：</strong> 根據所選模式輸入時間戳或選擇日期時間。</li>
+            <li><strong>獲取當前時間戳：</strong> 點擊「獲取當前時間戳」按鈕，自動填入現在嘅 Unix 秒數。</li>
+            <li><strong>即時轉換：</strong> 輸入會自動更新結果，無需點擊按鈕。</li>
+            <li><strong>複製結果：</strong> 點擊「複製結果」將轉換後嘅數值複製到剪貼簿。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站時間戳轉換器</th>
+                    <th>手動計算</th>
+                    <th>程式語言內置函數</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>時間成本</td>
+                    <td>需寫程式</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>✅ 無數據</td>
+                    <td>✅ 本地處理</td>
+                </tr>
+                <tr>
+                    <td><strong>計算速度</strong></td>
+                    <td>⚡ 即時</td>
+                    <td>🐢 需時間</td>
+                    <td>⚡ 即時</td>
+                </tr>
+                <tr>
+                    <td><strong>雙向轉換</strong></td>
+                    <td>✅ 支援</td>
+                    <td>⚠️ 需分別計算</td>
+                    <td>✅ 支援</td>
+                </tr>
+                <tr>
+                    <td><strong>時區自動處理</strong></td>
+                    <td>✅ 瀏覽器自動</td>
+                    <td>⚠️ 需手動</td>
+                    <td>⚠️ 需設定</td>
+                </tr>
+                <tr>
+                    <td><strong>當前時間戳獲取</strong></td>
+                    <td>✅ 一鍵獲取</td>
+                    <td>❌ 需手動</td>
+                    <td>✅ 一行 code</td>
+                </tr>
+                <tr>
+                    <td><strong>無需安裝</strong></td>
+                    <td>✅ 瀏覽器即用</td>
+                    <td>✅ 無需</td>
+                    <td>❌ 需編譯環境</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>中等</td>
+                    <td>高</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「初初學寫程式嗰陣，第一次見到 API 回傳入面嘅 Unix Timestamp，我以為係亂碼。問咗個資深工程師先知呢串數字代表咩時間。佢話：『<strong>電腦唔識睇 2024-08-20，電腦只識計數</strong>。』嗰陣我先明，時間戳係電腦嘅語言，而我哋寫嘅轉換器就係 <strong>翻譯機</strong>——將電腦嘅語言翻譯成人類睇得明嘅時間。呢個工具嘅價值就係：<strong>你唔使自己計數，你只需要貼上一串數字，就見到時間</strong>。開發嗰陣慳返啲時間，專心寫 logic 好過。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⏱️ 需要即時轉換 Unix 時間戳？雙向轉換即時完成！</h3>
+            <p style="margin:0; font-size:0.9rem;">輸入秒數轉日期，或揀日期轉秒數，一鍵獲取當前時間戳，完全免費且保護私隱。</p>
+            <a href="../tools/timestamp-converter.html?lang=hk" class="cta-btn-link" id="ctaBtnZh">👉 立即免費試用時間戳轉換器</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Unix Timestamp Converter Guide: What is Epoch Time? — Seconds to Datetime Complete Guide</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Ever seen "1724147200" in an API response and had no idea what time it represents? Or needed to convert a datetime to Unix Timestamp for database storage? <strong>Unix Timestamp (Epoch Time)</strong> is exactly for this situation. Our free timestamp converter supports <strong>bidirectional instant conversion between seconds and human-readable datetime</strong>, plus one-click current timestamp and copy. All processing happens in your browser—your data never leaves your device, ensuring 100% privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>Unix Timestamp (Epoch Time)</strong> is the standard format for storing time in computer systems. Key concepts include:</p>
+        <ul>
+            <li><strong>Definition:</strong> Total seconds elapsed since January 1, 1970 00:00:00 UTC (the Unix Epoch).</li>
+            <li><strong>Purpose:</strong> Programming languages, databases, and APIs typically store time as timestamps—they're simple numbers unaffected by timezones.</li>
+            <li><strong>Timezone Handling:</strong> Unix Timestamp is always UTC. Conversion to datetime displays according to your local timezone.</li>
+            <li><strong>Y2K38 Issue:</strong> On January 19, 2038, 32-bit systems will overflow—but 64-bit systems are safe for billions of years.</li>
+        </ul>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>API Development & Debugging:</strong> Convert API timestamps into human-readable datetime.</li>
+            <li><strong>Database Queries:</strong> Convert dates to timestamps for easier storage and comparison.</li>
+            <li><strong>Log Analysis:</strong> Turn system log timestamps into readable time for troubleshooting.</li>
+            <li><strong>Cross-Timezone Collaboration:</strong> Use standardized timestamps to avoid timezone confusion.</li>
+            <li><strong>Development Testing:</strong> Generate test data quickly for datetime-related features.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Select Conversion Mode:</strong>
+                <ul>
+                    <li>📅 "Timestamp → Date" — Enter seconds to convert to human-readable datetime.</li>
+                    <li>📅 "Date → Timestamp" — Select a datetime to generate the Unix seconds.</li>
+                </ul>
+            </li>
+            <li><strong>Enter Value:</strong> Based on your selected mode, enter a timestamp or choose a datetime.</li>
+            <li><strong>Get Current Timestamp:</strong> Click "Get Current Timestamp" to auto-fill with the current Unix seconds.</li>
+            <li><strong>Instant Conversion:</strong> Results update automatically—no button clicks needed.</li>
+            <li><strong>Copy Result:</strong> Click "Copy Result" to copy the converted value to your clipboard.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Timestamp Converter (Us)</th>
+                    <th>Manual Math</th>
+                    <th>Built-in Functions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Time Cost</td>
+                    <td>Requires Coding</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>✅ No Data</td>
+                    <td>✅ Local</td>
+                </tr>
+                <tr>
+                    <td><strong>Speed</strong></td>
+                    <td>⚡ Instant</td>
+                    <td>🐢 Time-consuming</td>
+                    <td>⚡ Instant</td>
+                </tr>
+                <tr>
+                    <td><strong>Bidirectional</strong></td>
+                    <td>✅ Supported</td>
+                    <td>⚠️ Separate math</td>
+                    <td>✅ Supported</td>
+                </tr>
+                <tr>
+                    <td><strong>Timezone Auto</strong></td>
+                    <td>✅ Browser handles</td>
+                    <td>⚠️ Manual</td>
+                    <td>⚠️ Need setup</td>
+                </tr>
+                <tr>
+                    <td><strong>Current Timestamp</strong></td>
+                    <td>✅ One-click</td>
+                    <td>❌ Manual</td>
+                    <td>✅ One line</td>
+                </tr>
+                <tr>
+                    <td><strong>No Installation</strong></td>
+                    <td>✅ Browser</td>
+                    <td>✅ None</td>
+                    <td>❌ Need environment</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Medium</td>
+                    <td>High</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"When I first started coding, I saw Unix Timestamp in an API response and thought it was gibberish. A senior engineer told me: '<strong>Computers don't read '2024-08-20'—computers just count</strong>.' That's when I understood that timestamps are the language of computers, and our converter is the <strong>translator</strong>—turning computer language into human-readable time. This tool's value is: <strong>you don't need to do the math—just paste a number and see the time</strong>. Save your development time and focus on writing the actual logic."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⏱️ Need Instant Unix Timestamp Conversion? Bidirectional Conversion Done!</h3>
+            <p style="margin:0; font-size:0.9rem;">Enter seconds to date, or pick a date to seconds—one-click current timestamp, completely free with privacy protection.</p>
+            <a href="../tools/timestamp-converter.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Timestamp Converter Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+        <br><br>
+        <span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+        <br>
+        &copy; 2026 ABRG 大數據行為觀察中心
+    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtnZh = document.getElementById('ctaBtnZh');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtnZh.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtnZh.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

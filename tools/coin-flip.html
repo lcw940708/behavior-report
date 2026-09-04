@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <link rel="canonical" href="https://www.behavior-report.com/tools/coin-flip.html" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>線上擲硬幣 / 抽籤工具 | Coin Flip & Random Picker | ABRG</title>
+    <meta name="description" content="免費線上擲硬幣與隨機抽籤工具 (Coin Flip & Random Picker)。支援中文與英文介面，幫助你快速做出選擇、決定順序或隨機抽樣，免安裝即開即用！">
+    <meta name="keywords" content="線上擲硬幣, 隨機抽籤, 拋硬幣, Coin Flip, Random Picker, Draw Straws, 選擇困難症, 決定工具, Online Coin Toss">
+    
+    <style>
+        :root { 
+            --bg-color: #0b0f19; 
+            --card-bg: #151d30; 
+            --text-color: #94a3b8; 
+            --accent-cyan: #22d3ee; 
+            --accent-red: #ef4444; 
+            --accent-gold: #f59e0b;
+            --border-color: rgba(148, 163, 184, 0.15);
+        }
+        * { box-sizing: border-box; }
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
+        .container { max-width: 800px; width: 100%; }
+
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .back-btn {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-btn:hover { text-decoration: underline; }
+
+        .lang-switch button {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-left: 5px;
+        }
+        .lang-switch button:hover {
+            background: var(--accent-cyan);
+            color: #0b0f19;
+        }
+
+        .hero { text-align: center; padding: 20px 0 30px; border-bottom: 1px solid rgba(148, 163, 184, 0.1); margin-bottom: 30px; }
+        .hero h1 { font-size: 2rem; color: #ffffff; font-weight: bold; margin-bottom: 10px; }
+        .hero h1 span { color: var(--accent-cyan); }
+        .hero p { font-size: 0.95rem; color: var(--text-color); max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .tab-btn {
+            background: rgba(21, 29, 48, 0.8);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .tab-btn.active {
+            background: var(--accent-cyan);
+            color: #0b0f19;
+            border-color: var(--accent-cyan);
+        }
+
+        .tool-card-box {
+            background: rgba(21, 29, 48, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+        }
+
+        /* 擲硬幣動畫與樣式 */
+        .coin-wrapper {
+            perspective: 1000px;
+            width: 120px;
+            height: 120px;
+            margin: 20px auto;
+        }
+        .coin {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .coin-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+            border: 4px solid var(--accent-gold);
+            background: radial-gradient(circle, #fcd34d 0%, #d97706 100%);
+            color: #000;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+        }
+        .coin-back {
+            transform: rotateY(180deg);
+            background: radial-gradient(circle, #fbbf24 0%, #b45309 100%);
+        }
+
+        /* 按鈕樣式 */
+        .action-btn {
+            background: var(--accent-cyan);
+            color: #0b0f19;
+            border: none;
+            padding: 12px 32px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 15px;
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
+        }
+
+        /* 抽籤輸入框 */
+        textarea {
+            width: 100%;
+            max-width: 500px;
+            height: 120px;
+            background: #0b0f19;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.95rem;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+        }
+
+        .result-box {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            margin-top: 20px;
+            min-height: 40px;
+        }
+
+        /* SEO 文章區塊 */
+        .seo-content {
+            background: rgba(21, 29, 48, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+        .seo-content h2 { color: #fff; font-size: 1.3rem; margin-top: 0; }
+        .seo-content h3 { color: var(--accent-cyan); font-size: 1.1rem; margin-top: 20px; }
+
+        .footer { 
+            margin-top: 50px; 
+            padding-top: 20px; 
+            border-top: 1px solid rgba(148, 163, 184, 0.1); 
+            text-align: center; 
+            font-size: 0.85rem; 
+            color: #555; 
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="top-nav">
+        <a href="../index.html" class="back-btn" id="nav-back">← 返主頁 Back to Home</a>
+        <div class="lang-switch">
+            <button onclick="setLang('zh')">中文</button>
+            <button onclick="setLang('en')">English</button>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h1 id="title-text">🪙 線上擲硬幣 / 隨機抽籤 <span>Picker</span></h1>
+        <p id="desc-text">解決選擇困難症！無論係決定食乜、分組定係拋硬幣作決策，即開即用，完全免費。</p>
+    </div>
+
+    <div class="tab-container">
+        <button class="tab-btn active" id="tab-coin" onclick="switchTab('coin')">🪙 擲硬幣 / Coin Flip</button>
+        <button class="tab-btn" id="tab-draw" onclick="switchTab('draw')">🎯 隨機抽籤 / Picker</button>
+    </div>
+
+    <!-- 擲硬幣區塊 -->
+    <div id="coin-section" class="tool-card-box">
+        <div class="coin-wrapper">
+            <div class="coin" id="coin-element">
+                <div class="coin-face" id="coin-front-text">正面</div>
+                <div class="coin-face coin-back" id="coin-back-text">反面</div>
+            </div>
+        </div>
+        <button class="action-btn" id="btn-flip" onclick="flipCoin()">擲硬幣！ / Flip!</button>
+        <div class="result-box" id="coin-result"></div>
+    </div>
+
+    <!-- 抽籤區塊 -->
+    <div id="draw-section" class="tool-card-box" style="display: none;">
+        <p id="draw-hint" style="color: var(--text-color); margin-bottom: 10px;">請輸入選項（每行一個）：</p>
+        <textarea id="draw-options" placeholder="選項 1&#10;選項 2&#10;選項 3"></textarea><br>
+        <button class="action-btn" id="btn-draw" onclick="drawOption()">開始抽籤！ / Draw!</button>
+        <div class="result-box" id="draw-result"></div>
+    </div>
+
+    <!-- SEO 說明文章區塊 -->
+    <div class="seo-content">
+        <h2 id="seo-h2">為什麼你需要線上擲硬幣與隨機抽籤工具？</h2>
+        <p id="seo-p1">生活中有太多令人糾結的時刻：午餐吃什麼？誰去洗碗？團隊會議由誰先發言？「線上擲硬幣 / 隨機抽籤工具」提供完全公正、隨機的算法，助你快速擺脫選擇困難症。</p>
+        
+        <h3 id="seo-h3-1">線上擲硬幣 (Online Coin Toss) 的機率公正嗎？</h3>
+        <p id="seo-p2">我們的系統採用 JavaScript 高品質隨機數生成器（Pseudo-Random Number Generator），確保每次正面（Heads）與反面（Tails）的概率均精確保持在 50%，絕無人為干預。</p>
+        
+        <h3 id="seo-h3-2">隨機抽籤機 (Random Picker) 適用場景</h3>
+        <p id="seo-p3">只需輸入所有候選項目（如人名、餐點、號碼），系統會隨機抽取一個結果。非常適合抽獎活動、課堂提問、分組決策以及團建遊戲。</p>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../contact.html">聯絡我們</a> |
+        <a href="../privacy.html">隱私權政策</a>
+        <br><br>
+        &copy; 2026 ABRG 大數據趣味行為觀察社
+    </div>
+</div>
+
+<script>
+    let currentLang = 'zh';
+    let currentRotation = 0;
+
+    const langData = {
+        zh: {
+            back: "← 返主頁",
+            title: "🪙 線上擲硬幣 / 隨機抽籤 <span>Picker</span>",
+            desc: "解決選擇困難症！無論係決定食乜、分組定係拋硬幣作決策，即開即用，完全免費。",
+            tabCoin: "🪙 擲硬幣",
+            tabDraw: "🎯 隨機抽籤",
+            coinFront: "正面",
+            coinBack: "反面",
+            btnFlip: "擲硬幣！",
+            btnDraw: "開始抽籤！",
+            drawHint: "請輸入選項（每行一個）：",
+            placeholder: "選項 1\n選項 2\n選項 3",
+            emptyError: "請輸入至少一個選項！",
+            seoH2: "為什麼你需要線上擲硬幣與隨機抽籤工具？",
+            seoP1: "生活中有太多令人糾結的時刻：午餐吃什麼？誰去洗碗？團隊會議由誰先發言？「線上擲硬幣 / 隨機抽籤工具」提供完全公正、隨機的算法，助你快速擺脫選擇困難症。",
+            seoH3_1: "線上擲硬幣 (Online Coin Toss) 的機率公正嗎？",
+            seoP2: "我們的系統採用 JavaScript 高品質隨機數生成器，確保每次正面（Heads）與反面（Tails）的概率均精確保持在 50%，絕無人為干預。",
+            seoH3_2: "隨機抽籤機 (Random Picker) 適用場景",
+            seoP3: "只需輸入所有候選項目（如人名、餐點、號碼），系統會隨機抽取一個結果。非常適合抽獎活動、課堂提問、分組決策以及團建遊戲。"
+        },
+        en: {
+            back: "← Back to Home",
+            title: "🪙 Online Coin Flip & <span>Random Picker</span>",
+            desc: "Make decisions fast! Flip a coin or pick a random option effortlessly with our 100% free online decision tool.",
+            tabCoin: "🪙 Coin Flip",
+            tabDraw: "🎯 Random Picker",
+            coinFront: "Heads",
+            coinBack: "Tails",
+            btnFlip: "Flip Coin!",
+            btnDraw: "Pick Random!",
+            drawHint: "Enter options (one per line):",
+            placeholder: "Option 1\nOption 2\nOption 3",
+            emptyError: "Please enter at least one option!",
+            seoH2: "Why Use an Online Coin Flip & Random Picker?",
+            seoP1: "Stuck on a decision? What to eat for lunch, who goes first in a game, or who cleans the dishes? Our online coin toss and decision generator solves your dilemma instantly.",
+            seoH3_1: "Is the Online Coin Toss Fair?",
+            seoP2: "Yes! Our tool utilizes JavaScript PRNG algorithm ensuring a true 50/50 probability for both Heads and Tails with zero bias.",
+            seoH3_2: "Best Uses for Random Item Picker",
+            seoP3: "Simply type your list of choices (names, places, numbers) and hit 'Pick Random!'. Ideal for raffles, classroom activities, work assignments, and games."
+        }
+    };
+
+    function setLang(lang) {
+        currentLang = lang;
+        const d = langData[lang];
+        document.getElementById('nav-back').innerText = d.back;
+        document.getElementById('title-text').innerHTML = d.title;
+        document.getElementById('desc-text').innerText = d.desc;
+        document.getElementById('tab-coin').innerText = d.tabCoin;
+        document.getElementById('tab-draw').innerText = d.tabDraw;
+        document.getElementById('coin-front-text').innerText = d.coinFront;
+        document.getElementById('coin-back-text').innerText = d.coinBack;
+        document.getElementById('btn-flip').innerText = d.btnFlip;
+        document.getElementById('btn-draw').innerText = d.btnDraw;
+        document.getElementById('draw-hint').innerText = d.drawHint;
+        document.getElementById('draw-options').placeholder = d.placeholder;
+        
+        document.getElementById('seo-h2').innerText = d.seoH2;
+        document.getElementById('seo-p1').innerText = d.seoP1;
+        document.getElementById('seo-h3-1').innerText = d.seoH3_1;
+        document.getElementById('seo-p2').innerText = d.seoP2;
+        document.getElementById('seo-h3-2').innerText = d.seoH3_2;
+        document.getElementById('seo-p3').innerText = d.seoP3;
+    }
+
+    function switchTab(tab) {
+        if(tab === 'coin') {
+            document.getElementById('coin-section').style.display = 'block';
+            document.getElementById('draw-section').style.display = 'none';
+            document.getElementById('tab-coin').classList.add('active');
+            document.getElementById('tab-draw').classList.remove('active');
+        } else {
+            document.getElementById('coin-section').style.display = 'none';
+            document.getElementById('draw-section').style.display = 'block';
+            document.getElementById('tab-draw').classList.add('active');
+            document.getElementById('tab-coin').classList.remove('active');
+        }
+    }
+
+    function flipCoin() {
+        const coin = document.getElementById('coin-element');
+        const resultDiv = document.getElementById('coin-result');
+        resultDiv.innerText = '';
+
+        const isHeads = Math.random() < 0.5;
+        // 旋轉圈數 + 目標角度
+        currentRotation += 1800 + (isHeads ? 0 : 180) - (currentRotation % 360);
+        
+        coin.style.transform = `rotateY(${currentRotation}deg)`;
+
+        setTimeout(() => {
+            const resText = isHeads ? langData[currentLang].coinFront : langData[currentLang].coinBack;
+            resultDiv.innerText = `🎉 ${resText}!`;
+        }, 1500);
+    }
+
+    function drawOption() {
+        const text = document.getElementById('draw-options').value.trim();
+        const resultDiv = document.getElementById('draw-result');
+        if(!text) {
+            resultDiv.innerText = langData[currentLang].emptyError;
+            return;
+        }
+
+        const options = text.split('\n').map(o => o.trim()).filter(o => o.length > 0);
+        if(options.length === 0) {
+            resultDiv.innerText = langData[currentLang].emptyError;
+            return;
+        }
+
+        resultDiv.innerText = '🎲 ...';
+        setTimeout(() => {
+            const randomIndex = Math.floor(Math.random() * options.length);
+            resultDiv.innerText = `🎉 ${options[randomIndex]}`;
+        }, 500);
+    }
+</script>
+</body>
+</html>

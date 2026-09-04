@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【免費螢幕顏色選取器教學】網頁揀色、即時顯示 HEX/RGB/HSL｜Free Color Picker Guide</title>
+    <meta name="description" content="免費且安全的線上螢幕顏色選取器！點擊網頁任何位置即時顯示顏色代碼，支援 HEX、RGB、HSL 三種格式，一鍵複製。適用於網頁設計、UI/UX 設計與開發調色。Free online color picker guide.">
+    <meta name="keywords" content="顏色選取器, 螢幕取色, 網頁揀色, HEX 轉 RGB, HSL 轉換, 免費顏色工具, Color Picker, EyeDropper, HEX to RGB, HSL Converter, Free Color Tool, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/color-picker-guide.html">
+
+    <!-- Open Graph (社交媒體優化) -->
+    <meta property="og:title" content="【免費螢幕顏色選取器教學】網頁揀色、即時顯示 HEX/RGB/HSL — Color Picker Guide">
+    <meta property="og:description" content="100% 純前端！教你免費使用螢幕顏色選取器，點擊任何位置即時顯示顏色代碼，一鍵複製。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/color-picker-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Color Picker Guide – Pick Colors from Screen Instantly">
+    <meta name="twitter:description" content="Learn how to pick any color from your screen with our free online color picker tool, supporting HEX, RGB, and HSL formats.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "免費螢幕顏色選取器教學：網頁揀色、即時顯示顏色代碼",
+      "description": "介紹如何使用純前端技術嘅螢幕顏色選取器，適用於網頁設計、UI/UX 設計與開發調色等場景。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- 中文內容區塊 -->
+    <div id="content-zh">
+        <h1>免費螢幕顏色選取器教學：網頁揀色、即時顯示顏色代碼</h1>
+
+        <h2>1. 導言</h2>
+        <p>無論你係網頁設計師要配搭顏色、UI/UX 設計師要提取品牌色、前端開發者要將設計稿轉為 CSS 代碼，定係普通用戶想知某個顏色嘅代碼，螢幕顏色選取器都係非常實用嘅工具。但市面上好多取色工具一係要下載軟件，一係要用瀏覽器插件，好唔方便。我哋嘅免費線上螢幕顏色選取器專為解決呢啲問題而設：點擊網頁任何位置即時顯示顏色代碼，支援 HEX、RGB、HSL 三種格式，一鍵複製，而且 100% 純前端運算，完全免費。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p>顏色選取器（Color Picker）係指從螢幕上任何位置選取顏色並獲取其顏色代碼嘅工具。現代瀏覽器提供嘅 <code>EyeDropper</code> API 可以直接從螢幕上選取顏色，無需安裝任何第三方軟件或插件。</p>
+        <p>顏色代碼有三種最常見嘅表示方式：<strong>HEX</strong>（十六進制，如 <code>#22d3ee</code>）、<strong>RGB</strong>（紅綠藍數值，如 <code>rgb(34, 211, 238)</code>）和 <strong>HSL</strong>（色相、飽和度、亮度，如 <code>hsl(187, 86%, 53%)</code>）。唔同場景適用唔同格式——CSS 常用 HEX 和 RGB，設計工具常用 HSL 更方便調整顏色。</p>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>網頁設計與開發：</strong>從參考網站或設計稿中提取顏色，用於 CSS 樣式設定。</li>
+            <li><strong>品牌顏色管理：</strong>從品牌標誌或宣傳材料中提取標準色，確保品牌色一致性。</li>
+            <li><strong>UI/UX 設計：</strong>設計師可快速從任何網站獲取靈感顏色，加速設計流程。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>啟用選色：</strong>點擊「啟用選色」按鈕，進入選色模式。</li>
+            <li><strong>選取顏色：</strong>將滑鼠移到網頁任何你想選取嘅顏色位置，然後點擊。</li>
+            <li><strong>查看代碼：</strong>系統會即時顯示 HEX、RGB 和 HSL 三種格式嘅顏色代碼。</li>
+            <li><strong>複製代碼：</strong>點擊任何一個顏色代碼格，即可一鍵複製到剪貼簿。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站前端工具</th>
+                    <th>瀏覽器插件</th>
+                    <th>設計軟件</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>免費或有付費版</td>
+                    <td>昂貴訂閱</td>
+                </tr>
+                <tr>
+                    <td><strong>安裝需求</strong></td>
+                    <td>❌ 無需安裝</td>
+                    <td>✅ 需安裝插件</td>
+                    <td>✅ 需安裝軟件</td>
+                </tr>
+                <tr>
+                    <td><strong>支援格式</strong></td>
+                    <td>HEX、RGB、HSL</td>
+                    <td>通常多種</td>
+                    <td>多種</td>
+                </tr>
+                <tr>
+                    <td><strong>一鍵複製</strong></td>
+                    <td>✅ 支援</td>
+                    <td>✅ 支援</td>
+                    <td>❌ 通常不支援</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>中等</td>
+                    <td>高</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「之前做網頁設計嘅時候，成日要從參考網站抄顏色。以前用瀏覽器插件，有時會失效或者要更新，好麻煩。後來用咗呢個顏色選取器，直接喺網頁度一撳就出到顏色代碼，仲有 HEX、RGB、HSL 三種格式，唔使再自己轉換。對於成日要處理顏色嘅設計師同開發者嚟講，呢個工具真係好方便。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ 需要快速選取螢幕顏色？</h3>
+            <p style="margin:0; font-size:0.9rem;">點擊即時顯示 HEX/RGB/HSL，一鍵複製，完全免費。</p>
+            <a href="../tools/color-picker.html" class="cta-btn-link" id="ctaBtn">👉 立即免費試用顏色選取器</a>
+        </div>
+    </div>
+
+    <!-- English Content Section -->
+    <div id="content-en" style="display: none;">
+        <h1>Free Color Picker Guide: Pick Colors from Screen with HEX/RGB/HSL</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Whether you're a web designer matching colors, a UI/UX designer extracting brand colors, a frontend developer converting designs to CSS, or just a curious user wanting to know a color code, a screen color picker is an essential tool. Many color pickers require software installation or browser extensions—inconvenient for quick use. Our free online color picker solves these problems: click anywhere on the screen to instantly display color codes in HEX, RGB, and HSL formats—all with one-click copy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p>A color picker is a tool that selects colors from anywhere on the screen and displays their color codes. Modern browsers provide the <code>EyeDropper</code> API, enabling color selection directly from the screen without third-party software or extensions.</p>
+        <p>Color codes come in three common formats: <strong>HEX</strong> (hexadecimal, e.g., <code>#22d3ee</code>), <strong>RGB</strong> (red, green, blue values, e.g., <code>rgb(34, 211, 238)</code>), and <strong>HSL</strong> (hue, saturation, lightness, e.g., <code>hsl(187, 86%, 53%)</code>). Different formats suit different scenarios—CSS commonly uses HEX and RGB, while design tools often prefer HSL for easier color adjustments.</p>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Web Design & Development:</strong> Extract colors from reference websites or design mockups for CSS styling.</li>
+            <li><strong>Brand Color Management:</strong> Sample colors from brand logos or marketing materials for consistent brand identity.</li>
+            <li><strong>UI/UX Design:</strong> Quickly capture inspiration colors from any website to accelerate design workflows.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Activate Picker:</strong> Click the "Activate Picker" button to enter selection mode.</li>
+            <li><strong>Pick Color:</strong> Move your mouse to any color on the screen and click.</li>
+            <li><strong>View Codes:</strong> The system instantly displays HEX, RGB, and HSL color codes.</li>
+            <li><strong>Copy Code:</strong> Click any color code card to copy it to your clipboard.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Client-Side Tool (Us)</th>
+                    <th>Browser Extensions</th>
+                    <th>Design Software</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Free or Paid</td>
+                    <td>Expensive</td>
+                </tr>
+                <tr>
+                    <td><strong>Installation</strong></td>
+                    <td>❌ None Required</td>
+                    <td>✅ Extension Required</td>
+                    <td>✅ Software Required</td>
+                </tr>
+                <tr>
+                    <td><strong>Formats Supported</strong></td>
+                    <td>HEX, RGB, HSL</td>
+                    <td>Usually Multiple</td>
+                    <td>Multiple</td>
+                </tr>
+                <tr>
+                    <td><strong>One-Click Copy</strong></td>
+                    <td>✅ Supported</td>
+                    <td>✅ Supported</td>
+                    <td>❌ Usually Not</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Medium</td>
+                    <td>High</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"When I was doing web design, I used to copy colors from reference sites all the time. Browser extensions sometimes failed or needed updates, which was annoying. Then I used this color picker—just clicked anywhere on the page and got the color codes instantly in HEX, RGB, and HSL formats, with no extra conversion needed. For anyone who works with colors regularly, this tool is incredibly convenient."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ Need to Pick Colors from Your Screen Quickly?</h3>
+            <p style="margin:0; font-size:0.9rem;">Click to get HEX/RGB/HSL instantly, one-click copy, completely free.</p>
+            <a href="../tools/color-picker.html?lang=en" class="cta-btn-link" id="ctaBtn">👉 Try the Free Color Picker Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html">主頁</a> |
+        <a href="../blog.html">文章 Blog</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtn = document.getElementById('ctaBtn');
+    const brandLink = document.getElementById('brandLink');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtn.href = `../tools/color-picker.html?lang=en`;
+        brandLink.href = `../index.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtn.href = `../tools/color-picker.html?lang=${targetLang}`;
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+// 頁面載入時執行
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    // 語言按鈕切換
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

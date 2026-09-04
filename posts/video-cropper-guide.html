@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【影片畫面裁切工具教學】視覺化拖曳裁切｜去除黑邊｜免費線上影片剪輯｜Free Video Cropper Guide</title>
+    <meta name="description" content="影片畫面裁切工具教學！視覺化拖曳裁切影片畫面，去除黑邊與多餘區域，支援 16:9/1:1/9:16 等社交媒體比例。100% 瀏覽器處理保護私隱，免費線上影片剪輯。Free online video cropper guide.">
+    <meta name="keywords" content="影片裁切, 影片畫面裁剪, 去除影片黑邊, 影片尺寸修改, 線上剪輯, Video Cropper, Crop Video, Remove Black Bars, Resize Video, Free Video Editor, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/video-cropper-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【影片畫面裁切工具教學】視覺化拖曳裁切 — 去除黑邊｜免費線上影片剪輯｜Free Video Cropper Guide">
+    <meta property="og:description" content="視覺化拖曳裁切影片畫面，去除黑邊與多餘區域，支援 16:9/1:1/9:16 等社交媒體比例。100% 瀏覽器處理保護私隱。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/video-cropper-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Video Cropper Guide – Visual Drag-to-Crop Tool">
+    <meta name="twitter:description" content="Crop videos with visual drag-to-select, remove black bars, and export in social media ratios. 100% client-side privacy.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "影片畫面裁切工具教學：視覺化拖曳裁切 — 去除黑邊｜免費線上影片剪輯",
+      "description": "介紹如何使用影片畫面裁切工具進行視覺化拖曳裁切，適用於社交媒體短片、YouTube 縮圖與影片內容優化。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        code {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--primary-cyan);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>影片畫面裁切工具教學：視覺化拖曳裁切 — 去除黑邊｜免費線上影片剪輯</h1>
+
+        <h2>1. 導言</h2>
+        <p>你試過拍咗一條直度影片，但發現上下左右有大量黑邊？或者想將一條橫度 16:9 嘅影片剪成 9:16 直度 format 上傳 TikTok，但唔知點入手？<strong>影片畫面裁切</strong>就係為咗呢個問題而存在。我哋嘅免費影片畫面裁切工具可以幫你視覺化拖曳裁切影片畫面，去除黑邊同多餘區域，仲支援 16:9、1:1、9:16 等社交媒體常用比例。所有運算喺你嘅瀏覽器入面完成，影片唔會離開你嘅裝置。呢篇文章會教你點用呢個工具，仲會話你知點解「裁切」本身已經係一種再創作。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>影片畫面裁切（Video Cropping）</strong> 係將影片嘅可視範圍縮小，去除不需要嘅邊緣區域。主要應用包括：</p>
+        <ul>
+            <li><strong>去除黑邊：</strong> 手機錄影或 screen recording 常見嘅上下左右黑邊。</li>
+            <li><strong>比例轉換：</strong> 將 16:9 橫度影片轉為 9:16 直度（Reels/TikTok）。</li>
+            <li><strong>構圖優化：</strong> 重新構圖，將觀眾注意力集中喺主體。</li>
+            <li><strong>去除雜物：</strong> 切除畫面邊緣嘅雜物或標記。</li>
+        </ul>
+        <p>我哋嘅工具採用瀏覽器內建嘅 Canvas 同 MediaRecorder API，支援視覺化拖曳裁切框，提供多種預設比例。所有處理喺你嘅瀏覽器入面完成，影片唔會離開你嘅裝置，私隱 100% 安全。</p>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>社交媒體短片：</strong> 將橫度影片裁切成 9:16 直度上傳 TikTok/Reels。</li>
+            <li><strong>YouTube 縮圖：</strong> 裁切影片特定區域製作縮圖。</li>
+            <li><strong>教學影片：</strong> 集中畫面喺重點區域，去除多餘背景。</li>
+            <li><strong>手機影片優化：</strong> 去除 screen recording 嘅黑邊。</li>
+            <li><strong>內容創作：</strong> 重新構圖，提升影片視覺質感。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>上傳影片：</strong> 點擊或拖曳影片到上傳區域。</li>
+            <li><strong>調整裁切框：</strong>
+                <ul>
+                    <li>拖動裁切框移動位置。</li>
+                    <li>拖動四角嘅圓點調整大小。</li>
+                    <li>點擊預設比例快速切換（16:9、9:16、1:1、4:3）。</li>
+                </ul>
+            </li>
+            <li><strong>開始裁切：</strong> 點擊「開始裁切並預覽」，等待處理完成。</li>
+            <li><strong>預覽效果：</strong> 用內建播放器預覽裁切後嘅影片。</li>
+            <li><strong>下載：</strong> 滿意後點擊「下載裁切影片」儲存。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站前端工具</th>
+                    <th>手機剪輯 App</th>
+                    <th>桌面剪片軟件</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>免費／付費</td>
+                    <td>付費或需安裝</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>⚠️ 需授權權限</td>
+                    <td>✅ 本地處理</td>
+                </tr>
+                <tr>
+                    <td><strong>視覺化裁切</strong></td>
+                    <td>✅ 拖曳框</td>
+                    <td>✅ 部份支援</td>
+                    <td>✅ 全面</td>
+                </tr>
+                <tr>
+                    <td><strong>預設比例</strong></td>
+                    <td>✅ 16:9/9:16/1:1/4:3</td>
+                    <td>✅ 多種</td>
+                    <td>✅ 全面</td>
+                </tr>
+                <tr>
+                    <td><strong>即時預覽</strong></td>
+                    <td>✅ 內建播放器</td>
+                    <td>✅ 支援</td>
+                    <td>✅ 全面</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>低</td>
+                    <td>中等</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「有次我要將一條橫度 16:9 嘅片剪成 9:16 直度放上 TikTok，用剪片軟件搞咗成個鐘都裁唔啱位，仲要 export 完先知黑邊仲喺度。後來用呢個工具，<strong>拉個框就搞掂</strong>，仲有預設比例可以直接揀。裁切其實係一種 <strong>視覺聚焦</strong>—你唔係單純剪走多餘嘅嘢，而係 <strong>話俾觀眾知『睇呢度，唔好睇嗰度』</strong>。呢個工具嘅價值係：<strong>用最直覺嘅方式，做最精準嘅聚焦</strong>。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">✂️ 需要裁切影片畫面去除黑邊？</h3>
+            <p style="margin:0; font-size:0.9rem;">視覺化拖曳裁切，預設比例快速切換，完全免費且保護私隱。</p>
+            <a href="../tools/video-cropper.html" class="cta-btn-link" id="ctaBtn">👉 立即免費試用影片畫面裁切工具</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Video Cropper Guide: Visual Drag-to-Crop — Remove Black Bars｜Free Online Tool</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Ever shot a video only to find black bars on all sides? Or need to convert a 16:9 landscape video to 9:16 portrait for TikTok but don't know where to start? <strong>Video cropping</strong> exists exactly for this need. Our free video cropper lets you visually drag to crop video frames, remove black bars and unwanted areas, with preset ratios like 16:9, 1:1, and 9:16. All processing happens in your browser—your videos never leave your device. This guide shows you how to use it and explains why cropping is itself a form of re-creation.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>Video cropping</strong> reduces the visible area of a video, removing unwanted edge regions. Key applications:</p>
+        <ul>
+            <li><strong>Remove Black Bars:</strong> Common in phone recordings or screen captures.</li>
+            <li><strong>Ratio Conversion:</strong> Convert 16:9 landscape to 9:16 portrait (Reels/TikTok).</li>
+            <li><strong>Composition Optimization:</strong> Reframe the shot to focus on the subject.</li>
+            <li><strong>Remove Clutter:</strong> Cut out unwanted objects or marks at the edges.</li>
+        </ul>
+        <p>Our tool uses browser APIs (Canvas + MediaRecorder) with visual drag handles and preset ratios. 100% client-side processing—your videos never leave your device.</p>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Social Media Shorts:</strong> Convert landscape to 9:16 portrait for TikTok/Reels.</li>
+            <li><strong>YouTube Thumbnails:</strong> Crop specific areas for thumbnail creation.</li>
+            <li><strong>Educational Videos:</strong> Focus on key areas by removing distracting backgrounds.</li>
+            <li><strong>Phone Video Optimization:</strong> Remove black bars from screen recordings.</li>
+            <li><strong>Content Creation:</strong> Reframe shots to improve visual quality.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Upload Video:</strong> Click or drag your video to the upload area.</li>
+            <li><strong>Adjust Crop Box:</strong>
+                <ul>
+                    <li>Drag the crop box to reposition.</li>
+                    <li>Drag corner handles to resize.</li>
+                    <li>Click preset ratios (16:9, 9:16, 1:1, 4:3).</li>
+                </ul>
+            </li>
+            <li><strong>Start Cropping:</strong> Click "Crop & Preview" and wait for processing.</li>
+            <li><strong>Preview:</strong> Check the result with the built-in player.</li>
+            <li><strong>Download:</strong> Click "Download Cropped Video" to save.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Client-Side Tool (Us)</th>
+                    <th>Mobile Editing Apps</th>
+                    <th>Desktop Software</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Freemium</td>
+                    <td>Paid / Install</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>⚠️ Permissions</td>
+                    <td>✅ Local</td>
+                </tr>
+                <tr>
+                    <td><strong>Visual Cropping</strong></td>
+                    <td>✅ Drag Box</td>
+                    <td>✅ Some</td>
+                    <td>✅ Full</td>
+                </tr>
+                <tr>
+                    <td><strong>Preset Ratios</strong></td>
+                    <td>✅ 16:9/9:16/1:1/4:3</td>
+                    <td>✅ Many</td>
+                    <td>✅ Full</td>
+                </tr>
+                <tr>
+                    <td><strong>Instant Preview</strong></td>
+                    <td>✅ Built-in</td>
+                    <td>✅ Supported</td>
+                    <td>✅ Full</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Low</td>
+                    <td>Medium</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"I once needed to convert a 16:9 landscape video to 9:16 portrait for TikTok. I spent an hour in editing software and still couldn't get the crop right—and the black bars kept appearing after export. Then I tried this tool—<strong>just drag a box and done</strong>, with preset ratios ready to go. Cropping is really about <strong>visual focus</strong>—you're not just cutting away excess, you're <strong>telling the audience 'look here, not there'</strong>. This tool's value is: <strong>maximum precision, minimum effort</strong>."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">✂️ Need to Crop Videos and Remove Black Bars?</h3>
+            <p style="margin:0; font-size:0.9rem;">Visual drag cropping, preset ratios—completely free with privacy protection.</p>
+            <a href="../tools/video-cropper.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Video Cropper Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtn = document.getElementById('ctaBtn');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtn.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtn.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📋 訊息已讀不回，該怎麼擺脫等待焦慮？——ABRG 行為觀察報告</title>
+    <meta name="description" content="選擇繼續等待的你，焦慮背後有什麼依附需求？這份報告幫你拆解，並提供三階段情緒釋放指南。">
+    <style>
+        :root { --bg-color: #0b0f19; --card-bg: #151d30; --text-color: #94a3b8; --accent-cyan: #22d3ee; --accent-red: #ef4444; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-color); color: var(--text-color); font-family: -apple-system, BlinkMacSystemFont, sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .container { max-width: 650px; width: 100%; background-color: var(--card-bg); padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid rgba(239, 68, 68, 0.2); margin: 20px 0; }
+        .lang-switch { text-align: center; margin-bottom: 20px; }
+        .lang-switch a { color: var(--accent-cyan); text-decoration: none; margin: 0 10px; font-size: 0.9rem; cursor: pointer; }
+        .lang-switch a:hover { text-decoration: underline; }
+        .header-title { font-size: 1.4rem; color: #ffffff; text-align: center; font-weight: bold; margin-bottom: 10px; line-height: 1.4; }
+        .header-sub { font-size: 0.85rem; color: #6b7280; text-align: center; margin-bottom: 30px; border-bottom: 1px solid rgba(148, 163, 184, 0.1); padding-bottom: 15px; }
+        .salutation { font-size: 1.1rem; color: #ffffff; font-weight: bold; margin-bottom: 15px; }
+        .section-title { font-size: 1.1rem; color: var(--accent-red); font-weight: bold; margin-top: 30px; margin-bottom: 15px; }
+        .body-text { font-size: 1rem; line-height: 1.8; color: #cbd5e1; white-space: pre-wrap; margin-bottom: 20px; }
+        .guideline-item { font-size: 1rem; line-height: 1.8; color: #cbd5e1; margin-bottom: 15px; padding-left: 10px; border-left: 2px solid var(--accent-cyan); white-space: pre-wrap; }
+        .btn-link { display: flex; align-items: center; justify-content: center; width: 100%; background: rgba(36, 50, 79, 0.3); border: 1px solid rgba(34, 211, 238, 0.3); padding: 15px; border-radius: 8px; color: #ffffff; font-size: 1rem; cursor: pointer; margin-top: 30px; text-decoration: none; font-weight: bold; transition: all 0.2s; box-sizing: border-box; }
+        .btn-link:hover { background: rgba(34, 211, 238, 0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); }
+        .disclaimer { font-size: 0.8rem; color: #6b7280; margin-top: 30px; padding-top: 15px; border-top: 1px solid rgba(148, 163, 184, 0.1); text-align: center; }
+        footer { text-align: center; margin-top: 40px; padding-bottom: 20px; font-size: 11px; color: #555; }
+        footer a { color: #555; text-decoration: none; margin: 0 8px; }
+        footer a:hover { color: #888; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="lang-switch">
+        <a onclick="switchLang('hk')">🇭🇰 港版</a> | <a onclick="switchLang('tw')">🇹🇼 台版</a>
+    </div>
+
+    <div class="header-title" id="reportTitle">📋 社交觀察筆記（05題：選項 A）</div>
+    <div class="header-sub">ABRG 趣味行為學研究社 · 大數據動態隨筆中心</div>
+    
+    <div class="salutation" id="salutation">親愛的求助者：</div>
+    
+    <div class="section-title">一、 大數據社交傾向行為剖析</div>
+    <div class="body-text" id="expertText">你 send 咗個訊息出去。然後你開始等。
+
+頭十分鐘，你會諗「佢可能喺忙」。二十分鐘，你開始碌返之前嘅對話，睇吓自己有冇講錯嘢。三十分鐘，你打開佢個 profile，睇佢最後上線時間——佢上過線，但佢冇覆你。
+
+你嘅心跳開始加速。你開始諗：佢係咪唔鍾意我？係咪我講錯嘢？係咪佢同緊第二個人傾計？
+
+你嘅手指會不自覺咁打開個對話框，望住自己 send 出去嗰句嘢，望住嗰兩個藍剔——已讀。但冇回應。
+
+你以為你喺度等一個回覆，但其實你係喺度等一個「安心」。你嘅焦慮唔係因為佢冇覆，而係因為你將自己嘅價值放咗喺佢嘅回應入面。
+
+如果你覺得似曾相識，可以留意吓：你幾時會特別緊張人哋覆唔覆你？嗰陣你嘅諗法係咩？
+
+但你需要留意：你愈想得到回覆，你愈會忘記自己本身就值得被回應。</div>
+    
+    <div class="section-title">二、 🛡️ ABRG 指定：三階段日常社交自救指南</div>
+    <div id="guidelinesContainer"><div class="guideline-item">• 留意自己幾時會將「對方覆唔覆」同「自己值唔值得」掛勾</div><div class="guideline-item">• 練習等嘅時候做其他嘢，唔好開住個對話框等</div><div class="guideline-item">• 問自己：如果佢永遠唔覆，我會點？</div></div>
+    
+    <div class="disclaimer">• 本測試僅供大眾趣味性格傾向分析與日常休閒娛樂參考，不構成任何專業心理諮詢或醫療診斷建議。</div>
+    
+    <a href="story_05.html?lang=hk" class="btn-link">📖 點擊閱讀相關故事</a>
+    <a href="index.html" class="btn-link">🔄 返回首頁</a>
+</div>
+
+<footer>
+    <a href="index.html">主頁</a> | <a href="about.html">關於我</a> | <a href="contact.html">聯絡我們</a> | <a href="privacy.html">隱私權政策</a>
+</footer>
+
+<script>
+    const data = {
+        hk: {
+            title: `📋 社交觀察筆記（05題：選項 A）`,
+            expert: `你 send 咗個訊息出去。然後你開始等。
+
+頭十分鐘，你會諗「佢可能喺忙」。二十分鐘，你開始碌返之前嘅對話，睇吓自己有冇講錯嘢。三十分鐘，你打開佢個 profile，睇佢最後上線時間——佢上過線，但佢冇覆你。
+
+你嘅心跳開始加速。你開始諗：佢係咪唔鍾意我？係咪我講錯嘢？係咪佢同緊第二個人傾計？
+
+你嘅手指會不自覺咁打開個對話框，望住自己 send 出去嗰句嘢，望住嗰兩個藍剔——已讀。但冇回應。
+
+你以為你喺度等一個回覆，但其實你係喺度等一個「安心」。你嘅焦慮唔係因為佢冇覆，而係因為你將自己嘅價值放咗喺佢嘅回應入面。
+
+如果你覺得似曾相識，可以留意吓：你幾時會特別緊張人哋覆唔覆你？嗰陣你嘅諗法係咩？
+
+但你需要留意：你愈想得到回覆，你愈會忘記自己本身就值得被回應。`,
+            guidelines: `<div class="guideline-item">• 留意自己幾時會將「對方覆唔覆」同「自己值唔值得」掛勾</div><div class="guideline-item">• 練習等嘅時候做其他嘢，唔好開住個對話框等</div><div class="guideline-item">• 問自己：如果佢永遠唔覆，我會點？</div>`
+        },
+        tw: {
+            title: `📋 社交觀察筆記（05題：選項 A）`,
+            expert: `你傳了一則訊息出去。然後你開始等。
+
+前十分鐘，你會想「他可能在忙」。二十分鐘，你開始往回滑之前的對話，看看自己有沒有說錯話。三十分鐘，你打開他的個人檔案，看他最後上線時間——他上過線，但他沒有回你。
+
+你的心跳開始加速。你開始想：他是不是不喜歡我？是不是我講錯話？是不是他在跟另一個人聊天？
+
+你的手指會不自覺地打開對話框，看著自己傳出去的那句話，看著那兩個藍勾勾——已讀。但沒有回應。
+
+你以為你在等一個回覆，但其實你是在等一個「安心」。你的焦慮不是因為他沒回，而是因為你把自我的價值，寄託在他的回應裡。
+
+如果你覺得似曾相識，可以留意一下：你什麼時候會特別緊張別人回不回你？那時候你在想什麼？
+
+但你需要留意：你愈想得到回覆，你愈會忘記自己本身就值得被回應。`,
+            guidelines: `<div class="guideline-item">• 留意自己什麼時候會把「對方回不回」和「自己值不值得」綁在一起</div><div class="guideline-item">• 練習在等待的時候做其他事，不要一直開著對話框等</div><div class="guideline-item">• 問自己：如果他永遠不回，我會怎樣？</div>`
+        }
+    };
+    
+    let currentLang = 'hk';
+    
+    function switchLang(lang) {
+        currentLang = lang;
+        document.getElementById('reportTitle').innerText = data[lang].title;
+        document.getElementById('expertText').innerText = data[lang].expert;
+        document.getElementById('guidelinesContainer').innerHTML = data[lang].guidelines;
+        
+        // 更新 salutation
+        document.getElementById('salutation').innerText = lang === 'hk' ? '親愛的求助者：' : '親愛的求助者：';
+        
+        // 更新所有連結加 lang 參數
+        document.querySelectorAll('a').forEach(a => {
+            if (a.href && !a.href.includes('javascript:') && a.href !== '#') {
+                try {
+                    const url = new URL(a.href);
+                    url.searchParams.set('lang', lang);
+                    a.href = url.toString();
+                } catch(e) {}
+            }
+        });
+    }
+    
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('lang') === 'tw') switchLang('tw');
+</script>
+</body>
+</html>

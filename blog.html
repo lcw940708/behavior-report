@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最新文章與分析報告 — Latest Articles & Insights | ABRG 大數據行為觀察中心</title>
+    <meta name="description" content="瀏覽 ABRG 最新文章，探索大數據行為觀察、職場心態、都市生活與實用線上工具解析。" />
+    <meta name="keywords" content="ABRG, 大數據行為觀察, 實用工具教學, Unix Timestamp 轉換, Markdown 編輯器, 文字統計工具, JPG 轉 PNG, PNG 轉 JPG" />
+    <link rel="canonical" href="https://www.behavior-report.com/blog.html" />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="最新文章與分析報告 — Latest Articles & Insights | ABRG" />
+    <meta property="og:description" content="探索大數據行為觀察、職場心態與線上實用工具完整指南 (Bilingual Chinese & English)." />
+    <meta property="og:url" content="https://www.behavior-report.com/blog.html" />
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Latest Articles & Insights | ABRG Blog" />
+    <meta name="twitter:description" content="Explore data insights, workplace habits, and free online developer tools." />
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "name": "ABRG 大數據行為觀察中心 Blog",
+      "url": "https://www.behavior-report.com/blog.html",
+      "description": "探索大數據行為觀察、職場心態與實用工具解析。",
+      "inLanguage": ["zh-HK", "zh-TW", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root { 
+            --bg-color: #030712; 
+            --card-bg: rgba(17, 24, 39, 0.4);
+            --card-hover-bg: rgba(31, 41, 55, 0.6);
+            --text-main: #f3f4f6;
+            --text-sub: #9ca3af; 
+            --text-muted: #6b7280;
+            --accent-cyan: #38bdf8; 
+            --accent-purple: #c084fc;
+            --border-color: rgba(255, 255, 255, 0.07);
+            --border-hover: rgba(56, 189, 248, 0.3);
+            --glow-color: rgba(56, 189, 248, 0.15);
+        }
+
+        * { box-sizing: border-box; }
+
+        body { 
+            background-color: var(--bg-color); 
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.05) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(192, 132, 252, 0.05) 0%, transparent 45%);
+            background-attachment: fixed;
+            color: var(--text-main); 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            margin: 0; 
+            padding: 30px 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
+
+        .container { max-width: 1280px; width: 100%; }
+        
+        /* ===== Header Section ===== */
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+
+        .brand {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .brand span { color: var(--accent-cyan); }
+
+        .back-link {
+            color: var(--text-sub);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 99px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            transition: all 0.25s ease;
+        }
+
+        .back-link:hover { 
+            color: #ffffff;
+            border-color: var(--accent-cyan);
+            background: rgba(56, 189, 248, 0.1);
+        }
+
+        /* ===== Language Switcher ===== */
+        .lang-switch {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-bottom: 25px;
+        }
+
+        .lang-btn {
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-sub);
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .lang-btn.active {
+            border-color: var(--accent-cyan);
+            color: #ffffff;
+            background: rgba(56, 189, 248, 0.15);
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.2);
+        }
+
+        .lang-btn:hover:not(.active) {
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+
+        .hero-title-area {
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .page-title {
+            font-size: 2.2rem;
+            color: #ffffff;
+            font-weight: 800;
+            margin: 0 0 10px 0;
+            letter-spacing: -0.8px;
+            background: linear-gradient(135deg, #ffffff 30%, var(--text-sub) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-desc {
+            font-size: 1rem;
+            color: var(--text-sub);
+            margin: 0;
+            font-weight: 400;
+        }
+
+        /* ===== Bento Box Grid Layout ===== */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+            align-items: start;
+        }
+
+        .bento-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bento-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+        }
+
+        .bento-card:hover {
+            border-color: var(--border-hover);
+            background: var(--card-hover-bg);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px -10px var(--glow-color);
+        }
+
+        /* Column Spans & Spacing for Ads */
+        .col-span-12 { grid-column: span 12; }
+        .col-span-6  { grid-column: span 6; }
+
+        .ad-space {
+            grid-column: span 12;
+            min-height: 90px;
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin: 8px 0;
+        }
+
+        @media (max-width: 1024px) {
+            .col-span-6 { grid-column: span 12; }
+        }
+
+        @media (max-width: 768px) {
+            .col-span-6 { grid-column: span 12; }
+            .page-title { font-size: 1.75rem; }
+        }
+
+        .bento-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .bento-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge-count {
+            font-size: 0.72rem;
+            padding: 3px 8px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-sub);
+            font-weight: 600;
+        }
+
+        .article-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex-grow: 1;
+        }
+
+        .article-node {
+            padding: 10px 12px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .article-node:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .article-node-link {
+            font-size: 0.92rem;
+            color: #e2e8f0;
+            font-weight: 600;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: color 0.2s ease;
+        }
+
+        .article-node-link:hover {
+            color: var(--accent-cyan);
+        }
+
+        .article-node-summary {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+            margin: 0;
+            white-space: normal;
+        }
+
+        .merged-divider {
+            margin: 28px 0 20px 0;
+            padding-top: 16px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .footer { 
+            margin-top: 60px; 
+            padding-top: 30px; 
+            border-top: 1px solid var(--border-color); 
+            text-align: center; 
+            font-size: 0.8rem; 
+            color: var(--text-muted); 
+            width: 100%;
+        }
+
+        .footer a { 
+            color: var(--text-sub); 
+            text-decoration: none; 
+            margin: 0 10px; 
+            transition: color 0.2s;
+        }
+
+        .footer a:hover { color: var(--accent-cyan); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-nav">
+        <a href="index.html" class="brand">🕵️ ABRG <span>行為觀察</span></a>
+        <a href="index.html" class="back-link" id="backLink">← 返回主頁</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-switch">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文 (HK)</button>
+        <button class="lang-btn" data-lang="tw">🇹🇼 繁體中文 (TW)</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <div class="hero-title-area">
+        <h1 class="page-title" id="pageTitle">📝 最新文章與分析報告</h1>
+        <p class="page-desc" id="pageDesc">深度剖析現代職場、行為數據與實用線上工具。</p>
+    </div>
+
+    <!-- Bento Box 分類容器 -->
+    <div id="bento-container" class="bento-grid"></div>
+
+    <div class="footer">
+        <a href="index.html" id="footHome">主頁</a> |
+        <a href="about.html" id="footAbout">關於我</a> |
+        <a href="contact.html" id="footContact">聯絡我們</a> |
+        <a href="privacy.html" id="footPrivacy">隱私權政策</a>
+        <br><br>
+        <span style="font-size: 0.75rem;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+        <br>
+        &copy; 2026 ABRG 大數據趣味行為觀察社
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    const i18n = {
+        zh: {
+            back: "← 返回主頁",
+            title: "📝 最新文章與分析報告",
+            desc: "深度剖析現代職場、行為數據與實用線上工具指南。",
+            footHome: "主頁",
+            footAbout: "關於我",
+            footContact: "聯絡我們",
+            footPrivacy: "隱私權政策"
+        },
+        en: {
+            back: "← Back to Home",
+            title: "📝 Latest Articles & Insights",
+            desc: "Deep dives into workplace analytics, behavioral data, and free utility tools.",
+            footHome: "Home",
+            footAbout: "About",
+            footContact: "Contact",
+            footPrivacy: "Privacy Policy"
+        }
+    };
+
+    // 重新編排後的 Bento Cards
+    // Col 1 (左): 理財、健康與數學計算
+    // Col 2 (右): 合併框 [圖像處理與視覺編輯 + 開發者工具與資訊安全 (置底)]
+    const articleCards = [
+        {
+            type: "single",
+            span: "col-span-6",
+            categoryId: "finance-health",
+            categoryName: { zh: "🏦 理財、健康與數學計算", en: "🏦 Finance, Health & Calculators" },
+            articles: [
+                { title: { zh: "匯率換算器教學：即時匯率換算，港幣台幣美元，出國旅遊必備", en: "Currency Converter Guide: Real-time Exchange Rates – Essential for Travel & Shopping" }, summary: { zh: "支援 170+ 種貨幣即時匯率換算，包括港幣 HKD、台幣 TWD、美元 USD。", en: "Convert 170+ currencies instantly with real-time exchange rates including HKD, TWD, and USD." }, url: "posts/currency-converter-guide.html" },
+                { title: { zh: "貸款計算機：借錢前必睇！精算每月供款同總利息", en: "Loan Calculator: Calculate Monthly Payment & Total Interest" }, summary: { zh: "輸入貸款金額、年利率與還款期數，即時試算每月供款與詳細還款時間表。", en: "Calculate loan payments, total interest, and full amortization schedule instantly." }, url: "posts/loan-calculator-guide.html" },
+                { title: { zh: "百分比計算機：3 種模式快速計算折扣、比例與變化率", en: "Percentage Calculator: 3 Modes for Discounts, Proportions & Growth Rates" }, summary: { zh: "3 合 1 模式：購物折扣、考試分數比例、股價漲跌，即時計算百分比。", en: "3-in-1 modes: calculate discounts, score ratios, and stock changes instantly." }, url: "posts/percent-calculator-guide.html" },
+                { title: { zh: "年齡計算機教學：精確計算歲月日，人生里程碑倒數", en: "Age Calculator Guide: Calculate Age in Years, Months, Days – Life Milestones Countdown" }, summary: { zh: "精確計算年齡，顯示總日數、總小時數與 10,000 日等人生里程碑倒數。", en: "Calculate exact age in years, months, and days with total days and life milestones." }, url: "posts/age-calculator-guide.html" },
+                { title: { zh: "免費 BMI 計算機教學：即時計算體重指數與健康評估", en: "Free BMI Calculator Guide: Instant Body Mass Index & Health Assessment" }, summary: { zh: "輸入身高體重即時計算 BMI，提供健康評估與建議，支援公制與英制。", en: "Calculate BMI instantly with health assessments, supports metric and imperial units." }, url: "posts/bmi-calculator-guide.html" },
+                { title: { zh: "BMR/TDEE 計算機教學：基礎代謝率與每日熱量消耗，科學增肌減脂", en: "BMR & TDEE Calculator Guide: Calculate Basal Metabolic Rate & Daily Calorie Needs" }, summary: { zh: "精準計算基礎代謝率 (BMR) 與每日總熱量消耗 (TDEE)，提供卡路里建議。", en: "Calculate Basal Metabolic Rate (BMR) and Total Daily Energy Expenditure (TDEE)." }, url: "posts/bmr-tdee-guide.html" },
+                { title: { zh: "房貸按揭計算器教學：計算每月供款、總利息與還款明細表", en: "Mortgage Calculator Guide: Calculate Monthly Payments, Total Interest & Amortization Schedule" }, summary: { zh: "試算每月還款額、利息總額，並提供完整逐年還款明細表。", en: "Calculate monthly mortgage payments, total interest, and view amortization schedule." }, url: "posts/mortgage-calculator-guide.html" },
+                { title: { zh: "房貸提前還款計算器教學：額外還款節省利息，縮短供款期", en: "Extra Payment Calculator Guide: Save Interest & Pay Off Mortgage Early" }, summary: { zh: "比較按時供款與額外還款的利息差異，精算可節省的總利息與提前還清時間。", en: "Compare regular vs. extra payments to see total interest saved and early payoff timeline." }, url: "posts/extra-payment-calculator-guide.html" },
+                { title: { zh: "貸款資格與額度計算器教學：評估最高可貸金額與供款能力", en: "Loan Eligibility Calculator Guide: Estimate Borrowing Capacity & Max Loan Amount" }, summary: { zh: "根據月收入與負債精算最高可貸款額度，並評估 DTI 比率與資格等級。", en: "Calculate max loan amount and monthly payment based on income and debts." }, url: "posts/loan-eligibility-calculator-guide.html" },
+                { title: { zh: "債務整合計算器教學：比較合併前後節省利息與供款，結餘轉戶計算", en: "Debt Consolidation Calculator Guide: Compare Interest Savings & Monthly Payments" }, summary: { zh: "比較合併信用卡與私人貸款前後的還款額，精算卡數整合可節省金額。", en: "Compare current debts vs consolidation loan to see interest savings and monthly payment differences." }, url: "posts/debt-consolidation-calculator-guide.html" },
+                { title: { zh: "實際年利率 APR 計算器教學：精算真實貸款成本，包含手續費", en: "APR Calculator Guide: Calculate Real Loan Cost Including Fees" }, summary: { zh: "精算包含手續費、月費等隱性成本的真實貸款利率，避免被低月平息誤導。", en: "Calculate true APR including origination fees and monthly charges." }, url: "posts/apr-calculator-guide.html" },
+                { title: { zh: "複利計算器教學：體驗複利滾雪球威力，投資回報與儲蓄規劃", en: "Compound Interest Calculator Guide: Experience the Snowball Effect – Investment Growth & Savings" }, summary: { zh: "精算初始本金與定期定額投入在複利效應下的未來資產成長與投資回報。", en: "Calculate future investment growth and savings with compound interest." }, url: "posts/compound-interest-calculator-guide.html" },
+                { title: { zh: "通脹計算機教學：精算購買力變化與貨幣貶值，抗通脹理財", en: "Inflation Calculator Guide: Calculate Purchasing Power & Currency Depreciation – Inflation-Proof Your Finances" }, summary: { zh: "精算通貨膨脹對貨幣購買力的侵蝕與不同年份的價值差異。", en: "Calculate how inflation affects your purchasing power and future costs." }, url: "posts/inflation-calculator-guide.html" },
+                { title: { zh: "薪資計算器教學：精算時薪月薪換算、OT加班費與稅後實收薪資", en: "Payroll Calculator Guide: Calculate OT Pay & Net Take-Home Salary" }, summary: { zh: "支援月薪時薪換算、加班費計算、強積金/稅金扣除，即時精算實收淨薪資。", en: "Calculate monthly salary, hourly rate conversion, overtime pay, and net salary." }, url: "posts/payroll-calculator-guide.html" },
+                { title: { zh: "WACC 計算機教學：加權平均資本成本與折現率，企業估值必備", en: "WACC Calculator Guide: Weighted Average Cost of Capital & Discount Rate – Essential for Corporate Valuation" }, summary: { zh: "精算企業加權平均資本成本 (WACC) 與投資折現率，適用於公司估值。", en: "Calculate corporate WACC for valuation and investment decisions." }, url: "posts/wacc-calculator-guide.html" },
+                { title: { zh: "投資報酬率 ROI 計算器教學：精算 ROI 百分比、年化回報與回本期", en: "ROI Calculator Guide: Calculate ROI %, Annualized Returns & Payback Period" }, summary: { zh: "輸入投資成本與收益，精算 ROI 百分比、淨利潤、年化報酬率與回本時間。", en: "Calculate ROI percentage, net profit, CAGR, and payback period instantly." }, url: "posts/roi-calculator-guide.html" },
+                { title: { zh: "退休規劃計算器教學：精算退休總資產與每月生活費，退休金試算", en: "Retirement Planner Guide: Calculate Nest Egg & Monthly Retirement Income" }, summary: { zh: "輸入年齡、退休目標與現有儲蓄，試算退休總資產與每月可提取生活費。", en: "Calculate your retirement nest egg and monthly payout based on age, savings, and returns." }, url: "posts/retirement-planner-guide.html" },
+                { title: { zh: "租屋 vs 買房決策分析器教學：比較長期財務成本與損益平衡點", en: "Rent vs Buy Calculator Guide: Compare Long-Term Financial Costs & Break-Even Point" }, summary: { zh: "比較長期財務總成本差異與買房損益平衡點，協助做最佳買房決策。", en: "Compare renting vs buying with financial cost analysis and break-even point calculation." }, url: "posts/rent-vs-buy-calculator-guide.html" },
+                { title: { zh: "NPV IRR 計算機教學：淨現值與內部報酬率，投資可行性評估", en: "NPV IRR Calculator Guide: Net Present Value & Internal Rate of Return – Investment Feasibility" }, summary: { zh: "評估投資項目或商業方案的淨現值 (NPV) 與內部報酬率 (IRR)。", en: "Calculate Net Present Value and Internal Rate of Return for investment projects." }, url: "posts/npv-irr-calculator-guide.html" },
+                { title: { zh: "汽車貸款計算器教學：精算每月供款與實際年利率 APR，買車分期", en: "Auto Loan Calculator Guide: Calculate Monthly Payments & Effective APR – Car Buying Financing" }, summary: { zh: "試算每月供款、總利息支出與包含手續費後的實際年利率 (APR)。", en: "Calculate car loan payments, total interest, and effective APR including fees." }, url: "posts/auto-loan-calculator-guide.html" },
+                { title: { zh: "汽車租賃 vs 購買決策分析器教學：租車定買車更慳錢？長期財務成本比較", en: "Lease vs Buy Calculator Guide: Is It Cheaper to Lease or Buy a Car? – Long-Term Financial Cost Comparison" }, summary: { zh: "比較長期租用與直接購車的總財務成本差異，協助您做最佳用車決策。", en: "Compare total net costs between leasing and buying a vehicle for smarter financial decisions." }, url: "posts/auto-lease-vs-buy-calculator-guide.html" },
+                { title: { zh: "債券定價與收益率計算機教學：YTM 計算｜債券現值評估｜固定收益投資", en: "Bond Pricing & YTM Calculator Guide: Bond Valuation & Yield to Maturity – Fixed Income Investment" }, summary: { zh: "即時計算債券現值 (PV)、到期收益率 (YTM) 與當前收益率。", en: "Calculate bond present value (PV), current yield, and YTM instantly." }, url: "posts/bond-calculator-guide.html" },
+                { title: { zh: "槓桿效應與保證金計算機教學：ROE 計算｜融資風險評估｜借貸投資", en: "Leverage & Margin Calculator Guide: Leveraged ROE & Financing Risk – Borrowed Investment" }, summary: { zh: "計算槓桿後報酬率 (ROE)、損益平衡點與強平風險，評估借貸投資。", en: "Calculate leveraged ROE, break-even returns, and margin call thresholds instantly." }, url: "posts/leverage-calculator-guide.html" },
+                { title: { zh: "實質有效利率計算機教學：EAR/APY 計算｜名義利率 vs 複利效應｜貸款比較", en: "Effective Interest Rate Calculator Guide: EAR/APY Calculation – Nominal APR vs Compounding Effect" }, summary: { zh: "將名義年利率 (APR) 轉換為實質有效年利率 (EAR/APY)，對比複利差異。", en: "Convert nominal APR to effective annual rate (EAR/APY) with custom compounding frequencies." }, url: "posts/effective-interest-calculator-guide.html" },
+                { title: { zh: "72 法則計算機教學：本金翻倍要幾耐？｜複利威力估算｜投資理財必備", en: "Rule of 72 Calculator Guide: Years to Double Your Money – Compounding Power & Investment Estimation" }, summary: { zh: "即時估算本金翻倍所需年數，或輸入目標年數反推所需報酬率。", en: "Calculate years to double your investment or find the required return rate instantly." }, url: "posts/rule-of-72-calculator-guide.html" },
+                { title: { zh: "月平息轉 APR 換算器教學：實際年利率計算｜貸款真實成本｜借錢前必睇", en: "Monthly Flat Rate to APR Converter Guide: True Loan Cost Calculation – Essential Before Borrowing" }, summary: { zh: "計算實際年利率 (APR) 與總利息成本，揭穿「低月平息」廣告真實成本。", en: "Calculate APR, monthly repayment, and total interest from flat rate instantly." }, url: "posts/monthly-flat-rate-to-apr-guide.html" },
+                { title: { zh: "小費與帳單分攤計算器教學：AA 制計算｜聚餐結帳必備｜唔使再計到頭痛", en: "Tip & Split Bill Calculator Guide: AA System Calculation – Essential for Group Dining" }, summary: { zh: "即時計算小費總額、總帳單及每人應付金額，自動拆解餐費與小費明細。", en: "Calculate total tip, grand total, and per-person amount instantly for group dining." }, url: "posts/tip-split-calculator-guide.html" },
+                { title: { zh: "信用卡分期真實成本計算機教學：APR 計算｜分期手續費陷阱｜簽賬前必睇", en: "Credit Card Installment True Cost Calculator Guide: APR Calculation – Installment Fee Trap Revealed" }, summary: { zh: "計算實際年利率 (APR)、每月供款與總手續費開支，揭開「免息分期」真實成本。", en: "Calculate true APR, monthly payment, and total fees from monthly fee rates instantly." }, url: "posts/credit-card-installment-true-cost-guide.html" },
+                { title: { zh: "貸款期數靈敏度分析器教學：每月供款 vs 總利息｜搵出最啱你嘅還款期", en: "Loan Term Sensitivity Analyzer Guide: Monthly Payment vs Total Interest – Find Your Optimal Loan Term" }, summary: { zh: "比較 12/24/36/48/60 個月還款期嘅每月供款與總利息，搵出最佳期數。", en: "Compare monthly payments, total interest, and total cost across multiple loan terms instantly." }, url: "posts/loan-term-sensitivity-analyzer-guide.html" },
+                { title: { zh: "私人貸款利率比較器教學：並排比較 APR｜搵出最抵貸款方案｜借錢前必用", en: "Personal Loan Rate Comparator Guide: Side-by-Side APR Comparison – Find Your Best Loan Option" }, summary: { zh: "並排比較多個貸款方案，自動將月平息與 APR 統一換算並標示最低成本方案。", en: "Compare multiple loan offers side-by-side with automatic flat rate to APR conversion." }, url: "posts/personal-loan-rate-comparator-guide.html" },
+                { title: { zh: "貸款負擔能力計算器教學：DSR 計算｜供款與入息比率｜借錢前必睇", en: "Loan Affordability & DSR Calculator Guide: Debt Service Ratio – Know Your Borrowing Capacity" }, summary: { zh: "計算供款與入息比率（DSR），自動評估健康/高風險狀態並推算最高建議貸款額。", en: "Calculate Debt Service Ratio (DSR) instantly with automatic healthy/warning/high-risk assessment." }, url: "posts/loan-affordability-dsr-calculator-guide.html" }
+            ]
+        },
+        {
+            type: "merged",
+            span: "col-span-6",
+            subCategories: [
+                {
+                    categoryId: "media-design",
+                    categoryName: { zh: "🖼️ 圖像處理與視覺編輯", en: "🖼️ Image & Visual Editing" },
+                    articles: [
+                        { title: { zh: "JPG 轉 PNG 免費工具：點解要轉換圖片格式？", en: "JPG to PNG Free Converter: Why Convert Image Formats?" }, summary: { zh: "解析 JPG 與 PNG 格式差異、透明背景應用場景與純前端線上轉檔教學。", en: "Learn the key differences between JPG and PNG, transparent backgrounds, and client-side conversion." }, url: "posts/jpg-to-png-guide.html" },
+                        { title: { zh: "PNG 轉 JPG 免費工具：幾時應該用 JPG 而唔係 PNG？", en: "PNG to JPG Free Converter: When Should You Use JPG Instead of PNG?" }, summary: { zh: "說明何時選擇 JPG 壓縮圖片體積、提升網站載入速度，解析純前端安全轉檔。", en: "Discover how converting PNG to JPG reduces image file size and boosts website speed safely in browser." }, url: "posts/png-to-jpg-guide.html" },
+                        { title: { zh: "圖片轉 WebP 教學：PNG/JPG/GIF 轉 WebP 壓縮圖片", en: "Image to WebP Guide: Convert PNG/JPG/GIF to WebP for Smaller Images" }, summary: { zh: "將 PNG、JPG 或動畫 GIF 轉換為 WebP 格式，體積細 30% 以上。", en: "Convert PNG, JPG, or animated GIF to WebP format with 30%+ smaller file size." }, url: "posts/to-webp-guide.html" },
+                        { title: { zh: "免費圖片縮放工具教學：調整圖片尺寸、保持比例", en: "Free Image Resizer Guide: Resize Images with Custom Dimensions" }, summary: { zh: "自訂圖片寬度高度、保持長寬比例、即時預覽，適用於網頁設計與社群貼文。", en: "Resize images with custom width and height, keep aspect ratio, and preview instantly." }, url: "posts/image-resize-guide.html" },
+                        { title: { zh: "免費線上圖片裁剪工具完整教學：精準裁切與社交媒體尺寸設定", en: "Free Online Image Crop Tool Guide: Precise Cropping & Social Media Sizes" }, summary: { zh: "支援自由拖曳裁切與預設社交媒體比例（1:1, 16:9, 9:16），純前端運算。", en: "Crop images with preset aspect ratios like 1:1, 16:9, and 9:16 for social media." }, url: "posts/image-cropper-guide.html" },
+                        { title: { zh: "批次圖像格式轉換器教學：PNG/JPG/WEBP 批量轉檔，純前端安全處理", en: "Batch Image Converter Guide: PNG/JPG/WEBP Bulk Conversion – 100% Client-Side Privacy" }, summary: { zh: "支援 PNG、JPG、WEBP、BMP 批量互轉與壓縮，100% 本地端處理保護私隱。", en: "Batch convert PNG, JPG, WEBP, and BMP with compression. 100% client-side privacy protection." }, url: "posts/image-converter-guide.html" },
+                        { title: { zh: "免費 AI 圖片去背教學：一鍵移除圖片背景", en: "Free AI Background Remover Guide: Remove Image Background Instantly" }, summary: { zh: "上傳圖片即自動移除背景，輸出透明 PNG，適用於電商產品圖與設計素材。", en: "Upload an image and AI automatically removes the background, outputting a transparent PNG." }, url: "posts/remove-bg-guide.html" },
+                        { title: { zh: "免費圖片合成工具教學：將兩張圖片合成一張", en: "Free Image Composer Guide: Merge Two Images into One" }, summary: { zh: "將透明 PNG 前景與背景圖片合成一張，適用於浮水印製作與產品展示。", en: "Overlay transparent PNG foregrounds onto backgrounds for watermarking and product displays." }, url: "posts/image-composer-guide.html" },
+                        { title: { zh: "圖片加水印教學：文字與 Logo 浮水印製作，免費線上工具", en: "Image Watermark Guide: Add Text or Logo Watermarks – Free Online Tool" }, summary: { zh: "支援文字與 Logo 浮水印，自由調整位置、透明度、大小與旋轉角度。", en: "Add text or logo watermarks with custom position, opacity, size, and rotation." }, url: "posts/image-watermark-guide.html" },
+                        { title: { zh: "圖片濾鏡工具教學：黑白/復古/暖色/冷色/銳化/模糊，免費線上照片特效", en: "Image Filter Guide: Grayscale/Sepia/Warm/Cool/Sharpen/Blur – Free Online Photo Effects" }, summary: { zh: "提供黑白、復古、暖色、冷色、銳化與模糊六種影像特效，支援強度調整。", en: "Apply 6 professional photo filters: Grayscale, Sepia, Warm, Cool, Sharpen, and Blur." }, url: "posts/image-filter-guide.html" },
+                        { title: { zh: "圖片拼接工具教學：多圖水平/垂直拼成長圖，免費線上拼圖", en: "Image Stitcher Guide: Merge Photos Vertically/Horizontally – Free Online Tool" }, summary: { zh: "將多張圖片水平或垂直無縫拼接成一張長圖，自訂間距與背景顏色。", en: "Stitch multiple images vertically or horizontally into a long photo with custom gap." }, url: "posts/image-stitch-guide.html" },
+                        { title: { zh: "圖片九宮格切割器教學：3x3 IG 貼文裁切工具，免費線上 IG 九宮格", en: "Grid Splitter Guide: 3x3 Instagram Photo Cutter – Free Online IG Grid Tool" }, summary: { zh: "一鍵將照片裁切為 3x3 九宮格，自動標示 IG 上傳順序，支援 ZIP 下載。", en: "Split photos into 3x3 grids with auto-labeled IG post order (#1-#9) and ZIP download." }, url: "posts/image-grid-splitter-guide.html" },
+                        { title: { zh: "圖片圓角工具教學：照片切圓角與圓形頭像製作，免費線上圓角加工", en: "Rounded Corner Image Guide: Create Circular Avatars – Free Online Tool" }, summary: { zh: "自訂四角圓弧弧度，一鍵轉為圓形頭像，支援 PNG 透明背景導出。", en: "Customize corner radius, create circular avatars, export transparent PNG." }, url: "posts/image-rounded-corners-guide.html" },
+                        { title: { zh: "浮水印移除器教學：AI 紋理修復，無痕去除圖片文字Logo", en: "Watermark Remover Guide: AI Texture Repair – Remove Text & Logos Seamlessly" }, summary: { zh: "採用 PatchMatch 紋理合成算法，無痕擦除照片上的文字、Logo 與浮水印。", en: "Remove text, logos, and watermarks with PatchMatch texture synthesis." }, url: "posts/watermark-remover-guide.html" },
+                        { title: { zh: "圖片轉文字 OCR 教學：免費提取圖片中文字，中英文辨識", en: "Image to Text OCR Guide: Extract Chinese & English Text from Images for Free" }, summary: { zh: "免費提取圖片中的繁體中文、簡體中文與英文文字，支援一鍵複製。", en: "Extract Traditional Chinese, Simplified Chinese, and English text from images." }, url: "posts/image-to-text-guide.html" },
+                        { title: { zh: "圖片鏡像翻轉教學：水平/垂直翻轉照片，修正自拍反轉", en: "Image Flip & Mirror Guide: Flip Photos Horizontally or Vertically – Fix Selfie Reversal" }, summary: { zh: "圖片水平翻轉與垂直翻轉，修正前置鏡頭自拍反轉、製作鏡像特效。", en: "Flip images horizontally or vertically—fix front-camera selfie reversal and create mirror effects." }, url: "posts/image-flip-guide.html" },
+                        { title: { zh: "圖片自由角度旋轉教學：0-360° 任意旋轉照片，修正傾斜圖片", en: "Image Rotation Guide: Rotate Photos to Any Angle 0-360° – Fix Crooked Images" }, summary: { zh: "0-360° 任意角度旋轉照片，精準微調校正傾斜圖片，一鍵 90°/180° 快速旋轉。", en: "Rotate images to any angle from 0 to 360 degrees. Fine-tune crooked photos easily." }, url: "posts/image-rotate-guide.html" },
+                        { title: { zh: "圖片卡通/素描風格化教學：照片轉卡通、鉛筆素描、油畫、水彩", en: "Image Art Style Guide: Convert Photos to Cartoon, Sketch, Oil & Watercolor" }, summary: { zh: "一鍵將照片轉換為卡通公仔、鉛筆素描、經典油畫、柔和水彩及黑白漫畫風格。", en: "Transform photos into cartoon, pencil sketch, oil painting, watercolor, and comic styles." }, url: "posts/image-art-style-guide.html" },
+                        { title: { zh: "圖片邊框添加器教學：自訂顏色、厚度與圓角，免費線上相框工具", en: "Image Border Guide: Add Custom Borders with Color, Thickness & Radius – Free Tool" }, summary: { zh: "自訂邊框顏色、厚度、圖片圓角與外框圓角，即時預覽高清匯出 PNG/JPG。", en: "Add custom borders with adjustable color, thickness, image radius, and outer radius." }, url: "posts/add-border-guide.html" },
+                        { title: { zh: "AI 圖片 Alt 標籤產生器教學：自動生成中英文 Alt 文字，提升 SEO 排名", en: "AI Alt Text Generator Guide: Auto-Generate Chinese & English Alt Text – Boost SEO" }, summary: { zh: "採用 TensorFlow.js 機器學習，自動辨識圖片內容並生成中英文 Alt 替代文字。", en: "Automatically generate Chinese and English Alt text for images using TensorFlow.js." }, url: "posts/alt-generator-guide.html" }
+                    ]
+                },
+                {
+                    categoryId: "dev-security",
+                    categoryName: { zh: "🔧 開發者工具與資訊安全", en: "🔧 Developer & Security Tools" },
+                    articles: [
+                        { title: { zh: "時間戳轉換器：Unix Timestamp 係咩？點樣將時間戳轉換為日期時間？", en: "Unix Timestamp Converter: What is Epoch Time & How to Convert to Datetime?" }, summary: { zh: "解析 Unix Timestamp (Epoch Time) 概念、運作原理與雙向即時轉換工具。", en: "Explain Epoch Time mechanics and how to use an instant bidirectional timestamp converter." }, url: "posts/timestamp-converter-guide.html" },
+                        { title: { zh: "JSON 格式化工具：點樣將亂碼 JSON 變返整齊易讀？", en: "JSON Formatter: How to Make Minified JSON Readable and Validated?" }, summary: { zh: "介紹 JSON 基本概念、API 開發應用，與線上進行 JSON 排版、高亮及壓縮。", en: "Format, minify, and validate JSON effortlessly with our free 100% client-side online tool." }, url: "posts/json-formatter-guide.html" },
+                        { title: { zh: "YAML ↔ JSON 轉換器教學：即時互轉，開發者必備工具", en: "YAML to JSON Converter Guide: Convert Instantly – Developer Essential" }, summary: { zh: "YAML 與 JSON 雙向即時轉換，支援語法檢查，適用於 K8s 與 CI/CD。", en: "Bidirectional instant conversion between YAML and JSON with syntax checking." }, url: "posts/yaml-json-converter-guide.html" },
+                        { title: { zh: "正則表達式測試器教學：Regex 即時匹配測試，開發者必備工具", en: "Regex Tester Guide: Test Regular Expressions Instantly – Developer Essential" }, summary: { zh: "即時測試正則表達式匹配結果，支援 flags（g/i/m/s）與高亮顯示。", en: "Test regex patterns instantly with flags (g/i/m/s) and highlighted matches." }, url: "posts/regex-tester-guide.html" },
+                        { title: { zh: "UUID 生成器教學：隨機唯一識別碼產生器，開發者必備工具", en: "UUID Generator Guide: Generate Unique Identifiers – Developer Essential" }, summary: { zh: "支援 UUID v4（隨機）與 v7（時間排序），一鍵生成隨機唯一識別碼。", en: "Generate UUID v4 (random) and v7 (time-ordered) identifiers instantly." }, url: "posts/uuid-generator-guide.html" },
+                        { title: { zh: "HTML 轉義教學：HTML 特殊字符轉 Entities，開發者必備安全工具", en: "HTML Escape Guide: Convert Special Characters to Entities – Developer Security Essential" }, summary: { zh: "將 HTML 特殊字符轉為 HTML Entities，防止 XSS 攻擊與瀏覽器誤解。", en: "Convert HTML special characters to HTML Entities for XSS prevention." }, url: "posts/html-escape-guide.html" },
+                        { title: { zh: "URL 編解碼器：點樣將文字安全放入網址？encodeURI 教學", en: "URL Encoder/Decoder: How to Safely Format Text into URLs?" }, summary: { zh: "解釋 URL Encoding 的用途、encodeURI 與 encodeURIComponent 差別。", en: "Learn URL encoding, decodeURI, encodeURIComponent, and use a free online encoder." }, url: "posts/url-encoder-guide.html" },
+                        { title: { zh: "Base64 編解碼教學：文字圖片轉 Base64 格式", en: "Base64 Converter Guide: Encode/Decode Text & Images" }, summary: { zh: "文字與 Base64 雙向轉換，支援圖片轉 Base64，適用於 API 數據傳輸。", en: "Bidirectional text and image Base64 conversion for API data transfer and debugging." }, url: "posts/base64-guide.html" },
+                        { title: { zh: "密碼生成器：點樣設定強密碼保護你嘅帳戶？", en: "Password Generator Guide: How to Create Strong Passwords to Secure Your Accounts" }, summary: { zh: "解析密碼安全的重要性，自訂長度、大小寫、數字與符號建立高強度密碼。", en: "Learn how to generate unbreakable passwords and protect your online accounts." }, url: "posts/password-generator-guide.html" }
+                    ]
+                }
+            ]
+        },
+        {
+            type: "single",
+            span: "col-span-6",
+            categoryId: "productivity-tools",
+            categoryName: { zh: "🛠️ 數位生產力與日常工具", en: "🛠️ Digital Productivity & Daily Utilities" },
+            articles: [
+                { title: { zh: "免費文字統計工具：即時計算字數、字元數與閱讀時間", en: "Free Online Word Counter: Instant Word Count, Character Count & Reading Time" }, summary: { zh: "即時精準計算中英文字數、字符數、段落及閱讀時間，純前端運算保障隱私。", en: "Count words, characters, sentences, paragraphs, and estimated reading time instantly. 100% client-side privacy." }, url: "posts/word-counter-guide.html" },
+                { title: { zh: "文字重複檢測教學：檢查文章重複詞語，內容創作者必備", en: "Duplicate Checker Guide: Find Repeated Words in Your Text – Essential for Content Creators" }, summary: { zh: "檢查文章入面重複嘅詞語、短語同句子，提供總詞數、唯一詞語、重複率等統計分析。", en: "Detect repeated words, phrases, and sentences with statistics including total words and unique words." }, url: "posts/duplicate-checker-guide.html" },
+                { title: { zh: "快速網頁備忘錄教學：免登入即開即寫，自動儲存支援書籤分類", en: "Quick Web Notepad Guide: Instant Note-Taking with Auto-Save & Bookmark Categories" }, summary: { zh: "免登入即開即寫，自動儲存於瀏覽器。支援自訂網址 Hash 書籤分類。", en: "No-login instant note-taking with auto-save in browser. Supports custom URL hash categories." }, url: "posts/notepad-guide.html" },
+                { title: { zh: "Markdown 編輯器：新手入門教學，即時預覽 HTML", en: "Markdown Editor Guide: Beginner Tutorial with Live HTML Preview" }, summary: { zh: "完整 Markdown 語法教學，搭配左寫右即時預覽編輯器，一鍵複製 HTML 與下載檔案。", en: "Comprehensive Markdown tutorial with live split-screen preview, HTML export, and one-click file download." }, url: "posts/markdown-editor-guide.html" },
+                { title: { zh: "免費文字比較器教學：對比兩段文字差異、增刪改動即時顯示", en: "Free Text Diff Tool Guide: Compare Two Texts with Add/Delete Highlight" }, summary: { zh: "貼上兩段文字即時對比差異，新增（綠色）、刪除（紅色）一目了然。", en: "Paste two texts and compare differences instantly with color-coded additions and deletions." }, url: "posts/text-diff-guide.html" },
+                { title: { zh: "免費倒數計時器教學：距離目標日期仲有幾耐？", en: "Free Countdown Timer Guide: How Long Until Your Target Date?" }, summary: { zh: "輸入目標日期即時計算距離仲有幾多日、幾多小時、幾多分鐘。支援分享連結與快捷設定。", en: "Enter a target date and instantly see days, hours, minutes, and seconds left." }, url: "posts/countdown-timer-guide.html" },
+                { title: { zh: "時區轉換器教學：全球時區即時轉換，遠端工作必備", en: "Time Zone Converter Guide: Convert Time Zones Instantly – Essential for Remote Work" }, summary: { zh: "支援全球時區即時轉換，世界時鐘顯示 8 個主要城市時間，自動處理夏令時間。", en: "Convert time zones globally with live world clock display for 8 major cities and automatic DST handling." }, url: "posts/timezone-converter-guide.html" },
+                { title: { zh: "免費單位換算器教學：即時轉換長度、重量、容量、溫度", en: "Free Unit Converter Guide: Convert Length, Weight, Volume & Temperature Instantly" }, summary: { zh: "4 合 1 單位換算器，支援長度、重量、容量、溫度即時轉換，批量輸入一鍵複製。", en: "4-in-1 unit converter for length, weight, volume, and temperature with batch input and one-click copy." }, url: "posts/unit-converter-guide.html" },
+                { title: { zh: "社交媒體標籤生成器教學：IG/TikTok/小紅書 熱門 Hashtag 推薦，提高曝光率", en: "Hashtag Generator Guide: Viral Tags for IG/TikTok/Xiaohongshu – Boost Your Reach" }, summary: { zh: "支援 Instagram、TikTok、小紅書熱門標籤推薦，四大分類加自訂標籤，一鍵複製。", en: "Generate trending hashtags for Instagram, TikTok, and Xiaohongshu to maximize reach." }, url: "posts/hashtag-generator-guide.html" },
+                { title: { zh: "靈感名言隨機顯示器教學：每日金句｜勵志語錄｜專注工作名言", en: "Quote Generator Guide: Daily Inspiration & Wisdom – Focus, Growth, Philosophy" }, summary: { zh: "提供專注工作、勵志成長、哲學智慧三大分類，一鍵獲取經典名言金句。", en: "Get inspiring quotes in three categories: Focus & Work, Growth & Grit, and Wisdom & Mindset." }, url: "posts/quote-generator-guide.html" },
+                { title: { zh: "番茄鐘專注計時器教學：25分鐘專注法，提升工作效率", en: "Pomodoro Timer Guide: 25-Minute Focus Sessions – Boost Your Productivity" }, summary: { zh: "基於番茄工作法，25分鐘專注 + 5分鐘休息。支援提示音效與圓環進度顯示。", en: "Based on the Pomodoro Technique—25-minute focus + 5-minute breaks with sound alerts." }, url: "posts/pomodoro-guide.html" },
+                { title: { zh: "完美煮蛋計時器教學：溏心蛋/溫泉蛋/全熟蛋時間，精準掌握熟度", en: "Perfect Egg Timer Guide: Soft/Jammy/Hard-Boiled Eggs – Master Your Doneness" }, summary: { zh: "支援溏心蛋、溫泉蛋、全熟蛋三種熟度，根據雞蛋大小精準倒數。", en: "Supports soft-boiled, jammy, and hard-boiled eggs with precise timing based on egg size." }, url: "posts/egg-timer-guide.html" },
+                { title: { zh: "文字排序工具教學：按字母/長度/隨機排列文字行，免費線上清單排序", en: "Line Sorter Guide: Sort Text Alphabetically, by Length, or Randomize – Free Tool" }, summary: { zh: "按字母順序、文字長度、隨機打亂或反轉行數順序，輕鬆處理清單與資料排版。", en: "Sort text lines alphabetically, by length, randomize, or reverse. Real-time line and character count." }, url: "posts/line-sorter-guide.html" },
+                { title: { zh: "文字大小寫轉換器教學：一鍵轉換大寫/小寫/首字母大寫，免費英文大小寫工具", en: "Case Converter Guide: Convert Text to UPPERCASE, lowercase, Title Case & Sentence Case" }, summary: { zh: "一鍵轉換英文為大寫、小寫、首字母大寫及句子大小寫，即時統計字數。", en: "Convert text to UPPERCASE, lowercase, Title Case, and Sentence case instantly." }, url: "posts/case-converter-guide.html" },
+                { title: { zh: "文字轉語音 TTS 教學：免費線上朗讀工具，支援暫停/繼續/多國語音", en: "TTS Guide: Text to Speech with Play/Pause/Resume Controls – Free Tool" }, summary: { zh: "免費線上文字朗讀工具，支援播放/暫停/繼續，自由調整語速與音調。", en: "Convert text to speech with play, pause, resume controls. Adjustable speed and pitch." }, url: "posts/tts-converter-guide.html" }
+            ]
+        },
+        {
+            type: "single",
+            span: "col-span-6",
+            categoryId: "video-tools",
+            categoryName: { zh: "🎬 影片處理與影音工具", en: "🎬 Video & Audio Tools" },
+            articles: [
+                { title: { zh: "YouTube 影片長度計算器教學：播放清單時間加總，倍速播放時間試算", en: "YouTube Duration Calculator Guide: Total Playlist Time & Speed Savings" }, summary: { zh: "快速加總多條影片總時長，分析 1.25x/1.5x/2.0x 倍速下節省多少時間。", en: "Quickly sum multiple video durations and calculate time saved at 1.25x/1.5x/2.0x speeds." }, url: "posts/youtube-duration-calculator-guide.html" },
+                { title: { zh: "免費螢幕錄影工具教學：錄製瀏覽器畫面、下載 WebM 或轉 GIF", en: "Free Screen Recorder Guide: Record Browser Tab, Download WebM or Convert to GIF" }, summary: { zh: "錄製瀏覽器分頁、下載 WebM 影片或轉換為 GIF，適用於教學示範與產品演示。", en: "Record browser tabs, download WebM videos, or convert to GIF with 100% client-side privacy." }, url: "posts/screen-recorder-guide.html" },
+                { title: { zh: "影片轉 GIF 教學：MP4/WebM 轉 GIF，免費線上轉換器", en: "Video to GIF Guide: Convert MP4/WebM to GIF – Free Online Converter" }, summary: { zh: "上傳 MP4 或 WebM 影片，輕鬆轉換為壓縮 GIF，支援自訂寬度、幀率與時間裁切。", en: "Upload MP4 or WebM videos and convert to compressed GIFs with custom width, FPS, and trimming." }, url: "posts/video-to-gif-guide.html" },
+                { title: { zh: "GIF 轉影片教學：GIF 轉 MP4/WebM，免費線上轉換器", en: "GIF to Video Guide: Convert GIF to MP4/WebM – Free Online Converter" }, summary: { zh: "將動態 GIF 轉換為 MP4 或 WebM 影片，檔案細 80%、畫質更靚。", en: "Convert animated GIFs to MP4 or WebM videos—80% smaller file size with better quality." }, url: "posts/gif-to-video-guide.html" },
+                { title: { zh: "影片壓縮器教學：免費壓縮 MP4/WebM 影片，縮小檔案保持畫質", en: "Video Compressor Guide: Compress MP4/WebM Videos – Smaller Files, Good Quality" }, summary: { zh: "免費壓縮 MP4/WebM/MOV 影片檔案大小，同時保持畫質。支援自訂壓縮程度與解像度。", en: "Compress MP4/WebM/MOV videos to reduce file size while maintaining quality." }, url: "posts/video-compressor-guide.html" },
+                { title: { zh: "影片格式轉換器教學：MP4/WebM/AVI/MOV 自由互轉，免費線上轉換", en: "Video Converter Guide: Convert MP4/WebM/AVI/MOV – Free Online Converter" }, summary: { zh: "支援 MP4、WebM、AVI、MOV 雙向自由互轉，採用 FFmpeg WebAssembly 技術。", en: "Convert between MP4, WebM, AVI, and MOV with FFmpeg WebAssembly." }, url: "posts/video-converter-guide.html" },
+                { title: { zh: "影片時間裁切工具教學：視覺化拖動剪輯影片，免費線上剪片", en: "Video Trimmer Guide: Visual Timeline Cutting – Free Online Video Editor" }, summary: { zh: "視覺化時間條拖動剪裁影片片段，支援精準 HH:MM:SS 時間設定。", en: "Trim videos with visual timeline dragging and precise HH:MM:SS settings." }, url: "posts/video-trimmer-guide.html" },
+                { title: { zh: "影片合併工具教學：多影片拼接組合，免費線上影片合併器", en: "Video Merger Guide: Combine Video Clips Seamlessly – Free Online Tool" }, summary: { zh: "將多段影片拼接組合為單一檔案，自由調整播放順序，合併後即時預覽。", en: "Merge multiple video clips into one seamless file with custom order and instant preview." }, url: "posts/video-merger-guide.html" },
+                { title: { zh: "影片畫面裁切工具教學：視覺化拖曳裁切，去除黑邊，免費線上影片剪輯", en: "Video Cropper Guide: Visual Drag-to-Crop – Remove Black Bars｜Free Online Tool" }, summary: { zh: "視覺化拖曳裁切影片畫面，去除黑邊與多餘區域，支援多種預設比例。", en: "Crop videos with visual drag-to-select, remove black bars, and export in preset ratios." }, url: "posts/video-cropper-guide.html" },
+                { title: { zh: "影片旋轉與翻轉教學：修正顛倒影片，90°旋轉，水平垂直鏡像", en: "Video Rotate & Flip Guide: Fix Upside-Down Videos – 90° Rotation & Mirroring" }, summary: { zh: "修正手機拍攝嘅顛倒影片，支援 90°/180°/270° 旋轉、水平鏡像與垂直翻轉。", en: "Fix upside-down videos with 90°/180°/270° rotation, horizontal flip, and vertical flip." }, url: "posts/video-rotate-guide.html" },
+                { title: { zh: "影片變速工具教學：慢動作與快轉效果，0.25x-4.0x 速度調整", en: "Video Speed Controller Guide: Slow Motion & Timelapse – 0.25x to 4.0x Speed" }, summary: { zh: "支援 0.25x 至 4.0x 播放速度調整，輕鬆製作慢動作重播與快轉縮時影片。", en: "Adjust video speed from 0.25x to 4.0x—create slow-motion replays and timelapse videos." }, url: "posts/video-speed-guide.html" },
+                { title: { zh: "影片倒放工具教學：倒轉影片製作魔法特效，一鍵反轉播放", en: "Video Reverser Guide: Reverse Videos for Magic & Comedy – One-Click Playback Rewind" }, summary: { zh: "一鍵將影片倒轉播放，製作水滴倒流、魔法反轉與搞笑倒放特效。", en: "Reverse video playback instantly for water-flow reversal, magic effects, and comedy." }, url: "posts/video-reverser-guide.html" },
+                { title: { zh: "影片轉音訊教學：免費提取 MP3/WAV 音檔，MP4/MOV/WEBM 轉 MP3", en: "Video to Audio Guide: Extract MP3/WAV from Videos – MP4/MOV/WEBM to MP3" }, summary: { zh: "一鍵從 MP4、MOV、WEBM 影片中提取 MP3 或 WAV 音訊檔。", en: "Extract MP3 or WAV audio from MP4, MOV, and WEBM videos." }, url: "posts/video-to-audio-guide.html" },
+                { title: { zh: "影片靜音教學：免費移除影片背景聲音，MP4/MOV/WEBM 去聲", en: "Mute Video Guide: Remove Audio from MP4/MOV/WEBM – Create Silent Videos" }, summary: { zh: "一鍵移除 MP4、MOV、WEBM 影片中的音軌，導出無聲影片。", en: "Remove audio tracks from MP4, MOV, and WEBM videos. Create silent videos." }, url: "posts/mute-video-guide.html" },
+                { title: { zh: "影片縮圖產生器教學：免費擷取影片畫面，時間軸精準截圖", en: "Thumbnail Maker Guide: Capture Video Frames with Timeline Precision – Free Tool" }, summary: { zh: "拖動時間軸精準擷取影片畫面，產生高清縮圖預覽，一鍵打包下載。", en: "Capture video frames precisely by scrubbing the timeline. Generate HD thumbnails." }, url: "posts/thumbnail-maker-guide.html" }
+            ]
+        },
+        {
+            type: "merged",
+            span: "col-span-6",
+            subCategories: [
+                {
+                    categoryId: "pdf-docs",
+                    categoryName: { zh: "📄 PDF 與文件處理指南", en: "📄 PDF & Document Processing Guides" },
+                    articles: [
+                        { title: { zh: "AI 文件生成器教學：用 AI 幫你寫辭職信、求職信、推薦信", en: "AI Document Generator Guide: Write Resignation, Cover & Recommendation Letters with AI" }, summary: { zh: "支援 8 種常見職場公文類型（辭職信、求職信、推薦信等），純前端運算快速生成。", en: "Generate 8 types of documents including resignation, cover letters, and recommendations with AI." }, url: "posts/ai-document-generator-guide.html" },
+                        { title: { zh: "PDF 合併教學：將多個 PDF 合併成一個檔案", en: "PDF Merge Guide: Combine Multiple PDFs into One File" }, summary: { zh: "支援上傳多個 PDF、拖曳排序頁面、合併前預覽結果，100% 純前端運算。", en: "Upload multiple PDFs, drag-and-drop to sort pages, preview before merging—100% client-side." }, url: "posts/pdf-merge-guide.html" },
+                        { title: { zh: "PDF 拆分教學：從 PDF 抽出特定頁面", en: "PDF Split Guide: Extract Specific Pages from a PDF" }, summary: { zh: "逐頁勾選、單雙數頁快速選擇，拆出獨立新 PDF，純前端運算保護文件私隱。", en: "Select individual pages, use quick selection options, and extract pages into a new PDF." }, url: "posts/pdf-split-guide.html" },
+                        { title: { zh: "圖片轉 PDF 教學：將多張 JPG/PNG 合併成一個 PDF", en: "Images to PDF Guide: Merge Multiple Images into One PDF" }, summary: { zh: "將多張 JPG/PNG/WebP 圖片合併成一個 PDF，支援拖曳排序與頁面大小調整。", en: "Convert JPG, PNG, and WebP images into a single PDF with drag-to-sort and page size selection." }, url: "posts/images-to-pdf-guide.html" },
+                        { title: { zh: "PDF 轉 Word 教學：將 PDF 文件轉換為可編輯 Word 檔案", en: "PDF to Word Guide: Convert PDF Documents into Editable Word Files" }, summary: { zh: "從 PDF 提取文字並轉換為 DOCX 格式，適用於文件編輯與合約修改。", en: "Extract text from PDFs and convert to editable DOCX format with 100% client-side privacy protection." }, url: "posts/pdf-to-word-guide.html" },
+                        { title: { zh: "PDF 轉 Excel 教學：將 PDF 表格數據轉換為可編輯 Excel 檔案", en: "PDF to Excel Guide: Convert PDF Tables into Editable Excel Files" }, summary: { zh: "從 PDF 提取表格數據並轉換為 XLSX 格式，適用於財務報表與數據分析。", en: "Extract table data from PDFs and convert to editable XLSX format for financial analysis." }, url: "posts/pdf-to-excel-guide.html" }
+                    ]
+                },
+                {
+                    categoryId: "web-design",
+                    categoryName: { zh: "🌐 網路與設計實用工具", en: "🌐 Web & Design Utilities" },
+                    articles: [
+                        { title: { zh: "網頁 Meta 產生器教學：Open Graph Tags 生成，社交媒體分享必備", en: "Meta Tags Generator Guide: Generate OG Tags – Essential for Social Sharing" }, summary: { zh: "生成 Open Graph (OG) Tags 與 Twitter Cards，即時預覽社交分享效果。", en: "Generate Open Graph (OG) Tags and Twitter Cards with live preview and one-click code copy." }, url: "posts/meta-generator-guide.html" },
+                        { title: { zh: "免費線上 QR Code 生成器完整教學：自訂顏色、上傳 Logo 與隱私安全", en: "Complete Guide to Free Online QR Code Generator: Custom Colors & Logo Integration" }, summary: { zh: "支援自訂顏色、尺寸、上傳中央 Logo 與下載高解析度 PNG 檔案。", en: "Generate customized QR codes with custom colors, logo upload, and high-resolution PNG download." }, url: "posts/qr-generator-guide.html" },
+                        { title: { zh: "免費 QR Code 解碼器教學：上傳二維碼即時掃描解碼", en: "Free QR Code Decoder Guide: Decode QR Codes from Images Instantly" }, summary: { zh: "上傳二維碼圖片即時解碼內容，支援 PNG、JPG、WebP 格式，一鍵複製結果。", en: "Upload QR Code images and decode content instantly with support for PNG, JPG, and WebP formats." }, url: "posts/qr-decoder-guide.html" },
+                        { title: { zh: "顏色轉換器教學：HEX/RGB/HSL 即時互轉，設計師開發者必備", en: "Color Converter Guide: Convert HEX/RGB/HSL Instantly – Designer & Developer Essential" }, summary: { zh: "HEX、RGB、HSL 三種顏色格式即時互轉，色板快速選色，一鍵複製。", en: "Convert between HEX, RGB, and HSL color formats instantly with palette selection." }, url: "posts/color-converter-guide.html" },
+                        { title: { zh: "免費螢幕顏色選取器教學：網頁揀色、即時顯示顏色代碼", en: "Free Color Picker Guide: Pick Colors from Screen with HEX/RGB/HSL" }, summary: { zh: "點擊網頁任何位置即時顯示 HEX、RGB、HSL 顏色代碼，一鍵複製。", en: "Click anywhere on the screen to instantly display HEX, RGB, and HSL color codes." }, url: "posts/color-picker-guide.html" }
+                    ]
+                }
+            ]
+        }
+    ];
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentLang = urlParams.get('lang') || 'hk';
+
+    function createFeedSection(cat, isEn) {
+        const feed = document.createElement('div');
+        feed.className = 'article-feed';
+
+        cat.articles.forEach(article => {
+            const node = document.createElement('div');
+            node.className = 'article-node';
+
+            const itemTitle = isEn ? article.title.en : article.title.zh;
+            const itemSummary = isEn ? article.summary.en : article.summary.zh;
+
+            node.innerHTML = `
+                <a href="${article.url}?lang=${currentLang}" class="article-node-link" title="${itemTitle}">${itemTitle}</a>
+                <p class="article-node-summary">${itemSummary}</p>
+            `;
+            feed.appendChild(node);
+        });
+
+        return feed;
+    }
+
+    function renderPage(langKey) {
+        currentLang = langKey;
+        const isEn = (langKey === 'en');
+        const langData = isEn ? i18n.en : i18n.zh;
+
+        document.getElementById('backLink').textContent = langData.back;
+        document.getElementById('pageTitle').textContent = langData.title;
+        document.getElementById('pageDesc').textContent = langData.desc;
+        document.getElementById('footHome').textContent = langData.footHome;
+        document.getElementById('footAbout').textContent = langData.footAbout;
+        document.getElementById('footContact').textContent = langData.footContact;
+        document.getElementById('footPrivacy').textContent = langData.footPrivacy;
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.lang === langKey) {
+                btn.classList.add('active');
+            }
+        });
+
+        const bentoContainer = document.getElementById('bento-container');
+        bentoContainer.innerHTML = '';
+
+        articleCards.forEach((cardData, idx) => {
+            const card = document.createElement('div');
+            card.className = `bento-card ${cardData.span}`;
+
+            if (cardData.type === 'single') {
+                const header = document.createElement('div');
+                header.className = 'bento-header';
+                const catTitle = isEn ? cardData.categoryName.en : cardData.categoryName.zh;
+                header.innerHTML = `
+                    <h3 class="bento-title">${catTitle}</h3>
+                    <span class="badge-count">${cardData.articles.length} P</span>
+                `;
+                card.appendChild(header);
+                card.appendChild(createFeedSection(cardData, isEn));
+            } else if (cardData.type === 'merged') {
+                cardData.subCategories.forEach((subCat, index) => {
+                    if (index > 0) {
+                        const divider = document.createElement('div');
+                        divider.className = 'merged-divider';
+                        card.appendChild(divider);
+                    }
+
+                    const header = document.createElement('div');
+                    header.className = 'bento-header';
+                    const catTitle = isEn ? subCat.categoryName.en : subCat.categoryName.zh;
+                    header.innerHTML = `
+                        <h3 class="bento-title">${catTitle}</h3>
+                        <span class="badge-count">${subCat.articles.length} P</span>
+                    `;
+                    card.appendChild(header);
+                    card.appendChild(createFeedSection(subCat, isEn));
+                });
+            }
+
+            bentoContainer.appendChild(card);
+        });
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.dataset.lang;
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            renderPage(selectedLang);
+        });
+    });
+
+    renderPage(currentLang);
+});
+</script>
+
+</body>
+</html>

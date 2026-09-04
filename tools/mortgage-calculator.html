@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO 基本標籤 / Bilingual SEO -->
+    <title>線上房貸按揭計算器 — 計算每月供款、總利息與還款明細表｜Mortgage Calculator</title>
+    <meta name="description" content="免費線上房貸按揭計算器 (Free Online Mortgage & Home Loan Calculator)。輸入房屋總價、首付款、年利率及貸款期限，即時計算每月還款額、利息總額，並提供完整逐年還款明細表。" />
+    <meta name="keywords" content="房貸計算器, 按揭計算機, 房屋貸款計算, 每月供款, 房貸利息計算, mortgage calculator, home loan calculator, amortization schedule, monthly payment calculator, house payment calculator" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/mortgage-calculator.html" />
+
+    <!-- Open Graph 社交分享標籤 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="免費線上房貸按揭計算器 — 快速精算每月供款與還款明細｜Mortgage Calculator" />
+    <meta property="og:description" content="輸入房價與利率，一鍵算出每月按揭供款、利息開支及詳細還款時程表！置業規劃必備工具。" />
+    <meta property="og:url" content="https://www.behavior-report.com/tools/mortgage-calculator.html" />
+
+    <!-- Schema.org 結構化資料 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "線上房貸按揭計算器 (Mortgage Calculator)",
+      "url": "https://www.behavior-report.com/tools/mortgage-calculator.html",
+      "description": "提供每月還款金額、總利息及分期還款明細表計算的免費線上房屋貸款計算工具。",
+      "applicationCategory": "FinancialApplication",
+      "operatingSystem": "All",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch { text-align: center; margin-bottom: 20px; }
+        .lang-switch button {
+            background: transparent; border: none; color: var(--cyan);
+            cursor: pointer; font-size: 0.9rem; margin: 0 8px; font-weight: bold;
+        }
+        .lang-switch button:hover { text-decoration: underline; }
+
+        .tool-title { font-size: 1.6rem; color: #ffffff; text-align: center; font-weight: bold; }
+        .tool-sub { text-align: center; color: var(--text); font-size: 0.95rem; margin: 10px 0 25px; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: #ffffff;
+            padding: 12px;
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        input[type="number"]:focus { border-color: var(--cyan); }
+
+        .btn-calc {
+            width: 100%;
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--cyan);
+            border: 1px solid rgba(34, 211, 238, 0.25);
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .btn-calc:hover {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+
+        .results-panel {
+            display: none;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .res-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .res-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .res-card h4 { font-size: 0.85rem; color: var(--text-light); margin-bottom: 8px; }
+        .res-card .val { font-size: 1.3rem; color: var(--cyan); font-weight: bold; }
+
+        .table-container {
+            margin-top: 20px;
+            overflow-x: auto;
+            max-height: 350px;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            text-align: right;
+        }
+
+        th, td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--card);
+            color: var(--text-light);
+            position: sticky;
+            top: 0;
+            font-weight: bold;
+        }
+
+        td:first-child, th:first-child { text-align: center; }
+
+        .seo-article { margin-top: 40px; padding-top: 25px; border-top: 1px solid rgba(148, 163, 184, 0.08); line-height: 1.6; }
+        .seo-article h2 { color: #ffffff; font-size: 1.1rem; margin-bottom: 12px; }
+        .seo-article p { font-size: 0.85rem; color: var(--text); margin-bottom: 12px; }
+
+        footer { text-align: center; margin-top: 30px; font-size: 11px; color: #555; }
+        footer a { color: #555; text-decoration: none; margin: 0 8px; }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="lang-switch">
+        <button onclick="setLang('zh')">繁體中文</button> |
+        <button onclick="setLang('en')">English</button>
+    </div>
+
+    <h1 class="tool-title" id="toolTitle">🏠 線上房貸按揭計算器 (Mortgage Calculator)</h1>
+    <p class="tool-sub" id="toolSub">即時計算房屋貸款每月供款、利息總額與逐年還款明細表</p>
+
+    <div class="form-grid">
+        <div class="form-group">
+            <label id="lblHomePrice">房屋總價 (Home Price)</label>
+            <input type="number" id="homePrice" placeholder="例如: 5000000" value="6000000">
+        </div>
+        <div class="form-group">
+            <label id="lblDownPayment">首付金額 (Down Payment)</label>
+            <input type="number" id="downPayment" placeholder="例如: 1000000" value="1200000">
+        </div>
+        <div class="form-group">
+            <label id="lblInterestRate">年利率 % (Interest Rate)</label>
+            <input type="number" id="interestRate" step="0.01" placeholder="例如: 3.5" value="3.5">
+        </div>
+        <div class="form-group">
+            <label id="lblLoanTerm">貸款年期 (Loan Term - Years)</label>
+            <input type="number" id="loanTerm" placeholder="例如: 30" value="30">
+        </div>
+    </div>
+
+    <button class="btn-calc" onclick="calculateMortgage()" id="btnCalc">⚡ 計算按揭供款 (Calculate)</button>
+
+    <div class="results-panel" id="resultsPanel">
+        <h3 style="color: #fff; font-size: 1.1rem; margin-bottom: 10px;" id="resTitle">📊 供款摘要 (Summary)</h3>
+        <div class="res-cards">
+            <div class="res-card">
+                <h4 id="headMonthly">每月還款額 (Monthly Payment)</h4>
+                <div class="val" id="valMonthly">$0</div>
+            </div>
+            <div class="res-card">
+                <h4 id="headLoanAmt">貸款總額 (Loan Amount)</h4>
+                <div class="val" id="valLoanAmt">$0</div>
+            </div>
+            <div class="res-card">
+                <h4 id="headTotalInterest">總利息支出 (Total Interest)</h4>
+                <div class="val" id="valTotalInterest">$0</div>
+            </div>
+            <div class="res-card">
+                <h4 id="headTotalPaid">還款總額 (Total Paid)</h4>
+                <div class="val" id="valTotalPaid">$0</div>
+            </div>
+        </div>
+
+        <h3 style="color: #fff; font-size: 1.0rem; margin-top: 25px; margin-bottom: 10px;" id="scheduleTitle">📅 逐年還款明细表 (Annual Amortization Schedule)</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th id="thYear">年份 (Year)</th>
+                        <th id="thPrincipal">償還本金 (Principal)</th>
+                        <th id="thInterest">支付利息 (Interest)</th>
+                        <th id="thBalance">剩餘本金 (Balance)</th>
+                    </tr>
+                </thead>
+                <tbody id="scheduleBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <article class="seo-article">
+        <h2 id="seoTitle">如何使用房貸計算器規劃置業預算？</h2>
+        <p id="seoP1">購買房屋是人生重大財務決定。使用本按揭計算機，您可以根據房屋總價、首付比例及銀行利率，快速估算每月供款（等額本息還款法）。透過詳細的還款時程表，明確了解本金與利息的佔比，做出最明智的理財規劃。</p>
+        <p id="seoP2"><strong>Free Online Mortgage & Amortization Calculator.</strong> Calculate your monthly house payment, total loan interest, and view a complete annual amortization schedule. Plan your home purchase and mortgage payoff effectively with precision financial tools.</p>
+    </article>
+</div>
+
+<footer>
+    <a href="../index.html">Home</a> | <a href="../privacy.html">Privacy Policy</a>
+</footer>
+
+<script>
+    const i18n = {
+        zh: {
+            title: "🏠 線上房貸按揭計算器 (Mortgage Calculator)",
+            sub: "即時計算房屋貸款每月供款、利息總額與逐年還款明細表",
+            lblHomePrice: "房屋總價 (Home Price)", lblDownPayment: "首付金額 (Down Payment)",
+            lblInterestRate: "年利率 % (Interest Rate)", lblLoanTerm: "貸款年期 (Loan Term - Years)",
+            btnCalc: "⚡ 計算按揭供款 (Calculate)", resTitle: "📊 供款摘要 (Summary)",
+            headMonthly: "每月還款額 (Monthly Payment)", headLoanAmt: "貸款總額 (Loan Amount)",
+            headTotalInterest: "總利息支出 (Total Interest)", headTotalPaid: "還款總額 (Total Paid)",
+            scheduleTitle: "📅 逐年還款明細表 (Annual Amortization Schedule)",
+            thYear: "年份 (Year)", thPrincipal: "償還本金 (Principal)",
+            thInterest: "支付利息 (Interest)", thBalance: "剩餘本金 (Balance)",
+            seoTitle: "如何使用房貸計算器規劃置業預算？",
+            seoP1: "購買房屋是人生重大財務決定。使用本按揭計算機，您可以根據房屋總價、首付比例及銀行利率，快速估算每月供款（等額本息還款法）。透過詳細的還款時程表，明確了解本金與利息的佔比，做出最明智的理財規劃。",
+            seoP2: "<strong>Free Online Mortgage & Amortization Calculator.</strong> Calculate your monthly house payment, total loan interest, and view a complete annual amortization schedule. Plan your home purchase and mortgage payoff effectively with precision financial tools."
+        },
+        en: {
+            title: "🏠 Online Mortgage Calculator",
+            sub: "Calculate monthly payments, total interest, and full amortization schedule",
+            lblHomePrice: "Home Price", lblDownPayment: "Down Payment",
+            lblInterestRate: "Interest Rate (%)", lblLoanTerm: "Loan Term (Years)",
+            btnCalc: "⚡ Calculate Mortgage", resTitle: "📊 Summary",
+            headMonthly: "Monthly Payment", headLoanAmt: "Loan Amount",
+            headTotalInterest: "Total Interest", headTotalPaid: "Total Cost",
+            scheduleTitle: "📅 Annual Amortization Schedule",
+            thYear: "Year", thPrincipal: "Principal Paid",
+            thInterest: "Interest Paid", thBalance: "Remaining Balance",
+            seoTitle: "Plan Your Home Purchase with Precision",
+            seoP1: "Buying a home is one of life's largest financial decisions. Our mortgage calculator estimates your monthly payment based on home price, down payment, and interest rate using fixed-rate amortization formulas.",
+            seoP2: "<strong>Free Online Mortgage & Amortization Calculator.</strong> Calculate your monthly house payment, total loan interest, and view a complete annual amortization schedule. Plan your home purchase and mortgage payoff effectively with precision financial tools."
+        }
+    };
+
+    function setLang(lang) {
+        const t = i18n[lang];
+        document.getElementById('toolTitle').innerText = t.title;
+        document.getElementById('toolSub').innerText = t.sub;
+        document.getElementById('lblHomePrice').innerText = t.lblHomePrice;
+        document.getElementById('lblDownPayment').innerText = t.lblDownPayment;
+        document.getElementById('lblInterestRate').innerText = t.lblInterestRate;
+        document.getElementById('lblLoanTerm').innerText = t.lblLoanTerm;
+        document.getElementById('btnCalc').innerText = t.btnCalc;
+        document.getElementById('resTitle').innerText = t.resTitle;
+        document.getElementById('headMonthly').innerText = t.headMonthly;
+        document.getElementById('headLoanAmt').innerText = t.headLoanAmt;
+        document.getElementById('headTotalInterest').innerText = t.headTotalInterest;
+        document.getElementById('headTotalPaid').innerText = t.headTotalPaid;
+        document.getElementById('scheduleTitle').innerText = t.scheduleTitle;
+        document.getElementById('thYear').innerText = t.thYear;
+        document.getElementById('thPrincipal').innerText = t.thPrincipal;
+        document.getElementById('thInterest').innerText = t.thInterest;
+        document.getElementById('thBalance').innerText = t.thBalance;
+        document.getElementById('seoTitle').innerText = t.seoTitle;
+        document.getElementById('seoP1').innerHTML = t.seoP1;
+        document.getElementById('seoP2').innerHTML = t.seoP2;
+    }
+
+    function formatCurrency(val) {
+        return '$' + Math.round(val).toLocaleString();
+    }
+
+    function calculateMortgage() {
+        const homePrice = parseFloat(document.getElementById('homePrice').value);
+        const downPayment = parseFloat(document.getElementById('downPayment').value);
+        const annualRate = parseFloat(document.getElementById('interestRate').value);
+        const years = parseFloat(document.getElementById('loanTerm').value);
+
+        if (!homePrice || downPayment < 0 || annualRate < 0 || !years) {
+            alert('請完整輸入有效的金額與利率！Please fill in valid numbers.');
+            return;
+        }
+
+        const principal = homePrice - downPayment;
+        if (principal <= 0) {
+            alert('首付金額不能大於或等於房屋總價！Down payment cannot exceed home price.');
+            return;
+        }
+
+        const monthlyRate = (annualRate / 100) / 12;
+        const totalPayments = years * 12;
+
+        let monthlyPayment = 0;
+        if (monthlyRate === 0) {
+            monthlyPayment = principal / totalPayments;
+        } else {
+            monthlyPayment = (principal * monthlyRate * Math.pow(1 + monthlyRate, totalPayments)) / (Math.pow(1 + monthlyRate, totalPayments) - 1);
+        }
+
+        const totalPaid = monthlyPayment * totalPayments;
+        const totalInterest = totalPaid - principal;
+
+        document.getElementById('valMonthly').innerText = formatCurrency(monthlyPayment);
+        document.getElementById('valLoanAmt').innerText = formatCurrency(principal);
+        document.getElementById('valTotalInterest').innerText = formatCurrency(totalInterest);
+        document.getElementById('valTotalPaid').innerText = formatCurrency(totalPaid);
+
+        // 生成按年 Amortization 表格
+        const scheduleBody = document.getElementById('scheduleBody');
+        scheduleBody.innerHTML = '';
+
+        let balance = principal;
+        for (let year = 1; year <= years; year++) {
+            let yearInterest = 0;
+            let yearPrincipal = 0;
+
+            for (let month = 1; month <= 12; month++) {
+                const interestPayment = balance * monthlyRate;
+                const principalPayment = monthlyPayment - interestPayment;
+                yearInterest += interestPayment;
+                yearPrincipal += principalPayment;
+                balance -= principalPayment;
+            }
+
+            if (balance < 0) balance = 0;
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>Year ${year}</td>
+                <td>${formatCurrency(yearPrincipal)}</td>
+                <td>${formatCurrency(yearInterest)}</td>
+                <td>${formatCurrency(balance)}</td>
+            `;
+            scheduleBody.appendChild(tr);
+        }
+
+        document.getElementById('resultsPanel').style.display = 'block';
+    }
+</script>
+<!-- 語言參數接收與傳遞 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang');
+    if (lang) {
+        if (typeof setLang === 'function') {
+            setLang(lang);
+        }
+        document.querySelectorAll('a[href]').forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('../')) {
+                const url = new URL(href, window.location.href);
+                url.searchParams.set('lang', lang);
+                link.setAttribute('href', url.toString());
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

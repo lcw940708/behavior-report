@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO 基本標籤 / Bilingual SEO -->
+    <title>線上實際年利率計算器 — 精算包含手續費的真實貸款 APR｜APR Calculator</title>
+    <meta name="description" content="免費線上實際年利率計算器 (Free Online APR Calculator)。輸入貸款金額、利率/月平息、年期及手續費，精算包含所有成本的真實實際年利率 (Annual Percentage Rate, APR) 與每月總供款。" />
+    <meta name="keywords" content="實際年利率計算器, APR計算機, 月平息轉實際年利率, 貸款手續費, 隱藏成本, APR calculator, annual percentage rate, effective interest rate, loan apr calculator, real interest rate" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/apr-calculator.html" />
+
+    <!-- Open Graph 社交分享標籤 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="免費線上實際年利率計算器 — 一鍵精算真實 APR 與手續費成本｜APR Calculator" />
+    <meta property="og:description" content="輸入貸款金額、名義利率及手續費，即時算出銀行私人貸款或信用卡借貸的真實實際年利率 (APR)！" />
+    <meta property="og:url" content="https://www.behavior-report.com/tools/apr-calculator.html" />
+
+    <!-- Schema.org 結構化資料 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "線上實際年利率計算器 (APR Calculator)",
+      "url": "https://www.behavior-report.com/tools/apr-calculator.html",
+      "description": "精算包含利息與手續費在內的真實貸款實際年利率 (APR) 的免費線上金融工具。",
+      "applicationCategory": "FinancialApplication",
+      "operatingSystem": "All",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --green: #10b981;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch { text-align: center; margin-bottom: 20px; }
+        .lang-switch button {
+            background: transparent; border: none; color: var(--cyan);
+            cursor: pointer; font-size: 0.9rem; margin: 0 8px; font-weight: bold;
+        }
+        .lang-switch button:hover { text-decoration: underline; }
+
+        .tool-title { font-size: 1.6rem; color: #ffffff; text-align: center; font-weight: bold; }
+        .tool-sub { text-align: center; color: var(--text); font-size: 0.95rem; margin: 10px 0 25px; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: bold;
+        }
+
+        input[type="number"], select {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: #ffffff;
+            padding: 12px;
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        input[type="number"]:focus, select:focus { border-color: var(--cyan); }
+
+        .btn-calc {
+            width: 100%;
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--cyan);
+            border: 1px solid rgba(34, 211, 238, 0.25);
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .btn-calc:hover {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+
+        .results-panel {
+            display: none;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .res-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .res-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .res-card.highlight {
+            border-color: rgba(16, 185, 129, 0.4);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .res-card h4 { font-size: 0.85rem; color: var(--text-light); margin-bottom: 8px; }
+        .res-card .val { font-size: 1.3rem; color: var(--cyan); font-weight: bold; }
+        .res-card.highlight .val { color: var(--green); font-size: 1.6rem; }
+
+        .seo-article { margin-top: 40px; padding-top: 25px; border-top: 1px solid rgba(148, 163, 184, 0.08); line-height: 1.6; }
+        .seo-article h2 { color: #ffffff; font-size: 1.1rem; margin-bottom: 12px; }
+        .seo-article p { font-size: 0.85rem; color: var(--text); margin-bottom: 12px; }
+
+        footer { text-align: center; margin-top: 30px; font-size: 11px; color: #555; }
+        footer a { color: #555; text-decoration: none; margin: 0 8px; }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="lang-switch">
+        <button onclick="setLang('zh')">繁體中文</button> |
+        <button onclick="setLang('en')">English</button>
+    </div>
+
+    <h1 class="tool-title" id="toolTitle">📈 線上實際年利率計算器 (APR Calculator)</h1>
+    <p class="tool-sub" id="toolSub">精算包含手續費與所有隱性成本的真實貸款實際年利率 (APR)</p>
+
+    <div class="form-grid">
+        <div class="form-group">
+            <label id="lblLoanAmount">貸款金額 (Loan Amount)</label>
+            <input type="number" id="loanAmount" placeholder="例如: 100000" value="100000">
+        </div>
+        <div class="form-group">
+            <label id="lblRateType">利率計算類型 (Rate Type)</label>
+            <select id="rateType">
+                <option value="annual" selected>名義年利率 % (Nominal Annual Rate)</option>
+                <option value="monthlyFlat">月平息 % (Monthly Flat Rate)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label id="lblInterestRate">利率/月平息 % (Interest Rate)</label>
+            <input type="number" id="interestRate" step="0.01" placeholder="例如: 3.5" value="3.5">
+        </div>
+        <div class="form-group">
+            <label id="lblLoanTerm">貸款年期 (Loan Term - Years)</label>
+            <input type="number" id="loanTerm" placeholder="例如: 3" value="3">
+        </div>
+        <div class="form-group">
+            <label id="lblUpfrontFee">一次性手續費 ($) (Upfront Fee)</label>
+            <input type="number" id="upfrontFee" placeholder="例如: 1000" value="1000">
+        </div>
+        <div class="form-group">
+            <label id="lblMonthlyFee">每月手續費 ($) (Monthly Fee)</label>
+            <input type="number" id="monthlyFee" placeholder="例如: 50" value="0">
+        </div>
+    </div>
+
+    <button class="btn-calc" onclick="calculateAPR()" id="btnCalc">⚡ 精算真實 APR (Calculate APR)</button>
+
+    <div class="results-panel" id="resultsPanel">
+        <h3 style="color: #fff; font-size: 1.1rem; margin-bottom: 10px;" id="resTitle">📊 實際年利率計算結果 (APR Results)</h3>
+        <div class="res-cards">
+            <div class="res-card highlight">
+                <h4 id="headApr">真實實際年利率 (Real APR)</h4>
+                <div class="val" id="valApr">0.00%</div>
+            </div>
+            <div class="res-card">
+                <h4 id="headMonthlyPayment">每月總供款 (Total Monthly Payment)</h4>
+                <div class="val" id="valMonthlyPayment">$0</div>
+            </div>
+            <div class="res-card">
+                <h4 id="headTotalInterest">總利息支出 (Total Interest)</h4>
+                <div class="val" id="valTotalInterest">$0</div>
+            </div>
+            <div class="res-card">
+                <h4 id="headTotalCost">總融資成本 [利息+手續費] (Total Cost)</h4>
+                <div class="val" id="valTotalCost">$0</div>
+            </div>
+        </div>
+    </div>
+
+    <article class="seo-article">
+        <h2 id="seoTitle">為什麼評估貸款必須看「實際年利率 (APR)」？</h2>
+        <p id="seoP1">許多銀行或財務公司宣傳的「低月平息」或「超低名義利率」，往往未涵蓋開戶手續費、行政費或月費。<strong>實際年利率 (Annual Percentage Rate, APR)</strong> 採用國際通用的內部報酬率 (IRR) 算法，將所有強制性費用與時間價值納入計算，能真正反映貸款的真實成本。</p>
+        <p id="seoP2"><strong>Understanding Annual Percentage Rate (APR).</strong> APR represents the real annual cost of borrowing money, incorporating nominal interest rates alongside loan origination fees and ongoing administration costs. Use this online calculator to compare loan products accurately.</p>
+    </article>
+</div>
+
+<footer>
+    <a href="../index.html">Home</a> | <a href="../privacy.html">Privacy Policy</a>
+</footer>
+
+<script>
+    const i18n = {
+        zh: {
+            title: "📈 線上實際年利率計算器 (APR Calculator)",
+            sub: "精算包含手續費與所有隱性成本的真實貸款實際年利率 (APR)",
+            lblLoanAmount: "貸款金額 (Loan Amount)",
+            lblRateType: "利率計算類型 (Rate Type)",
+            lblInterestRate: "利率/月平息 % (Interest Rate)",
+            lblLoanTerm: "貸款年期 (Loan Term - Years)",
+            lblUpfrontFee: "一次性手續費 ($) (Upfront Fee)",
+            lblMonthlyFee: "每月手續費 ($) (Monthly Fee)",
+            btnCalc: "⚡ 精算真實 APR (Calculate APR)",
+            resTitle: "📊 實際年利率計算結果 (APR Results)",
+            headApr: "真實實際年利率 (Real APR)",
+            headMonthlyPayment: "每月總供款 (Total Monthly Payment)",
+            headTotalInterest: "總利息支出 (Total Interest)",
+            headTotalCost: "總融資成本 [利息+手續費] (Total Cost)",
+            optAnnual: "名義年利率 % (Nominal Annual Rate)",
+            optFlat: "月平息 % (Monthly Flat Rate)",
+            seoTitle: "為什麼評估貸款必須看「實際年利率 (APR)」？",
+            seoP1: "許多銀行或財務公司宣傳的「低月平息」或「超低名義利率」，往往未涵蓋開戶手續費、行政費或月費。<strong>實際年利率 (Annual Percentage Rate, APR)</strong> 採用國際通用的內部報酬率 (IRR) 算法，將所有強制性費用與時間價值納入計算，能真正反映貸款的真實成本。",
+            seoP2: "<strong>Understanding Annual Percentage Rate (APR).</strong> APR represents the real annual cost of borrowing money, incorporating nominal interest rates alongside loan origination fees and ongoing administration costs. Use this online calculator to compare loan products accurately."
+        },
+        en: {
+            title: "📈 APR Calculator",
+            sub: "Calculate real Annual Percentage Rate including fees and mandatory charges",
+            lblLoanAmount: "Loan Amount",
+            lblRateType: "Rate Calculation Type",
+            lblInterestRate: "Interest Rate (%)",
+            lblLoanTerm: "Loan Term (Years)",
+            lblUpfrontFee: "Upfront Origination Fee ($)",
+            lblMonthlyFee: "Monthly Admin Fee ($)",
+            btnCalc: "⚡ Calculate Real APR",
+            resTitle: "📊 APR Calculation Results",
+            headApr: "Effective APR",
+            headMonthlyPayment: "Total Monthly Payment",
+            headTotalInterest: "Total Interest Paid",
+            headTotalCost: "Total Finance Charges (Interest + Fees)",
+            optAnnual: "Nominal Annual Rate (%)",
+            optFlat: "Monthly Flat Rate (%)",
+            seoTitle: "Understanding Annual Percentage Rate (APR)",
+            seoP1: "Lenders often advertise low nominal or monthly flat rates while excluding origination fees. APR factors in all charges to calculate the true cost of borrowing.",
+            seoP2: "<strong>Understanding Annual Percentage Rate (APR).</strong> APR represents the real annual cost of borrowing money, incorporating nominal interest rates alongside loan origination fees and ongoing administration costs. Use this online calculator to compare loan products accurately."
+        }
+    };
+
+    function setLang(lang) {
+        const t = i18n[lang];
+        document.getElementById('toolTitle').innerText = t.title;
+        document.getElementById('toolSub').innerText = t.sub;
+        document.getElementById('lblLoanAmount').innerText = t.lblLoanAmount;
+        document.getElementById('lblRateType').innerText = t.lblRateType;
+        document.getElementById('lblInterestRate').innerText = t.lblInterestRate;
+        document.getElementById('lblLoanTerm').innerText = t.lblLoanTerm;
+        document.getElementById('lblUpfrontFee').innerText = t.lblUpfrontFee;
+        document.getElementById('lblMonthlyFee').innerText = t.lblMonthlyFee;
+        document.getElementById('btnCalc').innerText = t.btnCalc;
+        document.getElementById('resTitle').innerText = t.resTitle;
+        document.getElementById('headApr').innerText = t.headApr;
+        document.getElementById('headMonthlyPayment').innerText = t.headMonthlyPayment;
+        document.getElementById('headTotalInterest').innerText = t.headTotalInterest;
+        document.getElementById('headTotalCost').innerText = t.headTotalCost;
+        document.getElementById('seoTitle').innerText = t.seoTitle;
+        document.getElementById('seoP1').innerHTML = t.seoP1;
+        document.getElementById('seoP2').innerHTML = t.seoP2;
+
+        const rateSelect = document.getElementById('rateType');
+        rateSelect.options[0].text = t.optAnnual;
+        rateSelect.options[1].text = t.optFlat;
+    }
+
+    function formatCurrency(val) {
+        return '$' + Math.round(val).toLocaleString();
+    }
+
+    // 利用牛頓迭代法 (Newton-Raphson Method) 計算 IRR 反推 APR
+    function calculateIRR(cashFlows) {
+        let rate = 0.01; // 初始猜測值 1%
+        const maxIter = 1000;
+        const precision = 0.00001;
+
+        for (let i = 0; i < maxIter; i++) {
+            let npv = 0;
+            let dNpv = 0;
+
+            for (let t = 0; t < cashFlows.length; t++) {
+                npv += cashFlows[t] / Math.pow(1 + rate, t);
+                dNpv -= (t * cashFlows[t]) / Math.pow(1 + rate, t + 1);
+            }
+
+            const newRate = rate - npv / dNpv;
+            if (Math.abs(newRate - rate) < precision) {
+                return newRate;
+            }
+            rate = newRate;
+        }
+        return rate;
+    }
+
+    function calculateAPR() {
+        const amount = parseFloat(document.getElementById('loanAmount').value);
+        const rateType = document.getElementById('rateType').value;
+        const rateInput = parseFloat(document.getElementById('interestRate').value);
+        const years = parseFloat(document.getElementById('loanTerm').value);
+        const upfrontFee = parseFloat(document.getElementById('upfrontFee').value) || 0;
+        const monthlyFee = parseFloat(document.getElementById('monthlyFee').value) || 0;
+
+        if (!amount || amount <= 0 || rateInput < 0 || !years) {
+            alert('請完整輸入有效的金額與利率！Please enter valid loan parameters.');
+            return;
+        }
+
+        const totalMonths = years * 12;
+        let pureMonthlyPayment = 0;
+        let totalInterest = 0;
+
+        if (rateType === 'monthlyFlat') {
+            // 月平息計算法
+            const monthlyInterest = amount * (rateInput / 100);
+            totalInterest = monthlyInterest * totalMonths;
+            pureMonthlyPayment = (amount / totalMonths) + monthlyInterest;
+        } else {
+            // 名義年利率 (等額本息還款法)
+            const r = (rateInput / 100) / 12;
+            if (r === 0) {
+                pureMonthlyPayment = amount / totalMonths;
+            } else {
+                pureMonthlyPayment = (amount * r * Math.pow(1 + r, totalMonths)) / (Math.pow(1 + r, totalMonths) - 1);
+            }
+            totalInterest = (pureMonthlyPayment * totalMonths) - amount;
+        }
+
+        const totalMonthlyPayment = pureMonthlyPayment + monthlyFee;
+        const totalFees = upfrontFee + (monthlyFee * totalMonths);
+        const totalFinanceCost = totalInterest + totalFees;
+
+        // 構建現金流陣列用於 IRR 計算
+        // 初始現金流 (實收金額) = 貸款額 - 一次性手續費
+        const netDisbursed = amount - upfrontFee;
+        const cashFlows = [-netDisbursed];
+
+        for (let m = 0; m < totalMonths; m++) {
+            cashFlows.push(totalMonthlyPayment);
+        }
+
+        // 計算每月內部報酬率
+        const monthlyIRR = calculateIRR(cashFlows);
+        // 實際年利率 (APR = (1 + 月IRR)^12 - 1)
+        const apr = (Math.pow(1 + monthlyIRR, 12) - 1) * 100;
+
+        document.getElementById('valApr').innerText = apr.toFixed(2) + '%';
+        document.getElementById('valMonthlyPayment').innerText = formatCurrency(totalMonthlyPayment);
+        document.getElementById('valTotalInterest').innerText = formatCurrency(totalInterest);
+        document.getElementById('valTotalCost').innerText = formatCurrency(totalFinanceCost);
+
+        document.getElementById('resultsPanel').style.display = 'block';
+    }
+</script>
+<!-- 語言參數接收與傳遞 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang');
+    if (lang) {
+        if (typeof setLang === 'function') {
+            setLang(lang);
+        }
+        document.querySelectorAll('a[href]').forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('../')) {
+                const url = new URL(href, window.location.href);
+                url.searchParams.set('lang', lang);
+                link.setAttribute('href', url.toString());
+            }
+        });
+    }
+});
+</script>
+
+</body>
+</html>

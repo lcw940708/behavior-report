@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Age Calculator 年齡計算機 — Accurate Age in Years, Months, Days 精確計算歲月日｜ABRG</title>
+    <meta name="description" content="Free Online Age Calculator (免費年齡計算機). Calculate your exact chronological age in years, months, days, hours, and count down to life milestones. 100% private and client-side processing." />
+    <meta name="keywords" content="Age Calculator, 年齡計算機, Chronological Age Calculator, Calculate Age, 出生日期計算, 生日倒數, Milestone Countdown, ABRG Free Tools" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/age-calculator.html" />
+    <link rel="alternate" hreflang="zh-Hant" href="https://www.behavior-report.com/tools/age-calculator.html?lang=zh" />
+    <link rel="alternate" hreflang="en" href="https://www.behavior-report.com/tools/age-calculator.html?lang=en" />
+
+    <!-- Structured Data (JSON-LD) for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Age Calculator / 年齡計算機",
+      "url": "https://www.behavior-report.com/tools/age-calculator.html",
+      "description": "Calculate your exact age in years, months, days, hours and track upcoming life milestones.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --green: #10b981;
+            --red: #ef4444;
+            --yellow: #fbbf24;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 720px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .lang-switch-top {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid var(--border);
+            color: var(--text-light);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.15);
+        }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .tool-title .emoji {
+            font-size: 1.8rem;
+        }
+
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 10px 0 25px;
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        /* ===== 輸入區 ===== */
+        .input-section {
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .input-section .row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        .input-section .row .field {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .input-section .row .field label {
+            display: block;
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .input-section .row .field input {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text-light);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .input-section .row .field input:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.08);
+        }
+
+        .input-section .row .field input[type="date"] {
+            color-scheme: dark;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-primary {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background: var(--cyan-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        .btn-outline:hover:not(:disabled) {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        /* ===== 結果顯示 ===== */
+        .result-section {
+            display: none;
+        }
+        .result-section.show {
+            display: block;
+        }
+
+        .age-display {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .age-unit {
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 16px 12px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .age-unit .number {
+            font-size: 2.4rem;
+            font-weight: bold;
+            color: #ffffff;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .age-unit .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+            font-weight: bold;
+        }
+
+        .age-unit .sub {
+            font-size: 0.65rem;
+            color: #475569;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .detail-item {
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .detail-item .label {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .detail-item .value {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: bold;
+        }
+
+        .detail-item .value.highlight {
+            color: var(--cyan);
+        }
+
+        .milestone-section {
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+        }
+
+        .milestone-section .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .milestone-section .milestone-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .milestone-section .milestone-item {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            background: rgba(34, 211, 238, 0.04);
+            border: 1px solid rgba(34, 211, 238, 0.06);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .milestone-section .milestone-item .days {
+            color: var(--cyan);
+            font-weight: bold;
+        }
+
+        /* ===== Story suggest ===== */
+        .story-suggest {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+
+        .story-suggest .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .story-suggest .items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .story-suggest .items a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .other-tools {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .other-tools a {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #fca5a5;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .other-tools a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #555;
+        }
+
+        footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+
+        footer a:hover {
+            color: #888;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 18px;
+            }
+
+            .input-section .row {
+                flex-direction: column;
+            }
+
+            .input-section .row .field {
+                min-width: 100%;
+            }
+
+            .age-display {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 8px;
+            }
+
+            .age-unit .number {
+                font-size: 1.6rem;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn {
+                flex: none;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .age-display {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- 語言切換按鈕 -->
+        <div class="lang-switch-top">
+            <button class="lang-btn" id="btnLangZh">🇭🇰 中文</button>
+            <button class="lang-btn" id="btnLangEn">🇬🇧 English</button>
+        </div>
+
+        <h1 class="tool-title" id="txtTitle"><span class="emoji">🎂</span> 年齡計算機 Age Calculator</h1>
+        <p class="tool-sub" id="txtSub">精確計算年齡 (歲/月/日) · 人生里程碑倒數<br><span style="font-size:0.85rem; color:#64748b;">Accurate Chronological Age & Life Milestone Countdown</span></p>
+
+        <div class="badge-row">
+            <span class="badge" id="badge1">📅 精確計算 Accurate</span>
+            <span class="badge" id="badge2">🎯 里程碑 Milestones</span>
+            <span class="badge" id="badge3">🔒 私隱安全 100% Private</span>
+            <span class="badge" id="badge4">🆓 完全免費 Free</span>
+        </div>
+
+        <!-- ===== 輸入區 ===== -->
+        <div class="input-section">
+            <div class="row">
+                <div class="field">
+                    <label id="lblBirthDate">📅 出生日期 / Date of Birth</label>
+                    <input type="date" id="birthDate" />
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-primary" id="calculateBtn">🎂 <span id="txtCalcBtn">計算年齡 Calculate</span></button>
+                <button class="btn btn-outline" id="resetBtn">↩️ <span id="txtResetBtn">重設 Reset</span></button>
+            </div>
+        </div>
+
+        <!-- ===== 結果區 ===== -->
+        <div class="result-section" id="resultSection">
+            <div class="age-display" id="ageDisplay">
+                <div class="age-unit">
+                    <div class="number" id="years">--</div>
+                    <div class="label" id="lblYears">歲 Years</div>
+                    <div class="sub" id="subYears">年</div>
+                </div>
+                <div class="age-unit">
+                    <div class="number" id="months">--</div>
+                    <div class="label" id="lblMonths">月 Months</div>
+                    <div class="sub" id="subMonths">月份</div>
+                </div>
+                <div class="age-unit">
+                    <div class="number" id="days">--</div>
+                    <div class="label" id="lblDays">日 Days</div>
+                    <div class="sub" id="subDays">天數</div>
+                </div>
+            </div>
+
+            <div class="detail-grid" id="detailGrid">
+                <div class="detail-item">
+                    <span class="label" id="lblNextBday">🎂 下一個生日 / Next Birthday</span>
+                    <span class="value highlight" id="nextBirthday">--</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label" id="lblDaysUntilBday">⏳ 距離下個生日 / Days Until</span>
+                    <span class="value highlight" id="daysUntilBirthday">--</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label" id="lblTotalDays">🕐 總日數 / Total Days</span>
+                    <span class="value" id="totalDays">--</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label" id="lblTotalHours">⏱️ 總小時 / Total Hours</span>
+                    <span class="value" id="totalHours">--</span>
+                </div>
+            </div>
+
+            <div class="milestone-section">
+                <div class="label" id="lblMilestones">🏁 人生里程碑倒數 / Life Milestones</div>
+                <div class="milestone-list" id="milestoneList">
+                    <span style="color:#475569;font-size:0.85rem;" id="txtMilestoneEmpty">輸入日期後顯示 / Enter date to show</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== 推薦與導航 ===== -->
+        <div class="story-suggest">
+            <div class="label" id="lblSuggest">📖 推薦連載與測驗 / Recommended Reading</div>
+            <div class="items">
+                <a href="../story_01.html">《你睡著以後》</a>
+                <a href="../story_02.html">《貓狗人格》</a>
+                <a href="../quiz-01.html">隱私天平 Privacy Test</a>
+                <a href="../index.html" id="linkHome">🏠 返回主頁 Home</a>
+            </div>
+            <div class="other-tools">
+                <span style="font-size:0.75rem;color:#64748b;align-self:center;" id="lblOtherTools">🔧 其他工具 / Tools:</span>
+                <a href="countdown-timer.html" id="linkCountdown">⏱️ 倒數計時器 Countdown</a>
+                <a href="bmi-calculator.html" id="linkBmi">⚖️ BMI 計算機</a>
+                <a href="loan-calculator.html" id="linkLoan">🏦 貸款計算機 Loan</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html" id="ftHome">主頁 Home</a> |
+        <a href="../about.html" id="ftAbout">關於我 About</a> |
+        <a href="../privacy.html" id="ftPrivacy">隱私權政策 Privacy</a>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentLang = 'zh';
+
+            // ===== 多國語言文本資料 =====
+            const i18n = {
+                zh: {
+                    title: '<span class="emoji">🎂</span> 年齡計算機 Age Calculator',
+                    sub: '精確計算年齡 (歲/月/日) · 人生里程碑倒數',
+                    badge1: '📅 精確計算',
+                    badge2: '🎯 人生里程碑',
+                    badge3: '🔒 私隱安全',
+                    badge4: '🆓 完全免費',
+                    birthDate: '📅 出生日期',
+                    calcBtn: '計算年齡',
+                    resetBtn: '重設',
+                    lblYears: '歲',
+                    subYears: '年 Years',
+                    lblMonths: '月',
+                    subMonths: '月 Months',
+                    lblDays: '日',
+                    subDays: '天 Days',
+                    nextBday: '🎂 下一個生日',
+                    daysUntil: '⏳ 距離下個生日',
+                    totalDays: '🕐 總日數',
+                    totalHours: '⏱️ 總小時',
+                    milestones: '🏁 人生里程碑倒數',
+                    emptyMilestone: '輸入日期後顯示',
+                    alertNoDate: '請選擇出生日期',
+                    alertFutureDate: '出生日期不能喺未來',
+                    unitDays: ' 日',
+                    unitHours: ' 小時',
+                    unitDaysAfter: ' 日後',
+                    milestonePassed: '🎉 你已經過咗所有常見里程碑！'
+                },
+                en: {
+                    title: '<span class="emoji">🎂</span> Age Calculator',
+                    sub: 'Accurate Age in Years, Months, Days & Life Milestones Countdown',
+                    badge1: '📅 Accurate Calculation',
+                    badge2: '🎯 Life Milestones',
+                    badge3: '🔒 100% Private',
+                    badge4: '🆓 Free Tool',
+                    birthDate: '📅 Date of Birth',
+                    calcBtn: 'Calculate Age',
+                    resetBtn: 'Reset',
+                    lblYears: 'Years',
+                    subYears: 'Age in Years',
+                    lblMonths: 'Months',
+                    subMonths: 'Age in Months',
+                    lblDays: 'Days',
+                    subDays: 'Age in Days',
+                    nextBday: '🎂 Next Birthday',
+                    daysUntil: '⏳ Days Until Birthday',
+                    totalDays: '🕐 Total Days Lived',
+                    totalHours: '⏱️ Total Hours Lived',
+                    milestones: '🏁 Life Milestones Countdown',
+                    emptyMilestone: 'Enter a date to display milestones',
+                    alertNoDate: 'Please select a birth date',
+                    alertFutureDate: 'Date of birth cannot be in the future',
+                    unitDays: ' days',
+                    unitHours: ' hours',
+                    unitDaysAfter: ' days left',
+                    milestonePassed: '🎉 You have passed all standard milestones!'
+                }
+            };
+
+            // ===== DOM 元素 refs =====
+            const birthDate = document.getElementById('birthDate');
+            const calculateBtn = document.getElementById('calculateBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const resultSection = document.getElementById('resultSection');
+
+            const btnLangZh = document.getElementById('btnLangZh');
+            const btnLangEn = document.getElementById('btnLangEn');
+
+            const yearsEl = document.getElementById('years');
+            const monthsEl = document.getElementById('months');
+            const daysEl = document.getElementById('days');
+            const nextBirthday = document.getElementById('nextBirthday');
+            const daysUntilBirthday = document.getElementById('daysUntilBirthday');
+            const totalDays = document.getElementById('totalDays');
+            const totalHours = document.getElementById('totalHours');
+            const milestoneList = document.getElementById('milestoneList');
+
+            // ===== 語言切換邏輯 =====
+            function setLanguage(lang) {
+                currentLang = (lang === 'en') ? 'en' : 'zh';
+                const t = i18n[currentLang];
+
+                document.getElementById('txtTitle').innerHTML = t.title;
+                document.getElementById('txtSub').innerHTML = t.sub;
+                document.getElementById('badge1').textContent = t.badge1;
+                document.getElementById('badge2').textContent = t.badge2;
+                document.getElementById('badge3').textContent = t.badge3;
+                document.getElementById('badge4').textContent = t.badge4;
+                document.getElementById('lblBirthDate').textContent = t.birthDate;
+                document.getElementById('txtCalcBtn').textContent = t.calcBtn;
+                document.getElementById('txtResetBtn').textContent = t.resetBtn;
+
+                document.getElementById('lblYears').textContent = t.lblYears;
+                document.getElementById('subYears').textContent = t.subYears;
+                document.getElementById('lblMonths').textContent = t.lblMonths;
+                document.getElementById('subMonths').textContent = t.subMonths;
+                document.getElementById('lblDays').textContent = t.lblDays;
+                document.getElementById('subDays').textContent = t.subDays;
+
+                document.getElementById('lblNextBday').textContent = t.nextBday;
+                document.getElementById('lblDaysUntilBday').textContent = t.daysUntil;
+                document.getElementById('lblTotalDays').textContent = t.totalDays;
+                document.getElementById('lblTotalHours').textContent = t.totalHours;
+                document.getElementById('lblMilestones').textContent = t.milestones;
+
+                btnLangZh.classList.toggle('active', currentLang === 'zh');
+                btnLangEn.classList.toggle('active', currentLang === 'en');
+
+                // 動態更新連結語系參數
+                const param = `?lang=${currentLang}`;
+                document.getElementById('linkHome').href = `../index.html${param}`;
+                document.getElementById('ftHome').href = `../index.html${param}`;
+                document.getElementById('ftAbout').href = `../about.html${param}`;
+                document.getElementById('ftPrivacy').href = `../privacy.html${param}`;
+                document.getElementById('linkCountdown').href = `countdown-timer.html${param}`;
+                document.getElementById('linkBmi').href = `bmi-calculator.html${param}`;
+                document.getElementById('linkLoan').href = `loan-calculator.html${param}`;
+
+                // 若已顯示結果，重新計算以更新文本單位
+                if (resultSection.classList.contains('show')) {
+                    calculateAge();
+                }
+            }
+
+            btnLangZh.addEventListener('click', () => {
+                const newUrl = new URL(window.location);
+                newUrl.searchParams.set('lang', 'zh');
+                window.history.pushState({}, '', newUrl);
+                setLanguage('zh');
+            });
+            btnLangEn.addEventListener('click', () => {
+                const newUrl = new URL(window.location);
+                newUrl.searchParams.set('lang', 'en');
+                window.history.pushState({}, '', newUrl);
+                setLanguage('en');
+            });
+
+            // ===== 預設出生日期 (18年前) =====
+            function setDefaultDate() {
+                const now = new Date();
+                const defaultDate = new Date(now);
+                defaultDate.setFullYear(defaultDate.getFullYear() - 18);
+                const year = defaultDate.getFullYear();
+                const month = String(defaultDate.getMonth() + 1).padStart(2, '0');
+                const day = String(defaultDate.getDate()).padStart(2, '0');
+                birthDate.value = `${year}-${month}-${day}`;
+            }
+
+            // ===== 計算年齡 =====
+            function calculateAge() {
+                const t = i18n[currentLang];
+                const dateVal = birthDate.value;
+                if (!dateVal) {
+                    alert(t.alertNoDate);
+                    return;
+                }
+
+                const birth = new Date(dateVal);
+                const now = new Date();
+
+                if (birth > now) {
+                    alert(t.alertFutureDate);
+                    return;
+                }
+
+                // 精確計算 年 / 月 / 日
+                let years = now.getFullYear() - birth.getFullYear();
+                let months = now.getMonth() - birth.getMonth();
+                let days = now.getDate() - birth.getDate();
+
+                if (days < 0) {
+                    months--;
+                    const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                    days += prevMonth.getDate();
+                }
+                if (months < 0) {
+                    years--;
+                    months += 12;
+                }
+
+                // 總日數與總小時
+                const totalDaysVal = Math.floor((now - birth) / (1000 * 60 * 60 * 24));
+                const totalHoursVal = Math.floor((now - birth) / (1000 * 60 * 60));
+
+                // 下一個生日
+                const nextBirth = new Date(now.getFullYear(), birth.getMonth(), birth.getDate());
+                if (nextBirth < now) {
+                    nextBirth.setFullYear(nextBirth.getFullYear() + 1);
+                }
+                const daysUntil = Math.floor((nextBirth - now) / (1000 * 60 * 60 * 24));
+
+                // 顯示結果
+                yearsEl.textContent = years;
+                monthsEl.textContent = months;
+                daysEl.textContent = days;
+
+                const dateLocale = currentLang === 'zh' ? 'zh-HK' : 'en-US';
+                nextBirthday.textContent = nextBirth.toLocaleDateString(dateLocale, {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit'
+                });
+                daysUntilBirthday.textContent = daysUntil + t.unitDays;
+                totalDays.textContent = totalDaysVal.toLocaleString() + t.unitDays;
+                totalHours.textContent = totalHoursVal.toLocaleString() + t.unitHours;
+
+                resultSection.classList.add('show');
+
+                // 渲染里程碑
+                renderMilestones(birth);
+            }
+
+            // ===== 里程碑倒數 =====
+            function renderMilestones(birth) {
+                const t = i18n[currentLang];
+                const milestones = [
+                    { label: '10,000 ' + (currentLang==='zh'?'日':'Days'), days: 10000 },
+                    { label: '15,000 ' + (currentLang==='zh'?'日':'Days'), days: 15000 },
+                    { label: '20,000 ' + (currentLang==='zh'?'日':'Days'), days: 20000 },
+                    { label: '25,000 ' + (currentLang==='zh'?'日':'Days'), days: 25000 },
+                    { label: '30,000 ' + (currentLang==='zh'?'日':'Days'), days: 30000 },
+                    { label: '40,000 ' + (currentLang==='zh'?'日':'Days'), days: 40000 },
+                    { label: '50,000 ' + (currentLang==='zh'?'日':'Days'), days: 50000 },
+                ];
+
+                const now = new Date();
+                const totalDaysVal = Math.floor((now - birth) / (1000 * 60 * 60 * 24));
+
+                let html = '';
+                let hasMilestone = false;
+
+                for (const m of milestones) {
+                    if (m.days > totalDaysVal) {
+                        const targetDate = new Date(birth);
+                        targetDate.setDate(targetDate.getDate() + m.days);
+                        const daysLeft = Math.floor((targetDate - now) / (1000 * 60 * 60 * 24));
+                        html += `
+                            <span class="milestone-item">
+                                🏁 ${m.label}: <span class="days">${daysLeft}</span>${t.unitDaysAfter}
+                            </span>
+                        `;
+                        hasMilestone = true;
+                    }
+                }
+
+                if (!hasMilestone) {
+                    html = `<span style="color:#475569;font-size:0.85rem;">${t.milestonePassed}</span>`;
+                }
+
+                milestoneList.innerHTML = html;
+            }
+
+            // ===== 重設功能 =====
+            function resetAll() {
+                const t = i18n[currentLang];
+                resultSection.classList.remove('show');
+                birthDate.value = '';
+                yearsEl.textContent = '--';
+                monthsEl.textContent = '--';
+                daysEl.textContent = '--';
+                nextBirthday.textContent = '--';
+                daysUntilBirthday.textContent = '--';
+                totalDays.textContent = '--';
+                totalHours.textContent = '--';
+                milestoneList.innerHTML = `<span style="color:#475569;font-size:0.85rem;">${t.emptyMilestone}</span>`;
+            }
+
+            // ===== 事件綁定 =====
+            calculateBtn.addEventListener('click', calculateAge);
+            resetBtn.addEventListener('click', resetAll);
+
+            birthDate.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    calculateAge();
+                }
+            });
+
+            // ===== 初始化（讀取 URL 語系參數） =====
+            const urlParams = new URLSearchParams(window.location.search);
+            const initialLang = urlParams.get('lang');
+            
+            // 判斷若參數為 en 則啟用英文，其餘（hk / zh / 無）一律套用預設語言
+            setLanguage(initialLang === 'en' ? 'en' : 'zh');
+            setDefaultDate();
+            setTimeout(calculateAge, 200);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Base64 編解碼器 — 文字圖片 Base64 互轉｜Free Base64 Converter｜ABRG 免費工具</title>
+    <meta name="description" content="免費 Base64 編碼解碼工具，支援文字與圖片互轉，純前端處理。Free Base64 encoder/decoder, text & image support, 100% client-side, privacy safe." />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/base64-converter.html" />
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --green: #10b981;
+            --yellow: #fbbf24;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 780px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .lang-switch a {
+            color: var(--cyan);
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .lang-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .tool-title .emoji {
+            font-size: 1.8rem;
+        }
+
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 10px 0 20px;
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        /* ===== 模式切換 ===== */
+        .mode-selector {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--text);
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mode-btn.active {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+
+        .mode-btn:hover:not(.active) {
+            color: var(--text-light);
+        }
+
+        /* ===== 輸入區 ===== */
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .input-section .label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .input-section .label-row .char-count {
+            font-size: 0.7rem;
+            color: #64748b;
+        }
+
+        .text-area {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+            outline: none;
+            transition: all 0.2s;
+            line-height: 1.6;
+        }
+
+        .text-area:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.08);
+        }
+
+        .text-area::placeholder {
+            color: #475569;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .text-area:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* ===== 圖片上傳 ===== */
+        .upload-area {
+            border: 2px dashed rgba(148, 163, 184, 0.25);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.02);
+            display: none;
+        }
+
+        .upload-area.show {
+            display: block;
+        }
+
+        .upload-area:hover {
+            border-color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .upload-area.dragover {
+            border-color: var(--cyan);
+            background: rgba(34, 211, 238, 0.08);
+        }
+
+        .upload-area .icon {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .upload-area p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .upload-area .hint {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        /* ===== 圖片預覽 ===== */
+        .image-preview {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: var(--bg);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .image-preview.show {
+            display: block;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 6px;
+        }
+
+        .image-preview .file-info {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        /* ===== 方向箭嘴 ===== */
+        .direction-label {
+            text-align: center;
+            color: var(--cyan);
+            font-size: 1.2rem;
+            padding: 6px 0;
+            font-weight: bold;
+        }
+
+        /* ===== 按鈕 ===== */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 16px 0;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-primary {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background: var(--cyan-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: var(--green);
+            color: #0b0f19;
+        }
+        .btn-success:hover:not(:disabled) {
+            background: #34d399;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        .btn-outline:hover:not(:disabled) {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid #ef4444;
+            color: #fca5a5;
+        }
+        .btn-danger:hover:not(:disabled) {
+            background: rgba(239, 68, 68, 0.25);
+        }
+
+        /* ===== 結果區 ===== */
+        .result-section {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            background: var(--bg);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        .result-section.show {
+            display: block;
+        }
+
+        .result-section .result-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .result-section .result-text {
+            width: 100%;
+            min-height: 80px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(148, 163, 184, 0.06);
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-light);
+            font-size: 0.85rem;
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+            outline: none;
+            line-height: 1.6;
+            word-break: break-all;
+        }
+
+        .result-section .result-text:focus {
+            border-color: var(--cyan);
+        }
+
+        /* ===== Story suggest ===== */
+        .story-suggest {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+        .story-suggest .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .story-suggest .items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .story-suggest .items a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .other-tools {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .other-tools a {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #fca5a5;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .other-tools a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #555;
+        }
+        footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        footer a:hover {
+            color: #888;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 18px;
+            }
+            .mode-selector {
+                flex-direction: column;
+            }
+            .btn {
+                flex: none;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="lang-switch">
+            <a onclick="switchLang('hk')">🇭🇰 港版</a> |
+            <a onclick="switchLang('tw')">🇹🇼 台版</a> |
+            <a onclick="switchLang('en')">🇬🇧 English</a>
+        </div>
+
+        <h1 class="tool-title" id="toolTitle"><span class="emoji">🔢</span> Base64 編解碼器</h1>
+        <p class="tool-sub" id="toolSub">文字 ↔ Base64 · 圖片 ↔ Base64 · 純前端處理</p>
+
+        <div class="badge-row">
+            <span class="badge" id="badge1">🔀 雙向轉換</span>
+            <span class="badge" id="badge2">🖼️ 支援圖片</span>
+            <span class="badge" id="badge3">🔒 私隱安全</span>
+            <span class="badge" id="badge4">🆓 完全免費</span>
+        </div>
+
+        <!-- ===== 模式選擇 ===== -->
+        <div class="mode-selector" id="modeSelector">
+            <button class="mode-btn active" data-mode="text" id="modeText">📝 文字 ↔ Base64</button>
+            <button class="mode-btn" data-mode="image" id="modeImage">🖼️ 圖片 ↔ Base64</button>
+        </div>
+
+        <!-- ===== 文字模式 ===== -->
+        <div id="textMode">
+            <div class="input-section">
+                <div class="label-row">
+                    <label id="inputLabel">📝 輸入文字</label>
+                    <span class="char-count"><span id="inputCount">0</span> <span id="charUnit">字</span></span>
+                </div>
+                <textarea class="text-area" id="inputText" placeholder="輸入你想編碼/解碼嘅文字..."></textarea>
+            </div>
+
+            <div class="direction-label" id="directionLabel">⬇️ 文字 → Base64 ⬇️</div>
+
+            <div class="btn-group">
+                <button class="btn btn-primary" id="encodeBtn">🔒 <span id="encodeText">編碼 (→ Base64)</span></button>
+                <button class="btn btn-primary" id="decodeBtn">🔓 <span id="decodeText">解碼 (← Base64)</span></button>
+                <button class="btn btn-outline" id="clearBtn">🗑️ <span id="clearText">清空</span></button>
+            </div>
+        </div>
+
+        <!-- ===== 圖片模式 ===== -->
+        <div id="imageMode" style="display:none;">
+            <div class="upload-area show" id="dropArea">
+                <span class="icon">📤</span>
+                <p id="uploadText">拖曳圖片到這裡，或點擊揀選檔案</p>
+                <span class="hint" id="uploadHint">支援 PNG、JPG、WebP</span>
+                <input type="file" id="fileInput" accept="image/*" />
+            </div>
+
+            <div class="image-preview" id="imagePreview">
+                <img id="previewImage" src="" alt="圖片預覽" />
+                <div class="file-info" id="fileInfo"></div>
+            </div>
+
+            <div class="direction-label" id="imageDirectionLabel">⬇️ 圖片 → Base64 ⬇️</div>
+
+            <div class="btn-group">
+                <button class="btn btn-primary" id="imageToBase64Btn">🖼️ <span id="imgToBase64Text">圖片 → Base64</span></button>
+                <button class="btn btn-primary" id="base64ToImageBtn" disabled>🖼️ <span id="base64ToImgText">Base64 → 圖片</span></button>
+                <button class="btn btn-outline" id="clearImageBtn">🗑️ <span id="clearImgText">清空</span></button>
+            </div>
+        </div>
+
+        <!-- ===== 結果區 ===== -->
+        <div class="result-section" id="resultSection">
+            <div class="result-label" id="resultLabel">📋 結果</div>
+            <textarea class="result-text" id="resultText" readonly></textarea>
+            <div class="btn-group" style="margin-top:10px;">
+                <button class="btn btn-success" id="copyResultBtn">📋 <span id="copyResultText">複製結果</span></button>
+                <button class="btn btn-outline" id="downloadResultBtn">⬇️ <span id="downloadResultText">下載</span></button>
+            </div>
+        </div>
+
+        <!-- ===== Story suggest ===== -->
+        <div class="story-suggest">
+            <div class="label" id="storyLabel">📖 你可能會中意嘅連載或測驗</div>
+            <div class="items">
+                <a href="../story_01.html">《你睡著以後》</a>
+                <a href="../story_02.html">《貓狗人格》</a>
+                <a href="../quiz-01.html">隱私天平</a>
+                <a href="../index.html">🏠 返回主頁</a>
+            </div>
+            <div class="other-tools">
+                <span style="font-size:0.75rem;color:#64748b;align-self:center;" id="otherToolsLabel">🔧 其他工具：</span>
+                <a href="timestamp-converter.html">⏱️ 時間戳轉換</a>
+                <a href="json-formatter.html">JSON 格式化</a>
+                <a href="url-encoder.html">URL 編解碼</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+    </footer>
+
+    <script>
+        // =============================================================
+        // 語言文字
+        // =============================================================
+        const texts = {
+            hk: {
+                title: '🔢 Base64 編解碼器',
+                sub: '文字 ↔ Base64 · 圖片 ↔ Base64 · 純前端處理',
+                badge1: '🔀 雙向轉換',
+                badge2: '🖼️ 支援圖片',
+                badge3: '🔒 私隱安全',
+                badge4: '🆓 完全免費',
+                storyLabel: '📖 你可能會中意嘅連載或測驗',
+                otherTools: '🔧 其他工具：',
+                modeText: '📝 文字 ↔ Base64',
+                modeImage: '🖼️ 圖片 ↔ Base64',
+                inputLabel: '📝 輸入文字',
+                charUnit: '字',
+                encode: '🔒 編碼 (→ Base64)',
+                decode: '🔓 解碼 (← Base64)',
+                clear: '🗑️ 清空',
+                upload: '拖曳圖片到這裡，或點擊揀選檔案',
+                hint: '支援 PNG、JPG、WebP',
+                imgToBase64: '🖼️ 圖片 → Base64',
+                base64ToImg: '🖼️ Base64 → 圖片',
+                clearImg: '🗑️ 清空',
+                result: '📋 結果',
+                copyResult: '📋 複製結果',
+                downloadResult: '⬇️ 下載',
+                copied: '✅ 已複製',
+                noText: '請輸入文字',
+                noBase64: '請輸入 Base64 字串',
+                encodeFailed: '編碼失敗：',
+                decodeFailed: '解碼失敗：請確認輸入係有效嘅 Base64 字串',
+                noImage: '請先上傳圖片',
+                notImage: '請上傳圖片檔案',
+                invalidBase64: '❌ 無效嘅 Base64 圖片數據',
+                base64ToImgSuccess: '✅ Base64 轉圖片成功！',
+                conversionFailed: '轉換失敗：',
+                enterBase64: '請先將 Base64 貼入結果框',
+                directionText: '⬇️ 文字 → Base64 ⬇️',
+                directionBase64: '⬇️ Base64 → 文字 ⬇️',
+                directionImage: '⬇️ 圖片 → Base64 ⬇️'
+            },
+            tw: {
+                title: '🔢 Base64 編解碼器',
+                sub: '文字 ↔ Base64 · 圖片 ↔ Base64 · 純前端處理',
+                badge1: '🔀 雙向轉換',
+                badge2: '🖼️ 支援圖片',
+                badge3: '🔒 私隱安全',
+                badge4: '🆓 完全免費',
+                storyLabel: '📖 你可能會喜歡的連載或測驗',
+                otherTools: '🔧 其他工具：',
+                modeText: '📝 文字 ↔ Base64',
+                modeImage: '🖼️ 圖片 ↔ Base64',
+                inputLabel: '📝 輸入文字',
+                charUnit: '字',
+                encode: '🔒 編碼 (→ Base64)',
+                decode: '🔓 解碼 (← Base64)',
+                clear: '🗑️ 清空',
+                upload: '拖曳圖片到這裡，或點擊選擇檔案',
+                hint: '支援 PNG、JPG、WebP',
+                imgToBase64: '🖼️ 圖片 → Base64',
+                base64ToImg: '🖼️ Base64 → 圖片',
+                clearImg: '🗑️ 清空',
+                result: '📋 結果',
+                copyResult: '📋 複製結果',
+                downloadResult: '⬇️ 下載',
+                copied: '✅ 已複製',
+                noText: '請輸入文字',
+                noBase64: '請輸入 Base64 字串',
+                encodeFailed: '編碼失敗：',
+                decodeFailed: '解碼失敗：請確認輸入是有效的 Base64 字串',
+                noImage: '請先上傳圖片',
+                notImage: '請上傳圖片檔案',
+                invalidBase64: '❌ 無效的 Base64 圖片數據',
+                base64ToImgSuccess: '✅ Base64 轉圖片成功！',
+                conversionFailed: '轉換失敗：',
+                enterBase64: '請先將 Base64 貼入結果框',
+                directionText: '⬇️ 文字 → Base64 ⬇️',
+                directionBase64: '⬇️ Base64 → 文字 ⬇️',
+                directionImage: '⬇️ 圖片 → Base64 ⬇️'
+            },
+            en: {
+                title: '🔢 Base64 Converter',
+                sub: 'Text ↔ Base64 · Image ↔ Base64 · 100% Client-side',
+                badge1: '🔀 Bidirectional',
+                badge2: '🖼️ Image Support',
+                badge3: '🔒 Privacy Safe',
+                badge4: '🆓 Free',
+                storyLabel: '📖 You might also like',
+                otherTools: '🔧 Other Tools:',
+                modeText: '📝 Text ↔ Base64',
+                modeImage: '🖼️ Image ↔ Base64',
+                inputLabel: '📝 Input Text',
+                charUnit: 'chars',
+                encode: '🔒 Encode (→ Base64)',
+                decode: '🔓 Decode (← Base64)',
+                clear: '🗑️ Clear',
+                upload: 'Drag & drop your image here, or click to select',
+                hint: 'Supports PNG, JPG, WebP',
+                imgToBase64: '🖼️ Image → Base64',
+                base64ToImg: '🖼️ Base64 → Image',
+                clearImg: '🗑️ Clear',
+                result: '📋 Result',
+                copyResult: '📋 Copy Result',
+                downloadResult: '⬇️ Download',
+                copied: '✅ Copied',
+                noText: 'Please enter text',
+                noBase64: 'Please enter Base64 string',
+                encodeFailed: 'Encode failed: ',
+                decodeFailed: 'Decode failed: Please ensure the input is a valid Base64 string',
+                noImage: 'Please upload an image first',
+                notImage: 'Please upload an image file',
+                invalidBase64: '❌ Invalid Base64 image data',
+                base64ToImgSuccess: '✅ Base64 to image successful!',
+                conversionFailed: 'Conversion failed: ',
+                enterBase64: 'Please paste Base64 into the result box first',
+                directionText: '⬇️ Text → Base64 ⬇️',
+                directionBase64: '⬇️ Base64 → Text ⬇️',
+                directionImage: '⬇️ Image → Base64 ⬇️'
+            }
+        };
+
+        let lang = 'hk';
+
+        // =============================================================
+        // 語言切換
+        // =============================================================
+        function switchLang(l) {
+            lang = l;
+            const t = texts[l];
+
+            document.getElementById('toolTitle').innerHTML = t.title;
+            document.getElementById('toolSub').innerText = t.sub;
+            document.getElementById('badge1').innerText = t.badge1;
+            document.getElementById('badge2').innerText = t.badge2;
+            document.getElementById('badge3').innerText = t.badge3;
+            document.getElementById('badge4').innerText = t.badge4;
+            document.getElementById('storyLabel').innerText = t.storyLabel;
+            document.getElementById('otherToolsLabel').innerText = t.otherTools;
+            document.getElementById('modeText').innerHTML = t.modeText;
+            document.getElementById('modeImage').innerHTML = t.modeImage;
+            document.getElementById('inputLabel').innerHTML = t.inputLabel;
+            document.getElementById('charUnit').innerText = t.charUnit;
+            document.getElementById('encodeText').innerText = t.encode;
+            document.getElementById('decodeText').innerText = t.decode;
+            document.getElementById('clearText').innerText = t.clear;
+            document.getElementById('uploadText').innerText = t.upload;
+            document.getElementById('uploadHint').innerText = t.hint;
+            document.getElementById('imgToBase64Text').innerText = t.imgToBase64;
+            document.getElementById('base64ToImgText').innerText = t.base64ToImg;
+            document.getElementById('clearImgText').innerText = t.clearImg;
+            document.getElementById('resultLabel').innerText = t.result;
+            document.getElementById('copyResultText').innerText = t.copyResult;
+            document.getElementById('downloadResultText').innerText = t.downloadResult;
+
+            // Update direction labels
+            updateDirection();
+            document.getElementById('imageDirectionLabel').textContent = t.directionImage;
+
+            document.querySelectorAll('.story-suggest .items a, .other-tools a').forEach(a => {
+                try {
+                    const url = new URL(a.href);
+                    url.searchParams.set('lang', l);
+                    a.href = url.toString();
+                } catch (e) {}
+            });
+        }
+
+        // =============================================================
+        // 偵測語言（URL 參數優先）
+        // =============================================================
+        function detectLanguage() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('lang') === 'en') return 'en';
+            if (params.get('lang') === 'tw') return 'tw';
+            if (params.get('lang') === 'hk') return 'hk';
+            const userLang = navigator.language || navigator.userLanguage;
+            if (userLang.startsWith('en')) return 'en';
+            if (userLang.includes('zh')) {
+                if (userLang.includes('TW') || userLang.includes('tw')) return 'tw';
+                return 'hk';
+            }
+            return 'hk';
+        }
+
+        const detectedLang = detectLanguage();
+        switchLang(detectedLang);
+
+        // =============================================================
+        // 工具核心
+        // =============================================================
+        const modeBtns = document.querySelectorAll('.mode-btn');
+        const textMode = document.getElementById('textMode');
+        const imageMode = document.getElementById('imageMode');
+        const inputText = document.getElementById('inputText');
+        const inputCount = document.getElementById('inputCount');
+        const directionLabel = document.getElementById('directionLabel');
+        const encodeBtn = document.getElementById('encodeBtn');
+        const decodeBtn = document.getElementById('decodeBtn');
+        const clearBtn = document.getElementById('clearBtn');
+
+        const dropArea = document.getElementById('dropArea');
+        const fileInput = document.getElementById('fileInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewImage = document.getElementById('previewImage');
+        const fileInfo = document.getElementById('fileInfo');
+        const imageDirectionLabel = document.getElementById('imageDirectionLabel');
+        const imageToBase64Btn = document.getElementById('imageToBase64Btn');
+        const base64ToImageBtn = document.getElementById('base64ToImageBtn');
+        const clearImageBtn = document.getElementById('clearImageBtn');
+
+        const resultSection = document.getElementById('resultSection');
+        const resultText = document.getElementById('resultText');
+        const copyResultBtn = document.getElementById('copyResultBtn');
+        const downloadResultBtn = document.getElementById('downloadResultBtn');
+
+        let currentMode = 'text';
+        let currentFile = null;
+        let currentImageDataURL = null;
+        let lastResult = '';
+
+        function getTexts() {
+            return texts[lang];
+        }
+
+        modeBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                modeBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentMode = this.dataset.mode;
+
+                if (currentMode === 'text') {
+                    textMode.style.display = 'block';
+                    imageMode.style.display = 'none';
+                    resultSection.classList.remove('show');
+                } else {
+                    textMode.style.display = 'none';
+                    imageMode.style.display = 'block';
+                    resultSection.classList.remove('show');
+                }
+            });
+        });
+
+        inputText.addEventListener('input', function() {
+            inputCount.textContent = this.value.length;
+            updateDirection();
+        });
+
+        function updateDirection() {
+            const t = getTexts();
+            const text = inputText.value.trim();
+            if (text.length > 0) {
+                const isBase64 = /^[A-Za-z0-9+/=]+$/.test(text) && text.length % 4 === 0;
+                if (isBase64 && text.length > 10) {
+                    directionLabel.textContent = t.directionBase64;
+                    return;
+                }
+            }
+            directionLabel.textContent = t.directionText;
+        }
+
+        function encodeText() {
+            const t = getTexts();
+            const text = inputText.value;
+            if (!text) {
+                alert(t.noText);
+                return;
+            }
+
+            try {
+                const encoded = btoa(unescape(encodeURIComponent(text)));
+                showResult(encoded);
+            } catch (err) {
+                alert(t.encodeFailed + err.message);
+            }
+        }
+
+        function decodeText() {
+            const t = getTexts();
+            const text = inputText.value.trim();
+            if (!text) {
+                alert(t.noBase64);
+                return;
+            }
+
+            try {
+                const decoded = decodeURIComponent(escape(atob(text)));
+                showResult(decoded);
+            } catch (err) {
+                alert(t.decodeFailed);
+            }
+        }
+
+        function showResult(text) {
+            lastResult = text;
+            resultText.value = text;
+            resultSection.classList.add('show');
+            downloadResultBtn.style.display = 'none';
+            downloadResultBtn.disabled = true;
+        }
+
+        function clearText() {
+            inputText.value = '';
+            inputCount.textContent = '0';
+            resultSection.classList.remove('show');
+            lastResult = '';
+            updateDirection();
+        }
+
+        encodeBtn.addEventListener('click', encodeText);
+        decodeBtn.addEventListener('click', decodeText);
+        clearBtn.addEventListener('click', clearText);
+
+        // Image mode
+        dropArea.addEventListener('click', () => fileInput.click());
+
+        dropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropArea.classList.add('dragover');
+        });
+        dropArea.addEventListener('dragleave', () => dropArea.classList.remove('dragover'));
+        dropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropArea.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) handleImageFile(e.dataTransfer.files[0]);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) handleImageFile(e.target.files[0]);
+        });
+
+        function handleImageFile(file) {
+            const t = getTexts();
+            if (!file.type.startsWith('image/')) {
+                alert(t.notImage);
+                return;
+            }
+
+            currentFile = file;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                currentImageDataURL = e.target.result;
+                previewImage.src = currentImageDataURL;
+                imagePreview.classList.add('show');
+                fileInfo.textContent = `${file.name} (${formatSize(file.size)})`;
+                base64ToImageBtn.disabled = false;
+                resultSection.classList.remove('show');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function imageToBase64() {
+            const t = getTexts();
+            if (!currentImageDataURL) {
+                alert(t.noImage);
+                return;
+            }
+
+            const base64 = currentImageDataURL.split(',')[1];
+            showResult(base64);
+            downloadResultBtn.style.display = 'inline-flex';
+            downloadResultBtn.disabled = false;
+            downloadResultBtn.textContent = '⬇️ ' + t.downloadResult + ' (txt)';
+            downloadResultBtn.onclick = function() {
+                const blob = new Blob([base64], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `base64_${Date.now()}.txt`;
+                a.click();
+                URL.revokeObjectURL(url);
+            };
+        }
+
+        function base64ToImage() {
+            const t = getTexts();
+            const text = resultText.value.trim();
+            if (!text) {
+                alert(t.enterBase64);
+                return;
+            }
+
+            try {
+                let dataUrl = text;
+                if (!dataUrl.startsWith('data:image')) {
+                    const header = text.substring(0, 20);
+                    let mime = 'image/png';
+                    if (header.includes('/9j/')) mime = 'image/jpeg';
+                    else if (header.includes('iVBORw0KGgo')) mime = 'image/png';
+                    dataUrl = `data:${mime};base64,${text}`;
+                }
+
+                const img = new Image();
+                img.onload = function() {
+                    previewImage.src = dataUrl;
+                    imagePreview.classList.add('show');
+                    currentImageDataURL = dataUrl;
+                    fileInfo.textContent = t.base64ToImgSuccess + ` (${img.width}×${img.height})`;
+                    alert(t.base64ToImgSuccess);
+                };
+                img.onerror = function() {
+                    alert(t.invalidBase64);
+                };
+                img.src = dataUrl;
+
+            } catch (err) {
+                alert(t.conversionFailed + err.message);
+            }
+        }
+
+        function clearImage() {
+            currentFile = null;
+            currentImageDataURL = null;
+            imagePreview.classList.remove('show');
+            previewImage.src = '';
+            fileInfo.textContent = '';
+            base64ToImageBtn.disabled = true;
+            resultSection.classList.remove('show');
+            fileInput.value = '';
+        }
+
+        imageToBase64Btn.addEventListener('click', imageToBase64);
+        base64ToImageBtn.addEventListener('click', base64ToImage);
+        clearImageBtn.addEventListener('click', clearImage);
+
+        function formatSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        copyResultBtn.addEventListener('click', function() {
+            const t = getTexts();
+            const text = resultText.value;
+            if (!text) return;
+            navigator.clipboard.writeText(text).then(() => {
+                const original = this.textContent;
+                this.textContent = t.copied;
+                setTimeout(() => {
+                    this.textContent = original;
+                }, 2000);
+            }).catch(() => {
+                resultText.select();
+                document.execCommand('copy');
+                alert('已複製到剪貼簿');
+            });
+        });
+
+        inputText.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                const text = this.value.trim();
+                if (/^[A-Za-z0-9+/=]+$/.test(text) && text.length % 4 === 0) {
+                    decodeText();
+                } else {
+                    encodeText();
+                }
+            }
+        });
+
+        updateDirection();
+        imageDirectionLabel.textContent = texts[lang].directionImage;
+    </script>
+
+</body>
+</html>

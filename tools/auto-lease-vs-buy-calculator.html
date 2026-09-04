@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>汽車租賃 vs 購買決策分析器 — Auto Lease vs. Buy Calculator | ABRG</title>
+    <meta name="description" content="免費線上汽車租賃 vs 購買比較計算器！輸入車價、首付、租賃月費、貸款利率及殘值，即時計算買車與租車的總成本差異，協助你做最佳財務決策。Calculate Lease vs Buy cost differences effortlessly." />
+    <meta name="keywords" content="買車 vs 租車, 汽車租賃計算器, Auto Lease vs Buy Calculator, 車貸比較, 汽車殘值, 車輛折舊, 汽車長期租賃, 買車財務評估" />
+    <link rel="canonical" href="https://www.behavior-report.com/auto-lease-vs-buy-calculator.html" />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="汽車租賃 vs 購買決策分析器 — Free Auto Lease vs. Buy Calculator | ABRG" />
+    <meta property="og:description" content="買車划算還是租車划算？輸入數據即時對比總淨成本與期末殘值 (Bilingual Chinese & English)." />
+    <meta property="og:url" content="https://www.behavior-report.com/auto-lease-vs-buy-calculator.html" />
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Auto Lease vs. Buy Calculator | ABRG" />
+    <meta name="twitter:description" content="Compare total net costs of auto leasing vs. buying to make smarter financial decisions." />
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "汽車租賃 vs 購買決策分析器 / Auto Lease vs. Buy Calculator",
+      "url": "https://www.behavior-report.com/auto-lease-vs-buy-calculator.html",
+      "description": "評估買車與租車總財務成本差異的線上計算工具。Compare financial costs between buying and leasing a car.",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "All",
+      "inLanguage": ["zh-HK", "zh-TW", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root { 
+            --bg-color: #0b0f19; 
+            --card-bg: #151d30; 
+            --text-color: #94a3b8; 
+            --accent-cyan: #22d3ee; 
+            --accent-amber: #f59e0b;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+        }
+        * { box-sizing: border-box; }
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            margin: 0; 
+            padding: 15px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
+        .container { max-width: 980px; width: 100%; }
+        
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0 15px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 15px;
+        }
+        .brand {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+        .back-link {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        /* ===== Language Switcher ===== */
+        .lang-switch {
+            display: flex;
+            gap: 6px;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+        .lang-btn {
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-color);
+            font-size: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .lang-btn.active {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+            background: rgba(34, 211, 238, 0.08);
+        }
+        .lang-btn:hover:not(.active) {
+            border-color: #cbd5e1;
+            color: #cbd5e1;
+        }
+
+        .page-title {
+            font-size: 1.4rem;
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        .page-desc {
+            font-size: 0.85rem;
+            color: var(--text-color);
+            margin-bottom: 20px;
+        }
+
+        /* ===== Calculator Layout ===== */
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 820px) {
+            .calculator-grid { grid-template-columns: 1fr; }
+        }
+
+        .panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .panel-title {
+            font-size: 1.05rem;
+            color: var(--accent-amber);
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-weight: 700;
+            border-left: 3px solid var(--accent-amber);
+            padding-left: 8px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        @media (max-width: 480px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.82rem;
+            color: #cbd5e1;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .form-control {
+            width: 100%;
+            padding: 9px 12px;
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-control:focus {
+            border-color: var(--accent-cyan);
+        }
+        .unit-suffix {
+            position: absolute;
+            right: 10px;
+            color: #64748b;
+            font-size: 0.8rem;
+            pointer-events: none;
+        }
+
+        .section-subtitle {
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 4px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 11px;
+            background: var(--accent-cyan);
+            color: #0b0f19;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.92rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: opacity 0.2s;
+        }
+        .btn-submit:hover { opacity: 0.9; }
+
+        /* ===== Verdict Banner ===== */
+        .verdict-banner {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .verdict-title {
+            font-size: 0.82rem;
+            color: var(--text-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .verdict-text {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin: 4px 0;
+        }
+        .verdict-sub {
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+        }
+
+        /* ===== Result Cards ===== */
+        .comparison-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        @media (max-width: 480px) {
+            .comparison-cards { grid-template-columns: 1fr; }
+        }
+
+        .result-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 14px;
+        }
+        .result-header {
+            margin-bottom: 6px;
+        }
+        .result-label {
+            font-size: 0.82rem;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+        .result-value {
+            font-size: 1.35rem;
+            font-weight: bold;
+            margin-top: 4px;
+        }
+        .result-value.buy { color: var(--accent-amber); }
+        .result-value.lease { color: var(--accent-cyan); }
+        .result-desc {
+            font-size: 0.74rem;
+            color: #64748b;
+            line-height: 1.3;
+            margin-top: 4px;
+        }
+
+        .breakdown-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.78rem;
+            margin-top: 10px;
+        }
+        .breakdown-table td {
+            padding: 5px 0;
+            color: #94a3b8;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+        }
+        .breakdown-table td:last-child {
+            text-align: right;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .footer { 
+            margin-top: 40px; 
+            padding-top: 15px; 
+            border-top: 1px solid rgba(148, 163, 184, 0.1); 
+            text-align: center; 
+            font-size: 0.78rem; 
+            color: #555; 
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 8px; }
+        .footer a:hover { color: #aaa; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-switch">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文 (HK)</button>
+        <button class="lang-btn" data-lang="tw">🇹🇼 繁體中文 (TW)</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <h1 class="page-title" id="pageTitle">⚖️ 汽車租賃 vs 購買決策分析器</h1>
+    <p class="page-desc" id="pageDesc">比較長期租用 (Lease) 與直接購車 (Buy) 的淨總財務成本，尋找最適合你的用車方案。</p>
+
+    <div class="calculator-grid">
+        <!-- 輸入參數面板 -->
+        <div class="panel">
+            <h2 class="panel-title" id="inputPanelTitle">⚙️ 車輛與融資參數</h2>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label id="lblVehiclePrice" for="vehiclePrice">汽車總價 ($)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="vehiclePrice" class="form-control" value="400000" step="10000">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label id="lblTermMonths" for="termMonths">比較年期 (月)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="termMonths" class="form-control" value="36" step="12" min="12" max="60">
+                        <span class="unit-suffix" id="unitMonths">個月</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 購車設定 -->
+            <div class="section-subtitle" id="subTitleBuy">🚘 購車方案 (Buy Option)</div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label id="lblBuyDownPayment" for="buyDownPayment">購車首付 ($)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="buyDownPayment" class="form-control" value="80000" step="5000">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label id="lblBuyInterestRate" for="buyInterestRate">貸款年利率 (%)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="buyInterestRate" class="form-control" value="3.8" step="0.1">
+                        <span class="unit-suffix">%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label id="lblResidualValue" for="residualValue">期末預估殘值 / 中古車價 ($)</label>
+                <div class="input-wrapper">
+                    <input type="number" id="residualValue" class="form-control" value="220000" step="10000">
+                </div>
+            </div>
+
+            <!-- 租賃設定 -->
+            <div class="section-subtitle" id="subTitleLease">🔑 租賃方案 (Lease Option)</div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label id="lblLeaseDownPayment" for="leaseDownPayment">租賃首期 / 押金 ($)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="leaseDownPayment" class="form-control" value="20000" step="2000">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label id="lblLeaseMonthly" for="leaseMonthly">每月租金 ($)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="leaseMonthly" class="form-control" value="5500" step="500">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label id="lblLeaseExtraFees" for="leaseExtraFees">期末處置費 / 手續費 ($)</label>
+                <div class="input-wrapper">
+                    <input type="number" id="leaseExtraFees" class="form-control" value="3000" step="500">
+                </div>
+            </div>
+
+            <button type="button" class="btn-submit" id="btnCalculate">即時分析 / Analyze Now</button>
+        </div>
+
+        <!-- 輸出結果面板 -->
+        <div class="panel">
+            <h2 class="panel-title" id="resultPanelTitle">📊 財務對比評估</h2>
+
+            <!-- 核心決策 Banner -->
+            <div class="verdict-banner">
+                <div class="verdict-title" id="verdictHeader">最佳決策建議 (RECOMMENDATION)</div>
+                <div class="verdict-text" id="verdictMain">計算中...</div>
+                <div class="verdict-sub" id="verdictSub">評估結果載入中...</div>
+            </div>
+
+            <!-- 雙方案對比卡片 -->
+            <div class="comparison-cards">
+                <div class="result-card">
+                    <div class="result-header">
+                        <div class="result-label" id="lblBuyNetCost">🚘 購車淨總支出</div>
+                        <div class="result-value buy" id="valBuyNetCost">$0</div>
+                    </div>
+                    <div class="result-desc" id="descBuyNetCost">總付款額扣除期末中古車殘值後的淨花費。</div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-header">
+                        <div class="result-label" id="lblLeaseNetCost">🔑 租賃淨總支出</div>
+                        <div class="result-value lease" id="valLeaseNetCost">$0</div>
+                    </div>
+                    <div class="result-desc" id="descLeaseNetCost">首期款、各期租金與處置費之總和。</div>
+                </div>
+            </div>
+
+            <!-- 詳細財務結構 breakdown -->
+            <div class="result-card">
+                <div class="result-header">
+                    <span class="result-label" id="lblSummaryCard">📋 財務明細細項 Breakdown</span>
+                </div>
+                <table class="breakdown-table">
+                    <tr><td id="tdBuyMonthly">購車每期供款:</td><td id="valBuyMonthly">$0 / 月</td></tr>
+                    <tr><td id="tdBuyTotalPaid">購車總支付金額 (未扣殘值):</td><td id="valBuyTotalPaid">$0</td></tr>
+                    <tr><td id="tdBuyInterest">購車累積利息支出:</td><td id="valBuyInterest">$0</td></tr>
+                    <tr><td id="tdLeaseTotalPaid">租賃總累積付費:</td><td id="valLeaseTotalPaid">$0</td></tr>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footHome">主頁</a> |
+        <a href="../blog.html" id="footBlog">最新文章</a> |
+        <a href="../about.html" id="footAbout">關於我</a> |
+        <a href="../privacy.html" id="footPrivacy">隱私權政策</a>
+        <br><br>
+        &copy; 2026 ABRG 大數據趣味行為觀察社
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    // 介面語言多語系翻譯
+    const i18n = {
+        zh: {
+            back: "← 文章列表",
+            title: "⚖️ 汽車租賃 vs 購買決策分析器",
+            desc: "比較長期租用 (Lease) 與直接購車 (Buy) 的淨總財務成本，尋找最適合你的用車方案。",
+            inputTitle: "⚙️ 車輛與融資參數",
+            lblVehiclePrice: "汽車總價 ($)",
+            lblTermMonths: "比較年期 (月)",
+            unitMonths: "個月",
+            subTitleBuy: "🚘 購車方案 (Buy Option)",
+            lblBuyDownPayment: "購車首付 ($)",
+            lblBuyInterestRate: "貸款年利率 (%)",
+            lblResidualValue: "期末預估殘值 / 中古車價 ($)",
+            subTitleLease: "🔑 租賃方案 (Lease Option)",
+            lblLeaseDownPayment: "租賃首期 / 押金 ($)",
+            lblLeaseMonthly: "每月租金 ($)",
+            lblLeaseExtraFees: "期末處置費 / 手續費 ($)",
+            btnCalc: "即時分析",
+            resultTitle: "📊 財務對比評估",
+            verdictHeader: "最佳決策建議 (RECOMMENDATION)",
+            verdictBuyWins: "🚘 選擇【購車】更划算！",
+            verdictLeaseWins: "🔑 選擇【租車】更划算！",
+            verdictSubBuy: "考量期末車輛殘值賣出後，購車方案可為你省下約 ",
+            verdictSubLease: "租賃方案整體淨支出較低，可為你省下約 ",
+            lblBuyNetCost: "🚘 購車淨總支出",
+            descBuyNetCost: "總付款額扣除期末中古車殘值後的淨花費。",
+            lblLeaseNetCost: "🔑 租賃淨總支出",
+            descLeaseNetCost: "首期款、各期租金與處置費之總和。",
+            lblSummaryCard: "📋 財務明細細項 Breakdown",
+            tdBuyMonthly: "購車每期供款:",
+            tdBuyTotalPaid: "購車總支付金額 (未扣殘值):",
+            tdBuyInterest: "購車累積利息支出:",
+            tdLeaseTotalPaid: "租賃總累積付費:",
+            footHome: "主頁",
+            footBlog: "最新文章",
+            footAbout: "關於我",
+            footPrivacy: "隱私權政策"
+        },
+        en: {
+            back: "← Articles",
+            title: "⚖️ Auto Lease vs. Buy Calculator",
+            desc: "Compare the total net financial cost between leasing and purchasing a vehicle to choose the best option.",
+            inputTitle: "⚙️ Vehicle & Finance Parameters",
+            lblVehiclePrice: "Vehicle Price ($)",
+            lblTermMonths: "Comparison Period (Months)",
+            unitMonths: "mo",
+            subTitleBuy: "🚘 Buy Option",
+            lblBuyDownPayment: "Down Payment ($)",
+            lblBuyInterestRate: "Loan Interest Rate (%)",
+            lblResidualValue: "Estimated Residual Value ($)",
+            subTitleLease: "🔑 Lease Option",
+            lblLeaseDownPayment: "Lease Down / Capitalized Cost ($)",
+            lblLeaseMonthly: "Monthly Lease Payment ($)",
+            lblLeaseExtraFees: "Disposition & Fee at End ($)",
+            btnCalc: "Analyze Now",
+            resultTitle: "📊 Financial Assessment",
+            verdictHeader: "RECOMMENDATION",
+            verdictBuyWins: "🚘 BUYING is more cost-effective!",
+            verdictLeaseWins: "🔑 LEASING is more cost-effective!",
+            verdictSubBuy: "Considering resale value, buying saves you approx. ",
+            verdictSubLease: "Leasing has a lower net outlay, saving you approx. ",
+            lblBuyNetCost: "🚘 Buy Net Outlay",
+            descBuyNetCost: "Total loan payouts minus estimated vehicle resale value.",
+            lblLeaseNetCost: "🔑 Lease Net Outlay",
+            descLeaseNetCost: "Sum of lease upfront fees, monthly payments, and end charges.",
+            lblSummaryCard: "📋 Financial Breakdown",
+            tdBuyMonthly: "Buy Monthly Payment:",
+            tdBuyTotalPaid: "Total Purchase Outflow:",
+            tdBuyInterest: "Total Interest Paid:",
+            tdLeaseTotalPaid: "Total Lease Outflow:",
+            footHome: "Home",
+            footBlog: "Blog",
+            footAbout: "About",
+            footPrivacy: "Privacy Policy"
+        }
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentLang = urlParams.get('lang') || 'hk';
+
+    function formatCurrency(amount) {
+        return '$' + Math.round(amount).toLocaleString('en-US');
+    }
+
+    // 核心計算
+    function calculateLeaseVsBuy() {
+        const vehiclePrice = parseFloat(document.getElementById('vehiclePrice').value) || 0;
+        const months = parseFloat(document.getElementById('termMonths').value) || 1;
+
+        // Buy parameters
+        const buyDownPayment = parseFloat(document.getElementById('buyDownPayment').value) || 0;
+        const buyRate = (parseFloat(document.getElementById('buyInterestRate').value) || 0) / 100;
+        const residualValue = parseFloat(document.getElementById('residualValue').value) || 0;
+
+        // Lease parameters
+        const leaseDownPayment = parseFloat(document.getElementById('leaseDownPayment').value) || 0;
+        const leaseMonthly = parseFloat(document.getElementById('leaseMonthly').value) || 0;
+        const leaseExtraFees = parseFloat(document.getElementById('leaseExtraFees').value) || 0;
+
+        // 計算購車月供與利息
+        const loanAmount = Math.max(0, vehiclePrice - buyDownPayment);
+        const monthlyRate = buyRate / 12;
+        let buyMonthly = 0;
+
+        if (monthlyRate > 0) {
+            buyMonthly = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+        } else {
+            buyMonthly = loanAmount / months;
+        }
+
+        const buyTotalPayments = buyDownPayment + (buyMonthly * months);
+        const buyTotalInterest = Math.max(0, (buyMonthly * months) - loanAmount);
+        const buyNetCost = buyTotalPayments - residualValue; // 扣除殘值後的淨費用
+
+        // 計算租賃總費用
+        const leaseTotalCost = leaseDownPayment + (leaseMonthly * months) + leaseExtraFees;
+
+        // 更新介面 UI
+        document.getElementById('valBuyNetCost').textContent = formatCurrency(buyNetCost);
+        document.getElementById('valLeaseNetCost').textContent = formatCurrency(leaseTotalCost);
+
+        const isEn = (currentLang === 'en');
+        const langData = isEn ? i18n.en : i18n.zh;
+
+        document.getElementById('valBuyMonthly').textContent = formatCurrency(buyMonthly) + (isEn ? " / mo" : " / 月");
+        document.getElementById('valBuyTotalPaid').textContent = formatCurrency(buyTotalPayments);
+        document.getElementById('valBuyInterest').textContent = formatCurrency(buyTotalInterest);
+        document.getElementById('valLeaseTotalPaid').textContent = formatCurrency(leaseTotalCost);
+
+        // Verdict Banner UI
+        const diff = Math.abs(buyNetCost - leaseTotalCost);
+        if (buyNetCost < leaseTotalCost) {
+            document.getElementById('verdictMain').textContent = langData.verdictBuyWins;
+            document.getElementById('verdictMain').style.color = 'var(--accent-amber)';
+            document.getElementById('verdictSub').textContent = langData.verdictSubBuy + formatCurrency(diff) + '.';
+        } else {
+            document.getElementById('verdictMain').textContent = langData.verdictLeaseWins;
+            document.getElementById('verdictMain').style.color = 'var(--accent-cyan)';
+            document.getElementById('verdictSub').textContent = langData.verdictSubLease + formatCurrency(diff) + '.';
+        }
+    }
+
+    // 多語系渲染
+    function renderPage(langKey) {
+        currentLang = langKey;
+        const isEn = (langKey === 'en');
+        const langData = isEn ? i18n.en : i18n.zh;
+
+        document.getElementById('backLink').textContent = langData.back;
+        document.getElementById('pageTitle').textContent = langData.title;
+        document.getElementById('pageDesc').textContent = langData.desc;
+        document.getElementById('inputPanelTitle').textContent = langData.inputTitle;
+
+        document.getElementById('lblVehiclePrice').textContent = langData.lblVehiclePrice;
+        document.getElementById('lblTermMonths').textContent = langData.lblTermMonths;
+        document.getElementById('unitMonths').textContent = langData.unitMonths;
+
+        document.getElementById('subTitleBuy').textContent = langData.subTitleBuy;
+        document.getElementById('lblBuyDownPayment').textContent = langData.lblBuyDownPayment;
+        document.getElementById('lblBuyInterestRate').textContent = langData.lblBuyInterestRate;
+        document.getElementById('lblResidualValue').textContent = langData.lblResidualValue;
+
+        document.getElementById('subTitleLease').textContent = langData.subTitleLease;
+        document.getElementById('lblLeaseDownPayment').textContent = langData.lblLeaseDownPayment;
+        document.getElementById('lblLeaseMonthly').textContent = langData.lblLeaseMonthly;
+        document.getElementById('lblLeaseExtraFees').textContent = langData.lblLeaseExtraFees;
+
+        document.getElementById('btnCalculate').textContent = langData.btnCalc;
+
+        document.getElementById('resultPanelTitle').textContent = langData.resultTitle;
+        document.getElementById('verdictHeader').textContent = langData.verdictHeader;
+
+        document.getElementById('lblBuyNetCost').textContent = langData.lblBuyNetCost;
+        document.getElementById('descBuyNetCost').textContent = langData.descBuyNetCost;
+        document.getElementById('lblLeaseNetCost').textContent = langData.lblLeaseNetCost;
+        document.getElementById('descLeaseNetCost').textContent = langData.descLeaseNetCost;
+        document.getElementById('lblSummaryCard').textContent = langData.lblSummaryCard;
+
+        document.getElementById('tdBuyMonthly').textContent = langData.tdBuyMonthly;
+        document.getElementById('tdBuyTotalPaid').textContent = langData.tdBuyTotalPaid;
+        document.getElementById('tdBuyInterest').textContent = langData.tdBuyInterest;
+        document.getElementById('tdLeaseTotalPaid').textContent = langData.tdLeaseTotalPaid;
+
+        document.getElementById('footHome').textContent = langData.footHome;
+        document.getElementById('footBlog').textContent = langData.footBlog;
+        document.getElementById('footAbout').textContent = langData.footAbout;
+        document.getElementById('footPrivacy').textContent = langData.footPrivacy;
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.lang === langKey) {
+                btn.classList.add('active');
+            }
+        });
+
+        calculateLeaseVsBuy();
+    }
+
+    // 事件監聽
+    document.getElementById('btnCalculate').addEventListener('click', calculateLeaseVsBuy);
+    document.querySelectorAll('.form-control').forEach(input => {
+        input.addEventListener('input', calculateLeaseVsBuy);
+    });
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.dataset.lang;
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            renderPage(selectedLang);
+        });
+    });
+
+    renderPage(currentLang);
+});
+</script>
+<!-- 語言參數接收與傳遞 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang');
+    if (lang) {
+        if (typeof setLang === 'function') {
+            setLang(lang);
+        }
+        document.querySelectorAll('a[href]').forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('../')) {
+                const url = new URL(href, window.location.href);
+                url.searchParams.set('lang', lang);
+                link.setAttribute('href', url.toString());
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

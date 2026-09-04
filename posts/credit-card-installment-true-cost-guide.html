@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【信用卡分期真實成本計算機教學】APR 計算｜分期手續費陷阱｜Free Credit Card Installment True Cost Calculator Guide</title>
+    <meta name="description" content="信用卡分期真實成本計算機完整教學！輸入簽賬金額、每月手續費率與分期期數，即時計算實際年利率 (APR)、每月供款與總手續費開支。Free online credit card installment true cost calculator guide.">
+    <meta name="keywords" content="信用卡分期計算, 信用卡APR, 分期手續費, 簽賬分期, Credit Card Installment, True Cost, 實際年利率, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/credit-card-installment-true-cost-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【信用卡分期真實成本計算機教學】APR 計算｜分期手續費陷阱｜Free Credit Card Installment True Cost Calculator Guide">
+    <meta property="og:description" content="輸入簽賬金額、每月手續費率與分期期數，即時計算實際年利率 (APR)、每月供款與總手續費開支。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/credit-card-installment-true-cost-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Credit Card Installment True Cost Calculator Guide – Calculate APR Instantly">
+    <meta name="twitter:description" content="Calculate true APR, monthly payment, and total fees for credit card installments instantly.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "信用卡分期真實成本計算機教學：APR 計算 — 揭開分期手續費陷阱",
+      "description": "介紹如何使用信用卡分期真實成本計算機計算實際年利率（APR）、每月供款與總手續費開支，適用於信用卡簽賬分期、消費分期與財務規劃決策。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --accent-amber: #f59e0b;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(239, 68, 68, 0.05);
+            border-left: 4px solid var(--accent-red);
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: var(--accent-red);
+        }
+
+        .insight-quote .story-highlight {
+            color: #cbd5e1;
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .insight-quote .emoji-highlight {
+            font-style: normal;
+        }
+
+        .cta-box {
+            background: rgba(239, 68, 68, 0.05);
+            border: 1px solid var(--accent-red);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--accent-red);
+            color: #ffffff;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.85;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>信用卡分期真實成本計算機教學：APR 計算 — 揭開分期手續費陷阱</h1>
+
+        <h2>1. 導言</h2>
+        <p>你係咪成日收到銀行電話推銷「<strong>信用卡分期優惠</strong>」？「每月手續費低至 0.2%，仲免息添！」聽落好吸引，但你有冇諗過 <strong>實際成本到底有幾高</strong>？<strong>每月手續費（Monthly Fee Rate）</strong> 同 <strong>實際年利率（APR）</strong> 嘅分別，就係銀行最鍾意用嚟 <strong>誤導消費者</strong> 嘅數字遊戲。我哋嘅免費信用卡分期真實成本計算器幫你輸入 <strong>簽賬金額、每月手續費率、分期期數同一次性手續費</strong>，即時計算 <strong>實際年利率（APR）</strong>、<strong>每月供款</strong>、<strong>每月手續費金額</strong> 同 <strong>總手續費開支</strong>。所有運算喺瀏覽器入面完成，數據唔會離開你嘅裝置，私隱 100% 安全。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>信用卡分期（Credit Card Installment）</strong> 係銀行常見嘅消費信貸產品，但入面嘅「手續費」陷阱往往令消費者 <strong>低估實際成本</strong>。主要概念包括：</p>
+        <ul>
+            <li><strong>每月手續費率（Monthly Fee Rate）：</strong> 銀行常用嘅宣傳數字，按「原始簽賬金額」每月收取固定百分比手續費，本金逐月遞減但手續費不變。</li>
+            <li><strong>實際年利率（APR）：</strong> 採用內部回報率（IRR）計算，將每月手續費、本金償還時間及一次性行政費全部納入，反映真實年度借貸成本。</li>
+            <li><strong>點解 APR 會遠高於直覺？</strong> 因為手續費按原始金額固定計算，但你每個月都在還本金，實際欠款越嚟越少，利息成本相對就越嚟越高。</li>
+            <li><strong>「0 利息」嘅真相：</strong> 銀行標榜「免息分期」，但每月手續費本質上就係利息嘅另一種包裝方式。</li>
+            <li><strong>一次性行政費：</strong> 部分銀行會收取首期行政費或手續費，進一步推高實際年利率。</li>
+        </ul>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>信用卡大額簽賬分期：</strong> 購買電器、電子產品、傢俬後選擇分期付款，評估真實成本。</li>
+            <li><strong>旅行團費分期：</strong> 旅遊消費後分期還款，比較分期同一次過找數嘅成本差異。</li>
+            <li><strong>進修課程分期：</strong> 評估課程分期付款嘅真實利率，避免「學費分期變高利貸」。</li>
+            <li><strong>銀行電話推銷評估：</strong> 接到銀行分期推銷電話時，即時計 APR 判斷係咪真係抵。</li>
+            <li><strong>比較不同分期方案：</strong> 比較同一筆消費在不同銀行嘅分期手續費，選擇最慳息方案。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>輸入基本資料：</strong>
+                <ul>
+                    <li>💰 簽賬金額（Transaction Amount）</li>
+                    <li>📊 每月手續費率（Monthly Fee Rate %）</li>
+                    <li>📅 分期期數（Tenure in Months）</li>
+                    <li>💳 一次性首期行政費（Optional）</li>
+                </ul>
+            </li>
+            <li><strong>即時計算：</strong> 輸入會自動更新結果，無需點擊按鈕。</li>
+            <li><strong>檢視結果：</strong>
+                <ul>
+                    <li>📈 實際年利率（APR）— 真實借貸成本</li>
+                    <li>💵 每月供款金額（含手續費）</li>
+                    <li>📊 每月手續費金額</li>
+                    <li>💰 總手續費/利息支出</li>
+                    <li>🧾 總還款金額</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站信用卡分期成本工具</th>
+                    <th>心算 / 粗略估算</th>
+                    <th>銀行網站試算</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>完全免費</td>
+                    <td>通常免費</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>✅ 無數據</td>
+                    <td>⚠️ 可能記錄</td>
+                </tr>
+                <tr>
+                    <td><strong>計算速度</strong></td>
+                    <td>⚡ 即時</td>
+                    <td>🐢 需時間</td>
+                    <td>⚡ 即時</td>
+                </tr>
+                <tr>
+                    <td><strong>IRR 精確計算</strong></td>
+                    <td>✅ 自動</td>
+                    <td>❌ 無法做到</td>
+                    <td>✅ 通常有</td>
+                </tr>
+                <tr>
+                    <td><strong>一次性手續費納入</strong></td>
+                    <td>✅ 支援</td>
+                    <td>⚠️ 難以納入</td>
+                    <td>✅ 通常有</td>
+                </tr>
+                <tr>
+                    <td><strong>每月手續費明細</strong></td>
+                    <td>✅ 自動顯示</td>
+                    <td>⚠️ 需手動</td>
+                    <td>✅ 通常有</td>
+                </tr>
+                <tr>
+                    <td><strong>總還款金額</strong></td>
+                    <td>✅ 自動計算</td>
+                    <td>⚠️ 需手動</td>
+                    <td>✅ 通常有</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>中等</td>
+                    <td>低</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p><span class="emoji-highlight">📞</span> 我記得嗰日 <strong>銀行打電話嚟推銷信用卡分期</strong>，話我最近一筆 $30,000 嘅簽賬可以分期，<strong>「每月手續費只係 0.2%，好抵㗎！」</strong> 我心諗：0.2% × 12 = 2.4%，比私人貸款仲平，<span class="story-highlight">好似真係幾吸引</span>。</p>
+            <p>但係我 <strong>用呢個工具計完之後，成個人醒晒</strong>。實際年利率竟然係 <strong>5.0%</strong>，足足係我直覺估算嘅 <span class="story-highlight">兩倍有多</span>！點解？因為我每個月都還緊本金，但手續費 $66 蚊 <span class="story-highlight">每個月都照收，一路收到最後一期</span> — 變相我借得越耐，實際利率越高。</p>
+            <p><span class="emoji-highlight">😤</span> 嗰次之後，我 <strong>對銀行嘅「分期優惠」完全改觀</strong>。而家每次銀行打嚟，我都會講：「<span class="story-highlight">你個 APR 係幾多？</span>」好多時候佢哋會答唔出，或者避而不答。因為 <strong>佢哋知道，一旦講咗 APR 出嚟，你就唔會分期</strong>。</p>
+            <p style="margin-top:10px; font-style:normal;">記住：<strong>每月手續費只係「表面數字」，APR 先係「真實成本」。</strong> 分期之前，一定要用工具計清楚。</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">💳 想知道信用卡分期有幾貴？即時計算真實 APR！</h3>
+            <p style="margin:0; font-size:0.9rem;">輸入簽賬金額、手續費率同期數，即時計算實際年利率、每月供款同總手續費，完全免費且保護私隱。</p>
+            <a href="../tools/credit-card-installment-true-cost.html?lang=hk" class="cta-btn-link" id="ctaBtnZh">👉 立即免費試用信用卡分期真實成本計算器</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Credit Card Installment True Cost Calculator Guide: APR Calculation — Exposing the Installment Fee Trap</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Do you often receive bank calls promoting <strong>credit card installment offers</strong>? "Monthly fee as low as 0.2%, and it's interest-free!" It sounds attractive—but have you ever wondered <strong>what the true cost actually is</strong>? The difference between <strong>Monthly Fee Rate and Annual Percentage Rate (APR)</strong> is exactly the <strong>number game</strong> that banks love to use to <strong>mislead consumers</strong>. Our free Credit Card Installment True Cost Calculator lets you enter <strong>transaction amount, monthly fee rate, tenure, and upfront fees</strong> to instantly calculate <strong>APR, monthly payment, monthly fee amount, and total fee cost</strong>. All processing happens in your browser—your data never leaves your device, ensuring 100% privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>Credit Card Installment</strong> is a common consumer credit product, but the "fee" traps often lead consumers to <strong>underestimate the true cost</strong>. Key concepts include:</p>
+        <ul>
+            <li><strong>Monthly Fee Rate:</strong> A common promotional metric—a fixed percentage charged monthly on the "original transaction amount." The principal decreases each month, but the fee remains constant.</li>
+            <li><strong>Annual Percentage Rate (APR):</strong> Calculated using Internal Rate of Return (IRR), factoring in all monthly fees, principal repayment timing, and upfront charges—reflecting the true annual cost of borrowing.</li>
+            <li><strong>Why is APR much higher than intuition suggests?</strong> Because fees are charged on the original amount, but you repay principal each month—your outstanding balance decreases, making the effective cost progressively higher.</li>
+            <li><strong>The "0% Interest" Truth:</strong> Banks advertise "interest-free" installments, but the monthly fee is essentially interest under another name.</li>
+            <li><strong>Upfront Admin Fees:</strong> Some banks charge initial administration fees, further increasing the APR.</li>
+        </ul>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Large Credit Card Purchases:</strong> Buying appliances, electronics, or furniture on installment—evaluate true costs.</li>
+            <li><strong>Travel Expenses:</strong> Splitting travel costs into installments—compare against paying in full.</li>
+            <li><strong>Course/Tuition Fees:</strong> Assess the true cost of installment payments for education—avoid "tuition installment becoming high-interest debt."</li>
+            <li><strong>Bank Telemarketing Evaluation:</strong> When banks call with installment offers, use this tool to calculate APR instantly.</li>
+            <li><strong>Comparing Different Installment Plans:</strong> Compare rates across banks for the same purchase—choose the most cost-effective option.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Enter Basic Information:</strong>
+                <ul>
+                    <li>💰 Transaction Amount</li>
+                    <li>📊 Monthly Fee Rate (%)</li>
+                    <li>📅 Tenure (Months)</li>
+                    <li>💳 Upfront Handling Fee (Optional)</li>
+                </ul>
+            </li>
+            <li><strong>Calculate:</strong> Inputs auto-update results instantly—no button clicks needed.</li>
+            <li><strong>View Results:</strong>
+                <ul>
+                    <li>📈 Annual Percentage Rate (APR) — True borrowing cost</li>
+                    <li>💵 Monthly Repayment (including fee)</li>
+                    <li>📊 Monthly Fee Amount</li>
+                    <li>💰 Total Fees/Interest Cost</li>
+                    <li>🧾 Total Repayment Amount</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Credit Card Cost Tool (Us)</th>
+                    <th>Mental Math</th>
+                    <th>Bank Calculators</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>100% Free</td>
+                    <td>Usually Free</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>✅ No data</td>
+                    <td>⚠️ May track</td>
+                </tr>
+                <tr>
+                    <td><strong>Speed</strong></td>
+                    <td>⚡ Instant</td>
+                    <td>🐢 Time-consuming</td>
+                    <td>⚡ Instant</td>
+                </tr>
+                <tr>
+                    <td><strong>IRR Exact Calculation</strong></td>
+                    <td>✅ Auto</td>
+                    <td>❌ Impossible</td>
+                    <td>✅ Usually</td>
+                </tr>
+                <tr>
+                    <td><strong>Upfront Fee Inclusion</strong></td>
+                    <td>✅ Supported</td>
+                    <td>⚠️ Hard to include</td>
+                    <td>✅ Usually</td>
+                </tr>
+                <tr>
+                    <td><strong>Monthly Fee Breakdown</strong></td>
+                    <td>✅ Auto-displayed</td>
+                    <td>⚠️ Manual</td>
+                    <td>✅ Usually</td>
+                </tr>
+                <tr>
+                    <td><strong>Total Repayment</strong></td>
+                    <td>✅ Auto-calculated</td>
+                    <td>⚠️ Manual</td>
+                    <td>✅ Usually</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Medium</td>
+                    <td>Low</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p><span class="emoji-highlight">📞</span> I remember the day <strong>the bank called to promote a credit card installment</strong> on my recent $30,000 purchase. <strong>"Monthly fee is only 0.2%, it's really cheap!"</strong> I thought: 0.2% × 12 = 2.4%—cheaper than a personal loan. <span class="story-highlight">It actually seemed attractive.</span></p>
+            <p>But after <strong>using this tool to calculate the true cost, I was completely shocked</strong>. The APR turned out to be <strong>5.0%</strong>—more than <span class="story-highlight">double my intuitive estimate</span>! Why? Because I repay principal every month, but the $66 monthly fee <span class="story-highlight">stays the same all the way to the last payment</span>—the longer I borrow, the higher the effective rate.</p>
+            <p><span class="emoji-highlight">😤</span> After that experience, <strong>my view of bank "installment offers" completely changed</strong>. Now, whenever the bank calls, I ask: "<span class="story-highlight">What's the APR?</span>" Most of the time, they can't answer or try to avoid the question. Because <strong>they know that once you see the APR, you won't take the installment</strong>.</p>
+            <p style="margin-top:10px; font-style:normal;">Remember: <strong>The monthly fee is just a "surface number." APR is the "true cost."</strong> Always use a tool to calculate before committing to an installment plan.</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">💳 Want to Know How Expensive Your Credit Card Installment Really Is? Calculate True APR Now!</h3>
+            <p style="margin:0; font-size:0.9rem;">Enter transaction amount, fee rate, and tenure for instant APR, monthly payment, and total fees—completely free with privacy protection.</p>
+            <a href="../tools/credit-card-installment-true-cost.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Credit Card Installment True Cost Calculator Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtnZh = document.getElementById('ctaBtnZh');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtnZh.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtnZh.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

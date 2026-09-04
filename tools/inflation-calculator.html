@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO 基本標籤 / Bilingual SEO -->
+    <title>線上通脹計算機 — 精算金錢購買力變化與貨幣貶值｜Inflation Calculator</title>
+    <meta name="description" content="免費線上通脹計算機 (Free Online Inflation Calculator)。輸入金額、平均通脹率及年期，即時精算金錢在不同年份的實際購買力變化與貨幣貶值程度。" />
+    <meta name="keywords" content="通脹計算機, 購買力計算機, 貨幣貶值, 通貨膨脹率, 歷史通脹, inflation calculator, purchasing power calculator, cumulative inflation, future value of money, real purchasing power" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/inflation-calculator.html" />
+
+    <!-- Open Graph 社交分享標籤 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="免費線上通脹計算機 — 一鍵評估通脹對購買力的影響｜Inflation Calculator" />
+    <meta property="og:description" content="輸入金額與預期通脹率，精算您的財富在若干年後的實際購買力，助您規劃抗通脹理財策略！" />
+    <meta property="og:url" content="https://www.behavior-report.com/tools/inflation-calculator.html" />
+
+    <!-- Schema.org 結構化資料 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "線上通脹計算機 (Inflation Calculator)",
+      "url": "https://www.behavior-report.com/tools/inflation-calculator.html",
+      "description": "提供金錢在不同年份與通脹率影響下購買力變化精算的免費線上金融工具。",
+      "applicationCategory": "FinancialApplication",
+      "operatingSystem": "All",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --green: #10b981;
+            --red: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch { text-align: center; margin-bottom: 20px; }
+        .lang-switch button {
+            background: transparent; border: none; color: var(--cyan);
+            cursor: pointer; font-size: 0.9rem; margin: 0 8px; font-weight: bold;
+        }
+        .lang-switch button:hover { text-decoration: underline; }
+
+        .tool-title { font-size: 1.6rem; color: #ffffff; text-align: center; font-weight: bold; }
+        .tool-sub { text-align: center; color: var(--text); font-size: 0.95rem; margin: 10px 0 25px; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: bold;
+        }
+
+        input[type="number"], select {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: #ffffff;
+            padding: 12px;
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        input[type="number"]:focus, select:focus { border-color: var(--cyan); }
+
+        .btn-calc {
+            width: 100%;
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--cyan);
+            border: 1px solid rgba(34, 211, 238, 0.25);
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .btn-calc:hover {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+
+        .results-panel {
+            display: none;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .res-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .res-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .res-card.highlight {
+            border-color: rgba(34, 211, 238, 0.4);
+            background: rgba(34, 211, 238, 0.05);
+        }
+
+        .res-card h4 { font-size: 0.85rem; color: var(--text-light); margin-bottom: 8px; }
+        .res-card .val { font-size: 1.3rem; color: var(--cyan); font-weight: bold; }
+        .res-card.highlight .val { color: var(--cyan-hover); font-size: 1.5rem; }
+
+        .seo-article { margin-top: 40px; padding-top: 25px; border-top: 1px solid rgba(148, 163, 184, 0.08); line-height: 1.6; }
+        .seo-article h2 { color: #ffffff; font-size: 1.1rem; margin-bottom: 12px; }
+        .seo-article p { font-size: 0.85rem; color: var(--text); margin-bottom: 12px; }
+
+        footer { text-align: center; margin-top: 30px; font-size: 11px; color: #555; }
+        footer a { color: #555; text-decoration: none; margin: 0 8px; }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="lang-switch">
+        <button onclick="setLang('zh')">繁體中文</button> |
+        <button onclick="setLang('en')">English</button>
+    </div>
+
+    <h1 class="tool-title" id="toolTitle">💸 線上通脹計算機 (Inflation Calculator)</h1>
+    <p class="tool-sub" id="toolSub">精算通貨膨脹對貨幣購買力的侵蝕與不同年份的價值差異</p>
+
+    <div class="form-grid">
+        <div class="form-group">
+            <label id="lblAmount">初始金額 ($) (Starting Amount)</label>
+            <input type="number" id="amount" placeholder="例如: 100000" value="100000">
+        </div>
+        <div class="form-group">
+            <label id="lblInflationRate">平均年通脹率 % (Average Inflation Rate)</label>
+            <input type="number" id="rate" step="0.1" placeholder="例如: 3.0" value="3.0">
+        </div>
+        <div class="form-group">
+            <label id="lblYears">時間跨度 (年) (Time Span - Years)</label>
+            <input type="number" id="years" placeholder="例如: 10" value="10">
+        </div>
+        <div class="form-group">
+            <label id="lblCalcType">計算模式 (Calculation Mode)</label>
+            <select id="calcMode">
+                <option value="futureValue" selected>未來的實際購買力 (Future Purchasing Power)</option>
+                <option value="futureCost">未來購買同等物品所需金額 (Cost in the Future)</option>
+            </select>
+        </div>
+    </div>
+
+    <button class="btn-calc" onclick="calculateInflation()" id="btnCalc">⚡ 計算購買力變化 (Calculate Inflation)</button>
+
+    <div class="results-panel" id="resultsPanel">
+        <h3 style="color: #fff; font-size: 1.1rem; margin-bottom: 10px;" id="resTitle">📊 通脹影響計算結果 (Inflation Results)</h3>
+        <div class="res-cards">
+            <div class="res-card highlight">
+                <h4 id="headResultVal">估算價值 (Estimated Value)</h4>
+                <div class="val" id="valResult">$0</div>
+            </div>
+            <div class="res-card">
+                <h4 id="headCumInflation">累積通脹率 (Cumulative Inflation)</h4>
+                <div class="val" id="valCumInflation">0.00%</div>
+            </div>
+            <div class="res-card">
+                <h4 id="headPowerChange">購買力變化 (Purchasing Power Loss)</h4>
+                <div class="val" id="valPowerChange">0.00%</div>
+            </div>
+        </div>
+    </div>
+
+    <article class="seo-article">
+        <h2 id="seoTitle">什麼是通貨膨脹？如何防止資產被「隱形偷走」？</h2>
+        <p id="seoP1">通貨膨脹（Inflation）是指物價水平持續上升、貨幣購買力相對下降的經濟現象。即使資金放在銀行儲蓄，若回報率低於通脹率，您的實際購買力便會隨時間被侵蝕。使用此計算機可以幫助您規劃長期投資與抗通脹策略。</p>
+        <p id="seoP2"><strong>Understanding Purchasing Power & Inflation Rate.</strong> Over time, inflation reduces the value of money. Calculating future purchasing power helps individuals and investors hedge against currency depreciation and maintain their standard of living.</p>
+    </article>
+</div>
+
+<footer>
+    <a href="../index.html">Home</a> | <a href="../privacy.html">Privacy Policy</a>
+</footer>
+
+<script>
+    const i18n = {
+        zh: {
+            title: "💸 線上通脹計算機 (Inflation Calculator)",
+            sub: "精算通貨膨脹對貨幣購買力的侵蝕與不同年份的價值差異",
+            lblAmount: "初始金額 ($) (Starting Amount)",
+            lblInflationRate: "平均年通脹率 % (Average Inflation Rate)",
+            lblYears: "時間跨度 (年) (Time Span - Years)",
+            lblCalcType: "計算模式 (Calculation Mode)",
+            btnCalc: "⚡ 計算購買力變化 (Calculate Inflation)",
+            resTitle: "📊 通脹影響計算結果 (Inflation Results)",
+            headCumInflation: "累積通脹率 (Cumulative Inflation)",
+            headPowerChange: "購買力折損率 (Purchasing Power Loss)",
+            optFutureValue: "未來的實際購買力 (Future Purchasing Power)",
+            optFutureCost: "未來購買同等物品所需金額 (Cost in the Future)",
+            resFutureValue: "相當於今日之購買力 (Today's Equivalent Power)",
+            resFutureCost: "未來所需花費總額 (Future Cost Required)",
+            seoTitle: "什麼是通貨膨脹？如何防止資產被「隱形偷走」？",
+            seoP1: "通貨膨脹（Inflation）是指物價水平持續上升、貨幣購買力相對下降的經濟現象。即使資金放在銀行儲蓄，若回報率低於通脹率，您的實際購買力便會隨時間被侵蝕。使用此計算機可以幫助您規劃長期投資與抗通脹策略。",
+            seoP2: "<strong>Understanding Purchasing Power & Inflation Rate.</strong> Over time, inflation reduces the value of money. Calculating future purchasing power helps individuals and investors hedge against currency depreciation and maintain their standard of living."
+        },
+        en: {
+            title: "💸 Inflation Calculator",
+            sub: "Calculate how inflation affects your purchasing power and future costs",
+            lblAmount: "Starting Amount ($)",
+            lblInflationRate: "Average Annual Inflation Rate (%)",
+            lblYears: "Time Horizon (Years)",
+            lblCalcType: "Calculation Mode",
+            btnCalc: "⚡ Calculate Impact",
+            resTitle: "📊 Inflation Impact Summary",
+            headCumInflation: "Cumulative Inflation",
+            headPowerChange: "Purchasing Power Loss",
+            optFutureValue: "Future Purchasing Power of Today's Money",
+            optFutureCost: "Future Cost of Today's Item",
+            resFutureValue: "Equivalent Purchasing Power",
+            resFutureCost: "Equivalent Future Cost Needed",
+            seoTitle: "Understanding Inflation & Purchasing Power",
+            seoP1: "Inflation continuously erodes the real value of cash. Knowing the future purchasing power of your savings allows you to build better wealth preservation plans.",
+            seoP2: "<strong>Understanding Purchasing Power & Inflation Rate.</strong> Over time, inflation reduces the value of money. Calculating future purchasing power helps individuals and investors hedge against currency depreciation and maintain their standard of living."
+        }
+    };
+
+    let currentLang = 'zh';
+
+    function setLang(lang) {
+        currentLang = lang;
+        const t = i18n[lang];
+        document.getElementById('toolTitle').innerText = t.title;
+        document.getElementById('toolSub').innerText = t.sub;
+        document.getElementById('lblAmount').innerText = t.lblAmount;
+        document.getElementById('lblInflationRate').innerText = t.lblInflationRate;
+        document.getElementById('lblYears').innerText = t.lblYears;
+        document.getElementById('lblCalcType').innerText = t.lblCalcType;
+        document.getElementById('btnCalc').innerText = t.btnCalc;
+        document.getElementById('resTitle').innerText = t.resTitle;
+        document.getElementById('headCumInflation').innerText = t.headCumInflation;
+        document.getElementById('headPowerChange').innerText = t.headPowerChange;
+        document.getElementById('seoTitle').innerText = t.seoTitle;
+        document.getElementById('seoP1').innerHTML = t.seoP1;
+        document.getElementById('seoP2').innerHTML = t.seoP2;
+
+        const modeSelect = document.getElementById('calcMode');
+        modeSelect.options[0].text = t.optFutureValue;
+        modeSelect.options[1].text = t.optFutureCost;
+    }
+
+    function formatCurrency(val) {
+        return '$' + Math.round(val).toLocaleString();
+    }
+
+    function calculateInflation() {
+        const amount = parseFloat(document.getElementById('amount').value);
+        const rate = (parseFloat(document.getElementById('rate').value) || 0) / 100;
+        const years = parseFloat(document.getElementById('years').value);
+        const mode = document.getElementById('calcMode').value;
+        const t = i18n[currentLang];
+
+        if (!amount || amount <= 0 || !years || years <= 0) {
+            alert('請輸入有效的金額與年期！Please enter valid amount and year inputs.');
+            return;
+        }
+
+        const cumInflation = Math.pow(1 + rate, years) - 1;
+        let resultVal = 0;
+        let powerLoss = 0;
+
+        if (mode === 'futureValue') {
+            // 現有金額在未來的實際購買力折現
+            resultVal = amount / Math.pow(1 + rate, years);
+            powerLoss = ((amount - resultVal) / amount) * 100;
+            document.getElementById('headResultVal').innerText = t.resFutureValue;
+        } else {
+            // 未來購買同等價值物品需要的名義金額
+            resultVal = amount * Math.pow(1 + rate, years);
+            powerLoss = ((resultVal - amount) / resultVal) * 100;
+            document.getElementById('headResultVal').innerText = t.resFutureCost;
+        }
+
+        document.getElementById('valResult').innerText = formatCurrency(resultVal);
+        document.getElementById('valCumInflation').innerText = (cumInflation * 100).toFixed(2) + '%';
+        document.getElementById('valPowerChange').innerText = '-' + powerLoss.toFixed(2) + '%';
+
+        document.getElementById('resultsPanel').style.display = 'block';
+    }
+</script>
+<!-- 語言參數接收與傳遞 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang');
+    if (lang) {
+        if (typeof setLang === 'function') {
+            setLang(lang);
+        }
+        document.querySelectorAll('a[href]').forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('../')) {
+                const url = new URL(href, window.location.href);
+                url.searchParams.set('lang', lang);
+                link.setAttribute('href', url.toString());
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【文字轉語音 TTS 教學】免費線上朗讀工具｜支援暫停/繼續/多國語音｜Free TTS Guide</title>
+    <meta name="description" content="文字轉語音 TTS 完整教學！免費線上文字朗讀工具，支援播放/暫停/繼續，自由調整語速與音調，適用於英文、廣東話及國語發音練習。Free online Text to Speech tool guide.">
+    <meta name="keywords" content="文字轉語音, 線上 TTS, 語音合成, 文字朗讀器, 語音產生器, text to speech, tts online, speech synthesis, free text reader, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/tts-converter-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【文字轉語音 TTS 教學】免費線上朗讀工具 — 支援暫停/繼續/多國語音｜Free TTS Guide">
+    <meta property="og:description" content="免費線上文字朗讀工具，支援播放/暫停/繼續，自由調整語速與音調。100% 瀏覽器處理保護私隱。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/tts-converter-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free TTS Guide – Text to Speech with Play/Pause/Resume Controls">
+    <meta name="twitter:description" content="Convert text to speech with play, pause, resume controls. Adjustable speed and pitch. 100% client-side privacy.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "文字轉語音 TTS 教學：免費線上朗讀工具 — 支援暫停/繼續/多國語音",
+      "description": "介紹如何使用文字轉語音工具將文字轉換為語音朗讀，支援播放控制與語速音調調整，適用於語言學習、文章校對與無障礙閱讀。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>文字轉語音 TTS 教學：免費線上朗讀工具 — 支援暫停/繼續/多國語音</h1>
+
+        <h2>1. 導言</h2>
+        <p>你試過想將一篇文章轉成語音，一邊做其他嘢一邊聽？或者想練習英文發音，但係唔知點樣先可以聽到標準嘅讀音？<strong>文字轉語音（Text to Speech / TTS）</strong> 就係為咗呢個情況而設。我哋嘅免費文字轉語音工具採用瀏覽器原生嘅 <strong>Web Speech API</strong>，支援 <strong>播放、暫停、繼續同停止</strong> 完整控制，仲可以自由調整 <strong>語速同音調</strong>。所有運算喺瀏覽器入面完成，文字唔會離開你嘅裝置，私隱 100% 安全。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>文字轉語音（Text to Speech / TTS）</strong> 係將書面文字轉換為語音朗讀嘅技術。主要功能包括：</p>
+        <ul>
+            <li><strong>多國語音支援：</strong> 內置多種語言語音，包括英文、廣東話、國語（普通話）等。</li>
+            <li><strong>播放控制：</strong> 播放、暫停、繼續同停止，靈活控制朗讀進度。</li>
+            <li><strong>語速調整：</strong> 0.5x 至 2.0x 自由調節，適合慢速學習或快速瀏覽。</li>
+            <li><strong>音調調整：</strong> 0.5 至 1.5 自由調節，改變聲音高低。</li>
+        </ul>
+        <p>我哋嘅工具採用瀏覽器內建嘅 SpeechSynthesis API，所有語音合成 100% 喺客戶端進行，文字內容絕不會上傳到任何伺服器。</p>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>語言學習：</strong> 練習英文、普通話或廣東話發音，聽標準讀音。</li>
+            <li><strong>文章校對：</strong> 將自己寫嘅文章轉成語音，用聽嘅方式搵出錯字。</li>
+            <li><strong>無障礙閱讀：</strong> 為視力不佳嘅用戶提供文字朗讀服務。</li>
+            <li><strong>多任務處理：</strong> 一邊聽文章一邊做其他事，提升效率。</li>
+            <li><strong>聽書：</strong> 將長篇文字轉成語音，放鬆眼睛。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>輸入文字：</strong> 在文字框內輸入或貼上你想朗讀嘅文字。</li>
+            <li><strong>選擇語音：</strong> 從下拉選單選擇合適嘅語言語音（例如英文、廣東話、國語）。</li>
+            <li><strong>調整參數：</strong>
+                <ul>
+                    <li>語速（Speed）— 滑桿調整 0.5x 至 2.0x。</li>
+                    <li>音調（Pitch）— 滑桿調整 0.5 至 1.5。</li>
+                </ul>
+            </li>
+            <li><strong>播放控制：</strong>
+                <ul>
+                    <li>▶ 播放 — 開始朗讀文字。</li>
+                    <li>⏸ 暫停 — 暫停當前朗讀。</li>
+                    <li>⏯ 繼續 — 繼續朗讀。</li>
+                    <li>⏹ 停止 — 停止朗讀並重置。</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站前端工具</th>
+                    <th>手機語音助理</th>
+                    <th>雲端 TTS 服務</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>免費</td>
+                    <td>通常需付費</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>⚠️ 視乎設定</td>
+                    <td>❌ 需上傳伺服器</td>
+                </tr>
+                <tr>
+                    <td><strong>語音數量</strong></td>
+                    <td>視乎瀏覽器</td>
+                    <td>有限</td>
+                    <td>多種</td>
+                </tr>
+                <tr>
+                    <td><strong>暫停/繼續</strong></td>
+                    <td>✅ 完整支援</td>
+                    <td>⚠️ 視乎裝置</td>
+                    <td>✅ 通常支援</td>
+                </tr>
+                <tr>
+                    <td><strong>語速調整</strong></td>
+                    <td>✅ 0.5-2.0x</td>
+                    <td>✅ 通常支援</td>
+                    <td>✅ 支援</td>
+                </tr>
+                <tr>
+                    <td><strong>音調調整</strong></td>
+                    <td>✅ 0.5-1.5</td>
+                    <td>❌ 通常不支援</td>
+                    <td>⚠️ 視乎服務</td>
+                </tr>
+                <tr>
+                    <td><strong>無需安裝</strong></td>
+                    <td>✅ 瀏覽器即用</td>
+                    <td>✅ 內置</td>
+                    <td>✅ 瀏覽器即用</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>低</td>
+                    <td>低</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「以前讀大學嗰陣，成日要睇好多文獻。眼睇到攰，但又未睇完。後來發現可以用 TTS 將文獻朗讀出嚟，一路瞇埋眼聽，一路休息——<strong>用聽覺去消化本來要用視覺去吸收嘅內容</strong>。嗰一刻我先明，TTS 唔只係一個『將文字變聲』嘅功能，佢係一個 <strong>改變你點樣吸收資訊</strong> 嘅工具。閱讀同聆聽係兩種完全唔同嘅認知方式——閱讀需要你專注，聆聽容許你同時做其他嘢。呢個工具俾你嘅，就係 <strong>將『睇書』變成『聽書』</strong> 嘅能力。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">🔊 需要將文字轉成語音？即時朗讀！</h3>
+            <p style="margin:0; font-size:0.9rem;">多國語音選擇，完整播放控制，自由調整語速與音調，完全免費且保護私隱。</p>
+            <a href="../tools/text-to-speech.html?lang=hk" class="cta-btn-link" id="ctaBtn">👉 立即免費試用文字轉語音工具</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Text to Speech TTS Guide: Free Online Reader with Play/Pause/Resume Controls</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Ever wanted to turn an article into audio so you could listen while doing other things? Or needed to practice English pronunciation but didn't know how to hear the correct sounds? <strong>Text to Speech (TTS)</strong> is exactly for this situation. Our free TTS tool uses the browser's native <strong>Web Speech API</strong> with full <strong>play, pause, resume, and stop</strong> controls, plus adjustable <strong>speed and pitch</strong>. All processing happens in your browser—your text never leaves your device, ensuring 100% privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>Text to Speech (TTS)</strong> is the technology that converts written text into spoken audio. Key features include:</p>
+        <ul>
+            <li><strong>Multiple Language Voices:</strong> Built-in voices for English, Cantonese, Mandarin, and more.</li>
+            <li><strong>Playback Controls:</strong> Play, pause, resume, and stop for flexible listening.</li>
+            <li><strong>Speed Adjustment:</strong> 0.5x to 2.0x—ideal for slow learning or fast browsing.</li>
+            <li><strong>Pitch Adjustment:</strong> 0.5 to 1.5—change the voice's pitch.</li>
+        </ul>
+        <p>Our tool uses the browser's built-in SpeechSynthesis API—all speech synthesis happens 100% client-side, and your text content never leaves your device.</p>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Language Learning:</strong> Practice English, Mandarin, or Cantonese pronunciation with standard readings.</li>
+            <li><strong>Article Proofreading:</strong> Listen to your written work to catch errors by ear.</li>
+            <li><strong>Accessibility:</strong> Provide text-to-speech for visually impaired users.</li>
+            <li><strong>Multitasking:</strong> Listen to articles while doing other tasks for increased efficiency.</li>
+            <li><strong>Audiobooks:</strong> Convert long texts into audio to rest your eyes.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Enter Text:</strong> Type or paste your text into the text area.</li>
+            <li><strong>Select Voice:</strong> Choose your preferred language voice (English, Cantonese, Mandarin, etc.).</li>
+            <li><strong>Adjust Parameters:</strong>
+                <ul>
+                    <li>Speed — Slider from 0.5x to 2.0x.</li>
+                    <li>Pitch — Slider from 0.5 to 1.5.</li>
+                </ul>
+            </li>
+            <li><strong>Playback Controls:</strong>
+                <ul>
+                    <li>▶ Play — Start reading the text aloud.</li>
+                    <li>⏸ Pause — Pause the current reading.</li>
+                    <li>⏯ Resume — Continue reading.</li>
+                    <li>⏹ Stop — Stop and reset reading.</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Client-Side Tool (Us)</th>
+                    <th>Phone Voice Assistant</th>
+                    <th>Cloud TTS Service</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Free</td>
+                    <td>Usually Paid</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>⚠️ Depends</td>
+                    <td>❌ Server Upload</td>
+                </tr>
+                <tr>
+                    <td><strong>Voice Selection</strong></td>
+                    <td>Browser-dependent</td>
+                    <td>Limited</td>
+                    <td>Multiple</td>
+                </tr>
+                <tr>
+                    <td><strong>Pause/Resume</strong></td>
+                    <td>✅ Full support</td>
+                    <td>⚠️ Device-dependent</td>
+                    <td>✅ Usually</td>
+                </tr>
+                <tr>
+                    <td><strong>Speed Control</strong></td>
+                    <td>✅ 0.5-2.0x</td>
+                    <td>✅ Usually</td>
+                    <td>✅ Supported</td>
+                </tr>
+                <tr>
+                    <td><strong>Pitch Control</strong></td>
+                    <td>✅ 0.5-1.5</td>
+                    <td>❌ Usually not</td>
+                    <td>⚠️ Service-dependent</td>
+                </tr>
+                <tr>
+                    <td><strong>No Installation</strong></td>
+                    <td>✅ Browser</td>
+                    <td>✅ Built-in</td>
+                    <td>✅ Browser</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Low</td>
+                    <td>Low</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"Back in university, I had to read tons of academic papers. My eyes were exhausted, but I wasn't done. Then I discovered TTS could read the papers aloud—I could close my eyes, rest, and <strong>digest with my ears what I'd normally consume with my eyes</strong>. That's when I realized TTS isn't just a 'text-to-sound' feature—it's a tool that <strong>changes how you absorb information</strong>. Reading and listening are two completely different cognitive modes—reading requires focus, while listening allows multitasking. This tool gives you exactly that <strong>power to turn 'reading' into 'listening'</strong>."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">🔊 Need to Convert Text to Speech? Instant Reading!</h3>
+            <p style="margin:0; font-size:0.9rem;">Multiple voices, full playback controls, adjustable speed and pitch—completely free with privacy protection.</p>
+            <a href="../tools/text-to-speech.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free TTS Tool Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtn = document.getElementById('ctaBtn');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtn.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtn.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

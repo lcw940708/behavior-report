@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【通脹計算機教學】精算購買力變化與貨幣貶值｜抗通脹理財｜Free Inflation Calculator Guide</title>
+    <meta name="description" content="通脹計算機完整教學！精算通貨膨脹對貨幣購買力的侵蝕與不同年份的價值差異，助您規劃抗通脹理財策略。Free online inflation calculator guide.">
+    <meta name="keywords" content="通脹計算機, 購買力計算機, 貨幣貶值, 通貨膨脹率, 抗通脹理財, inflation calculator, purchasing power calculator, cumulative inflation, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/inflation-calculator-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【通脹計算機教學】精算購買力變化與貨幣貶值｜抗通脹理財｜Free Inflation Calculator Guide">
+    <meta property="og:description" content="精算通貨膨脹對貨幣購買力的侵蝕與不同年份的價值差異，助您規劃抗通脹理財策略。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/inflation-calculator-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Inflation Calculator Guide – Calculate Purchasing Power & Currency Depreciation">
+    <meta name="twitter:description" content="Calculate how inflation affects your purchasing power and future costs. Plan your inflation-proof investment strategy.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "通脹計算機教學：精算購買力變化與貨幣貶值 — 抗通脹理財",
+      "description": "介紹如何使用通脹計算機精算通貨膨脹對貨幣購買力的影響，適用於退休規劃、投資決策與資產保值。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>通脹計算機教學：精算購買力變化與貨幣貶值 — 抗通脹理財</h1>
+
+        <h2>1. 導言</h2>
+        <p>你有冇諗過，今日嘅 $100 蚊，10 年之後仲值幾多？或者你儲蓄咗 $100 萬打算退休，但係通脹會唔會令你嘅購買力大打折扣？<strong>通貨膨脹（Inflation）</strong> 係一個會 <strong>靜靜雞偷走你財富</strong> 嘅現象——物價上升，貨幣購買力下降，你嘅錢「越嚟越唔值錢」。我哋嘅免費通脹計算機可以幫你精算 <strong>通脹對購買力嘅侵蝕</strong>，輸入金額、平均通脹率及年期，即時睇到 <strong>未來嘅實際購買力</strong> 同 <strong>貨幣貶值程度</strong>。所有運算喺瀏覽器入面完成，數據唔會離開你嘅裝置，私隱 100% 安全。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>通貨膨脹（Inflation）</strong> 係指物價水平持續上升、貨幣購買力相對下降嘅經濟現象。主要概念包括：</p>
+        <ul>
+            <li><strong>購買力（Purchasing Power）：</strong> 一筆錢可以買到嘅貨物或服務數量。通脹越高，購買力越低。</li>
+            <li><strong>累積通脹率（Cumulative Inflation）：</strong> 一段時間內嘅總通脹百分比。</li>
+            <li><strong>名義金額 vs 實際金額：</strong> 名義金額係未來嘅面值，實際金額係調整通脹後嘅購買力。</li>
+            <li><strong>通脹對儲蓄嘅影響：</strong> 如果銀行利率低過通脹率，你嘅儲蓄實際購買力會縮水。</li>
+        </ul>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>退休規劃：</strong> 計算未來退休所需嘅實際金額，確保購買力足夠。</li>
+            <li><strong>投資決策：</strong> 評估投資回報率是否跑贏通脹，確保資產保值。</li>
+            <li><strong>長期儲蓄目標：</strong> 計算教育基金、買樓首期等目標嘅未來實際價值。</li>
+            <li><strong>財務預算：</strong> 預測未來生活開支嘅增長幅度。</li>
+            <li><strong>抗通脹策略：</strong> 比較不同投資工具（股票、債券、房地產）對沖通脹嘅效果。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>輸入基本資料：</strong>
+                <ul>
+                    <li>💰 初始金額（Starting Amount）</li>
+                    <li>📈 平均年通脹率 %（Average Inflation Rate）</li>
+                    <li>📅 時間跨度（年）（Time Span - Years）</li>
+                    <li>📊 計算模式（未來購買力 / 未來所需金額）</li>
+                </ul>
+            </li>
+            <li><strong>計算：</strong> 點擊「計算購買力變化」按鈕。</li>
+            <li><strong>檢視結果：</strong>
+                <ul>
+                    <li>💚 估算價值 — 未來嘅實際購買力或所需金額</li>
+                    <li>📊 累積通脹率 — 總通脹百分比</li>
+                    <li>📊 購買力折損率 — 購買力下降百分比</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站通脹計算機</th>
+                    <th>銀行 App</th>
+                    <th>財務顧問</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>免費</td>
+                    <td>需付費</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>⚠️ 視乎 App</td>
+                    <td>✅ 一對一</td>
+                </tr>
+                <tr>
+                    <td><strong>計算速度</strong></td>
+                    <td>⚡ 即時</td>
+                    <td>⚡ 即時</td>
+                    <td>🐢 需預約</td>
+                </tr>
+                <tr>
+                    <td><strong>兩種計算模式</strong></td>
+                    <td>✅ 購買力 / 未來成本</td>
+                    <td>⚠️ 視乎 App</td>
+                    <td>✅ 詳細</td>
+                </tr>
+                <tr>
+                    <td><strong>累積通脹顯示</strong></td>
+                    <td>✅ 自動計算</td>
+                    <td>⚠️ 視乎 App</td>
+                    <td>✅ 詳細</td>
+                </tr>
+                <tr>
+                    <td><strong>無需安裝</strong></td>
+                    <td>✅ 瀏覽器即用</td>
+                    <td>❌ 需下載 App</td>
+                    <td>✅ 無需</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>低</td>
+                    <td>高</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「我阿爸成日話佢後生嗰陣，$10 蚊可以食到三餐。而家 $10 蚊買杯奶茶都唔夠。呢個就係通脹嘅威力——<strong>錢冇變少，但可以買到嘅嘢變少咗</strong>。你唔理通脹，通脹就會 <strong>靜靜雞偷走你嘅購買力</strong>。3% 嘅通脹率，20 年後你嘅 $100 萬只值今日嘅 $55 萬——你冇使過錢，但錢唔見咗接近一半。呢個工具俾你嘅，就係 <strong>用 10 秒鐘睇清楚通脹點樣蠶食你嘅財富</strong>—等你開始諗 <strong>點樣跑贏通脹</strong>，而唔係將錢放喺銀行『等發霉』。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">💸 想知通脹點樣影響你嘅購買力？即時計算！</h3>
+            <p style="margin:0; font-size:0.9rem;">輸入金額與通脹率，即時計算未來購買力與貨幣貶值程度，完全免費且保護私隱。</p>
+            <a href="../tools/inflation-calculator.html?lang=hk" class="cta-btn-link" id="ctaBtnZh">👉 立即免費試用通脹計算機</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Inflation Calculator Guide: Calculate Purchasing Power & Currency Depreciation — Inflation-Proof Your Finances</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Ever wondered what $100 today will be worth 10 years from now? Or whether your $1 million in savings will still have enough purchasing power for retirement? <strong>Inflation</strong> is a phenomenon that <strong>silently steals your wealth</strong>—prices rise, purchasing power falls, and your money becomes "worth less." Our free inflation calculator helps you calculate <strong>how inflation erodes purchasing power</strong>—enter amount, average inflation rate, and time span to instantly see <strong>future purchasing power</strong> and <strong>currency depreciation</strong>. All processing happens in your browser—your data never leaves your device, ensuring 100% privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>Inflation</strong> refers to the sustained increase in the general price level of goods and services, reducing the purchasing power of money. Key concepts include:</p>
+        <ul>
+            <li><strong>Purchasing Power:</strong> The quantity of goods and services a sum of money can buy. Higher inflation = lower purchasing power.</li>
+            <li><strong>Cumulative Inflation:</strong> The total inflation percentage over a period of time.</li>
+            <li><strong>Nominal vs. Real Value:</strong> Nominal is the future face value; real value is purchasing power adjusted for inflation.</li>
+            <li><strong>Impact on Savings:</strong> If bank interest rates are lower than inflation, your savings' real purchasing power shrinks.</li>
+        </ul>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Retirement Planning:</strong> Calculate the real amount needed for retirement to ensure sufficient purchasing power.</li>
+            <li><strong>Investment Decisions:</strong> Evaluate whether investment returns beat inflation to preserve asset value.</li>
+            <li><strong>Long-Term Savings Goals:</strong> Calculate the future real value of education funds, home down payments, and other goals.</li>
+            <li><strong>Budgeting:</strong> Forecast the growth rate of future living expenses.</li>
+            <li><strong>Inflation Hedging Strategies:</strong> Compare different investment vehicles (stocks, bonds, real estate) for hedging against inflation.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Enter Basic Information:</strong>
+                <ul>
+                    <li>💰 Starting Amount</li>
+                    <li>📈 Average Inflation Rate (%)</li>
+                    <li>📅 Time Span (Years)</li>
+                    <li>📊 Calculation Mode (Future Purchasing Power / Future Cost Required)</li>
+                </ul>
+            </li>
+            <li><strong>Calculate:</strong> Click the "Calculate Inflation Impact" button.</li>
+            <li><strong>View Results:</strong>
+                <ul>
+                    <li>💚 Estimated Value — Future purchasing power or required amount</li>
+                    <li>📊 Cumulative Inflation — Total inflation percentage</li>
+                    <li>📊 Purchasing Power Loss — Percentage decrease in purchasing power</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Inflation Tool (Us)</th>
+                    <th>Bank App</th>
+                    <th>Financial Advisor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Free</td>
+                    <td>Paid</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>⚠️ App-dependent</td>
+                    <td>✅ One-on-one</td>
+                </tr>
+                <tr>
+                    <td><strong>Speed</strong></td>
+                    <td>⚡ Instant</td>
+                    <td>⚡ Instant</td>
+                    <td>🐢 Appointment needed</td>
+                </tr>
+                <tr>
+                    <td><strong>Two Calculation Modes</strong></td>
+                    <td>✅ Purchasing Power / Cost</td>
+                    <td>⚠️ App-dependent</td>
+                    <td>✅ Detailed</td>
+                </tr>
+                <tr>
+                    <td><strong>Cumulative Inflation Display</strong></td>
+                    <td>✅ Auto-calculated</td>
+                    <td>⚠️ App-dependent</td>
+                    <td>✅ Detailed</td>
+                </tr>
+                <tr>
+                    <td><strong>No Installation</strong></td>
+                    <td>✅ Browser</td>
+                    <td>❌ App Required</td>
+                    <td>✅ None needed</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Low</td>
+                    <td>High</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"My dad always says that when he was young, $10 could buy three full meals. Now, $10 can't even buy a cup of bubble tea. That's the power of inflation—<strong>your money doesn't decrease, but what you can buy with it does</strong>. Ignore inflation, and it will <strong>silently steal your purchasing power</strong>. At 3% inflation, your $1 million will only be worth $550,000 in today's money after 20 years—you didn't spend it, but nearly half disappeared. This tool gives you exactly that <strong>ability to see in 10 seconds how inflation erodes your wealth</strong>—so you start thinking about <strong>how to beat inflation</strong>, instead of leaving money in the bank to 'mold.'"</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">💸 Want to Know How Inflation Affects Your Purchasing Power? Calculate Instantly!</h3>
+            <p style="margin:0; font-size:0.9rem;">Enter amount and inflation rate for instant purchasing power and depreciation results—completely free with privacy protection.</p>
+            <a href="../tools/inflation-calculator.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Inflation Calculator Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtnZh = document.getElementById('ctaBtnZh');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtnZh.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtnZh.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

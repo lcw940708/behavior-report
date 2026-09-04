@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【BMR/TDEE 計算機教學】基礎代謝率與每日熱量消耗｜科學增肌減脂｜Free BMR TDEE Calculator Guide</title>
+    <meta name="description" content="BMR/TDEE 計算機完整教學！精準計算基礎代謝率 (BMR) 與每日總熱量消耗 (TDEE)，提供減脂、增肌與維持體重的每日卡路里建議。Free online BMR TDEE calculator guide.">
+    <meta name="keywords" content="BMR計算機, TDEE計算機, 基礎代謝率, 每日熱量消耗, 減脂卡路里, 增肌熱量, BMR calculator, TDEE calculator, basal metabolic rate, total daily energy expenditure, calorie intake, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/bmr-tdee-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【BMR/TDEE 計算機教學】基礎代謝率與每日熱量消耗 — 科學增肌減脂｜Free BMR TDEE Calculator Guide">
+    <meta property="og:description" content="精準計算基礎代謝率 (BMR) 與每日總熱量消耗 (TDEE)，提供減脂、增肌與維持體重的每日卡路里建議。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/bmr-tdee-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free BMR & TDEE Calculator Guide – Calculate Daily Calorie Needs">
+    <meta name="twitter:description" content="Calculate Basal Metabolic Rate and Total Daily Energy Expenditure. Get calorie targets for fat loss, muscle gain, and maintenance.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "BMR/TDEE 計算機教學：基礎代謝率與每日熱量消耗 — 科學增肌減脂",
+      "description": "介紹如何使用 BMR/TDEE 計算機計算基礎代謝率與每日熱量消耗，適用於減脂、增肌與體重管理規劃。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>BMR/TDEE 計算機教學：基礎代謝率與每日熱量消耗 — 科學增肌減脂</h1>
+
+        <h2>1. 導言</h2>
+        <p>你想減肥但係唔知每日應該食幾多卡路里？或者你想增肌，但係唔肯定要食多幾多先有效？<strong>BMR（基礎代謝率）</strong> 同 <strong>TDEE（每日總熱量消耗）</strong> 就係解答呢個問題嘅關鍵數字。我哋嘅免費 BMR/TDEE 計算機採用 <strong>Mifflin-St Jeor 公式</strong>，精準計算你嘅基礎代謝率同每日總熱量消耗，仲會自動提供 <strong>減脂、增肌同維持體重</strong> 嘅每日卡路里建議。所有運算喺瀏覽器入面完成，你嘅個人資料唔會離開你嘅裝置，私隱 100% 安全。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>BMR（Basal Metabolic Rate，基礎代謝率）</strong> 係身體喺完全靜止狀態下維持基本生命功能（呼吸、心跳、體溫、器官運作）所需嘅最低熱量。影響 BMR 嘅因素包括：</p>
+        <ul>
+            <li><strong>年齡：</strong> 年齡越大，BMR 通常越低。</li>
+            <li><strong>性別：</strong> 男性通常比女性有更高嘅 BMR。</li>
+            <li><strong>體重與身高：</strong> 體型越大，BMR 越高。</li>
+            <li><strong>肌肉量：</strong> 肌肉組織比脂肪消耗更多熱量。</li>
+        </ul>
+        <p><strong>TDEE（Total Daily Energy Expenditure，每日總熱量消耗）</strong> 係 BMR 乘以「日常活動量係數」後嘅總熱量消耗，反映你每日實際燃燒嘅卡路里數量。知道 TDEE 之後，你就可以科學地規劃飲食：</p>
+        <ul>
+            <li><strong>減脂：</strong> 每日攝取熱量 < TDEE（通常少 15-20%）</li>
+            <li><strong>維持體重：</strong> 每日攝取熱量 ≈ TDEE</li>
+            <li><strong>增肌：</strong> 每日攝取熱量 > TDEE（通常多 15-20%）</li>
+        </ul>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>減肥計劃：</strong> 計算每日應攝取嘅卡路里目標，科學減脂。</li>
+            <li><strong>增肌訓練：</strong> 確定需要額外攝取嘅熱量，配合重訓增肌。</li>
+            <li><strong>體重維持：</strong> 了解每日所需熱量，避免不知不覺變肥或變瘦。</li>
+            <li><strong>營養諮詢：</strong> 為客戶或自己制定個人化飲食計劃。</li>
+            <li><strong>健康監測：</strong> 定期追蹤 BMR 變化，了解新陳代謝狀況。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>輸入個人資料：</strong>
+                <ul>
+                    <li>生理性別（男性/女性）</li>
+                    <li>年齡（歲）</li>
+                    <li>身高（厘米）</li>
+                    <li>體重（公斤）</li>
+                </ul>
+            </li>
+            <li><strong>選擇活動量：</strong> 根據日常生活同運動習慣，選擇最接近嘅活動量等級。</li>
+            <li><strong>計算：</strong> 點擊「計算熱量需求」按鈕。</li>
+            <li><strong>檢視結果：</strong>
+                <ul>
+                    <li>🔥 BMR — 基礎代謝率（靜止時消耗）</li>
+                    <li>📊 TDEE — 每日總熱量消耗（維持體重）</li>
+                    <li>⚡ 減脂目標 — 每日攝取熱量（-15%）</li>
+                    <li>💪 增肌目標 — 每日攝取熱量（+15%）</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站計算機</th>
+                    <th>健身 App</th>
+                    <th>營養師諮詢</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>免費或付費</td>
+                    <td>需付費</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>⚠️ 視乎 App</td>
+                    <td>✅ 一對一</td>
+                </tr>
+                <tr>
+                    <td><strong>計算速度</strong></td>
+                    <td>⚡ 即時</td>
+                    <td>⚡ 即時</td>
+                    <td>🐢 需預約</td>
+                </tr>
+                <tr>
+                    <td><strong>公式準確度</strong></td>
+                    <td>✅ Mifflin-St Jeor</td>
+                    <td>✅ 多種公式</td>
+                    <td>✅ 專業評估</td>
+                </tr>
+                <tr>
+                    <td><strong>活動量選項</strong></td>
+                    <td>5 個等級</td>
+                    <td>⚠️ 視乎 App</td>
+                    <td>✅ 詳細評估</td>
+                </tr>
+                <tr>
+                    <td><strong>減脂/增肌建議</strong></td>
+                    <td>✅ 自動提供</td>
+                    <td>⚠️ 視乎 App</td>
+                    <td>✅ 個人化</td>
+                </tr>
+                <tr>
+                    <td><strong>無需安裝</strong></td>
+                    <td>✅ 瀏覽器即用</td>
+                    <td>❌ 需下載 App</td>
+                    <td>✅ 無需</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>低</td>
+                    <td>高</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「以前減肥嗰陣，成日靠感覺食嘢——覺得自己今日做咗運動就食多啲，冇做就食少啲。結果體重上上落落，完全冇進展。後來用呢個工具計完 TDEE，先知自己一直 <strong>低估咗每日消耗嘅熱量</strong>，成日食得太多。BMR 同 TDEE 唔只係一堆數字，佢哋係你 <strong>身體嘅能源說明書</strong>—話俾你知你嘅身體每日需要幾多燃料先可以正常運作。知道呢個數字之後，減肥唔再係靠感覺，而係 <strong>靠科學</strong>。呢個工具俾你嘅，就係呢種 <strong>將『我覺得』變成『數據顯示』</strong> 嘅能力。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">🔥 想了解每日熱量需求？科學計算 BMR & TDEE！</h3>
+            <p style="margin:0; font-size:0.9rem;">輸入個人資料即時計算，提供減脂、增肌與維持體重建議，完全免費且保護私隱。</p>
+            <a href="../tools/bmr-tdee-calculator.html?lang=hk" class="cta-btn-link" id="ctaBtn">👉 立即免費試用 BMR/TDEE 計算機</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>BMR & TDEE Calculator Guide: Calculate Basal Metabolic Rate & Daily Calorie Needs</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Trying to lose weight but don't know how many calories you should eat per day? Or want to build muscle but aren't sure how much extra you need? <strong>BMR (Basal Metabolic Rate)</strong> and <strong>TDEE (Total Daily Energy Expenditure)</strong> are the key numbers that answer these questions. Our free BMR/TDEE calculator uses the <strong>Mifflin-St Jeor formula</strong> to accurately calculate your basal metabolic rate and total daily energy expenditure, automatically providing <strong>fat loss, muscle gain, and maintenance</strong> calorie targets. All processing happens in your browser—your personal data never leaves your device, ensuring 100% privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>BMR (Basal Metabolic Rate)</strong> is the minimum number of calories your body needs at complete rest to maintain basic life functions (breathing, heartbeat, body temperature, organ function). Factors that affect BMR include:</p>
+        <ul>
+            <li><strong>Age:</strong> BMR generally decreases with age.</li>
+            <li><strong>Gender:</strong> Males typically have higher BMR than females.</li>
+            <li><strong>Weight and Height:</strong> Larger body size means higher BMR.</li>
+            <li><strong>Muscle Mass:</strong> Muscle tissue burns more calories than fat.</li>
+        </ul>
+        <p><strong>TDEE (Total Daily Energy Expenditure)</strong> is BMR multiplied by an "activity level factor"—it reflects the total calories you actually burn each day. Knowing your TDEE allows you to scientifically plan your diet:</p>
+        <ul>
+            <li><strong>Fat Loss:</strong> Daily calorie intake < TDEE (usually 15-20% deficit)</li>
+            <li><strong>Maintenance:</strong> Daily calorie intake ≈ TDEE</li>
+            <li><strong>Muscle Gain:</strong> Daily calorie intake > TDEE (usually 15-20% surplus)</li>
+        </ul>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Weight Loss Plans:</strong> Calculate daily calorie targets for scientific fat loss.</li>
+            <li><strong>Muscle Building:</strong> Determine the extra calories needed for muscle growth with resistance training.</li>
+            <li><strong>Weight Maintenance:</strong> Understand daily calorie needs to avoid unintended weight changes.</li>
+            <li><strong>Nutrition Counseling:</strong> Create personalized diet plans for clients or yourself.</li>
+            <li><strong>Health Monitoring:</strong> Track BMR changes over time to monitor metabolic health.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Enter Personal Information:</strong>
+                <ul>
+                    <li>Gender (Male/Female)</li>
+                    <li>Age (years)</li>
+                    <li>Height (cm)</li>
+                    <li>Weight (kg)</li>
+                </ul>
+            </li>
+            <li><strong>Select Activity Level:</strong> Choose the level that best matches your daily routine and exercise habits.</li>
+            <li><strong>Calculate:</strong> Click the "Calculate Calories" button.</li>
+            <li><strong>View Results:</strong>
+                <ul>
+                    <li>🔥 BMR — Basal Metabolic Rate (resting calories)</li>
+                    <li>📊 TDEE — Total Daily Energy Expenditure (maintenance)</li>
+                    <li>⚡ Fat Loss Target — Daily calorie intake (-15%)</li>
+                    <li>💪 Muscle Gain Target — Daily calorie intake (+15%)</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Calculator (Us)</th>
+                    <th>Fitness App</th>
+                    <th>Nutritionist</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Free or Paid</td>
+                    <td>Paid</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>⚠️ App-dependent</td>
+                    <td>✅ One-on-one</td>
+                </tr>
+                <tr>
+                    <td><strong>Speed</strong></td>
+                    <td>⚡ Instant</td>
+                    <td>⚡ Instant</td>
+                    <td>🐢 Appointment needed</td>
+                </tr>
+                <tr>
+                    <td><strong>Formula Accuracy</strong></td>
+                    <td>✅ Mifflin-St Jeor</td>
+                    <td>✅ Multiple formulas</td>
+                    <td>✅ Professional assessment</td>
+                </tr>
+                <tr>
+                    <td><strong>Activity Options</strong></td>
+                    <td>5 Levels</td>
+                    <td>⚠️ App-dependent</td>
+                    <td>✅ Detailed</td>
+                </tr>
+                <tr>
+                    <td><strong>Fat Loss/Muscle Gain</strong></td>
+                    <td>✅ Auto-provided</td>
+                    <td>⚠️ App-dependent</td>
+                    <td>✅ Personalized</td>
+                </tr>
+                <tr>
+                    <td><strong>No Installation</strong></td>
+                    <td>✅ Browser</td>
+                    <td>❌ App Required</td>
+                    <td>✅ None needed</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Low</td>
+                    <td>High</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"When I used to try losing weight, I'd eat by feeling—more food on workout days, less on rest days. My weight kept fluctuating with no real progress. Then I used this tool to calculate my TDEE and realized I'd been <strong>consistently underestimating my daily calorie burn and overeating</strong>. BMR and TDEE aren't just numbers—they're your <strong>body's energy user manual</strong>, telling you how much fuel your body needs to function properly every day. Once I knew this number, weight loss was no longer about guessing—it became <strong>about science</strong>. This tool gives you exactly that <strong>ability to turn 'I think' into 'data shows'</strong>."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">🔥 Want to Know Your Daily Calorie Needs? Calculate BMR & TDEE Scientifically!</h3>
+            <p style="margin:0; font-size:0.9rem;">Enter your details for instant results with fat loss, muscle gain, and maintenance targets—completely free with privacy protection.</p>
+            <a href="../tools/bmr-tdee-calculator.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free BMR/TDEE Calculator Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtn = document.getElementById('ctaBtn');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtn.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtn.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

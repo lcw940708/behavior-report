@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+	<link rel="canonical" href="https://www.behavior-report.com/" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">ABRG 大數據傾向分析隨筆報告</title>
+    <style>
+        :root { --bg-color: #0b0f19; --card-bg: #151d30; --text-color: #94a3b8; --accent-cyan: #22d3ee; --accent-red: #ef4444; }
+        body { background-color: var(--bg-color); color: var(--text-color); font-family: -apple-system, BlinkMacSystemFont, sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .matrix-container { max-width: 650px; width: 100%; background-color: var(--card-bg); padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); box-sizing: border-box; border: 1px solid rgba(239, 68, 68, 0.2); margin: 20px 0; }
+        .header-title { font-size: 1.4rem; color: #ffffff; text-align: center; font-weight: bold; margin-bottom: 10px; line-height: 1.4; }
+        .header-sub { font-size: 0.85rem; color: #6b7280; text-align: center; margin-bottom: 30px; border-bottom: 1px solid rgba(148, 163, 184, 0.1); padding-bottom: 15px; }
+        .salutation { font-size: 1.1rem; color: #ffffff; font-weight: bold; margin-bottom: 15px; }
+        .section-title { font-size: 1.1rem; color: var(--accent-red); font-weight: bold; margin-top: 30px; margin-bottom: 15px; }
+        .body-text { font-size: 1rem; line-height: 1.8; color: #cbd5e1; white-space: pre-wrap; margin-bottom: 20px; }
+        .guideline-item { font-size: 1rem; line-height: 1.8; color: #cbd5e1; margin-bottom: 15px; padding-left: 10px; border-left: 2px solid var(--accent-cyan); white-space: pre-wrap; }
+        .option-btn { display: flex; align-items: center; justify-content: center; width: 100%; background: rgba(36, 50, 79, 0.3); border: 1px solid rgba(34, 211, 238, 0.3); padding: 15px; border-radius: 8px; color: #ffffff; font-size: 1rem; cursor: pointer; margin-top: 30px; text-decoration: none; font-weight: bold; transition: all 0.2s; box-sizing: border-box; }
+        .option-btn:hover { background: rgba(34, 211, 238, 0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); }
+        .lang-switch { text-align: center; margin-bottom: 20px; }
+        .lang-switch a { color: var(--accent-cyan); text-decoration: none; margin: 0 10px; font-size: 0.9rem; }
+        .lang-switch a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="matrix-container">
+    <!-- 🆕 語言切換 -->
+    <div class="lang-switch">
+        <a href="#" id="lang-hk">🇭🇰 港版</a> | <a href="#" id="lang-tw">🇹🇼 台版</a>
+    </div>
+
+    <div class="header-title" id="report-main-title">📋 📋 傾向分析與日常社交建議報告</div>
+    <div class="header-sub">ABRG 趣味行為學研究社 · 大數據動態隨筆中心</div>
+    
+    <div class="salutation" id="salutation-text">親愛的求助者：</div>
+    
+    <div class="section-title">一、 大數據社交傾向行為剖析</div>
+    <div class="body-text" id="expert-analysis-text">正在從雲端讀取行為特徵長文章...</div>
+    
+    <div class="section-title">二、 🛡️ ABRG 指定：三階段日常社交自救指南</div>
+    <div id="guidelines-container"></div>
+    
+    <a href="#" id="footer-loop-btn" class="option-btn">📖 點擊閱讀智庫推薦：正在安全同步專屬連載故事...</a>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let quizId = urlParams.get('id') || '01';
+    let ans = (urlParams.get('ans') || 'A').trim().toUpperCase();
+    
+    // 🆕 讀取語言參數
+    let lang = urlParams.get('lang') || 'hk';
+    if (lang !== 'hk' && lang !== 'tw') lang = 'hk';
+
+    // 🆕 更新語言切換連結
+    document.getElementById('lang-hk').href = `?id=${quizId}&ans=${ans}&lang=hk`;
+    document.getElementById('lang-tw').href = `?id=${quizId}&ans=${ans}&lang=tw`;
+
+    // 🆕 更新salutation
+    if (lang === 'tw') {
+        document.getElementById('salutation-text').innerText = '親愛的求助者：';
+    } else {
+        document.getElementById('salutation-text').innerText = '親愛的求助者：';
+    }
+
+    fetch("https://api.github.com/gists/b157b49b782bb7cfa244492d768288d7")
+    .then(res => res.json())
+    .then(raw => {
+        const targetFile = raw.files["report_config.json"];
+        if (!targetFile) {
+            document.getElementById("report-main-title").innerText = "找不到報告檔案";
+            return;
+        }
+
+        if (targetFile.content) {
+            renderReport(JSON.parse(targetFile.content), quizId, ans, lang);
+        } else if (targetFile.raw_url) {
+            fetch(targetFile.raw_url)
+            .then(r => r.json())
+            .then(config => renderReport(config, quizId, ans, lang))
+            .catch(() => showErr());
+        } else {
+            showErr();
+        }
+    })
+    .catch(err => showErr());
+});
+
+function renderReport(config, quizId, ans, lang) {
+    const data = config[quizId];
+    if (!data || !data[ans]) {
+        document.getElementById("report-main-title").innerText = "報告加載失敗";
+        document.getElementById("expert-analysis-text").innerText = "未在雲端配置中找到對應話題或大寫選項的長篇報告。";
+        return;
+    }
+    
+    const reportData = data[ans];
+    
+    // 🆕 根據語言選取標題、分析、指南
+    const title = reportData['title_' + lang] || reportData.title_hk || '📋 傾向分析報告';
+    const expertAnalysis = reportData['expertAnalysis_' + lang] || reportData.expertAnalysis_hk || '內容加載失敗';
+    const guidelines = reportData['guidelines_' + lang] || reportData.guidelines_hk || ['指南加載失敗'];
+
+    document.getElementById("report-main-title").innerText = title;
+    document.getElementById("expert-analysis-text").innerText = expertAnalysis;
+    
+    const guideContainer = document.getElementById("guidelines-container");
+    guideContainer.innerHTML = "";
+    
+    if (Array.isArray(guidelines)) {
+        guidelines.forEach(gText => {
+            let div = document.createElement("div");
+            div.className = "guideline-item";
+            div.innerText = gText;
+            guideContainer.appendChild(div);
+        });
+    } else {
+        guideContainer.innerHTML = '<div class="guideline-item">指南加載失敗</div>';
+    }
+    
+const loopBtn = document.getElementById("footer-loop-btn");
+loopBtn.href = `story_${quizId}.html?lang=${lang}`;
+    
+    let cleanStoryTitle = title.replace(/📋\s*簡報：/g, "").replace(/🔮\s*/g, "").trim();
+    loopBtn.innerText = `📖 點擊閱讀智庫推薦：都市連載隨筆《${cleanStoryTitle}》（第一話）`;
+}
+
+function showErr() {
+    document.getElementById("report-main-title").innerText = "智庫網絡連線超時";
+    document.getElementById("expert-analysis-text").innerText = "報告加載失敗，請確認雲端 report_config.json 檔案是否存在。";
+}
+</script>
+
+<footer style="text-align: center; margin-top: 50px; font-size: 11px; color: #666; font-family: sans-serif;">
+    <a href="index.html" style="color: #555; text-decoration: none; margin: 0 8px;">主頁</a> |
+    <a href="story_01.html" style="color: #555; text-decoration: none; margin: 0 8px;">情感連載 01</a> | 
+    <a href="story_02.html" style="color: #555; text-decoration: none; margin: 0 8px;">職場連載 02</a> | 
+    <a href="story_03.html" style="color: #555; text-decoration: none; margin: 0 8px;">社畜連載 03</a> | 
+    <a href="story_04.html" style="color: #555; text-decoration: none; margin: 0 8px;">星座黑化 04</a> | 
+    <a href="story_05.html" style="color: #555; text-decoration: none; margin: 0 8px;">已讀不回 05</a> | 
+    <a href="privacy.html" style="color: #666; text-decoration: none; margin: 0 8px;">隱私權政策與免責聲明</a> | 
+    <a href="about.html" style="color: #666; text-decoration: none; margin: 0 8px;">關於我</a>
+</footer>
+
+</body>
+</html>

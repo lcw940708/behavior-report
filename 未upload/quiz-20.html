@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔮 2026 跨國大數據失去測試：最後嘅電話大盲測 | ABRG 行為觀察</title>
+    <meta name="description" content="第二十關 電話防線 — 測驗你嘅暗黑人性地圖">
+    <style>
+        :root { --bg-color: #0b0f19; --card-bg: #151d30; --text-color: #f3f4f6; --accent-green: #10b981; --accent-blue: #3b82f6; --border-color: #24324f; --glow-color: #06b6d4; --cyan: #22d3ee; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; box-sizing: border-box; }
+        .container { max-width: 600px; width: 100%; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 30px 25px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); box-sizing: border-box; }
+        .main-title { font-size: 1.5rem; color: #ffffff; text-align: center; margin-top: 0; margin-bottom: 8px; font-weight: 700; }
+        .sub-stat { font-size: 0.85rem; color: var(--accent-green); text-align: center; margin-bottom: 30px; font-family: monospace; }
+        .scenario-box { border: 2px solid var(--glow-color); border-radius: 12px; padding: 20px; background-color: rgba(6, 182, 212, 0.03); box-shadow: 0 0 15px rgba(6, 182, 212, 0.1); margin-bottom: 20px; }
+        .scenario-title { color: var(--glow-color); font-weight: bold; font-size: 1.05rem; margin-top: 0; margin-bottom: 12px; }
+        .scenario-text { font-size: 0.95rem; line-height: 1.6; color: #d1d5db; margin: 0; }
+        .prompt-text { font-size: 0.85rem; color: #9ca3af; margin-top: 25px; margin-bottom: 15px; }
+        .options-group { display: flex; flex-direction: column; gap: 15px; }
+        .option-btn { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-radius: 12px; text-decoration: none; color: #ffffff; font-size: 0.95rem; font-weight: 500; transition: all 0.2s ease; cursor: pointer; text-align: left; background-color: rgba(36, 50, 79, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); width: 100%; box-sizing: border-box; }
+        .option-btn:hover { border-color: var(--accent-blue); background-color: rgba(59, 130, 246, 0.08); transform: translateY(-2px); box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
+        .btn-icon { font-size: 1.2rem; flex-shrink: 0; }
+        .lang-switch { text-align: center; margin-bottom: 20px; }
+        .lang-switch a { color: var(--cyan); text-decoration: none; margin: 0 10px; font-size: 0.9rem; cursor:pointer; }
+        .lang-switch a:hover { text-decoration: underline; }
+        .btn-back { display: inline-block; margin-top: 30px; color: #6b7280; font-size: 0.9rem; text-decoration: none; border: 1px solid rgba(148, 163, 184, 0.2); padding: 8px 22px; border-radius: 30px; transition: all 0.2s; }
+        .btn-back:hover { color: #ffffff; border-color: var(--cyan); background: rgba(34, 211, 238, 0.05); }
+        footer { text-align:center; margin-top:40px; font-size:11px; color:#555; }
+        footer a { color:#555; text-decoration:none; margin:0 8px; }
+        footer a:hover { color:#888; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="lang-switch">
+        <a onclick="switchLang('hk')">🇭🇰 港版</a> | <a onclick="switchLang('tw')">🇹🇼 台版</a>
+    </div>
+
+    <h1 class="main-title" id="mainTitle">ABRG 大數據人格特徵與日常社交觀察中心</h1>
+    <div class="sub-stat" id="subStat">CONNECTING OBSERVED DATA CHANNELS SECURE...</div>
+    
+    <div class="scenario-box">
+        <h2 class="scenario-title" id="scenarioTitle">第二十關 電話防線</h2>
+        <p class="scenario-text" id="scenarioText">你父母走咗之後，你將自己收埋咗好耐。你唔覆訊息、唔聽電話、唔見人。有一日，你收到一個來電 — 係你最好嘅朋友。佢已經打過好多次俾你，但你都冇接。今次你又見到佢個名。你大腦底層最直覺嘅反應係？</p>
+    </div>
+    
+    <p class="prompt-text" id="promptText">基於你的第一直覺，作法隨點擊下方選擇：</p>
+    <div class="options-group" id="optionsBox">
+        
+            <button class="option-btn" onclick="window.location.href='advice.html?id=20&ans=A&lang='+currentLang">
+                <span class="btn-icon">📞</span>
+                <span>
+                    <strong data-hk="選項 A " data-tw="選項 A ">選項 A </strong>
+                    <span data-hk="【接聽】。你深吸一口氣，㩒咗接聽。你唔知可以講咩，但你覺得如果唔接，你會後悔。" data-tw="【接聽】。你深吸一口氣，按了接聽。你不知道可以說什麼，但你覺得如果不接，你會後悔。">【接聽】。你深吸一口氣，㩒咗接聽。你唔知可以講咩，但你覺得如果唔接，你會後悔。</span>
+                </span>
+            </button>
+        
+            <button class="option-btn" onclick="window.location.href='advice.html?id=20&ans=B&lang='+currentLang">
+                <span class="btn-icon">😶</span>
+                <span>
+                    <strong data-hk="選項 B " data-tw="選項 B ">選項 B </strong>
+                    <span data-hk="【唔敢接】。你望住個來電顯示，由佢響到停。你未準備好面對任何人。" data-tw="【不敢接】。你看著來電顯示，讓它響到停。你還沒準備好面對任何人。">【唔敢接】。你望住個來電顯示，由佢響到停。你未準備好面對任何人。</span>
+                </span>
+            </button>
+        
+    </div>
+    
+    <a href="index.html" class="btn-back">← 返去主頁</a>
+</div>
+
+<footer>
+    <a href="index.html">主頁</a> | <a href="about.html">關於我</a> | <a href="contact.html">聯絡我們</a> | <a href="privacy.html">隱私權政策</a>
+</footer>
+
+<script>
+    let currentLang = 'hk';
+    const langData = {
+        hk: {
+            mainTitle: `ABRG 大數據人格特徵與日常社交觀察中心`,
+            title: `第二十關 電話防線`,
+            text: `你父母走咗之後，你將自己收埋咗好耐。你唔覆訊息、唔聽電話、唔見人。有一日，你收到一個來電 — 係你最好嘅朋友。佢已經打過好多次俾你，但你都冇接。今次你又見到佢個名。你大腦底層最直覺嘅反應係？`,
+            prompt: '基於你的第一直覺，作法隨點擊下方選擇：'
+        },
+        tw: {
+            mainTitle: `ABRG 大數據人格特徵與日常社交觀察中心`,
+            title: `第二十關 電話防線`,
+            text: `你父母走了之後，你把自己封閉了很久。你不回訊息、不接電話、不見人。有一天，你接到一個來電 — 是你最好的朋友。他已經打過很多次給你，但你都沒接。這次你又看到他的名字。你大腦底層最直覺的反應是？`,
+            prompt: '基於你的第一直覺，作法隨點擊下方選擇：'
+        }
+    };
+
+    function switchLang(lang) {
+        currentLang = lang;
+        document.getElementById('mainTitle').innerText = langData[lang].mainTitle;
+        document.getElementById('scenarioTitle').innerText = langData[lang].title;
+        document.getElementById('scenarioText').innerText = langData[lang].text;
+        document.getElementById('promptText').innerText = langData[lang].prompt;
+        
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            const strongEl = btn.querySelector('strong');
+            const textSpan = btn.querySelector('span:last-child span:last-child');
+            if (strongEl) {
+                const hk = strongEl.getAttribute('data-hk');
+                const tw = strongEl.getAttribute('data-tw');
+                if (hk && tw) strongEl.innerText = lang === 'hk' ? hk : tw;
+            }
+            if (textSpan) {
+                const hk = textSpan.getAttribute('data-hk');
+                const tw = textSpan.getAttribute('data-tw');
+                if (hk && tw) textSpan.innerText = lang === 'hk' ? hk : tw;
+            }
+        });
+        
+        document.querySelectorAll('a').forEach(a => {
+            if (a.href && !a.href.includes('javascript:') && a.href !== '#') {
+                try {
+                    const url = new URL(a.href);
+                    url.searchParams.set('lang', lang);
+                    a.href = url.toString();
+                } catch(e) {}
+            }
+        });
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('lang') === 'tw') switchLang('tw');
+</script>
+
+</body>
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO 基本標籤 / Bilingual SEO -->
+    <title>線上 WACC 計算機 — 精算加權平均資本成本與折現率｜Weighted Average Cost of Capital Calculator</title>
+    <meta name="description" content="免費線上 WACC 計算機 (Free Online WACC Calculator)。輸入股權價值、債務價值、股權成本、債務成本與稅率，即時精算企業加權平均資本成本 (WACC) 與投資折現率 (Discount Rate)。" />
+    <meta name="keywords" content="WACC計算機, 加權平均資本成本, 股權成本, 債務成本, 公司估值, 折現率, WACC calculator, weighted average cost of capital, cost of equity, cost of debt, corporate discount rate, DCF valuation" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/wacc-calculator.html" />
+
+    <!-- Open Graph 社交分享標籤 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="免費線上 WACC 計算機 — 精算企業融資成本與 DCF 折現率｜WACC Calculator" />
+    <meta property="og:description" content="輸入股權與債務結構數據，快速精算企業 WACC 加權平均資本成本，助您評估企業估值與投資回報門檻！" />
+    <meta property="og:url" content="https://www.behavior-report.com/tools/wacc-calculator.html" />
+
+    <!-- Schema.org 結構化資料 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "線上 WACC 計算機 (WACC Calculator)",
+      "url": "https://www.behavior-report.com/tools/wacc-calculator.html",
+      "description": "精算企業股權與債務加權平均融資成本 (WACC) 的免費線上金融與企業估值工具。",
+      "applicationCategory": "FinancialApplication",
+      "operatingSystem": "All",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --green: #10b981;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch { text-align: center; margin-bottom: 20px; }
+        .lang-switch button {
+            background: transparent; border: none; color: var(--cyan);
+            cursor: pointer; font-size: 0.9rem; margin: 0 8px; font-weight: bold;
+        }
+        .lang-switch button:hover { text-decoration: underline; }
+
+        .tool-title { font-size: 1.6rem; color: #ffffff; text-align: center; font-weight: bold; }
+        .tool-sub { text-align: center; color: var(--text); font-size: 0.95rem; margin: 10px 0 25px; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: #ffffff;
+            padding: 12px;
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        input[type="number"]:focus { border-color: var(--cyan); }
+
+        .btn-calc {
+            width: 100%;
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--cyan);
+            border: 1px solid rgba(34, 211, 238, 0.25);
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .btn-calc:hover {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+
+        .results-panel {
+            display: none;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .res-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .res-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .res-card.highlight {
+            border-color: rgba(34, 211, 238, 0.4);
+            background: rgba(34, 211, 238, 0.05);
+        }
+
+        .res-card h4 { font-size: 0.85rem; color: var(--text-light); margin-bottom: 8px; }
+        .res-card .val { font-size: 1.3rem; color: var(--cyan); font-weight: bold; }
+        .res-card.highlight .val { color: var(--cyan-hover); font-size: 1.6rem; }
+
+        .seo-article { margin-top: 40px; padding-top: 25px; border-top: 1px solid rgba(148, 163, 184, 0.08); line-height: 1.6; }
+        .seo-article h2 { color: #ffffff; font-size: 1.1rem; margin-bottom: 12px; }
+        .seo-article p { font-size: 0.85rem; color: var(--text); margin-bottom: 12px; }
+
+        footer { text-align: center; margin-top: 30px; font-size: 11px; color: #555; }
+        footer a { color: #555; text-decoration: none; margin: 0 8px; }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="lang-switch">
+        <button onclick="setLang('zh')">繁體中文</button> |
+        <button onclick="setLang('en')">English</button>
+    </div>
+
+    <h1 class="tool-title" id="toolTitle">📈 線上 WACC 計算機 (WACC Calculator)</h1>
+    <p class="tool-sub" id="toolSub">精算企業加權平均資本成本，評估股權與債務融資的綜合成本率</p>
+
+    <div class="form-grid">
+        <div class="form-group">
+            <label id="lblEquity">股權市值 ($) (Market Value of Equity - E)</label>
+            <input type="number" id="equity" placeholder="例如: 6000000" value="6000000">
+        </div>
+        <div class="form-group">
+            <label id="lblDebt">債務總額 ($) (Market Value of Debt - D)</label>
+            <input type="number" id="debt" placeholder="例如: 4000000" value="4000000">
+        </div>
+        <div class="form-group">
+            <label id="lblCostEquity">股權成本 % (Cost of Equity - Re)</label>
+            <input type="number" id="costEquity" step="0.01" placeholder="例如: 8.5" value="8.5">
+        </div>
+        <div class="form-group">
+            <label id="lblCostDebt">稅前債務成本 % (Pre-tax Cost of Debt - Rd)</label>
+            <input type="number" id="costDebt" step="0.01" placeholder="例如: 5.0" value="5.0">
+        </div>
+        <div class="form-group">
+            <label id="lblTaxRate">公司所得稅率 % (Corporate Tax Rate - T)</label>
+            <input type="number" id="taxRate" step="0.01" placeholder="例如: 16.5 (香港 16.5%)" value="16.5">
+        </div>
+    </div>
+
+    <button class="btn-calc" onclick="calculateWACC()" id="btnCalc">⚡ 精算 WACC 資本成本 (Calculate WACC)</button>
+
+    <div class="results-panel" id="resultsPanel">
+        <h3 style="color: #fff; font-size: 1.1rem; margin-bottom: 10px;" id="resTitle">📊 WACC 計算結果 (WACC Breakdown)</h3>
+        <div class="res-cards">
+            <div class="res-card highlight">
+                <h4 id="headWacc">加權平均資本成本 (WACC)</h4>
+                <div class="val" id="valWacc">0.00%</div>
+            </div>
+            <div class="res-card">
+                <h4 id="headEquityWeight">股權權重 (Equity Weight - E/V)</h4>
+                <div class="val" id="valEquityWeight">0.00%</div>
+            </div>
+            <div class="res-card">
+                <h4 id="headDebtWeight">債務權重 (Debt Weight - D/V)</h4>
+                <div class="val" id="valDebtWeight">0.00%</div>
+            </div>
+            <div class="res-card">
+                <h4 id="headAfterTaxDebt">稅後債務成本 (After-Tax Cost of Debt)</h4>
+                <div class="val" id="valAfterTaxDebt">0.00%</div>
+            </div>
+        </div>
+    </div>
+
+    <article class="seo-article">
+        <h2 id="seoTitle">什麼是 WACC？為何它是企業估值與投資決策的核心？</h2>
+        <p id="seoP1">加權平均資本成本（Weighted Average Cost of Capital, 簡稱 WACC）代表公司為了籌集資金（包括股票股權與債券債務）所必須支付的平均回報率。在現金流折現模型（DCF Valuation）中，WACC 通常作為折現率（Discount Rate），用來評估企業價值或投資項目的最低可接受回報率（Hurdle Rate）。</p>
+        <p id="seoP2"><strong>Understanding WACC Formula & Corporate Finance.</strong> The WACC formula is: <code>WACC = (E/V × Re) + [D/V × Rd × (1 - T)]</code>. It measures a company's cost to finance its operations through debt and equity, accounting for the tax-shield benefit on interest payments.</p>
+    </article>
+</div>
+
+<footer>
+    <a href="../index.html">Home</a> | <a href="../privacy.html">Privacy Policy</a>
+</footer>
+
+<script>
+    const i18n = {
+        zh: {
+            title: "📈 線上 WACC 計算機 (WACC Calculator)",
+            sub: "精算企業加權平均資本成本，評估股權與債務融資的綜合成本率",
+            lblEquity: "股權市值 ($) (Market Value of Equity - E)",
+            lblDebt: "債務總額 ($) (Market Value of Debt - D)",
+            lblCostEquity: "股權成本 % (Cost of Equity - Re)",
+            lblCostDebt: "稅前債務成本 % (Pre-tax Cost of Debt - Rd)",
+            lblTaxRate: "公司所得稅率 % (Corporate Tax Rate - T)",
+            btnCalc: "⚡ 精算 WACC 資本成本 (Calculate WACC)",
+            resTitle: "📊 WACC 計算結果 (WACC Breakdown)",
+            headWacc: "加權平均資本成本 (WACC)",
+            headEquityWeight: "股權權重 (Equity Weight - E/V)",
+            headDebtWeight: "債務權重 (Debt Weight - D/V)",
+            headAfterTaxDebt: "稅後債務成本 (After-Tax Cost of Debt)",
+            seoTitle: "什麼是 WACC？為何它是企業估值與投資決策的核心？",
+            seoP1: "加權平均資本成本（Weighted Average Cost of Capital, 簡稱 WACC）代表公司為了籌集資金（包括股票股權與債券債務）所必須支付的平均回報率。在現金流折現模型（DCF Valuation）中，WACC 通常作為折現率（Discount Rate），用來評估企業價值或投資項目的最低可接受回報率（Hurdle Rate）。",
+            seoP2: "<strong>Understanding WACC Formula & Corporate Finance.</strong> The WACC formula is: <code>WACC = (E/V × Re) + [D/V × Rd × (1 - T)]</code>. It measures a company's cost to finance its operations through debt and equity, accounting for the tax-shield benefit on interest payments."
+        },
+        en: {
+            title: "📈 WACC Calculator",
+            sub: "Calculate Weighted Average Cost of Capital for Corporate Valuation & Investment Decisions",
+            lblEquity: "Market Value of Equity ($ - E)",
+            lblDebt: "Market Value of Debt ($ - D)",
+            lblCostEquity: "Cost of Equity (% - Re)",
+            lblCostDebt: "Pre-tax Cost of Debt (% - Rd)",
+            lblTaxRate: "Corporate Tax Rate (% - T)",
+            btnCalc: "⚡ Calculate WACC",
+            resTitle: "📊 WACC Results Breakdown",
+            headWacc: "Weighted Average Cost of Capital (WACC)",
+            headEquityWeight: "Equity Weight (E/V)",
+            headDebtWeight: "Debt Weight (D/V)",
+            headAfterTaxDebt: "After-Tax Cost of Debt",
+            seoTitle: "What is WACC & Why is it Critical for Financial Valuation?",
+            seoP1: "Weighted Average Cost of Capital (WACC) represents a company's required rate of return to satisfy its security holders. In discounted cash flow (DCF) models, WACC serves as the discount rate to calculate enterprise value.",
+            seoP2: "<strong>Understanding WACC Formula & Corporate Finance.</strong> The WACC formula is: <code>WACC = (E/V × Re) + [D/V × Rd × (1 - T)]</code>. It measures a company's cost to finance its operations through debt and equity, accounting for the tax-shield benefit on interest payments."
+        }
+    };
+
+    function setLang(lang) {
+        const t = i18n[lang];
+        document.getElementById('toolTitle').innerText = t.title;
+        document.getElementById('toolSub').innerText = t.sub;
+        document.getElementById('lblEquity').innerText = t.lblEquity;
+        document.getElementById('lblDebt').innerText = t.lblDebt;
+        document.getElementById('lblCostEquity').innerText = t.lblCostEquity;
+        document.getElementById('lblCostDebt').innerText = t.lblCostDebt;
+        document.getElementById('lblTaxRate').innerText = t.lblTaxRate;
+        document.getElementById('btnCalc').innerText = t.btnCalc;
+        document.getElementById('resTitle').innerText = t.resTitle;
+        document.getElementById('headWacc').innerText = t.headWacc;
+        document.getElementById('headEquityWeight').innerText = t.headEquityWeight;
+        document.getElementById('headDebtWeight').innerText = t.headDebtWeight;
+        document.getElementById('headAfterTaxDebt').innerText = t.headAfterTaxDebt;
+        document.getElementById('seoTitle').innerText = t.seoTitle;
+        document.getElementById('seoP1').innerHTML = t.seoP1;
+        document.getElementById('seoP2').innerHTML = t.seoP2;
+    }
+
+    function calculateWACC() {
+        const E = parseFloat(document.getElementById('equity').value) || 0;
+        const D = parseFloat(document.getElementById('debt').value) || 0;
+        const Re = (parseFloat(document.getElementById('costEquity').value) || 0) / 100;
+        const Rd = (parseFloat(document.getElementById('costDebt').value) || 0) / 100;
+        const T = (parseFloat(document.getElementById('taxRate').value) || 0) / 100;
+
+        const V = E + D;
+
+        if (V <= 0) {
+            alert('請輸入有效的股權與債務價值！Please enter valid Equity and Debt amounts.');
+            return;
+        }
+
+        const equityWeight = E / V;
+        const debtWeight = D / V;
+        const afterTaxCostOfDebt = Rd * (1 - T);
+
+        const wacc = (equityWeight * Re) + (debtWeight * afterTaxCostOfDebt);
+
+        document.getElementById('valWacc').innerText = (wacc * 100).toFixed(2) + '%';
+        document.getElementById('valEquityWeight').innerText = (equityWeight * 100).toFixed(2) + '%';
+        document.getElementById('valDebtWeight').innerText = (debtWeight * 100).toFixed(2) + '%';
+        document.getElementById('valAfterTaxDebt').innerText = (afterTaxCostOfDebt * 100).toFixed(2) + '%';
+
+        document.getElementById('resultsPanel').style.display = 'block';
+    }
+</script>
+<!-- 語言參數接收與傳遞 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang');
+    if (lang) {
+        if (typeof setLang === 'function') {
+            setLang(lang);
+        }
+        document.querySelectorAll('a[href]').forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('../')) {
+                const url = new URL(href, window.location.href);
+                url.searchParams.set('lang', lang);
+                link.setAttribute('href', url.toString());
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

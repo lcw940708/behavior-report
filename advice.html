@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+	<link rel="canonical" href="https://www.behavior-report.com/" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">ABRG 大數據趣味行為盲測簡報</title>
+    <style>
+        :root { --bg-color: #0b0f19; --card-bg: #151d30; --text-color: #94a3b8; --accent-red: #ef4444; --accent-cyan: #22d3ee; }
+        body { background-color: var(--bg-color); color: var(--text-color); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .matrix-container { max-width: 600px; width: 100%; background-color: var(--card-bg); padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); box-sizing: border-box; border: 1px solid rgba(239, 68, 68, 0.2); margin: 20px 0; }
+        h1 { font-size: 1.4rem; color: var(--accent-red); text-align: center; margin-bottom: 20px; font-weight: bold; }
+        .result-box { margin: 20px 0; font-size: 1rem; line-height: 1.8; color: #cbd5e1; white-space: pre-wrap; }
+        .option-btn { display: flex; align-items: center; justify-content: center; width: 100%; background: rgba(239, 68, 68, 0.1); border: 1px solid var(--accent-red); padding: 15px; border-radius: 8px; color: #ffffff; font-size: 1rem; cursor: pointer; font-weight: bold; transition: all 0.2s; }
+        .option-btn:hover { background: rgba(239, 68, 68, 0.2); border-color: var(--accent-cyan); }
+    </style>
+</head>
+<body>
+
+<div class="matrix-container">
+    <h1 id="result-title">🔮 ABRG 大數據趣味行為傾向簡報</h1>
+    <div class="result-box" id="result-text">正在分析大數據行為特徵...</div>
+    <button id="view-more-btn" class="option-btn">📋 點擊查看更多：完整傾向分析與社交自救小建議</button>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let quizId = urlParams.get('id') || '01';
+    let ans = (urlParams.get('ans') || 'A').trim().toUpperCase();
+    
+    let lang = urlParams.get('lang') || 'hk';
+    if (lang !== 'hk' && lang !== 'tw') lang = 'hk';
+
+    fetch("https://api.github.com/gists/b157b49b782bb7cfa244492d768288d7")
+    .then(res => res.json())
+    .then(raw => {
+        const targetFile = raw.files["quiz_config.json"];
+        if (!targetFile) {
+            document.getElementById("result-text").innerText = "找不到配置檔案";
+            return;
+        }
+
+        if (targetFile.content) {
+            renderAdvice(JSON.parse(targetFile.content), quizId, ans, lang);
+        } else if (targetFile.raw_url) {
+            fetch(targetFile.raw_url)
+            .then(r => r.json())
+            .then(config => renderAdvice(config, quizId, ans, lang))
+            .catch(() => showTimeout());
+        } else {
+            showTimeout();
+        }
+    })
+    .catch(err => showTimeout());
+});
+
+function renderAdvice(config, quizId, ans, lang) {
+    const data = config[quizId];
+    if (!data) {
+        document.getElementById("result-text").innerText = "找不到對應題目";
+        return;
+    }
+
+    const resultKey = ans + '_' + lang;
+    const resultText = data.results && data.results[resultKey];
+
+    if (resultText) {
+        document.getElementById("result-text").innerText = resultText;
+    } else {
+        document.getElementById("result-text").innerText = "未找到對應選項的分析簡報。";
+    }
+    
+const viewBtn = document.getElementById("view-more-btn");
+viewBtn.onclick = function(e) {
+    e.preventDefault(); 
+    window.location.href = `report-${String(quizId).padStart(2, '0')}-${ans}.html?lang=${lang}`;
+};
+}
+
+function showTimeout() {
+    document.getElementById("result-text").innerText = "安全通道連線超時，請重新刷新網頁。";
+}
+</script>
+
+<footer style="text-align: center; margin-top: 60px; padding-bottom: 30px; font-size: 11px; color: #555; font-family: sans-serif; letter-spacing: 0.5px;">
+    <a href="index.html" style="color: #555; text-decoration: none; margin: 0 8px;">主頁</a> |
+    <a href="story_01.html" style="color: #555; text-decoration: none; margin: 0 8px;">情感連載 01</a> | 
+    <a href="story_02.html" style="color: #555; text-decoration: none; margin: 0 8px;">職場連載 02</a> | 
+    <a href="story_03.html" style="color: #555; text-decoration: none; margin: 0 8px;">社畜連載 03</a> | 
+    <a href="story_04.html" style="color: #555; text-decoration: none; margin: 0 8px;">星座黑化 04</a> | 
+    <a href="story_05.html" style="color: #555; text-decoration: none; margin: 0 8px;">已讀不回 05</a> | 
+    <a href="about.html" style="color: #555; text-decoration: none; margin: 0 8px;">關於我</a> |
+    <a href="contact.html" style="color: #555; text-decoration: none; margin: 0 8px;">聯絡我們</a> |
+    <a href="privacy.html" style="color: #555; text-decoration: none; margin: 0 8px;">隱私權政策</a>
+</footer>
+
+</body>
+</html>

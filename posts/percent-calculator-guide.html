@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>百分比計算機：3 種模式快速計算折扣、比例與變化率 — Percentage Calculator Guide | ABRG 行為觀察中心</title>
+    <meta name="description" content="學習如何使用 3 合 1 線上百分比計算機，輕鬆計算購物折扣（A 的 B%）、考試分數與業績比例（A 佔 B 的 %）以及股價或成本變化率（百分比變化）。3 modes online percentage calculator for discounts, proportions, and percentage changes." />
+    <meta name="keywords" content="百分比計算機, 折扣計算, 比例計算, 百分比變化率, Percentage Calculator, Discount Calculator, Percentage Increase Decrease, ABRG" />
+    <link rel="canonical" href="https://www.behavior-report.com/posts/percent-calculator-guide.html" />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="百分比計算機：3 種模式快速計算折扣、比例與變化率 — Percentage Calculator Guide | ABRG" />
+    <meta property="og:description" content="日常生活必備數學小幫手！一文掌握折扣、比例與百分比變化率 3 大計算公式與線上工具應用。" />
+    <meta property="og:url" content="https://www.behavior-report.com/posts/percent-calculator-guide.html" />
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Percentage Calculator Guide: 3 Modes for Discounts & Growth" />
+    <meta name="twitter:description" content="Calculate discounts, score percentages, and stock rate changes effortlessly with our free 3-in-1 online percentage tool." />
+
+    <!-- Schema.org Article Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "百分比計算機：3 種模式快速計算折扣、比例與變化率 Percentage Calculator Guide",
+      "description": "解析日常生活中的百分比計算，示範購物折扣、考試得分比例與股價漲跌幅度的實用計算方式。",
+      "inLanguage": ["zh-HK", "zh-TW", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root { 
+            --bg-color: #0b0f19; 
+            --card-bg: #151d30; 
+            --text-color: #94a3b8; 
+            --accent-cyan: #22d3ee; 
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+        }
+        * { box-sizing: border-box; }
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+            line-height: 1.7;
+        }
+        .container { max-width: 800px; width: 100%; }
+        
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+        .back-link {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-switch {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+        .lang-btn {
+            padding: 5px 14px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-color);
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .lang-btn.active {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+            background: rgba(34, 211, 238, 0.08);
+        }
+
+        .article-title {
+            font-size: 2rem;
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        .article-meta {
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .article-content h2 {
+            font-size: 1.35rem;
+            color: #ffffff;
+            margin-top: 35px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--accent-cyan);
+            padding-left: 12px;
+        }
+        .article-content p {
+            font-size: 0.98rem;
+            margin-bottom: 16px;
+        }
+        .article-content ul, .article-content ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+        .article-content li {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+        .cta-btn {
+            display: inline-block;
+            background: var(--accent-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+        .cta-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer { 
+            margin-top: 60px; 
+            padding-top: 25px; 
+            border-top: 1px solid rgba(148, 163, 184, 0.1); 
+            text-align: center; 
+            font-size: 0.85rem; 
+            color: #555; 
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <div class="lang-switch">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文 (HK)</button>
+        <button class="lang-btn" data-lang="tw">🇹🇼 繁體中文 (TW)</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <h1 class="article-title" id="artTitle">🧮 百分比計算機：3 種模式快速計算折扣、比例與變化率</h1>
+    <div class="article-meta">📅 <span id="artDate">2026-08-31</span> | 🏷️ <span id="artTag">日常數學 / 實用工具</span></div>
+
+    <div class="article-content" id="artContent"></div>
+
+    <div class="cta-box">
+        <h3 id="ctaTitle" style="color:#fff; margin:0 0 10px;">⚡ 懶得手算心算？</h3>
+        <p id="ctaDesc" style="margin:0; font-size:0.9rem;">即刻使用免費線上百分比計算機，一秒幫你出結果！</p>
+        <a href="../tools/percent-calculator.html" class="cta-btn" id="ctaBtn">👉 立即體驗線上百分比計算機</a>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footHome">主頁</a> |
+        <a href="../blog.html" id="footBlog">文章 Blog</a> |
+        <a href="../about.html" id="footAbout">關於我</a> |
+        <a href="../privacy.html" id="footPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const articleData = {
+        hk: {
+            title: "🧮 百分比計算機：3 種模式快速計算折扣、比例與變化率",
+            date: "2026-08-31",
+            tag: "日常數學 / 實用工具",
+            back: "← 返回文章列表",
+            ctaTitle: "⚡ 懶得手算心算？",
+            ctaDesc: "即刻使用免費線上百分比計算機，一秒幫你出結果！",
+            ctaBtn: "👉 立即體驗線上百分比計算機",
+            htmlContent: `
+                <h2>1. 導言：日常生活成日用到的百分比</h2>
+                <p>無論係商場購物睇到「八五折」、計算信用卡回饋、估算薪金扣稅，定係睇新聞分析股市漲跌，百分比（Percentage）幾乎無處不在。雖然概念簡單，但每當遇到複雜數字或多重折扣時，口算往往容易出錯。一個簡單好用嘅百分比計算機，可以幫你省卻繁瑣計算，避免買貴嘢或計錯數。</p>
+
+                <h2>2. 功能介紹：3 種核心計算模式</h2>
+                <p>ABRG 線上百分比計算機將常見嘅應用場景拆解為 3 種極簡計算模式，滿足各種日常數學需求：</p>
+                <ul>
+                    <li><strong>模式一：A 嘅 B% (What is B% of A?)</strong> — 計算特定數值嘅百分比份額，常用於計算折扣金額、小費或稅金。</li>
+                    <li><strong>模式二：A 佔 B 嘅 % (A is what % of B?)</strong> — 計算一部分佔整體嘅比例，常用於計算考試得分率、市場佔有率或預算完成度。</li>
+                    <li><strong>模式三：百分比變化 (Percentage Change)</strong> — 計算數值由初始值變動至最終值嘅增減百分比，常用於股票漲跌幅、業績增長率或體重變化。</li>
+                </ul>
+
+                <h2>3. 使用步驟與實用例子</h2>
+                <p>每個模式均可在 2 至 3 步內輕鬆完成：</p>
+                
+                <p><strong>【模式一：購物折扣計算】</strong></p>
+                <ol>
+                    <li>輸入商品原價 A（例：HK$800）。</li>
+                    <li>輸入折扣百分比 B%（例：20% off 即 20%）。</li>
+                    <li><strong>結果：</strong>即時算出省去金額為 HK$160（最終售價為 HK$640）。</li>
+                </ol>
+
+                <p><strong>【模式二：考試分數 / 比例計算】</strong></p>
+                <ol>
+                    <li>輸入得分 A（例：45 分）。</li>
+                    <li>輸入總分 B（例：60 分）。</li>
+                    <li><strong>結果：</strong>即時算出得分率為 75%。</li>
+                </ol>
+
+                <p><strong>【模式三：股價漲跌 / 業績變化】</strong></p>
+                <ol>
+                    <li>輸入初始股價（例：$100）。</li>
+                    <li>輸入現時股價（例：$125）。</li>
+                    <li><strong>結果：</strong>即時算出增幅為 +25%（若降至 $80 則顯示 -20%）。</li>
+                </ol>
+
+                <h2>4. 目標受眾：邊個需要百分比計算機？</h2>
+                <ul>
+                    <li><strong>學生：</strong>快速核對數學功課答案、計算考試成績比例。</li>
+                    <li><strong>上班族：</strong>撰寫商業報告時估算業績增長率、市場佔有率或項目進度。</li>
+                    <li><strong>小商業主 / 店主：</strong>計算商品利潤率、制定促銷折扣與成本變動分析。</li>
+                    <li><strong>一般用戶：</strong>日常精明消費、計算網購折扣、小費與投資回報。</li>
+                </ul>
+
+                <h2>5. 工具優勢：即時計算、3 合 1 與完全免費</h2>
+                <p>ABRG 百分比計算機採用純前端技術打造，具有三大優勢：</p>
+                <ul>
+                    <li><strong>即時運算：</strong>輸入數字即時顯示結果與計算公式，無需點擊等待。</li>
+                    <li><strong>3 合 1 全能介面：</strong>簡潔 Tab 分頁設計，自由切換三種模式，滿足所有百分比計算情境。</li>
+                    <li><strong>完全免費與無廣告負擔：</strong>無需註冊下載，開啟瀏覽器即可隨時隨地免費使用。</li>
+                </ul>
+
+                <h2>6. 總結與呼籲</h2>
+                <p>唔需要再辛苦用紙筆或用手機計算機慢慢撳公式！將 ABRG 百分比計算機加入書籤，無論係買嘢計折扣定工作算帳，都能幫你一秒精準落板！</p>
+            `
+        },
+        tw: {
+            title: "🧮 百分比計算機：3 種模式快速計算折扣、比例與變化率",
+            date: "2026-08-31",
+            tag: "日常數學 / 實用工具",
+            back: "← 返回文章列表",
+            ctaTitle: "⚡ 懶得手算心算？",
+            ctaDesc: "立即使用免費線上百分比計算機，一秒幫你算好結果！",
+            ctaBtn: "👉 立即體驗線上百分比計算機",
+            htmlContent: `
+                <h2>1. 導言：日常生活經常使用的百分比</h2>
+                <p>無論是百貨公司購物看到「85 折」、計算信用卡回饋、估算薪資扣稅，還是看新聞分析股市漲跌，百分比（Percentage）幾乎無所不在。雖然概念簡單，但每當遇到複雜數字或多重折扣時，心算往往容易出錯。一個簡單好用的百分比計算機，可以幫你省去繁鎖計算，避免買貴或算錯帳。</p>
+
+                <h2>2. 功能介紹：3 種核心計算模式</h2>
+                <p>ABRG 線上百分比計算機將常見的應用場景拆解為 3 種極簡計算模式，滿足各種日常數學需求：</p>
+                <ul>
+                    <li><strong>模式一：A 的 B% (What is B% of A?)</strong> — 計算特定數值的百分比份額，常用於計算折扣金額、小費或稅金。</li>
+                    <li><strong>模式二：A 佔 B 的 % (A is what % of B?)</strong> — 計算一部分佔整體的比例，常用於計算考試得分率、市場佔有率或預算完成度。</li>
+                    <li><strong>模式三：百分比變化 (Percentage Change)</strong> — 計算數值由初始值變動至最終值的增減百分比，常用於股票漲跌幅、業績成長率或體重變化。</li>
+                </ul>
+
+                <h2>3. 使用步驟與實用例子</h2>
+                <p>每個模式均可在 2 至 3 步內輕鬆完成：</p>
+                
+                <p><strong>【模式一：購物折扣計算】</strong></p>
+                <ol>
+                    <li>輸入商品原價 A（例：NT$800）。</li>
+                    <li>輸入折扣百分比 B%（例：20% off 即 20%）。</li>
+                    <li><strong>結果：</strong>即時算出省去金額為 NT$160（最終售價為 NT$640）。</li>
+                </ol>
+
+                <p><strong>【模式二：考試分數 / 比例計算】</strong></p>
+                <ol>
+                    <li>輸入得分 A（例：45 分）。</li>
+                    <li>輸入總分 B（例：60 分）。</li>
+                    <li><strong>結果：</strong>即時算出得分率為 75%。</li>
+                </ol>
+
+                <p><strong>【模式三：股價漲跌 / 業績變化】</strong></p>
+                <ol>
+                    <li>輸入初始股價（例：$100）。</li>
+                    <li>輸入現時股價（例：$125）。</li>
+                    <li><strong>結果：</strong>即時算出增幅為 +25%（若降至 $80 則顯示 -20%）。</li>
+                </ol>
+
+                <h2>4. 目標受眾：誰需要百分比計算機？</h2>
+                <ul>
+                    <li><strong>學生：</strong>快速核對數學作業答案、計算考試成績比例。</li>
+                    <li><strong>上班族：</strong>撰寫商業報告時估算業績成長率、市場佔有率或專案進度。</li>
+                    <li><strong>小企業主 / 店家：</strong>計算商品利潤率、制定促銷折扣與成本變動分析。</li>
+                    <li><strong>一般用戶：</strong>日常精明消費、計算網購折扣、小費與投資報酬率。</li>
+                </ul>
+
+                <h2>5. 工具優勢：即時計算、3 合 1 與完全免費</h2>
+                <p>ABRG 百分比計算機採用純前端技術打造，具有三大優勢：</p>
+                <ul>
+                    <li><strong>即時運算：</strong>輸入數字即時顯示結果與計算公式，無需點擊等待。</li>
+                    <li><strong>3 合 1 全能介面：</strong>簡潔 Tab 分頁設計，自由切換三種模式，滿足所有百分比計算情境。</li>
+                    <li><strong>完全免費與無廣告負擔：</strong>無需註冊下載，開啟瀏覽器即可隨時隨地免費使用。</li>
+                </ul>
+
+                <h2>6. 總結與呼籲</h2>
+                <p>不需要再辛苦用紙筆或用手機計算機慢慢按公式！將 ABRG 百分比計算機加入書籤，無論是買東西算折扣還是工作算帳，都能幫你一秒精準計算！</p>
+            `
+        },
+        en: {
+            title: "🧮 Percentage Calculator: 3 Modes to Calculate Discounts, Proportions & Growth Rates",
+            date: "2026-08-31",
+            tag: "Everyday Math / Utility Tools",
+            back: "← Back to Articles",
+            ctaTitle: "⚡ Tired of Manual Calculation?",
+            ctaDesc: "Use our free online percentage calculator to get instant, accurate results in seconds!",
+            ctaBtn: "👉 Try Online Percentage Calculator Now",
+            htmlContent: `
+                <h2>1. Introduction: Everyday Use of Percentages</h2>
+                <p>Percentages surround us daily, from shopping sales ("20% off") and credit card rewards to salary taxes and stock market rate changes. While conceptually basic, manual mental math often leads to errors when dealing with multi-step numbers. A fast, dedicated percentage calculator simplifies calculations and saves time.</p>
+
+                <h2>2. Feature Overview: 3 Essential Calculation Modes</h2>
+                <p>The ABRG Online Percentage Calculator features 3 simplified calculation modes tailored for daily math scenarios:</p>
+                <ul>
+                    <li><strong>Mode 1: What is B% of A?</strong> — Calculates the exact percentage amount (ideal for sales discounts, tips, or sales tax).</li>
+                    <li><strong>Mode 2: A is what % of B?</strong> — Determines the proportion of a part relative to the whole (ideal for test scores or market share).</li>
+                    <li><strong>Mode 3: Percentage Change</strong> — Computes the percentage increase or decrease between initial and final values (ideal for stock growth or body weight tracking).</li>
+                </ul>
+
+                <h2>3. Usage Steps & Practical Examples</h2>
+                <p>Complete calculations effortlessly in 2-3 quick steps:</p>
+                
+                <p><strong>【Mode 1: Shopping Discount Example】</strong></p>
+                <ol>
+                    <li>Enter original price A (e.g., $800).</li>
+                    <li>Enter discount percentage B% (e.g., 20%).</li>
+                    <li><strong>Result:</strong> Instantly outputs saved amount of $160 (final price: $640).</li>
+                </ol>
+
+                <p><strong>【Mode 2: Test Score Ratio Example】</strong></p>
+                <ol>
+                    <li>Enter score achieved A (e.g., 45).</li>
+                    <li>Enter total total score B (e.g., 60).</li>
+                    <li><strong>Result:</strong> Outputs score percentage of 75%.</li>
+                </ol>
+
+                <p><strong>【Mode 3: Stock Price Rate Change Example】</strong></p>
+                <ol>
+                    <li>Enter initial stock price (e.g., $100).</li>
+                    <li>Enter current stock price (e.g., $125).</li>
+                    <li><strong>Result:</strong> Displays +25% growth rate (or -20% if price drops to $80).</li>
+                </ol>
+
+                <h2>4. Target Audience: Who Benefits from a Percentage Calculator?</h2>
+                <ul>
+                    <li><strong>Students:</strong> Check math homework and evaluate grade percentages.</li>
+                    <li><strong>Professionals:</strong> Calculate quarterly business growth and market share stats.</li>
+                    <li><strong>Small Business Owners:</strong> Plan promotional discounts and analyze cost changes.</li>
+                    <li><strong>Everyday Users:</strong> Budget smart, calculate tips, and check online shopping deals.</li>
+                </ul>
+
+                <h2>5. Key Advantages: Real-Time, 3-in-1 & Free</h2>
+                <ul>
+                    <li><strong>Instant Calculations:</strong> Results and formulas update instantly as you type.</li>
+                    <li><strong>3-in-1 Tabbed Interface:</strong> Switch modes effortlessly for any math query.</li>
+                    <li><strong>100% Free:</strong> No installation or registration required.</li>
+                </ul>
+
+                <h2>6. Conclusion & Call to Action</h2>
+                <p>Stop doing manual math or wrestling with standard calculator buttons! Bookmark the ABRG Percentage Calculator today for instant, accurate results every time.</p>
+            `
+        }
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let lang = urlParams.get('lang') || 'hk';
+
+    function updateLinkLang(linkId, baseUrl, l) {
+        const el = document.getElementById(linkId);
+        if (el) {
+            el.href = `${baseUrl}?lang=${l}`;
+        }
+    }
+
+    function renderArticle(l) {
+        const data = articleData[l] || articleData.hk;
+        document.getElementById('backLink').textContent = data.back;
+        document.getElementById('artTitle').textContent = data.title;
+        document.getElementById('artDate').textContent = data.date;
+        document.getElementById('artTag').textContent = data.tag;
+        document.getElementById('artContent').innerHTML = data.htmlContent;
+        document.getElementById('ctaTitle').textContent = data.ctaTitle;
+        document.getElementById('ctaDesc').textContent = data.ctaDesc;
+        document.getElementById('ctaBtn').textContent = data.ctaBtn;
+
+        // 動態帶入語言參數至頁面關鍵連結
+        updateLinkLang('backLink', '../blog.html', l);
+        updateLinkLang('brandLink', '../index.html', l);
+        updateLinkLang('ctaBtn', '../tools/percent-calculator.html', l);
+        updateLinkLang('footHome', '../index.html', l);
+        updateLinkLang('footBlog', '../blog.html', l);
+        updateLinkLang('footAbout', '../about.html', l);
+        updateLinkLang('footPrivacy', '../privacy.html', l);
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.lang === l) btn.classList.add('active');
+        });
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.dataset.lang;
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            renderArticle(selectedLang);
+        });
+    });
+
+    renderArticle(lang);
+});
+</script>
+
+</body>
+</html>

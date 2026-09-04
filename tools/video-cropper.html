@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO Title & Description (中英雙語關鍵字優化) -->
+    <title>免費線上影片畫面裁切工具 — 去除黑邊與自訂比例｜Free Online Video Cropper</title>
+    <meta name="description" content="免費線上影片畫面裁切工具 (Free Online Video Cropper)。支援拖曳裁切影片畫面、輕鬆去除黑邊與雜物，提供 16:9, 1:1, 9:16 等多種比例。純瀏覽器本地處理，零檔案上傳，100% 保障隱私安全。" />
+    <meta name="keywords" content="影片裁切, 影片畫面裁剪, 去除影片黑邊, 影片尺寸修改, 線上剪輯, video cropper, crop video online, resize video, remove video borders, video crop tool, free online video cropper" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/video-cropper.html" />
+
+    <!-- Open Graph (社交分享優化) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="免費線上影片畫面裁切工具 — 去除黑邊與自訂比例｜Free Video Cropper" />
+    <meta property="og:description" content="零檔案上傳！直接在瀏覽器內視覺化裁切影片畫面大小，去除黑邊或不需要的區域，支援多種社交媒體比例。" />
+    <meta property="og:url" content="https://www.behavior-report.com/tools/video-cropper.html" />
+
+    <!-- Schema.org 結構化資料 (提升 Google 搜尋 Rich Snippet) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "線上影片畫面裁切工具 (Free Online Video Cropper)",
+      "url": "https://www.behavior-report.com/tools/video-cropper.html",
+      "description": "免費線上影片畫面裁切工具，支援視覺化區域選擇、預設比例調整、即時預覽與快速下載。100% 瀏覽器端本地處理，安全保護隱私。",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --green: #10b981;
+            --red: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .lang-switch a {
+            color: var(--cyan);
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .lang-switch a:hover { text-decoration: underline; }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 10px 0 25px;
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        .upload-area {
+            border: 2px dashed rgba(148, 163, 184, 0.25);
+            border-radius: 12px;
+            padding: 35px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.02);
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover, .upload-area.dragover {
+            border-color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .upload-area .icon { font-size: 2.5rem; display: block; margin-bottom: 8px; }
+        .upload-area p { font-size: 0.95rem; color: var(--text-light); }
+        .upload-area .hint { font-size: 0.8rem; color: #64748b; margin-top: 4px; }
+        #videoInput { display: none; }
+
+        /* 比例選擇器與工作區 */
+        .controls-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .ratio-btn {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text-light);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .ratio-btn.active, .ratio-btn:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.08);
+        }
+
+        /* 視訊裁切工作區 */
+        .crop-workspace {
+            position: relative;
+            display: inline-block;
+            max-width: 100%;
+            margin: 0 auto 20px;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        .crop-workspace-wrap {
+            text-align: center;
+            display: none;
+        }
+
+        #videoSource {
+            max-width: 100%;
+            max-height: 450px;
+            display: block;
+        }
+
+        /* 裁切遮罩層 */
+        .crop-box {
+            position: absolute;
+            border: 2px dashed var(--cyan);
+            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.6);
+            cursor: move;
+            box-sizing: border-box;
+        }
+
+        .crop-handle {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--cyan);
+            border-radius: 50%;
+        }
+
+        .handle-se { right: -6px; bottom: -6px; cursor: se-resize; }
+        .handle-sw { left: -6px; bottom: -6px; cursor: sw-resize; }
+        .handle-ne { right: -6px; top: -6px; cursor: ne-resize; }
+        .handle-nw { left: -6px; top: -6px; cursor: nw-resize; }
+
+        /* 導出與預覽區 */
+        .preview-box {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid var(--border);
+            text-align: center;
+            margin-bottom: 20px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #croppedPreview {
+            max-width: 100%;
+            max-height: 350px;
+            border-radius: 8px;
+            display: none;
+            background: #000;
+        }
+
+        .preview-placeholder { color: #475569; font-size: 0.9rem; }
+
+        .progress-bar-wrap {
+            width: 100%;
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            margin-top: 15px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-bar { height: 100%; width: 0%; background: var(--cyan); transition: width 0.1s linear; }
+        .status-text { font-size: 0.8rem; color: var(--cyan); margin-top: 8px; display: none; }
+
+        /* 按鈕組 */
+        .btn-group { display: flex; gap: 12px; margin-top: 10px; }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .btn-primary { background: var(--cyan); color: #0b0f19; }
+        .btn-primary:hover:not(:disabled) { background: var(--cyan-hover); }
+        .btn-success { background: var(--green); color: #0b0f19; }
+        .btn-success:hover:not(:disabled) { background: #34d399; }
+        .btn-danger { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--red); color: #fca5a5; }
+        .btn-danger:hover:not(:disabled) { background: rgba(239, 68, 68, 0.25); }
+
+        /* SEO 文章區 */
+        .seo-article {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+            line-height: 1.6;
+        }
+        .seo-article h2 { color: #ffffff; font-size: 1.1rem; margin-bottom: 12px; }
+        .seo-article p { font-size: 0.85rem; color: var(--text); margin-bottom: 12px; }
+
+        footer { text-align: center; margin-top: 30px; font-size: 11px; color: #555; }
+        footer a { color: #555; text-decoration: none; margin: 0 8px; }
+        footer a:hover { color: #888; }
+
+        @media (max-width: 600px) {
+            .container { padding: 18px; }
+            .btn-group { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 多國語言切換 -->
+    <div class="lang-switch">
+        <a onclick="switchLang('zh')">繁體中文</a> |
+        <a onclick="switchLang('en')">English</a>
+    </div>
+
+    <!-- 標題與簡介 -->
+    <h1 class="tool-title" id="toolTitle">✂️ 免費線上影片畫面裁切工具</h1>
+    <p class="tool-sub" id="toolSub">視覺化拖曳裁切畫面 · 去除黑邊與多餘區域 · 快捷社交媒體比例 · 100% 本地處理保護隱私</p>
+
+    <!-- 特色標籤 -->
+    <div class="badge-row">
+        <span class="badge" id="badge1">🔒 100% 隱私安全（零上傳）</span>
+        <span class="badge" id="badge2">📐 支援 16:9 / 1:1 / 9:16 常用比例</span>
+        <span class="badge" id="badge3">👁️ 裁切後即時預覽與下載</span>
+        <span class="badge" id="badge4">🆓 完全免費無浮水印</span>
+    </div>
+
+    <!-- 影片上傳區 -->
+    <div class="upload-area" id="dropArea">
+        <span class="icon">🎥</span>
+        <p id="uploadText">拖曳影片到這裡，或點擊選擇檔案</p>
+        <span class="hint" id="uploadHint">支援 MP4, WebM, MOV 等主流影片格式</span>
+        <input type="file" id="videoInput" accept="video/*" />
+    </div>
+
+    <!-- 裁切工作區 -->
+    <div class="crop-workspace-wrap" id="workspaceWrap">
+        <!-- 比例快速切換按鈕 -->
+        <div class="controls-bar">
+            <span id="lblAspect" style="font-size:0.85rem; color:#fff;">比例 (Ratio):</span>
+            <button class="ratio-btn active" onclick="setRatio('free')">Free (自由)</button>
+            <button class="ratio-btn" onclick="setRatio(16/9)">16:9 (YouTube)</button>
+            <button class="ratio-btn" onclick="setRatio(9/16)">9:16 (Reels/TikTok)</button>
+            <button class="ratio-btn" onclick="setRatio(1/1)">1:1 (Square)</button>
+            <button class="ratio-btn" onclick="setRatio(4/3)">4:3</button>
+        </div>
+
+        <div class="crop-workspace" id="workspace">
+            <video id="videoSource" playsinline muted></video>
+            <div class="crop-box" id="cropBox">
+                <div class="crop-handle handle-nw" data-handle="nw"></div>
+                <div class="crop-handle handle-ne" data-handle="ne"></div>
+                <div class="crop-handle handle-sw" data-handle="sw"></div>
+                <div class="crop-handle handle-se" data-handle="se"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 預覽與輸出區 -->
+    <div class="preview-box">
+        <span class="preview-placeholder" id="previewPlaceholder">等待調整裁切區域並輸出... (Waiting for video crop...)</span>
+        <video id="croppedPreview" controls></video>
+        <div class="progress-bar-wrap" id="progressWrap">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="status-text" id="statusText">處理中... (Processing...)</div>
+    </div>
+
+    <!-- 按鈕組 -->
+    <div class="btn-group">
+        <button class="btn btn-primary" id="cropBtn" disabled>✂️ <span id="btnCropText">開始裁切並預覽 (Crop & Preview)</span></button>
+        <button class="btn btn-success" id="downloadBtn" disabled>⬇️ <span id="btnDownloadText">下載裁切影片 (Download)</span></button>
+        <button class="btn btn-danger" id="resetBtn">🗑️ <span id="btnResetText">清空 (Clear)</span></button>
+    </div>
+
+    <!-- SEO 文章區塊（中英雙語關鍵字佈局） -->
+    <article class="seo-article">
+        <h2 id="seoTitle">為什麼選擇我們的線上影片畫面裁切工具？(Why Choose Our Video Cropper?)</h2>
+        <p id="seoP1">
+            無論是想去除手機錄影產生的黑邊、切除畫面四周不小心錄到的雜物，或是為了將 16:9 横向影片裁切成 9:16 直向格式上傳至 Instagram Reels、TikTok 或 YouTube Shorts，我們的免費線上影片裁切工具都能完美勝任。透過直覺的視覺化拖曳方框，您可以輕鬆選取所需的畫面區域。
+        </p>
+        <p id="seoP2">
+            Crop video dimensions online easily with our Free Video Cropper. Remove unwanted borders, black bars, or watermarks in seconds. Choose from predefined aspect ratios like 16:9, 9:16, or 1:1 for popular social media platforms. Processing is done 100% locally in your browser with HTML5 Canvas technology—no video files are ever uploaded, keeping your content entirely private and safe.
+        </p>
+    </article>
+</div>
+
+<footer>
+    <a href="../index.html">主頁 (Home)</a> |
+    <a href="../privacy.html">隱私權政策 (Privacy Policy)</a>
+</footer>
+
+<script>
+    // 語言字典 (ZH / EN)
+    const texts = {
+        zh: {
+            title: '✂️ 免費線上影片畫面裁切工具',
+            sub: '視覺化拖曳裁切畫面 · 去除黑邊與多餘區域 · 快捷社交媒體比例 · 100% 本地處理保護隱私',
+            badge1: '🔒 100% 隱私安全（零上傳）',
+            badge2: '📐 支援 16:9 / 1:1 / 9:16 常用比例',
+            badge3: '👁️ 裁切後即時預覽與下載',
+            badge4: '🆓 完全免費無浮水印',
+            upload: '拖曳影片到這裡，或點擊選擇檔案',
+            hint: '支援 MP4, WebM, MOV 等主流影片格式',
+            placeholder: '等待調整裁切區域並輸出...',
+            btnCrop: '開始裁切並預覽',
+            btnDownload: '下載裁切影片',
+            btnReset: '清空',
+            statusCropping: '正在渲染裁切畫面與音訊，請稍候...',
+            statusComplete: '裁切完成！您可以在上方播放器預覽或點擊下載。',
+            seoTitle: '為什麼選擇我們的線上影片畫面裁切工具？',
+            seoP1: '無論是想去除手機錄影產生的黑邊、切除畫面四周不小心錄到的雜物，或是為了將 16:9 横向影片裁切成 9:16 直向格式上傳至 Instagram Reels、TikTok 或 YouTube Shorts，我們的免費線上影片裁切工具都能完美勝任。透過直覺的視覺化拖曳方框，您可以輕鬆選取所需的畫面區域。',
+            seoP2: '本工具採用現代瀏覽器端技術，所有影片裁切與重新編碼過程 100% 在您的個人電腦或手機端運算，絕不傳輸任何資料至外部伺服器，速度極快且隱私無虞。'
+        },
+        en: {
+            title: '✂️ Free Online Video Cropper Tool',
+            sub: 'Visual Drag-to-Crop · Remove Black Bars & Unwanted Areas · Preset Ratios · 100% Client-Side Privacy',
+            badge1: '🔒 100% Privacy (No Upload)',
+            badge2: '📐 Ratios: 16:9 / 1:1 / 9:16',
+            badge3: '👁️ Instant Preview & Export',
+            badge4: '🆓 Unlimited & No Watermark',
+            upload: 'Drag & drop video here, or click to select',
+            hint: 'Supports MP4, WebM, MOV video formats',
+            placeholder: 'Waiting for video crop...',
+            btnCrop: 'Crop & Preview',
+            btnDownload: 'Download Cropped Video',
+            btnReset: 'Clear',
+            statusCropping: 'Rendering cropped frames and audio... Please wait.',
+            statusComplete: 'Crop complete! Preview above or click Download.',
+            seoTitle: 'Why Choose Our Online Video Cropper?',
+            seoP1: 'Crop video dimensions online easily with our Free Video Cropper. Remove unwanted borders, black bars, or watermarks in seconds. Choose from predefined aspect ratios like 16:9, 9:16, or 1:1 for popular social media platforms.',
+            seoP2: 'Processing is done 100% locally in your browser with HTML5 Canvas technology—no video files are ever uploaded, keeping your content entirely private and safe.'
+        }
+    };
+
+let currentLang = 'zh';
+
+// 偵測 URL 參數語言
+function detectLanguage() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('lang') === 'en') return 'en';
+    if (params.get('lang') === 'tw') return 'zh';
+    if (params.get('lang') === 'hk') return 'zh';
+    
+    // 如果無參數，用瀏覽器語言
+    const userLang = navigator.language || navigator.userLanguage;
+    if (userLang.startsWith('en')) return 'en';
+    if (userLang.includes('TW') || userLang.includes('tw')) return 'zh';
+    return 'zh';
+}
+    let videoFile = null;
+    let videoObjectUrl = null;
+    let croppedBlobUrl = null;
+    let targetRatio = 'free'; // 'free' or number
+
+    // DOM 元素
+    const dropArea = document.getElementById('dropArea');
+    const videoInput = document.getElementById('videoInput');
+    const workspaceWrap = document.getElementById('workspaceWrap');
+    const videoSource = document.getElementById('videoSource');
+    const cropBox = document.getElementById('cropBox');
+    const croppedPreview = document.getElementById('croppedPreview');
+    const previewPlaceholder = document.getElementById('previewPlaceholder');
+    const progressWrap = document.getElementById('progressWrap');
+    const progressBar = document.getElementById('progressBar');
+    const statusText = document.getElementById('statusText');
+    const cropBtn = document.getElementById('cropBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    // 切換語言
+    function switchLang(lang) {
+        currentLang = lang;
+        const t = texts[lang];
+        document.getElementById('toolTitle').innerText = t.title;
+        document.getElementById('toolSub').innerText = t.sub;
+        document.getElementById('badge1').innerText = t.badge1;
+        document.getElementById('badge2').innerText = t.badge2;
+        document.getElementById('badge3').innerText = t.badge3;
+        document.getElementById('badge4').innerText = t.badge4;
+        document.getElementById('uploadText').innerText = t.upload;
+        document.getElementById('uploadHint').innerText = t.hint;
+        if (!croppedBlobUrl) previewPlaceholder.innerText = t.placeholder;
+        document.getElementById('btnCropText').innerText = t.btnCrop;
+        document.getElementById('btnDownloadText').innerText = t.btnDownload;
+        document.getElementById('btnResetText').innerText = t.btnReset;
+        document.getElementById('seoTitle').innerText = t.seoTitle;
+        document.getElementById('seoP1').innerText = t.seoP1;
+        document.getElementById('seoP2').innerText = t.seoP2;
+    }
+
+    // 上傳觸發
+    dropArea.addEventListener('click', () => videoInput.click());
+    dropArea.addEventListener('dragover', (e) => { e.preventDefault(); dropArea.classList.add('dragover'); });
+    dropArea.addEventListener('dragleave', () => dropArea.classList.remove('dragover'));
+    dropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropArea.classList.remove('dragover');
+        if (e.dataTransfer.files.length > 0) loadVideo(e.dataTransfer.files[0]);
+    });
+
+    videoInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) loadVideo(e.target.files[0]);
+    });
+
+    function loadVideo(file) {
+        if (!file.type.startsWith('video/')) return;
+        videoFile = file;
+        if (videoObjectUrl) URL.revokeObjectURL(videoObjectUrl);
+        videoObjectUrl = URL.createObjectURL(file);
+
+        videoSource.src = videoObjectUrl;
+        videoSource.onloadedmetadata = () => {
+            workspaceWrap.style.display = 'block';
+            cropBtn.disabled = false;
+            initCropBox();
+        };
+    }
+
+    // 初始化裁切框
+    function initCropBox() {
+        const rect = videoSource.getBoundingClientRect();
+        cropBox.style.left = '10%';
+        cropBox.style.top = '10%';
+        cropBox.style.width = (rect.width * 0.8) + 'px';
+        cropBox.style.height = (rect.height * 0.8) + 'px';
+    }
+
+    // 設定比例
+    function setRatio(ratio) {
+        targetRatio = ratio;
+        document.querySelectorAll('.ratio-btn').forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+
+        if (ratio === 'free') return;
+
+        const workspace = document.getElementById('workspace');
+        const W = workspace.clientWidth;
+        const H = workspace.clientHeight;
+
+        let newW = W * 0.8;
+        let newH = newW / ratio;
+
+        if (newH > H) {
+            newH = H * 0.8;
+            newW = newH * ratio;
+        }
+
+        cropBox.style.width = newW + 'px';
+        cropBox.style.height = newH + 'px';
+        cropBox.style.left = ((W - newW) / 2) + 'px';
+        cropBox.style.top = ((H - newH) / 2) + 'px';
+    }
+
+    // 拖曳與調整尺寸邏輯
+    let isDragging = false, isResizing = false;
+    let dragStart = { x: 0, y: 0 };
+    let boxStart = { x: 0, y: 0, w: 0, h: 0 };
+    let activeHandle = null;
+
+    cropBox.addEventListener('mousedown', (e) => {
+        if (e.target.classList.contains('crop-handle')) {
+            isResizing = true;
+            activeHandle = e.target.dataset.handle;
+        } else {
+            isDragging = true;
+        }
+        dragStart = { x: e.clientX, y: e.clientY };
+        boxStart = {
+            x: cropBox.offsetLeft,
+            y: cropBox.offsetTop,
+            w: cropBox.clientWidth,
+            h: cropBox.clientHeight
+        };
+        e.preventDefault();
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!isDragging && !isResizing) return;
+        const dx = e.clientX - dragStart.x;
+        const dy = e.clientY - dragStart.y;
+        const workspace = document.getElementById('workspace');
+        const maxW = workspace.clientWidth;
+        const maxH = workspace.clientHeight;
+
+        if (isDragging) {
+            let newX = Math.max(0, Math.min(maxW - boxStart.w, boxStart.x + dx));
+            let newY = Math.max(0, Math.min(maxH - boxStart.h, boxStart.y + dy));
+            cropBox.style.left = newX + 'px';
+            cropBox.style.top = newY + 'px';
+        } else if (isResizing) {
+            let newW = boxStart.w, newH = boxStart.h, newX = boxStart.x, newY = boxStart.y;
+
+            if (activeHandle.includes('e')) newW = Math.min(maxW - boxStart.x, boxStart.w + dx);
+            if (activeHandle.includes('s')) newH = Math.min(maxH - boxStart.y, boxStart.h + dy);
+            if (activeHandle.includes('w')) {
+                const possibleW = boxStart.w - dx;
+                if (possibleW > 30) { newW = possibleW; newX = boxStart.x + dx; }
+            }
+            if (activeHandle.includes('n')) {
+                const possibleH = boxStart.h - dy;
+                if (possibleH > 30) { newH = possibleH; newY = boxStart.y + dy; }
+            }
+
+            if (targetRatio !== 'free') {
+                newH = newW / targetRatio;
+            }
+
+            if (newW > 30 && newH > 30) {
+                cropBox.style.width = newW + 'px';
+                cropBox.style.height = newH + 'px';
+                cropBox.style.left = newX + 'px';
+                cropBox.style.top = newY + 'px';
+            }
+        }
+    });
+
+    window.addEventListener('mouseup', () => { isDragging = false; isResizing = false; });
+
+    // 核心裁切邏輯 (Canvas + MediaRecorder)
+    cropBtn.addEventListener('click', async () => {
+        cropBtn.disabled = true;
+        downloadBtn.disabled = true;
+        progressWrap.style.display = 'block';
+        statusText.style.display = 'block';
+        statusText.innerText = texts[currentLang].statusCropping;
+        progressBar.style.width = '0%';
+
+        const videoW = videoSource.videoWidth;
+        const videoH = videoSource.videoHeight;
+        const displayW = videoSource.clientWidth;
+        const displayH = videoSource.clientHeight;
+
+        const scaleX = videoW / displayW;
+        const scaleY = videoH / displayH;
+
+        const cropX = cropBox.offsetLeft * scaleX;
+        const cropY = cropBox.offsetTop * scaleY;
+        const cropW = cropBox.clientWidth * scaleX;
+        const cropH = cropBox.clientHeight * scaleY;
+
+        const canvas = document.createElement('canvas');
+        canvas.width = cropW;
+        canvas.height = cropH;
+        const ctx = canvas.getContext('2d');
+
+        const stream = canvas.captureStream(30);
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const audioDestination = audioCtx.createMediaStreamDestination();
+
+        const vRender = document.createElement('video');
+        vRender.src = videoObjectUrl;
+        vRender.muted = false;
+
+        const source = audioCtx.createMediaElementSource(vRender);
+        source.connect(audioDestination);
+
+        const combinedStream = new MediaStream([
+            ...stream.getVideoTracks(),
+            ...audioDestination.stream.getAudioTracks()
+        ]);
+
+        const mediaRecorder = new MediaRecorder(combinedStream, { mimeType: 'video/webm;codecs=vp8,opus' });
+        const chunks = [];
+
+        mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
+        mediaRecorder.onstop = () => {
+            const blob = new Blob(chunks, { type: 'video/webm' });
+            if (croppedBlobUrl) URL.revokeObjectURL(croppedBlobUrl);
+            croppedBlobUrl = URL.createObjectURL(blob);
+
+            croppedPreview.src = croppedBlobUrl;
+            croppedPreview.style.display = 'block';
+            previewPlaceholder.style.display = 'none';
+
+            statusText.innerText = texts[currentLang].statusComplete;
+            progressWrap.style.display = 'none';
+            cropBtn.disabled = false;
+            downloadBtn.disabled = false;
+        };
+
+        mediaRecorder.start();
+        await vRender.play();
+
+        function processFrame() {
+            if (vRender.paused || vRender.ended) {
+                mediaRecorder.stop();
+                return;
+            }
+
+            ctx.drawImage(vRender, cropX, cropY, cropW, cropH, 0, 0, cropW, cropH);
+            progressBar.style.width = ((vRender.currentTime / vRender.duration) * 100) + '%';
+            requestAnimationFrame(processFrame);
+        }
+
+        processFrame();
+    });
+
+    // 下載裁切後的影片
+    downloadBtn.addEventListener('click', () => {
+        if (!croppedBlobUrl) return;
+        const a = document.createElement('a');
+        a.href = croppedBlobUrl;
+        a.download = `cropped-video-${Date.now()}.webm`;
+        a.click();
+    });
+
+    // 清空重設
+    document.getElementById('resetBtn').addEventListener('click', () => {
+        if (videoObjectUrl) URL.revokeObjectURL(videoObjectUrl);
+        if (croppedBlobUrl) URL.revokeObjectURL(croppedBlobUrl);
+
+        videoFile = null;
+        videoObjectUrl = null;
+        croppedBlobUrl = null;
+        videoInput.value = '';
+
+        videoSource.src = '';
+        croppedPreview.pause();
+        croppedPreview.src = '';
+        croppedPreview.style.display = 'none';
+        previewPlaceholder.style.display = 'block';
+        workspaceWrap.style.display = 'none';
+
+        cropBtn.disabled = true;
+        downloadBtn.disabled = true;
+        progressWrap.style.display = 'none';
+        statusText.style.display = 'none';
+    });
+    const detectedLang = detectLanguage();
+switchLang(detectedLang);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="seo-title">私人貸款利率比較器 | Personal Loan Rate Comparator - ABRG</title>
+    <meta id="seo-desc" name="description" content="免費線上私人貸款利率比較器。同時並排比較多個貸款方案（月平息 vs APR），精確計算每月供款、總利息及實際年利率，助你找出最佳貸款方案。">
+    <meta id="seo-keywords" name="keywords" content="私人貸款比較, 月平息轉APR, 貸款利率計算機, Personal Loan Comparison, Monthly Flat Rate to APR, Loan Calculator">
+    <link rel="canonical" href="https://www.behavior-report.com/tools/personal-loan-rate-comparator.html" />
+    
+    <style>
+        :root { 
+            --bg-color: #0b0f19; 
+            --card-bg: #151d30; 
+            --input-bg: #1e293b;
+            --text-color: #94a3b8; 
+            --heading-color: #ffffff;
+            --accent-cyan: #22d3ee; 
+            --accent-red: #ef4444;
+            --accent-green: #22c55e;
+            --border-color: rgba(148, 163, 184, 0.15);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
+        .container { max-width: 1000px; width: 100%; }
+
+        .top-bar { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 20px; 
+        }
+        .back-link {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+        
+        .lang-switch button {
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+            padding: 4px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .lang-switch button:hover {
+            background: var(--accent-cyan);
+            color: #0b0f19;
+        }
+
+        .hero { text-align: center; margin-bottom: 25px; }
+        .hero h1 { font-size: 1.8rem; color: var(--heading-color); margin-bottom: 8px; }
+        .hero p { font-size: 0.95rem; color: var(--text-color); }
+
+        .actions-bar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+        .btn-add {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--accent-green);
+            border: 1px solid var(--accent-green);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .btn-add:hover {
+            background: var(--accent-green);
+            color: #0b0f19;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        th, td {
+            padding: 12px 10px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            color: var(--accent-cyan);
+            font-size: 0.95rem;
+            background: rgba(34, 211, 238, 0.05);
+        }
+
+        td.label-col {
+            text-align: left;
+            font-weight: bold;
+            color: var(--heading-color);
+            width: 180px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        input, select {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px;
+            color: #fff;
+            font-size: 0.9rem;
+            outline: none;
+            text-align: center;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--accent-cyan);
+        }
+
+        .btn-remove {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-red);
+            border: 1px solid var(--accent-red);
+            border-radius: 6px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .btn-remove:hover {
+            background: var(--accent-red);
+            color: #fff;
+        }
+
+        .result-cell {
+            font-weight: bold;
+            font-size: 0.95rem;
+            color: var(--heading-color);
+        }
+
+        .highlight-apr {
+            color: var(--accent-cyan);
+            font-size: 1.1rem;
+        }
+
+        .best-badge {
+            background: var(--accent-green);
+            color: #0b0f19;
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 4px;
+        }
+
+        .info-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+        .info-section h2 {
+            color: var(--heading-color);
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+        .info-section p { margin-bottom: 12px; }
+        .info-section ul { margin-left: 20px; margin-bottom: 12px; }
+        .info-section li { margin-bottom: 6px; }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; }
+        .footer a:hover { color: #aaa; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="top-bar">
+        <a href="../index.html" class="back-link" id="btn-back">← 返回主頁</a>
+        <div class="lang-switch">
+            <button id="btn-lang" onclick="toggleLanguage()">English</button>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h1 id="txt-title">私人貸款利率比較器</h1>
+        <p id="txt-subtitle">並排比較多個貸款方案，自動統一換算實際年利率 (APR) 與總費用</p>
+    </div>
+
+    <div class="actions-bar">
+        <button class="btn-add" id="btn-add-plan" onclick="addPlan()">+ 新增方案 (Add Plan)</button>
+    </div>
+
+    <div class="table-responsive">
+        <table id="comparator-table">
+            <thead>
+                <tr id="tr-header">
+                    <th class="label-col" id="th-feature">比較項目 / 方案</th>
+                    <!-- 動態生成方案標頭 -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="label-col" id="lbl-name">方案名稱</td>
+                    <!-- 動態 Plan Name -->
+                </tr>
+                <tr>
+                    <td class="label-col" id="lbl-amount">貸款金額 ($)</td>
+                    <!-- 動態 Amount -->
+                </tr>
+                <tr>
+                    <td class="label-col" id="lbl-rate-type">利率計息類型</td>
+                    <!-- 動態 Rate Type -->
+                </tr>
+                <tr>
+                    <td class="label-col" id="lbl-rate-val">利率 (%)</td>
+                    <!-- 動態 Rate Value -->
+                </tr>
+                <tr>
+                    <td class="label-col" id="lbl-tenure">還款期數 (月)</td>
+                    <!-- 動態 Tenure -->
+                </tr>
+                <tr>
+                    <td class="label-col" id="lbl-upfront">一次性手續費 ($)</td>
+                    <!-- 動態 Upfront Fee -->
+                </tr>
+                <!-- 計算結果劃分線 -->
+                <tr style="border-top: 2px solid var(--accent-cyan);">
+                    <td class="label-col" id="lbl-res-apr" style="color: var(--accent-cyan);">真實 APR (%)</td>
+                    <!-- 動態 Result APR -->
+                </tr>
+                <tr>
+                    <td class="label-col" id="lbl-res-monthly">每月供款 ($)</td>
+                    <!-- 動態 Result Monthly Payment -->
+                </tr>
+                <tr>
+                    <td class="label-col" id="lbl-res-interest">總利息與手續費 ($)</td>
+                    <!-- 動態 Result Total Fees -->
+                </tr>
+                <tr>
+                    <td class="label-col" id="lbl-res-total">總還款額 ($)</td>
+                    <!-- 動態 Result Total Repayment -->
+                </tr>
+                <tr id="tr-action">
+                    <td class="label-col"></td>
+                    <!-- 動態 操作/刪除按鈕 -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="info-section">
+        <h2 id="txt-info-title">如何精準比較私人貸款方案？</h2>
+        <p id="txt-info-p1"><strong>切勿單看「月平息」或「免手續費」：</strong>不同銀行與財務機構採用的宣傳口徑各異。月平息（Monthly Flat Rate）未考慮本金按月償還的遞減效應，不能直接等同於實際利率。</p>
+        <p id="txt-info-p2"><strong>以實際年利率（APR）為唯一基準：</strong>實際年利率是根據國際通用標準（IRR）計算，將貸款利息、月平息、首期行政費及所有相關手續費全部折算為年化成本，是評估借貸款項真實總成本的最客觀標準。</p>
+    </div>
+
+    <div class="footer">
+        &copy; 2026 ABRG 大數據行為觀察中心 | <a href="../index.html">主頁</a>
+    </div>
+
+</div>
+
+<script>
+    let currentLang = 'zh';
+    
+    // 預設方案資料
+    let plans = [
+        { name: "方案 A (Plan A)", amount: 200000, rateType: "flat", rateVal: 0.15, tenure: 24, upfront: 0 },
+        { name: "方案 B (Plan B)", amount: 200000, rateType: "apr", rateVal: 4.5, tenure: 24, upfront: 500 },
+        { name: "方案 C (Plan C)", amount: 200000, rateType: "flat", rateVal: 0.12, tenure: 36, upfront: 0 }
+    ];
+
+    const translations = {
+        zh: {
+            pageTitle: "私人貸款利率比較器 | Personal Loan Rate Comparator - ABRG",
+            metaDesc: "免費線上私人貸款利率比較器。同時並排比較多個貸款方案（月平息 vs APR），精確計算每月供款、總利息及實際年利率，助你找出最佳貸款方案。",
+            metaKeywords: "私人貸款比較, 月平息轉APR, 貸款利率計算機, Personal Loan Comparison, Monthly Flat Rate to APR, Loan Calculator",
+            btnBack: "← 返回主頁",
+            btnLang: "English",
+            title: "私人貸款利率比較器",
+            subtitle: "並排比較多個貸款方案，自動統一換算實際年利率 (APR) 與總費用",
+            btnAddPlan: "+ 新增方案",
+            thFeature: "比較項目 / 方案",
+            lblName: "方案名稱",
+            lblAmount: "貸款金額 ($)",
+            lblRateType: "利率計息類型",
+            lblRateVal: "利率 (%)",
+            lblTenure: "還款期數 (月)",
+            lblUpfront: "一次性手續費 ($)",
+            lblResApr: "真實 APR (%)",
+            lblResMonthly: "每月供款 ($)",
+            lblResInterest: "總利息與手續費 ($)",
+            lblResTotal: "總還款額 ($)",
+            typeFlat: "月平息 (Monthly Flat Rate)",
+            typeApr: "年利率 (Annual Rate / APR)",
+            btnDelete: "刪除",
+            bestOption: "最低成本 Best",
+            infoTitle: "如何精準比較私人貸款方案？",
+            infoP1: "<strong>切勿單看「月平息」或「免手續費」：</strong>不同銀行與財務機構採用的宣傳口徑各異。月平息（Monthly Flat Rate）未考慮本金按月償還的遞減效應，不能直接等同於實際利率。",
+            infoP2: "<strong>以實際年利率（APR）為唯一基準：</strong>實際年利率是根據國際通用標準（IRR）計算，將貸款利息、月平息、首期行政費及所有相關手續費全部折算為年化成本，是評估借貸款項真實總成本的最客觀標準。"
+        },
+        en: {
+            pageTitle: "Personal Loan Rate Comparator | Compare Loans - ABRG",
+            metaDesc: "Free online Personal Loan Rate Comparator. Side-by-side comparison of multiple loan options (Flat Rate vs APR) with exact monthly payments and true APR.",
+            metaKeywords: "Personal loan comparison, Loan rate comparator, Monthly flat rate to APR, Personal finance tool, Loan cost comparison",
+            btnBack: "← Back to Home",
+            btnLang: "繁體中文",
+            title: "Personal Loan Rate Comparator",
+            subtitle: "Compare multiple loan plans side-by-side with unified APR calculation",
+            btnAddPlan: "+ Add Plan",
+            thFeature: "Feature / Plan",
+            lblName: "Plan Name",
+            lblAmount: "Loan Amount ($)",
+            lblRateType: "Rate Type",
+            lblRateVal: "Rate (%)",
+            lblTenure: "Tenure (Months)",
+            lblUpfront: "Upfront Fee ($)",
+            lblResApr: "True APR (%)",
+            lblResMonthly: "Monthly Payment ($)",
+            lblResInterest: "Total Fees & Interest ($)",
+            lblResTotal: "Total Repayment ($)",
+            typeFlat: "Monthly Flat Rate",
+            typeApr: "Annual Rate / APR",
+            btnDelete: "Remove",
+            bestOption: "Lowest Cost",
+            infoTitle: "How to Accurately Compare Personal Loans?",
+            infoP1: "<strong>Don't just look at 'Monthly Flat Rate':</strong> Financial institutions use different marketing rate formats. Monthly flat rates ignore principal depreciation and obscure true borrowing costs.",
+            infoP2: "<strong>Use Annual Percentage Rate (APR) as the Ultimate Metric:</strong> APR leverages standard Internal Rate of Return (IRR) methodology, aggregating interest, flat fees, and upfront charges into a single annualized metric."
+        }
+    };
+
+    function toggleLanguage() {
+        currentLang = currentLang === 'zh' ? 'en' : 'zh';
+        const t = translations[currentLang];
+
+        document.getElementById('seo-title').innerText = t.pageTitle;
+        document.getElementById('seo-desc').setAttribute('content', t.metaDesc);
+        document.getElementById('seo-keywords').setAttribute('content', t.metaKeywords);
+
+        document.getElementById('btn-back').innerText = t.btnBack;
+        document.getElementById('btn-lang').innerText = t.btnLang;
+        document.getElementById('txt-title').innerText = t.title;
+        document.getElementById('txt-subtitle').innerText = t.subtitle;
+        document.getElementById('btn-add-plan').innerText = t.btnAddPlan;
+
+        document.getElementById('th-feature').innerText = t.thFeature;
+        document.getElementById('lbl-name').innerText = t.lblName;
+        document.getElementById('lbl-amount').innerText = t.lblAmount;
+        document.getElementById('lbl-rate-type').innerText = t.lblRateType;
+        document.getElementById('lbl-rate-val').innerText = t.lblRateVal;
+        document.getElementById('lbl-tenure').innerText = t.lblTenure;
+        document.getElementById('lbl-upfront').innerText = t.lblUpfront;
+
+        document.getElementById('lbl-res-apr').innerText = t.lblResApr;
+        document.getElementById('lbl-res-monthly').innerText = t.lblResMonthly;
+        document.getElementById('lbl-res-interest').innerText = t.lblResInterest;
+        document.getElementById('lbl-res-total').innerText = t.lblResTotal;
+
+        document.getElementById('txt-info-title').innerText = t.infoTitle;
+        document.getElementById('txt-info-p1').innerHTML = t.infoP1;
+        document.getElementById('txt-info-p2').innerHTML = t.infoP2;
+
+        document.documentElement.lang = currentLang === 'zh' ? 'zh-Hant-HK' : 'en';
+        renderTable();
+    }
+
+    function addPlan() {
+        if (plans.length >= 5) return;
+        const char = String.fromCharCode(65 + plans.length);
+        plans.push({
+            name: `方案 ${char} (Plan ${char})`,
+            amount: 200000,
+            rateType: "flat",
+            rateVal: 0.15,
+            tenure: 24,
+            upfront: 0
+        });
+        renderTable();
+    }
+
+    function removePlan(index) {
+        if (plans.length <= 1) return;
+        plans.splice(index, 1);
+        renderTable();
+    }
+
+    function updatePlanData(index, field, value) {
+        plans[index][field] = value;
+        renderTable();
+    }
+
+    // 計算月 IRR
+    function calculateMonthlyIRR(netAmount, monthlyPayment, tenure) {
+        let r = 0.01;
+        for (let i = 0; i < 100; i++) {
+            let f = netAmount;
+            let fPrime = 0;
+            for (let t = 1; t <= tenure; t++) {
+                let discount = Math.pow(1 + r, -t);
+                f -= monthlyPayment * discount;
+                fPrime += t * monthlyPayment * Math.pow(1 + r, -(t + 1));
+            }
+            if (Math.abs(f) < 1e-7) break;
+            if (fPrime === 0) break;
+            r = r - f / fPrime;
+        }
+        return r;
+    }
+
+    function computeResults() {
+        let lowestApr = Infinity;
+        let bestIndex = -1;
+
+        const computed = plans.map((p, idx) => {
+            const amount = parseFloat(p.amount) || 0;
+            const tenure = parseInt(p.tenure) || 0;
+            const rateVal = parseFloat(p.rateVal) || 0;
+            const upfront = parseFloat(p.upfront) || 0;
+
+            if (amount <= 0 || tenure <= 0) {
+                return { monthly: 0, totalFees: 0, totalRepayment: 0, apr: 0 };
+            }
+
+            let monthlyPayment = 0;
+            let totalFees = 0;
+
+            if (p.rateType === "flat") {
+                const monthlyInterest = amount * (rateVal / 100);
+                const monthlyPrincipal = amount / tenure;
+                monthlyPayment = monthlyPrincipal + monthlyInterest;
+                totalFees = (monthlyInterest * tenure) + upfront;
+            } else {
+                // APR 等額本息計算
+                const monthlyRate = (rateVal / 100) / 12;
+                if (monthlyRate > 0) {
+                    monthlyPayment = (amount * monthlyRate * Math.pow(1 + monthlyRate, tenure)) / (Math.pow(1 + monthlyRate, tenure) - 1);
+                } else {
+                    monthlyPayment = amount / tenure;
+                }
+                totalFees = (monthlyPayment * tenure - amount) + upfront;
+            }
+
+            const totalRepayment = amount + totalFees;
+            const netAmount = amount - upfront;
+
+            let apr = 0;
+            if (netAmount > 0 && monthlyPayment > 0) {
+                const monthlyIRR = calculateMonthlyIRR(netAmount, monthlyPayment, tenure);
+                apr = (Math.pow(1 + monthlyIRR, 12) - 1) * 100;
+            }
+
+            if (apr > 0 && apr < lowestApr) {
+                lowestApr = apr;
+                bestIndex = idx;
+            }
+
+            return { monthly: monthlyPayment, totalFees, totalRepayment, apr };
+        });
+
+        return { computed, bestIndex };
+    }
+
+    function renderTable() {
+        const t = translations[currentLang];
+        const { computed, bestIndex } = computeResults();
+
+        // 隱藏/顯示新增按鈕（上限 5）
+        document.getElementById('btn-add-plan').style.display = plans.length >= 5 ? 'none' : 'block';
+
+        const table = document.getElementById('comparator-table');
+        const rows = table.rows;
+
+        // 清空所有 row（除了第一欄 label-col）
+        for (let r = 0; r < rows.length; r++) {
+            while (rows[r].cells.length > 1) {
+                rows[r].deleteCell(1);
+            }
+        }
+
+        // 填充動態欄位
+        plans.forEach((p, i) => {
+            const res = computed[i];
+            const isBest = (i === bestIndex && plans.length > 1);
+
+            // 標頭
+            const th = rows[0].insertCell(-1);
+            th.innerText = `Plan ${i + 1}`;
+
+            // Name
+            const tdName = rows[1].insertCell(-1);
+            tdName.innerHTML = `<input type="text" value="${p.name}" onchange="updatePlanData(${i}, 'name', this.value)">`;
+
+            // Amount
+            const tdAmt = rows[2].insertCell(-1);
+            tdAmt.innerHTML = `<input type="number" value="${p.amount}" step="10000" oninput="updatePlanData(${i}, 'amount', this.value)">`;
+
+            // Rate Type
+            const tdType = rows[3].insertCell(-1);
+            tdType.innerHTML = `
+                <select onchange="updatePlanData(${i}, 'rateType', this.value)">
+                    <option value="flat" ${p.rateType === 'flat' ? 'selected' : ''}>${t.typeFlat}</option>
+                    <option value="apr" ${p.rateType === 'apr' ? 'selected' : ''}>${t.typeApr}</option>
+                </select>
+            `;
+
+            // Rate Value
+            const tdRate = rows[4].insertCell(-1);
+            tdRate.innerHTML = `<input type="number" value="${p.rateVal}" step="0.01" oninput="updatePlanData(${i}, 'rateVal', this.value)">`;
+
+            // Tenure
+            const tdTenure = rows[5].insertCell(-1);
+            tdTenure.innerHTML = `<input type="number" value="${p.tenure}" step="6" min="6" max="84" oninput="updatePlanData(${i}, 'tenure', this.value)">`;
+
+            // Upfront
+            const tdUpfront = rows[6].insertCell(-1);
+            tdUpfront.innerHTML = `<input type="number" value="${p.upfront}" step="100" oninput="updatePlanData(${i}, 'upfront', this.value)">`;
+
+            // Result APR
+            const tdApr = rows[7].insertCell(-1);
+            tdApr.className = "result-cell highlight-apr";
+            tdApr.innerHTML = `
+                ${res.apr.toFixed(2)}%
+                ${isBest ? `<br><span class="best-badge">${t.bestOption}</span>` : ''}
+            `;
+
+            // Result Monthly
+            const tdMonthly = rows[8].insertCell(-1);
+            tdMonthly.className = "result-cell";
+            tdMonthly.innerText = `$${Math.round(res.monthly).toLocaleString()}`;
+
+            // Result Fees
+            const tdFees = rows[9].insertCell(-1);
+            tdFees.className = "result-cell";
+            tdFees.innerText = `$${Math.round(res.totalFees).toLocaleString()}`;
+
+            // Result Total
+            const tdTotal = rows[10].insertCell(-1);
+            tdTotal.className = "result-cell";
+            tdTotal.innerText = `$${Math.round(res.totalRepayment).toLocaleString()}`;
+
+            // Action
+            const tdAction = rows[11].insertCell(-1);
+            if (plans.length > 1) {
+                tdAction.innerHTML = `<button class="btn-remove" onclick="removePlan(${i})">${t.btnDelete}</button>`;
+            } else {
+                tdAction.innerHTML = '';
+            }
+        });
+    }
+
+window.onload = function() {
+    // 偵測 URL 語言參數
+    const urlParams = new URLSearchParams(window.location.search);
+    const langParam = urlParams.get('lang');
+    if (langParam === 'en') {
+        if (currentLang !== 'en') {
+            toggleLanguage();
+        }
+    } else if (langParam === 'hk' || langParam === 'tw') {
+        if (currentLang !== 'zh') {
+            toggleLanguage();
+        }
+    }
+    renderTable();
+};
+</script>
+</body>
+</html>

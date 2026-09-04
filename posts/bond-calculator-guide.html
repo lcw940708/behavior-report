@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【債券定價與收益率計算機教學】YTM 計算｜債券現值評估｜Free Bond Pricing & YTM Calculator Guide</title>
+    <meta name="description" content="債券定價與 YTM 計算機完整教學！輸入面值、票面利率、到期年限與市場利率，即時計算債券現值 (PV)、到期收益率 (YTM) 與當前收益率。Free online bond pricing and YTM calculator guide.">
+    <meta name="keywords" content="債券計算器, 債券定價, 到期收益率, YTM 計算, 債券現值, 固定收益, 債券折價溢價, Bond Pricing, Yield to Maturity, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/bond-calculator-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【債券定價與收益率計算機教學】YTM 計算｜債券現值評估｜Free Bond Pricing & YTM Calculator Guide">
+    <meta property="og:description" content="輸入面值、票面利率、到期年限與市場利率，即時計算債券現值 (PV)、到期收益率 (YTM) 與當前收益率。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/bond-calculator-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Bond Pricing & YTM Calculator Guide – Evaluate Fixed Income Investments">
+    <meta name="twitter:description" content="Calculate bond present value (PV), current yield, and Yield to Maturity (YTM) instantly. Free online bond calculator guide.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "債券定價與 YTM 計算機教學：債券現值與到期收益率 — 固定收益投資評估",
+      "description": "介紹如何使用債券定價與 YTM 計算機評估固定收益產品的投資價值，適用於債券投資、財務規劃與退休理財。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>債券定價與 YTM 計算機教學：債券現值與到期收益率 — 固定收益投資評估</h1>
+
+        <h2>1. 導言</h2>
+        <p>你係投資者或者退休理財規劃緊，想買債券收息但唔知點計佢值唔值得買？又或者你見到一隻債券嘅價格，想知佢嘅 <strong>實質回報率（YTM）</strong> 係幾多？<strong>債券定價（Bond Pricing）與到期收益率（Yield to Maturity, YTM）</strong> 就係為咗解答呢個問題而存在。我哋嘅免費債券計算機幫你輸入 <strong>債券面值、票面利率、到期年限與市場利率</strong>，即時計算 <strong>債券理論現值（PV）</strong>、<strong>當前收益率（Current Yield）</strong>，仲會自動評估債券係 <strong>溢價（Premium）</strong>、<strong>平價（Par）</strong> 定 <strong>折價（Discount）</strong>。所有運算喺瀏覽器入面完成，數據唔會離開你嘅裝置，私隱 100% 安全。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>債券定價（Bond Pricing）與到期收益率（Yield to Maturity, YTM）</strong> 係固定收益投資中最核心嘅兩個概念。主要概念包括：</p>
+        <ul>
+            <li><strong>債券面值（Face Value / Par Value）：</strong> 債券到期時發行人償還嘅本金金額，通常為 $1,000 或 $100。</li>
+            <li><strong>票面利率（Coupon Rate）：</strong> 債券每年支付嘅利息佔面值嘅百分比。</li>
+            <li><strong>到期收益率（Yield to Maturity, YTM）：</strong> 投資者持有債券至到期日嘅年均回報率，反映債券嘅真實收益率。</li>
+            <li><strong>當前收益率（Current Yield）：</strong> 每年利息收入除以當前債券市場價格嘅比率。</li>
+            <li><strong>債券價格與利率嘅反向關係：</strong> 市場利率上升時，債券價格下跌；市場利率下跌時，債券價格上升。</li>
+            <li><strong>溢價債券（Premium Bond）：</strong> 票面利率高於市場利率，債券價格高於面值。</li>
+            <li><strong>折價債券（Discount Bond）：</strong> 票面利率低於市場利率，債券價格低於面值。</li>
+        </ul>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>債券投資評估：</strong> 評估國債、公司債或地方政府債券嘅投資價值。</li>
+            <li><strong>退休理財規劃：</strong> 計算固定收益組合嘅預期回報與現金流。</li>
+            <li><strong>資產配置決策：</strong> 比較債券與其他資產類別（如股票、定期存款）嘅回報率。</li>
+            <li><strong>利率風險管理：</strong> 評估市場利率變動對債券組合價值嘅影響。</li>
+            <li><strong>債券交易定價：</strong> 判斷市場價格是否合理，捕捉套利機會。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>輸入基本參數：</strong>
+                <ul>
+                    <li>💰 債券面值（Face Value）</li>
+                    <li>📊 票面年利率（Coupon Rate %）</li>
+                    <li>📅 剩餘到期年限（Years to Maturity）</li>
+                    <li>📈 市場要求收益率（Market Required Rate %）</li>
+                </ul>
+            </li>
+            <li><strong>選擇付息頻率：</strong> 每年派息一次 或 每半年派息一次。</li>
+            <li><strong>輸入市場價格（選填）：</strong> 如有實際市場價格，輸入後可計算實質 YTM。</li>
+            <li><strong>即時計算：</strong> 點擊「即時計算」按鈕（輸入會自動更新）。</li>
+            <li><strong>檢視結果：</strong>
+                <ul>
+                    <li>⚖️ 債券定價狀態（溢價 / 平價 / 折價）</li>
+                    <li>💎 理論債券現值（PV）— 合理內在價值</li>
+                    <li>📈 當前收益率（Current Yield）</li>
+                    <li>📋 實質到期收益率（YTM）</li>
+                    <li>📊 每期票息金額、總付息期數、累積總利息</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站債券計算機</th>
+                    <th>Excel 手動計算</th>
+                    <th>Bloomberg / 專業軟件</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>需購買軟件</td>
+                    <td>極高（年費）</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>✅ 本地處理</td>
+                    <td>⚠️ 數據儲存於系統</td>
+                </tr>
+                <tr>
+                    <td><strong>計算速度</strong></td>
+                    <td>⚡ 即時</td>
+                    <td>🐢 需設定公式</td>
+                    <td>⚡ 即時</td>
+                </tr>
+                <tr>
+                    <td><strong>YTM 計算</strong></td>
+                    <td>✅ 自動（二分逼近法）</td>
+                    <td>⚠️ 需手動設定 IRR</td>
+                    <td>✅ 自動</td>
+                </tr>
+                <tr>
+                    <td><strong>溢價/折價評估</strong></td>
+                    <td>✅ 自動顯示</td>
+                    <td>⚠️ 需手動判斷</td>
+                    <td>✅ 自動</td>
+                </tr>
+                <tr>
+                    <td><strong>無需安裝</strong></td>
+                    <td>✅ 瀏覽器即用</td>
+                    <td>❌ 需安裝軟件</td>
+                    <td>❌ 需專用終端</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>中等</td>
+                    <td>高</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「初初學投資嗰陣，我以為買債券好簡單——借錢俾人，收息，到期拎返本金。直到有一次我見到我朋友手上嘅債券價格跌咗一成，我先知道 <strong>債券價格會跟住市場利率上上落落</strong>。原來 YTM 先至係真正嘅回報，而唔係票面利率。呢個工具俾你嘅，就係 <strong>用 10 秒鐘睇清楚債券嘅『真實價值』同『真實回報率』</strong> — 等你唔再俾表面數字呃到，做一個 <strong>更聰明嘅固定收益投資者</strong>。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">📈 想評估債券投資價值？即時計算 PV 與 YTM！</h3>
+            <p style="margin:0; font-size:0.9rem;">輸入債券參數即時計算現值、到期收益率與定價狀態，完全免費且保護私隱。</p>
+            <a href="../tools/bond-calculator.html?lang=hk" class="cta-btn-link" id="ctaBtnZh">👉 立即免費試用債券計算機</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Bond Pricing & YTM Calculator Guide: Bond Present Value & Yield to Maturity — Fixed Income Investment Evaluation</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Are you an investor or retirement planner looking to buy bonds but unsure how to value them? Or have you seen a bond price and want to know its <strong>real return (YTM)</strong>? <strong>Bond Pricing and Yield to Maturity (YTM)</strong> are exactly for answering these questions. Our free bond calculator lets you enter <strong>face value, coupon rate, years to maturity, and market rate</strong> to instantly calculate <strong>bond present value (PV)</strong>, <strong>current yield</strong>, and automatically assess whether the bond is trading at <strong>premium, par, or discount</strong>. All processing happens in your browser—your data never leaves your device, ensuring 100% privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>Bond Pricing and Yield to Maturity (YTM)</strong> are the two most core concepts in fixed income investing. Key concepts include:</p>
+        <ul>
+            <li><strong>Face Value / Par Value:</strong> The principal amount repaid at maturity, typically $1,000 or $100.</li>
+            <li><strong>Coupon Rate:</strong> The annual interest rate paid by the bond as a percentage of its face value.</li>
+            <li><strong>Yield to Maturity (YTM):</strong> The annualized return an investor earns if holding the bond until maturity—reflecting the bond's true return.</li>
+            <li><strong>Current Yield:</strong> The annual coupon payment divided by the bond's current market price.</li>
+            <li><strong>Inverse Relationship Between Bond Price and Interest Rates:</strong> When market rates rise, bond prices fall; when market rates fall, bond prices rise.</li>
+            <li><strong>Premium Bond:</strong> Coupon rate exceeds market rate; bond price is above face value.</li>
+            <li><strong>Discount Bond:</strong> Coupon rate is below market rate; bond price is below face value.</li>
+        </ul>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Bond Investment Evaluation:</strong> Assess the investment value of government, corporate, or municipal bonds.</li>
+            <li><strong>Retirement Planning:</strong> Calculate expected returns and cash flows for fixed income portfolios.</li>
+            <li><strong>Asset Allocation Decisions:</strong> Compare bond returns with other asset classes like stocks or term deposits.</li>
+            <li><strong>Interest Rate Risk Management:</strong> Assess the impact of market rate changes on bond portfolio value.</li>
+            <li><strong>Bond Trading & Pricing:</strong> Determine whether market prices are reasonable and identify arbitrage opportunities.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Enter Basic Parameters:</strong>
+                <ul>
+                    <li>💰 Face Value</li>
+                    <li>📊 Annual Coupon Rate (%)</li>
+                    <li>📅 Years to Maturity</li>
+                    <li>📈 Market Required Rate (%)</li>
+                </ul>
+            </li>
+            <li><strong>Select Payment Frequency:</strong> Annual or Semi-Annual.</li>
+            <li><strong>Enter Market Price (Optional):</strong> If you have a market price, the tool calculates the effective YTM.</li>
+            <li><strong>Calculate:</strong> Click the "Calculate" button (inputs auto-update).</li>
+            <li><strong>View Results:</strong>
+                <ul>
+                    <li>⚖️ Bond Pricing Status (Premium / Par / Discount)</li>
+                    <li>💎 Theoretical Bond Present Value (PV) — Intrinsic Value</li>
+                    <li>📈 Current Yield</li>
+                    <li>📋 Implied Yield to Maturity (YTM)</li>
+                    <li>📊 Coupon per Period, Total Periods, Total Interest</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Bond Calculator (Us)</th>
+                    <th>Excel Manual</th>
+                    <th>Bloomberg / Professional</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Software Purchase</td>
+                    <td>Very High (Annual)</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>✅ Local</td>
+                    <td>⚠️ System-stored</td>
+                </tr>
+                <tr>
+                    <td><strong>Speed</strong></td>
+                    <td>⚡ Instant</td>
+                    <td>🐢 Formula setup</td>
+                    <td>⚡ Instant</td>
+                </tr>
+                <tr>
+                    <td><strong>YTM Calculation</strong></td>
+                    <td>✅ Auto (Bisection)</td>
+                    <td>⚠️ Manual IRR</td>
+                    <td>✅ Auto</td>
+                </tr>
+                <tr>
+                    <td><strong>Premium/Discount</strong></td>
+                    <td>✅ Auto</td>
+                    <td>⚠️ Manual</td>
+                    <td>✅ Auto</td>
+                </tr>
+                <tr>
+                    <td><strong>No Installation</strong></td>
+                    <td>✅ Browser</td>
+                    <td>❌ Software</td>
+                    <td>❌ Terminal Required</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Medium</td>
+                    <td>High</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"When I first started learning about investing, I thought bonds were simple—lend money, collect interest, get principal back at maturity. Until I saw a friend's bond portfolio drop 10% in value and realized <strong>bond prices move with market interest rates</strong>. That's when I learned YTM is the real return, not the coupon rate. This tool gives you exactly that <strong>ability to see a bond's 'true value' and 'true return' in 10 seconds</strong>—so you're no longer fooled by surface numbers and can become a <strong>smarter fixed income investor</strong>."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">📈 Want to Evaluate Bond Investment Value? Calculate PV & YTM Instantly!</h3>
+            <p style="margin:0; font-size:0.9rem;">Enter bond parameters for instant present value, YTM, and pricing status—completely free with privacy protection.</p>
+            <a href="../tools/bond-calculator.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Bond Calculator Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtnZh = document.getElementById('ctaBtnZh');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtnZh.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtnZh.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

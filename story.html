@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+	<link rel="canonical" href="https://www.behavior-report.com/" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">連載隨筆智庫中心</title>
+    <style>
+        :root { --bg-color: #0b0f19; --card-bg: #151d30; --text-color: #94a3b8; --accent-cyan: #22d3ee; --accent-red: #ef4444; }
+        body { background-color: var(--bg-color); color: var(--text-color); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .matrix-container { max-width: 650px; width: 100%; background-color: var(--card-bg); padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); box-sizing: border-box; border: 1px solid rgba(239, 68, 68, 0.2); margin: 20px 0; }
+        .story-title { font-size: 1.4rem; color: #ffffff; text-align: center; font-weight: bold; margin-bottom: 25px; line-height: 1.4; border-bottom: 1px solid rgba(148, 163, 184, 0.1); padding-bottom: 15px; }
+        .story-content { font-size: 1.05rem; line-height: 1.9; color: #cbd5e1; white-space: pre-wrap; letter-spacing: 0.5px; }
+        .option-btn { display: flex; align-items: center; justify-content: center; width: 100%; background: rgba(36, 50, 79, 0.3); border: 1px solid rgba(34, 211, 238, 0.3); padding: 15px; border-radius: 8px; color: #ffffff; font-size: 1rem; cursor: pointer; margin-top: 20px; text-decoration: none; font-weight: bold; transition: all 0.2s; box-sizing: border-box; }
+        .option-btn:hover { background: rgba(34, 211, 238, 0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); }
+        .next-btn { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--accent-red); margin-top: 30px; color: #ffffff; }
+        .next-btn:hover { background: rgba(239, 68, 68, 0.3); border-color: var(--accent-cyan); color: #ffffff; }
+        .disabled-btn { background: rgba(148, 163, 184, 0.05) !important; border: 1px solid rgba(148, 163, 184, 0.2) !important; color: #64748b !important; cursor: not-allowed !important; pointer-events: none; margin-top: 30px; }
+        .lang-switch { text-align: center; margin-bottom: 20px; }
+        .lang-switch a { color: var(--accent-cyan); text-decoration: none; margin: 0 10px; font-size: 0.9rem; }
+        .lang-switch a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="matrix-container">
+    <!-- 🆕 語言切換 -->
+    <div class="lang-switch">
+        <a href="#" id="lang-hk">🇭🇰 港版</a> | <a href="#" id="lang-tw">🇹🇼 台版</a>
+    </div>
+
+    <div class="story-title" id="story-main-title">正在安全連線智庫中央字庫...</div>
+    <div class="story-content" id="story-text">正在加載文學連載章節...</div>
+    
+    <a href="#" id="dynamic-next-btn" class="option-btn next-btn">🔮 正在安全同步續集章節...</a>
+    <a href="index.html" id="footer-loop-btn" class="option-btn">🔄 返回首頁：測試我的大數據行為盲測</a>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let fullId = (urlParams.get('id') || '01').trim().toLowerCase();
+    
+    // 🆕 讀取語言參數
+    let lang = urlParams.get('lang') || 'hk';
+    if (lang !== 'hk' && lang !== 'tw') lang = 'hk';
+
+    let baseParts = fullId.split('_'); 
+    let baseFileNum = baseParts[0]; 
+    const targetFileName = "story_" + baseFileNum + ".json";
+
+    // 🆕 更新語言切換連結
+    document.getElementById('lang-hk').href = `?id=${fullId}&lang=hk`;
+    document.getElementById('lang-tw').href = `?id=${fullId}&lang=tw`;
+
+    fetch("https://api.github.com/gists/b157b49b782bb7cfa244492d768288d7")
+    .then(res => res.json())
+    .then(raw => {
+        const targetFile = raw.files[targetFileName];
+        if (!targetFile) {
+            document.getElementById("story-text").innerText = "404：該章節連載正在加溫中。";
+            return;
+        }
+
+        if (targetFile.content && !targetFile.truncated) {
+            processStory(JSON.parse(targetFile.content), fullId, baseFileNum, lang);
+        } else {
+            fetch(targetFile.raw_url)
+            .then(r => r.json())
+            .then(config => processStory(config, fullId, baseFileNum, lang))
+            .catch(() => showErr());
+        }
+    })
+    .catch(err => showErr());
+});
+
+function processStory(config, fullId, baseFileNum, lang) {
+    const storyData = config["story_" + fullId];
+    if (!storyData) {
+        document.getElementById("story-text").innerText = "🔮 全線連載中，敬請期待下一話續集...";
+        return;
+    }
+
+    // 🆕 根據語言選取標題和內容
+    const title = storyData['title_' + lang] || storyData.title_hk || '未命名故事';
+    const content = storyData['content_' + lang] || storyData.content_hk || '內容加載失敗';
+
+    document.title = title;
+    document.getElementById("story-main-title").innerText = title;
+    document.getElementById("story-text").innerText = content;
+    
+    const nextBtn = document.getElementById("dynamic-next-btn");
+    
+    if (storyData.nextId && storyData.nextId.trim() !== "") {
+        nextBtn.href = `story.html?id=${storyData.nextId.trim()}&lang=${lang}`;
+        
+        let displayVol = "2";
+        if (storyData.nextId.includes('_')) {
+            let parts = storyData.nextId.split('_');
+            displayVol = parts[parts.length - 1];
+        }
+        nextBtn.innerText = `👉 點擊追劇：繼續閱讀下一話（第 ${displayVol} 話）`;
+        nextBtn.className = "option-btn next-btn"; 
+    } else {
+        nextBtn.removeAttribute("href");
+        nextBtn.innerText = "🔮 全線連載中，敬請期待下一話續集...";
+        nextBtn.className = "option-btn disabled-btn"; 
+    }
+    
+    document.getElementById("footer-loop-btn").href = `index.html?id=${baseFileNum}&lang=${lang}`;
+}
+
+document.getElementById("footer-loop-btn").onclick = function(e) {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(window.location.search);
+    let fullId = (urlParams.get('id') || '01').trim().toLowerCase();
+    let parts = fullId.split('_');
+    let lang = urlParams.get('lang') || 'hk';
+    window.location.href = `index.html?id=${parts[0]}&lang=${lang}`;
+};
+
+function showErr() {
+    document.getElementById("story-main-title").innerText = "智庫網絡連線超時";
+}
+</script>
+
+<footer style="text-align: center; margin-top: 50px; font-size: 11px; color: #666; font-family: sans-serif;">
+    <a href="index.html" style="color: #555; text-decoration: none; margin: 0 8px;">主頁</a> |
+    <a href="story_01.html" style="color: #555; text-decoration: none; margin: 0 8px;">情感連載 01</a> | 
+    <a href="story_02.html" style="color: #555; text-decoration: none; margin: 0 8px;">職場連載 02</a> | 
+    <a href="story_03.html" style="color: #555; text-decoration: none; margin: 0 8px;">社畜連載 03</a> | 
+    <a href="story_04.html" style="color: #555; text-decoration: none; margin: 0 8px;">星座黑化 04</a> | 
+    <a href="story_05.html" style="color: #555; text-decoration: none; margin: 0 8px;">已讀不回 05</a> | 
+    <a href="privacy.html" style="color: #666; text-decoration: none; margin: 0 8px;">隱私權政策與免責聲明</a> | 
+    <a href="about.html" style="color: #666; text-decoration: none; margin: 0 8px;">關於我</a>
+</footer>
+
+</body>
+</html>

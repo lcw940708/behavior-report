@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【免費單位換算器教學】即時轉換長度、重量、容量、溫度｜Free Unit Converter Guide</title>
+    <meta name="description" content="免費且安全的線上單位換算器！支援長度、重量、容量、溫度即時轉換，批量輸入一鍵複製，純前端運算保護數據私隱。適用於工程計算、烹飪食譜、健身營養與日常換算。Free online unit converter guide.">
+    <meta name="keywords" content="單位換算器, 長度換算, 重量換算, 容量換算, 溫度換算, 批量轉換, 免費線上工具, Unit Converter, Length Converter, Weight Converter, Volume Converter, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/unit-converter-guide.html">
+
+    <!-- Open Graph (社交媒體優化) -->
+    <meta property="og:title" content="【免費單位換算器教學】即時轉換長度、重量、容量、溫度 — Unit Converter Guide">
+    <meta property="og:description" content="100% 純前端運算！教你免費使用 4 合 1 單位換算器，支援批量輸入與一鍵複製。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/unit-converter-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Unit Converter Guide – Length, Weight, Volume, Temperature">
+    <meta name="twitter:description" content="Learn how to use a 4-in-1 unit converter with batch input and one-click copy for free.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "免費單位換算器教學：即時轉換長度、重量、容量、溫度",
+      "description": "介紹如何使用純前端技術嘅 4 合 1 單位換算器，適用於工程計算、烹飪食譜、健身營養與日常換算等場景。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand">🕵️ ABRG<span id="brandSub">行為觀察中心</span></a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn active" id="btn-zh" onclick="setLang('zh')">🇭🇰 繁體中文</button>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇬🇧 English</button>
+    </div>
+
+    <!-- 中文內容區塊 -->
+    <div id="content-zh">
+        <h1>免費單位換算器教學：即時轉換長度、重量、容量、溫度</h1>
+
+        <h2>1. 導言</h2>
+        <p>無論你係工程師要換算單位、烹飪時要轉換食譜份量、健身時要計算營養數據，定係日常購物要比較價格，單位換算都係成日要用到嘅功能。但市面上好多換算工具一係要下載 APP，一係只支援單一類別，好唔方便。我哋嘅免費線上單位換算器專為解決呢啲問題而設：4 合 1 全面支援長度、重量、容量、溫度，仲有批量輸入功能，而且 100% 純前端運算，保障你嘅數據私隱。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p>單位換算（Unit Conversion）係指將一個物理量從一種單位轉換為另一種單位嘅過程。無論係國際單位制（SI）定係英制單位，唔同國家同行業都有各自嘅習慣用法。例如，香港常用「磅」同「公斤」、美國用「英里」同「英尺」、科學界用「攝氏」同「開爾文」。</p>
+        <p>傳統嘅換算方法通常要記住轉換公式（例如 1 英寸 = 2.54 厘米），或者手動計算，好容易出錯。我哋嘅工具採用 HTML5 技術，所有換算喺你嘅瀏覽器內即時完成，無需記公式，亦無需上傳數據到伺服器。</p>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>工程與建築計算：</strong>將設計圖紙嘅英制尺寸換算為公制，或將材料規格進行跨單位比較。</li>
+            <li><strong>烹飪與食譜調整：</strong>將外國食譜嘅「杯」、「盎司」換算為「毫升」或「克」，方便跟住煮。</li>
+            <li><strong>健身與營養計算：</strong>將體重用「磅」換算為「公斤」，或將食物份量進行單位轉換。</li>
+            <li><strong>日常購物與旅行：</strong>比較不同國家嘅商品價格（如每公斤價格），或將溫度由華氏換算為攝氏。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>選擇換算類別：</strong>點擊上方標籤（長度、重量、容量、溫度）切換到所需類別。</li>
+            <li><strong>輸入數值：</strong>喺輸入框輸入要換算嘅數字（支援小數點）。</li>
+            <li><strong>選擇單位：</strong>從下拉選單選擇「從」同「到」嘅單位，系統會即時顯示換算結果。</li>
+            <li><strong>批量轉換（進階功能）：</strong>喺下方輸入框輸入多個數值（每行一個），點擊「轉換」即可一次過換算多個數值，仲可以一鍵複製結果。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站前端工具</th>
+                    <th>手機 APP 換算器</th>
+                    <th>手動計算</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>免費但有廣告 / 付費版</td>
+                    <td>免費（需記憶公式）</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>100% 本地處理</td>
+                    <td>視乎 APP 權限</td>
+                    <td>本地</td>
+                </tr>
+                <tr>
+                    <td><strong>支援類別</strong></td>
+                    <td>長度、重量、容量、溫度（4 合 1）</td>
+                    <td>通常較多</td>
+                    <td>視乎記住幾多公式</td>
+                </tr>
+                <tr>
+                    <td><strong>批量轉換</strong></td>
+                    <td>✅ 支援（每行一個數值）</td>
+                    <td>❌ 通常不支援</td>
+                    <td>❌ 需逐個計算</td>
+                </tr>
+                <tr>
+                    <td><strong>學習曲線</strong></td>
+                    <td>極低（揀單位即出結果）</td>
+                    <td>中等</td>
+                    <td>高（需記憶公式）</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「之前成日要將外國食譜嘅『杯』同『盎司』換算返做『克』同『毫升』，每次都要開手機計數機慢慢計，仲要上網查轉換率，好麻煩。後來用咗呢個單位換算器，揀『容量』類別，輸入數值就即刻出到結果，仲有批量轉換功能可以一次過換算晒所有材料。對於成日要煮飯或者整甜品嘅人嚟講，呢個工具真係好方便。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ 需要快速準確地換算單位？</h3>
+            <p style="margin:0; font-size:0.9rem;">無論係工程計算、烹飪食譜定係日常購物，呢個 4 合 1 單位換算器都可以幫你慳時間。</p>
+            <a href="../tools/unit-converter.html?lang=hk" class="cta-btn-link" id="ctaLinkZh">👉 立即免費試用單位換算器</a>
+        </div>
+    </div>
+
+    <!-- English Content Section -->
+    <div id="content-en" style="display: none;">
+        <h1>Free Unit Converter Guide: Convert Length, Weight, Volume & Temperature Instantly</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Whether you are an engineer converting measurements, a cook adjusting recipe portions, a fitness enthusiast calculating nutrition data, or a traveler comparing prices, unit conversion is a frequently used function. Our free online unit converter solves common pain points: 4-in-1 support for length, weight, volume, and temperature, plus batch input functionality—all with 100% client-side processing to protect your privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p>Unit conversion is the process of converting a physical quantity from one unit to another. Different countries and industries have their own conventions—for example, Hong Kong uses "pounds" and "kilograms," the US uses "miles" and "feet," and the scientific community uses "Celsius" and "Kelvin."</p>
+        <p>Traditional conversion methods require memorizing formulas or manual calculations, which are error-prone. Our tool leverages HTML5 technology—all conversions happen instantly in your browser without the need to remember formulas or upload data to any server.</p>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Engineering & Construction:</strong> Convert imperial measurements from blueprints to metric, or compare material specifications across units.</li>
+            <li><strong>Cooking & Recipe Adjustments:</strong> Convert "cups" and "ounces" from foreign recipes to "milliliters" and "grams" for accurate cooking.</li>
+            <li><strong>Fitness & Nutrition Tracking:</strong> Convert body weight from "pounds" to "kilograms," or convert food portion sizes.</li>
+            <li><strong>Everyday Shopping & Travel:</strong> Compare prices per unit across countries, or convert temperatures from Fahrenheit to Celsius.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Select Category:</strong> Click the tabs (Length, Weight, Volume, Temperature) to switch categories.</li>
+            <li><strong>Enter Value:</strong> Type the number you want to convert (supports decimals).</li>
+            <li><strong>Select Units:</strong> Choose "From" and "To" units from the dropdown menus—results appear instantly.</li>
+            <li><strong>Batch Conversion:</strong> Enter multiple values in the textarea (one per line), click "Convert" for bulk conversion, and copy results with one click.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Client-Side Tool (Us)</th>
+                    <th>Mobile Apps</th>
+                    <th>Manual Calculation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Freemium / Paid</td>
+                    <td>Free (need to remember formulas)</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>100% Local Processing</td>
+                    <td>Depends on App Permissions</td>
+                    <td>Local</td>
+                </tr>
+                <tr>
+                    <td><strong>Supported Categories</strong></td>
+                    <td>Length, Weight, Volume, Temperature</td>
+                    <td>Usually More</td>
+                    <td>Limited by memory</td>
+                </tr>
+                <tr>
+                    <td><strong>Batch Conversion</strong></td>
+                    <td>✅ Supported</td>
+                    <td>❌ Usually Not</td>
+                    <td>❌ Manual Each</td>
+                </tr>
+                <tr>
+                    <td><strong>Learning Curve</strong></td>
+                    <td>Very Low</td>
+                    <td>Medium</td>
+                    <td>High</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"I used to convert 'cups' and 'ounces' from foreign recipes to 'grams' and 'milliliters' using my phone calculator and Googling conversion rates every time—it was such a hassle. Now I just select 'Volume' in this unit converter, enter the number, and get the result instantly. The batch conversion feature even lets me convert all ingredients at once. For anyone who cooks or bakes regularly, this tool is incredibly convenient."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ Need to Convert Units Quickly and Accurately?</h3>
+            <p style="margin:0; font-size:0.9rem;">Whether for engineering, cooking, or daily life, this 4-in-1 unit converter saves you time.</p>
+            <a href="../tools/unit-converter.html?lang=en" class="cta-btn-link" id="ctaLinkEn">👉 Try the Free Unit Converter Now</a>
+        </div>
+    </div>
+
+    <div class="footer" id="footer-nav">
+        <a href="../index.html" id="footHome">主頁</a> |
+        <a href="../blog.html" id="footBlog">文章 Blog</a> |
+        <a href="../about.html" id="footAbout">關於我</a> |
+        <a href="../privacy.html" id="footPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社
+    </div>
+</article>
+
+<script>
+    function setLang(lang) {
+        const zhContent = document.getElementById('content-zh');
+        const enContent = document.getElementById('content-en');
+        const btnZh = document.getElementById('btn-zh');
+        const btnEn = document.getElementById('btn-en');
+        const backLink = document.getElementById('backLink');
+        const brandSub = document.getElementById('brandSub');
+        
+        // Footer 元素
+        const footHome = document.getElementById('footHome');
+        const footBlog = document.getElementById('footBlog');
+        const footAbout = document.getElementById('footAbout');
+        const footPrivacy = document.getElementById('footPrivacy');
+        const footCopy = document.getElementById('footCopy');
+
+        // 更新 URL 參數 (但不重新載入頁面)
+        const newUrl = new URL(window.location);
+        newUrl.searchParams.set('lang', lang);
+        window.history.pushState({}, '', newUrl);
+
+        if (lang === 'en') {
+            zhContent.style.display = 'none';
+            enContent.style.display = 'block';
+            btnZh.classList.remove('active');
+            btnEn.classList.add('active');
+            backLink.textContent = "← Back to Articles";
+            backLink.href = "../blog.html?lang=en";
+            brandSub.textContent = " Behavioral Lab";
+            document.documentElement.lang = "en";
+
+            // Footer English
+            footHome.textContent = "Home";
+            footBlog.textContent = "Articles";
+            footAbout.textContent = "About";
+            footPrivacy.textContent = "Privacy Policy";
+            footCopy.innerHTML = "&copy; 2026 ABRG Behavioral Insights Lab";
+        } else {
+            zhContent.style.display = 'block';
+            enContent.style.display = 'none';
+            btnZh.classList.add('active');
+            btnEn.classList.remove('active');
+            backLink.textContent = "← 返回文章列表";
+            backLink.href = "../blog.html?lang=" + lang;
+            brandSub.textContent = "行為觀察中心";
+            document.documentElement.lang = "zh-Hant-HK";
+
+            // Footer Chinese
+            footHome.textContent = "主頁";
+            footBlog.textContent = "文章 Blog";
+            footAbout.textContent = "關於我";
+            footPrivacy.textContent = "隱私權政策";
+            footCopy.innerHTML = "&copy; 2026 ABRG 大數據趣味行為觀察社";
+        }
+    }
+
+    // 頁面加載時自動偵測 URL lang 參數
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentLang = urlParams.get('lang');
+        if (currentLang === 'en') {
+            setLang('en');
+        } else {
+            setLang('zh');
+        }
+    });
+</script>
+
+</body>
+</html>

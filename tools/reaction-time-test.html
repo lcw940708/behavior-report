@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>反應速度測試 — Reaction Time｜ABRG 免費工具</title>
+    <meta name="description" content="免費反應速度測試，隨機出現字母或數字，測你眼到手有幾快。Free Reaction Time Test." />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/reaction-time-test.html" />
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --red: #ef4444;
+            --yellow: #fbbf24;
+            --green: #22c55e;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 680px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+        .lang-switch {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .lang-switch a {
+            color: var(--cyan);
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .lang-switch a:hover { text-decoration: underline; }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 10px 0 18px;
+        }
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        .how-to {
+            background: rgba(34, 211, 238, 0.04);
+            border: 1px solid rgba(34, 211, 238, 0.12);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            font-size: 0.88rem;
+            line-height: 1.6;
+            color: var(--text-light);
+        }
+        .how-to strong {
+            color: var(--cyan);
+        }
+
+        .best-record {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 16px;
+            padding: 8px 14px;
+            background: rgba(34, 211, 238, 0.04);
+            border-radius: 8px;
+            border: 1px solid rgba(34, 211, 238, 0.08);
+        }
+        .best-record .highlight {
+            color: var(--cyan);
+            font-weight: bold;
+        }
+
+        .test-area {
+            border-radius: 12px;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.15s, border-color 0.15s;
+            border: 2px solid var(--border);
+            background: var(--bg);
+            position: relative;
+            padding: 30px 20px;
+        }
+        .test-area.state-idle {
+            border-style: dashed;
+        }
+        .test-area.state-waiting {
+            background: #1e293b;
+            border-color: #475569;
+            border-style: solid;
+        }
+        .test-area.state-ready {
+            background: rgba(34, 197, 94, 0.12);
+            border-color: var(--green);
+            border-style: solid;
+        }
+        .test-area.state-early {
+            background: rgba(239, 68, 68, 0.12);
+            border-color: var(--red);
+            border-style: solid;
+        }
+        .test-area.state-result {
+            background: var(--bg);
+            border-color: var(--border);
+            border-style: solid;
+            cursor: default;
+        }
+
+        .main-text {
+            font-size: 1.5rem;
+            color: #fff;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+        .sub-text {
+            font-size: 0.95rem;
+            color: var(--text);
+            margin-top: 12px;
+        }
+        .signal-char {
+            font-size: 5.5rem;
+            font-weight: bold;
+            color: #fff;
+            line-height: 1;
+            letter-spacing: 0.05em;
+            text-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
+        }
+        .result-ms {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #fff;
+            line-height: 1.1;
+        }
+        .result-ms span {
+            font-size: 1.2rem;
+            color: var(--cyan);
+            font-weight: normal;
+        }
+        .rank {
+            font-size: 1.3rem;
+            margin-top: 14px;
+            padding: 6px 20px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        .rank.S { background: rgba(239, 68, 68, 0.15); color: var(--red); border: 1px solid rgba(239, 68, 68, 0.2); }
+        .rank.A { background: rgba(251, 191, 36, 0.15); color: var(--yellow); border: 1px solid rgba(251, 191, 36, 0.25); }
+        .rank.B { background: rgba(34, 211, 238, 0.15); color: var(--cyan); border: 1px solid rgba(34, 211, 238, 0.25); }
+        .rank.C { background: rgba(148, 163, 184, 0.15); color: var(--text); border: 1px solid rgba(148, 163, 184, 0.2); }
+        .rank.D { background: rgba(100, 116, 139, 0.12); color: #64748b; border: 1px solid rgba(100, 116, 139, 0.2); }
+        .rank-desc {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+        .new-record {
+            margin-top: 10px;
+            font-size: 0.95rem;
+            color: var(--yellow);
+            font-weight: bold;
+            display: none;
+        }
+        .new-record.show { display: block; }
+
+        .history {
+            margin-top: 16px;
+            font-size: 0.85rem;
+            color: #64748b;
+            text-align: center;
+        }
+        .history span {
+            display: inline-block;
+            background: rgba(148, 163, 184, 0.1);
+            padding: 2px 10px;
+            border-radius: 12px;
+            margin: 2px 4px;
+            color: var(--text-light);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            flex: 1;
+        }
+        .btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        .btn-primary {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background: var(--cyan-hover);
+            transform: translateY(-1px);
+        }
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--red);
+            color: #fca5a5;
+        }
+        .btn-danger:hover:not(:disabled) {
+            background: rgba(239, 68, 68, 0.25);
+        }
+
+        .story-suggest {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+        .story-suggest .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .story-suggest .items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .story-suggest .items a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #555;
+        }
+        footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        footer a:hover { color: #888; }
+
+        @media (max-width: 600px) {
+            .container { padding: 18px; }
+            .test-area { min-height: 240px; }
+            .result-ms { font-size: 2.6rem; }
+            .signal-char { font-size: 4rem; }
+            .main-text { font-size: 1.25rem; }
+            .btn { flex: none; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="lang-switch">
+            <a onclick="switchLang('hk')">🇭🇰 港版</a> |
+            <a onclick="switchLang('tw')">🇹🇼 台版</a> |
+            <a onclick="switchLang('en')">🇬🇧 English</a>
+        </div>
+
+        <h1 class="tool-title" id="toolTitle">⚡ 反應速度測試</h1>
+        <p class="tool-sub" id="toolSub">隨機出現字母或數字，測你眼到手有幾快！</p>
+
+        <div class="badge-row">
+            <span class="badge" id="badge1">⚡ 反應測試</span>
+            <span class="badge" id="badge2">🔤 字母／數字</span>
+            <span class="badge" id="badge3">🏆 等級排名</span>
+            <span class="badge" id="badge4">🆓 完全免費</span>
+        </div>
+
+        <div class="how-to" id="howTo">
+            <strong>玩法：</strong>按「開始測試」→ 等待幾秒 → 畫面突然出現一個英文字母（A–Z）或數字（0–9）→ <strong>即刻在鍵盤按下對應的字母或數字鍵</strong>。愈快愈好。按錯或太早按會算失敗。
+        </div>
+
+        <div class="best-record">
+            <span id="bestLabel">個人最佳：</span>
+            <span class="highlight" id="bestMs">—</span> ms
+        </div>
+
+        <div class="test-area state-idle" id="testArea">
+            <div id="idleContent">
+                <div class="main-text" id="mainText">按「開始測試」</div>
+                <div class="sub-text" id="subText">出現字母或數字就即刻按對應的鍵</div>
+            </div>
+
+            <div id="readyContent" style="display:none;">
+                <div class="signal-char" id="signalChar">A</div>
+                <div class="sub-text" id="readyHint">即刻按這個鍵！</div>
+            </div>
+
+            <div id="resultContent" style="display:none;">
+                <div class="result-ms" id="resultMs">0 <span>ms</span></div>
+                <div class="rank" id="rankDisplay">🏆 S</div>
+                <div class="rank-desc" id="rankDescription"></div>
+                <div class="new-record" id="newRecord">🎉 新紀錄！</div>
+                <div class="history" id="historyBox"></div>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-primary" id="startBtn">▶️ 開始測試</button>
+            <button class="btn btn-danger" id="resetBtn">↩️ 重設</button>
+        </div>
+
+        <div class="story-suggest">
+            <div class="label" id="storyLabel">📖 你可能會中意嘅連載或測驗</div>
+            <div class="items">
+                <a href="click-speed-test.html">🖱️ 點擊速度測試</a>
+                <a href="spacebar-counter.html">⌨️ 空白鍵連打</a>
+                <a href="typing-test.html">⌨️ 英文打字測試</a>
+                <a href="../index.html">🏠 返回主頁</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+    </footer>
+
+    <script>
+        const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+        const texts = {
+            hk: {
+                title: '⚡ 反應速度測試',
+                sub: '隨機出現字母或數字，測你眼到手有幾快！',
+                badge1: '⚡ 反應測試',
+                badge2: '🔤 字母／數字',
+                badge3: '🏆 等級排名',
+                badge4: '🆓 完全免費',
+                howTo: '<strong>玩法：</strong>按「開始測試」→ 等待幾秒 → 畫面突然出現一個英文字母（A–Z）或數字（0–9）→ <strong>即刻在鍵盤按下對應的字母或數字鍵</strong>。愈快愈好。按錯或太早按會算失敗。',
+                bestLabel: '個人最佳：',
+                mainIdle: '按「開始測試」',
+                subIdle: '出現字母或數字就即刻按對應嘅鍵',
+                mainWaiting: '等緊…',
+                subWaiting: '唔好太早按',
+                readyHint: '即刻按這個鍵！',
+                mainEarly: '太早或按錯鍵！',
+                subEarly: '要等字母／數字出現，並按對應嘅鍵',
+                start: '▶️ 開始測試',
+                reset: '↩️ 重設',
+                storyLabel: '📖 你可能會中意嘅連載或測驗',
+                newRecord: '🎉 新紀錄！',
+                ranks: [
+                    { max: 200, rank: '🏆 S', desc: '反應神速！你係閃電俠！', color: 'S' },
+                    { max: 250, rank: '🥇 A', desc: '好快！接近職業水準！', color: 'A' },
+                    { max: 300, rank: '🥈 B', desc: '正常偏快，合格打工仔！', color: 'B' },
+                    { max: 400, rank: '🥉 C', desc: '一般水平，可以再練！', color: 'C' },
+                    { max: 9999, rank: '💤 D', desc: '係時候醒一醒啦！', color: 'D' }
+                ]
+            },
+            tw: {
+                title: '⚡ 反應速度測試',
+                sub: '隨機出現字母或數字，測你眼到手有多快！',
+                badge1: '⚡ 反應測試',
+                badge2: '🔤 字母／數字',
+                badge3: '🏆 等級排名',
+                badge4: '🆓 完全免費',
+                howTo: '<strong>玩法：</strong>按「開始測試」→ 等待幾秒 → 畫面突然出現一個英文字母（A–Z）或數字（0–9）→ <strong>立刻在鍵盤按下對應的字母或數字鍵</strong>。愈快愈好。按錯或太早按會算失敗。',
+                bestLabel: '個人最佳：',
+                mainIdle: '按「開始測試」',
+                subIdle: '出現字母或數字就立刻按對應的鍵',
+                mainWaiting: '等待中…',
+                subWaiting: '不要太早按',
+                readyHint: '立刻按這個鍵！',
+                mainEarly: '太早或按錯鍵！',
+                subEarly: '要等字母／數字出現，並按對應的鍵',
+                start: '▶️ 開始測試',
+                reset: '↩️ 重設',
+                storyLabel: '📖 你可能會喜歡的連載或測驗',
+                newRecord: '🎉 新紀錄！',
+                ranks: [
+                    { max: 200, rank: '🏆 S', desc: '反應神速！你是閃電俠！', color: 'S' },
+                    { max: 250, rank: '🥇 A', desc: '好快！接近職業水準！', color: 'A' },
+                    { max: 300, rank: '🥈 B', desc: '正常偏快，合格上班族！', color: 'B' },
+                    { max: 400, rank: '🥉 C', desc: '一般水平，可以再練！', color: 'C' },
+                    { max: 9999, rank: '💤 D', desc: '是時候醒一醒了！', color: 'D' }
+                ]
+            },
+            en: {
+                title: '⚡ Reaction Time Test',
+                sub: 'A random letter or number appears — press the matching key as fast as you can!',
+                badge1: '⚡ Reaction',
+                badge2: '🔤 Letter / Number',
+                badge3: '🏆 Ranking',
+                badge4: '🆓 Free',
+                howTo: '<strong>How to play:</strong> Press "Start Test" → wait a few seconds → a random letter (A–Z) or number (0–9) appears → <strong>press the corresponding key on your keyboard</strong> immediately. Pressing wrong or too early will fail.',
+                bestLabel: 'Personal Best: ',
+                mainIdle: 'Press "Start Test"',
+                subIdle: 'Press the matching key as soon as a character appears',
+                mainWaiting: 'Waiting…',
+                subWaiting: 'Don\'t press too early',
+                readyHint: 'Press this key NOW!',
+                mainEarly: 'Too early or wrong key!',
+                subEarly: 'Wait for the character and press the exact key',
+                start: '▶️ Start Test',
+                reset: '↩️ Reset',
+                storyLabel: '📖 You might also like',
+                newRecord: '🎉 New Record!',
+                ranks: [
+                    { max: 200, rank: '🏆 S', desc: 'Lightning fast! You are the Flash!', color: 'S' },
+                    { max: 250, rank: '🥇 A', desc: 'Very fast! Near pro level!', color: 'A' },
+                    { max: 300, rank: '🥈 B', desc: 'Above average, solid worker!', color: 'B' },
+                    { max: 400, rank: '🥉 C', desc: 'Average, keep practicing!', color: 'C' },
+                    { max: 9999, rank: '💤 D', desc: 'Time to wake up!', color: 'D' }
+                ]
+            }
+        };
+
+        let lang = 'hk';
+        let state = 'idle';
+        let startTime = 0;
+        let waitTimer = null;
+        let results = [];
+        let targetChar = '';
+        const STORAGE_KEY = 'abrg_reaction_best';
+
+        const testArea = document.getElementById('testArea');
+        const mainText = document.getElementById('mainText');
+        const subText = document.getElementById('subText');
+        const idleContent = document.getElementById('idleContent');
+        const readyContent = document.getElementById('readyContent');
+        const resultContent = document.getElementById('resultContent');
+        const signalChar = document.getElementById('signalChar');
+        const startBtn = document.getElementById('startBtn');
+
+        function getBest() {
+            try {
+                const v = localStorage.getItem(STORAGE_KEY);
+                return v ? parseInt(v) : 0;
+            } catch (e) { return 0; }
+        }
+
+        function saveBest(ms) {
+            const best = getBest();
+            if (best === 0 || ms < best) {
+                localStorage.setItem(STORAGE_KEY, ms);
+                return true;
+            }
+            return false;
+        }
+
+        function updateBestDisplay() {
+            const best = getBest();
+            document.getElementById('bestMs').textContent = best > 0 ? best : '—';
+        }
+
+        function switchLang(l) {
+            lang = l;
+            const t = texts[l];
+            document.getElementById('toolTitle').innerHTML = t.title;
+            document.getElementById('toolSub').innerText = t.sub;
+            document.getElementById('badge1').innerText = t.badge1;
+            document.getElementById('badge2').innerText = t.badge2;
+            document.getElementById('badge3').innerText = t.badge3;
+            document.getElementById('badge4').innerText = t.badge4;
+            document.getElementById('howTo').innerHTML = t.howTo;
+            document.getElementById('bestLabel').innerText = t.bestLabel;
+            document.getElementById('startBtn').innerHTML = t.start;
+            document.getElementById('resetBtn').innerHTML = t.reset;
+            document.getElementById('storyLabel').innerText = t.storyLabel;
+            document.getElementById('newRecord').innerText = t.newRecord;
+            document.getElementById('readyHint').innerText = t.readyHint;
+
+            if (state === 'idle') {
+                mainText.textContent = t.mainIdle;
+                subText.textContent = t.subIdle;
+            }
+        }
+
+        function detectLanguage() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('lang') === 'en') return 'en';
+            if (params.get('lang') === 'tw') return 'tw';
+            if (params.get('lang') === 'hk') return 'hk';
+            const userLang = navigator.language || '';
+            if (userLang.startsWith('en')) return 'en';
+            if (userLang.includes('TW') || userLang.includes('tw')) return 'tw';
+            return 'hk';
+        }
+
+        switchLang(detectLanguage());
+        updateBestDisplay();
+
+        function getRank(ms) {
+            const ranks = texts[lang].ranks;
+            for (const r of ranks) {
+                if (ms <= r.max) return r;
+            }
+            return ranks[ranks.length - 1];
+        }
+
+        function randomChar() {
+            return CHARS[Math.floor(Math.random() * CHARS.length)];
+        }
+
+        function setState(s) {
+            state = s;
+            testArea.className = 'test-area state-' + s;
+            const t = texts[lang];
+
+            idleContent.style.display = 'none';
+            readyContent.style.display = 'none';
+            resultContent.style.display = 'none';
+
+            if (s === 'idle') {
+                idleContent.style.display = 'block';
+                mainText.textContent = t.mainIdle;
+                subText.textContent = t.subIdle;
+                startBtn.disabled = false;
+            } else if (s === 'waiting') {
+                idleContent.style.display = 'block';
+                mainText.textContent = t.mainWaiting;
+                subText.textContent = t.subWaiting;
+                startBtn.disabled = true;
+            } else if (s === 'ready') {
+                readyContent.style.display = 'block';
+                targetChar = randomChar();
+                signalChar.textContent = targetChar;
+            } else if (s === 'early') {
+                idleContent.style.display = 'block';
+                mainText.textContent = t.mainEarly;
+                subText.textContent = t.subEarly;
+                startBtn.disabled = false;
+            } else if (s === 'result') {
+                resultContent.style.display = 'block';
+                startBtn.disabled = false;
+            }
+        }
+
+        function startTest() {
+            if (state === 'waiting' || state === 'ready') return;
+            clearTimeout(waitTimer);
+            setState('waiting');
+
+            const delay = 1500 + Math.random() * 3500;
+            waitTimer = setTimeout(() => {
+                setState('ready');
+                startTime = performance.now();
+            }, delay);
+        }
+
+        // 處理鍵盤輸入（主要判斷邏輯）
+        document.addEventListener('keydown', (e) => {
+            if (e.isComposing || e.key === 'Process') return;
+
+            // 未開始或等緊狀態下，按鍵觸發判定
+            if (state === 'waiting') {
+                clearTimeout(waitTimer);
+                setState('early');
+                return;
+            }
+
+            if (state === 'ready') {
+                const pressedKey = e.key.toUpperCase();
+                // 必須與顯示的目標字元完全一致
+                if (pressedKey === targetChar) {
+                    const ms = Math.round(performance.now() - startTime);
+                    results.unshift(ms);
+                    if (results.length > 5) results.pop();
+
+                    const rank = getRank(ms);
+                    document.getElementById('resultMs').innerHTML = ms + ' <span>ms</span>';
+                    document.getElementById('rankDisplay').textContent = rank.rank;
+                    document.getElementById('rankDisplay').className = 'rank ' + rank.color;
+                    document.getElementById('rankDescription').textContent = rank.desc;
+                    document.getElementById('historyBox').innerHTML = results.map(r => `<span>${r}ms</span>`).join('');
+
+                    const isNew = saveBest(ms);
+                    updateBestDisplay();
+                    document.getElementById('newRecord').classList.toggle('show', isNew);
+
+                    setState('result');
+                } else {
+                    // 按錯鍵視為失敗
+                    clearTimeout(waitTimer);
+                    setState('early');
+                }
+                return;
+            }
+
+            // 在失敗或結果頁面時，按 Enter 或 Space 重新開始
+            if ((state === 'early' || state === 'result') && (e.code === 'Space' || e.key === 'Enter')) {
+                e.preventDefault();
+                startTest();
+            }
+        });
+
+        // 點擊測試區域觸發
+        testArea.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            if (state === 'waiting') {
+                clearTimeout(waitTimer);
+                setState('early');
+            } else if (state === 'early' || state === 'result') {
+                startTest();
+            }
+        });
+
+        function resetTest() {
+            clearTimeout(waitTimer);
+            results = [];
+            setState('idle');
+            document.getElementById('newRecord').classList.remove('show');
+        }
+
+        startBtn.addEventListener('click', startTest);
+        document.getElementById('resetBtn').addEventListener('click', resetTest);
+
+        setState('idle');
+    </script>
+</body>
+</html>

@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title id="seoTitle">倒數計時器 — 距離目標日期仲有幾耐｜ABRG 免費工具</title>
+    <meta id="seoDesc" name="description" content="免費倒數計時器，輸入目標日期，即時計算距離仲有幾多日、幾多小時、幾多分鐘。支援分享連結，純前端處理。" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/countdown-timer.html" />
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --red: #ef4444;
+            --green: #10b981;
+            --yellow: #fbbf24;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 780px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .lang-switch a {
+            color: var(--cyan);
+            text-decoration: none;
+            margin: 0 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .lang-switch a:hover, .lang-switch a.active {
+            opacity: 1;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .tool-title .emoji {
+            font-size: 1.8rem;
+        }
+
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 10px 0 25px;
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        /* ===== 輸入區 ===== */
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: var(--bg);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .input-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .input-row .field {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .input-row .field label {
+            display: block;
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+
+        .input-row .field input {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text-light);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .input-row .field input:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.08);
+        }
+
+        .input-row .field input[type="datetime-local"] {
+            color-scheme: dark;
+        }
+
+        .preset-section {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+
+        .preset-btn {
+            padding: 4px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .preset-btn:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .preset-btn.active {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.08);
+        }
+
+        /* ===== 按鈕 ===== */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-primary {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background: var(--cyan-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        .btn-outline:hover:not(:disabled) {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        /* ===== 倒數顯示 ===== */
+        .countdown-display {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+            padding: 20px;
+            background: var(--bg);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .countdown-unit .number {
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: #ffffff;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .countdown-unit .number.ended {
+            color: var(--red);
+        }
+
+        .countdown-unit .label {
+            font-size: 0.7rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        .countdown-status {
+            text-align: center;
+            font-size: 1rem;
+            color: var(--text-light);
+            padding: 12px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(148, 163, 184, 0.06);
+        }
+
+        .countdown-status .event-name {
+            color: var(--cyan);
+            font-weight: bold;
+        }
+
+        .countdown-status .ended-text {
+            color: var(--red);
+            font-weight: bold;
+        }
+
+        /* ===== 分享區 ===== */
+        .share-section {
+            margin-top: 16px;
+            padding: 16px;
+            background: var(--bg);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            display: none;
+        }
+
+        .share-section.show {
+            display: block;
+        }
+
+        .share-section .share-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .share-section .share-row input {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text-light);
+            font-size: 0.85rem;
+            outline: none;
+            min-width: 100px;
+        }
+
+        .share-section .share-row input:focus {
+            border-color: var(--cyan);
+        }
+
+        .share-section .share-row button {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--cyan);
+            color: #0b0f19;
+            white-space: nowrap;
+        }
+
+        .share-section .share-row button:hover {
+            background: var(--cyan-hover);
+        }
+
+        /* ===== Story suggest ===== */
+        .story-suggest {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+
+        .story-suggest .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .story-suggest .items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .story-suggest .items a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .other-tools {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .other-tools a {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #fca5a5;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .other-tools a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #555;
+        }
+
+        footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+
+        footer a:hover {
+            color: #888;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 18px;
+            }
+
+            .countdown-display {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .countdown-unit .number {
+                font-size: 2rem;
+            }
+
+            .input-row {
+                flex-direction: column;
+            }
+
+            .input-row .field {
+                min-width: 100%;
+            }
+
+            .btn {
+                flex: none;
+                width: 100%;
+            }
+
+            .share-section .share-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="lang-switch">
+            <a onclick="switchLang('hk')" id="btn-lang-hk">🇭🇰 港版</a> |
+            <a onclick="switchLang('tw')" id="btn-lang-tw">🇹🇼 台版</a> |
+            <a onclick="switchLang('en')" id="btn-lang-en">🇬🇧 English</a>
+        </div>
+
+        <h1 class="tool-title" id="toolTitle"><span class="emoji">⏱️</span> 倒數計時器</h1>
+        <p class="tool-sub" id="toolSub">輸入目標日期，即時計算距離仲有幾耐</p>
+
+        <div class="badge-row">
+            <span class="badge" id="badge1">📅 自訂日期</span>
+            <span class="badge" id="badge2">⚡ 即時更新</span>
+            <span class="badge" id="badge3">🔗 分享連結</span>
+            <span class="badge" id="badge4">🆓 完全免費</span>
+        </div>
+
+        <!-- ===== 輸入區 ===== -->
+        <div class="input-section">
+            <div class="input-row">
+                <div class="field">
+                    <label id="labelEvent">📝 活動名稱</label>
+                    <input type="text" id="eventName" placeholder="例如：生日 / 考試 / 交貨" value="新年" />
+                </div>
+                <div class="field">
+                    <label id="labelDate">📅 目標日期</label>
+                    <input type="datetime-local" id="targetDate" />
+                </div>
+            </div>
+            <div class="preset-section">
+                <span style="font-size:0.75rem;color:#64748b;align-self:center;" id="presetLabel">快捷：</span>
+                <button class="preset-btn" data-days="7" id="preset7">7 日後</button>
+                <button class="preset-btn" data-days="14" id="preset14">14 日後</button>
+                <button class="preset-btn" data-days="30" id="preset30">30 日後</button>
+                <button class="preset-btn" data-days="90" id="preset90">90 日後</button>
+                <button class="preset-btn" data-days="365" id="preset365">1 年後</button>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-primary" id="startBtn">▶️ <span id="startText">開始倒數</span></button>
+                <button class="btn btn-outline" id="resetBtn">↩️ <span id="resetText">重設</span></button>
+            </div>
+        </div>
+
+        <!-- ===== 倒數顯示 ===== -->
+        <div class="countdown-display" id="countdownDisplay">
+            <div class="countdown-unit">
+                <div class="number" id="days">00</div>
+                <div class="label" id="labelDays">日</div>
+            </div>
+            <div class="countdown-unit">
+                <div class="number" id="hours">00</div>
+                <div class="label" id="labelHours">小時</div>
+            </div>
+            <div class="countdown-unit">
+                <div class="number" id="minutes">00</div>
+                <div class="label" id="labelMinutes">分鐘</div>
+            </div>
+            <div class="countdown-unit">
+                <div class="number" id="seconds">00</div>
+                <div class="label" id="labelSeconds">秒</div>
+            </div>
+        </div>
+
+        <div class="countdown-status" id="statusDisplay">
+            <span id="statusText">請輸入日期並按「開始倒數」</span>
+        </div>
+
+        <!-- ===== 分享區 ===== -->
+        <div class="share-section" id="shareSection">
+            <div class="share-row">
+                <input type="text" id="shareLink" readonly />
+                <button id="copyLinkBtn">📋 複製連結</button>
+            </div>
+        </div>
+
+        <!-- ===== Story suggest ===== -->
+        <div class="story-suggest">
+            <div class="label" id="storyLabel">📖 你可能會中意嘅連載或測驗</div>
+            <div class="items">
+                <a href="../story_01.html" id="linkStory1">《你睡著以後》</a>
+                <a href="../story_02.html" id="linkStory2">《貓狗人格》</a>
+                <a href="../quiz-01.html" id="linkQuiz1">隱私天平</a>
+                <a href="../index.html" id="linkHome">🏠 返回主頁</a>
+            </div>
+            <div class="other-tools">
+                <span style="font-size:0.75rem;color:#64748b;align-self:center;" id="otherToolsLabel">🔧 其他工具：</span>
+                <a href="timestamp-converter.html" id="linkTool1">⏱️ 時間戳轉換</a>
+                <a href="holiday-calendar.html" id="linkTool2">📅 港台假期</a>
+                <a href="currency-converter.html" id="linkTool3">💱 匯率換算</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html" id="footHome">主頁</a> |
+        <a href="../about.html" id="footAbout">關於我</a> |
+        <a href="../privacy.html" id="footPrivacy">隱私權政策</a>
+    </footer>
+
+    <script>
+        // =============================================================
+        // 語言與 SEO 多國語系設定
+        // =============================================================
+        const texts = {
+            hk: {
+                langAttr: 'zh-Hant-HK',
+                pageTitle: '倒數計時器 — 距離目標日期仲有幾耐｜ABRG 免費工具',
+                pageDesc: '免費倒數計時器，輸入目標日期，即時計算距離仲有幾多日、幾多小時、幾多分鐘。支援分享連結，純前端處理。',
+                title: '<span class="emoji">⏱️</span> 倒數計時器',
+                sub: '輸入目標日期，即時計算距離仲有幾耐',
+                badge1: '📅 自訂日期',
+                badge2: '⚡ 即時更新',
+                badge3: '🔗 分享連結',
+                badge4: '🆓 完全免費',
+                storyLabel: '📖 你可能會中意嘅連載或測驗',
+                otherTools: '🔧 其他工具：',
+                labelEvent: '📝 活動名稱',
+                eventPlaceholder: '例如：生日 / 考試 / 交貨',
+                defaultEvent: '新年',
+                labelDate: '📅 目標日期',
+                presetLabel: '快捷：',
+                preset7: '7 日後',
+                preset14: '14 日後',
+                preset30: '30 日後',
+                preset90: '90 日後',
+                preset365: '1 年後',
+                start: '▶️ 開始倒數',
+                reset: '↩️ 重設',
+                labelDays: '日',
+                labelHours: '小時',
+                labelMinutes: '分鐘',
+                labelSeconds: '秒',
+                statusWaiting: '請輸入日期並按「開始倒數」',
+                statusCounting: '距離 <span class="event-name">{event}</span> 仲有',
+                statusEnded: '🎉 <span class="ended-text">{event}</span> 已經到咗！',
+                copy: '📋 複製連結',
+                copied: '✅ 已複製！',
+                noEvent: '活動',
+                invalidDate: '請輸入有效日期',
+                home: '主頁',
+                about: '關於我',
+                privacy: '隱私權政策'
+            },
+            tw: {
+                langAttr: 'zh-Hant-TW',
+                pageTitle: '倒數計時器 — 距離目標日期還有多久｜ABRG 免費工具',
+                pageDesc: '免費倒數計時器，輸入目標日期，即時計算距離還有多少天、多少小時、多少分鐘。支援分享連結，純前端處理。',
+                title: '<span class="emoji">⏱️</span> 倒數計時器',
+                sub: '輸入目標日期，即時計算距離還有多久',
+                badge1: '📅 自訂日期',
+                badge2: '⚡ 即時更新',
+                badge3: '🔗 分享連結',
+                badge4: '🆓 完全免費',
+                storyLabel: '📖 你可能會喜歡的連載或測驗',
+                otherTools: '🔧 其他工具：',
+                labelEvent: '📝 活動名稱',
+                eventPlaceholder: '例如：生日 / 考試 / 專案期限',
+                defaultEvent: '跨年',
+                labelDate: '📅 目標日期',
+                presetLabel: '快捷：',
+                preset7: '7 天後',
+                preset14: '14 天後',
+                preset30: '30 天後',
+                preset90: '90 天後',
+                preset365: '1 年後',
+                start: '▶️ 開始倒數',
+                reset: '↩️ 重設',
+                labelDays: '天',
+                labelHours: '小時',
+                labelMinutes: '分鐘',
+                labelSeconds: '秒',
+                statusWaiting: '請輸入日期並按「開始倒數」',
+                statusCounting: '距離 <span class="event-name">{event}</span> 還有',
+                statusEnded: '🎉 <span class="ended-text">{event}</span> 已經到了！',
+                copy: '📋 複製連結',
+                copied: '✅ 已複製！',
+                noEvent: '活動',
+                invalidDate: '請輸入有效日期',
+                home: '主頁',
+                about: '關於我',
+                privacy: '隱私權政策'
+            },
+            en: {
+                langAttr: 'en',
+                pageTitle: 'Countdown Timer — Track Time Until Target Date | ABRG Free Tools',
+                pageDesc: 'Free online countdown timer. Input your target date and instantly calculate days, hours, and minutes remaining. Supports link sharing.',
+                title: '<span class="emoji">⏱️</span> Countdown Timer',
+                sub: 'Enter a target date, see how long is left',
+                badge1: '📅 Custom Date',
+                badge2: '⚡ Live Update',
+                badge3: '🔗 Share Link',
+                badge4: '🆓 Free',
+                storyLabel: '📖 You might also like',
+                otherTools: '🔧 Other Tools:',
+                labelEvent: '📝 Event Name',
+                eventPlaceholder: 'e.g. Birthday / Exam / Deadline',
+                defaultEvent: 'New Year',
+                labelDate: '📅 Target Date',
+                presetLabel: 'Quick:',
+                preset7: '7 Days Later',
+                preset14: '14 Days Later',
+                preset30: '30 Days Later',
+                preset90: '90 Days Later',
+                preset365: '1 Year Later',
+                start: '▶️ Start Countdown',
+                reset: '↩️ Reset',
+                labelDays: 'Days',
+                labelHours: 'Hours',
+                labelMinutes: 'Mins',
+                labelSeconds: 'Secs',
+                statusWaiting: 'Enter a date and click "Start Countdown"',
+                statusCounting: 'Until <span class="event-name">{event}</span>',
+                statusEnded: '🎉 <span class="ended-text">{event}</span> has arrived!',
+                copy: '📋 Copy Link',
+                copied: '✅ Copied!',
+                noEvent: 'Event',
+                invalidDate: 'Please enter a valid date',
+                home: 'Home',
+                about: 'About',
+                privacy: 'Privacy Policy'
+            }
+        };
+
+        let lang = 'hk';
+
+        // =============================================================
+        // DOM 元素引用
+        // =============================================================
+        const toolTitle = document.getElementById('toolTitle');
+        const toolSub = document.getElementById('toolSub');
+        const badge1 = document.getElementById('badge1');
+        const badge2 = document.getElementById('badge2');
+        const badge3 = document.getElementById('badge3');
+        const badge4 = document.getElementById('badge4');
+        const storyLabel = document.getElementById('storyLabel');
+        const otherToolsLabel = document.getElementById('otherToolsLabel');
+        const labelEvent = document.getElementById('labelEvent');
+        const labelDate = document.getElementById('labelDate');
+        const presetLabel = document.getElementById('presetLabel');
+        const startText = document.getElementById('startText');
+        const resetText = document.getElementById('resetText');
+        const labelDays = document.getElementById('labelDays');
+        const labelHours = document.getElementById('labelHours');
+        const labelMinutes = document.getElementById('labelMinutes');
+        const labelSeconds = document.getElementById('labelSeconds');
+        const statusText = document.getElementById('statusText');
+        const copyLinkBtn = document.getElementById('copyLinkBtn');
+
+        const preset7 = document.getElementById('preset7');
+        const preset14 = document.getElementById('preset14');
+        const preset30 = document.getElementById('preset30');
+        const preset90 = document.getElementById('preset90');
+        const preset365 = document.getElementById('preset365');
+
+        const eventName = document.getElementById('eventName');
+        const targetDate = document.getElementById('targetDate');
+        const startBtn = document.getElementById('startBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+        const shareSection = document.getElementById('shareSection');
+        const shareLink = document.getElementById('shareLink');
+
+        let countdownInterval = null;
+        let targetTime = null;
+        let eventNameValue = '';
+
+        // =============================================================
+        // 語言切換主邏輯
+        // =============================================================
+        function switchLang(l) {
+            lang = l;
+            const t = texts[l];
+
+            // 更新 Document SEO
+            document.documentElement.lang = t.langAttr;
+            document.getElementById('seoTitle').innerText = t.pageTitle;
+            document.getElementById('seoDesc').setAttribute('content', t.pageDesc);
+
+            // 更新 Switcher 樣式
+            document.querySelectorAll('.lang-switch a').forEach(a => a.classList.remove('active'));
+            const activeBtn = document.getElementById(`btn-lang-${l}`);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            // UI 文字切換
+            toolTitle.innerHTML = t.title;
+            toolSub.innerText = t.sub;
+            badge1.innerText = t.badge1;
+            badge2.innerText = t.badge2;
+            badge3.innerText = t.badge3;
+            badge4.innerText = t.badge4;
+            storyLabel.innerText = t.storyLabel;
+            otherToolsLabel.innerText = t.otherTools;
+            labelEvent.innerText = t.labelEvent;
+            eventName.placeholder = t.eventPlaceholder;
+            labelDate.innerText = t.labelDate;
+            presetLabel.innerText = t.presetLabel;
+            
+            preset7.innerText = t.preset7;
+            preset14.innerText = t.preset14;
+            preset30.innerText = t.preset30;
+            preset90.innerText = t.preset90;
+            preset365.innerText = t.preset365;
+
+            startText.innerText = t.start.replace('▶️ ', '');
+            resetText.innerText = t.reset.replace('↩️ ', '');
+            labelDays.innerText = t.labelDays;
+            labelHours.innerText = t.labelHours;
+            labelMinutes.innerText = t.labelMinutes;
+            labelSeconds.innerText = t.labelSeconds;
+            copyLinkBtn.innerText = t.copy;
+
+            document.getElementById('footHome').innerText = t.home;
+            document.getElementById('footAbout').innerText = t.about;
+            document.getElementById('footPrivacy').innerText = t.privacy;
+
+            // 調整內部超連結語系參數
+            document.querySelectorAll('.story-suggest .items a, .other-tools a').forEach(a => {
+                try {
+                    const url = new URL(a.href, window.location.origin);
+                    url.searchParams.set('lang', l);
+                    a.href = url.pathname + url.search;
+                } catch (e) {}
+            });
+
+            updateStatus();
+        }
+
+        function detectLanguage() {
+            const params = new URLSearchParams(window.location.search);
+            const urlLang = params.get('lang');
+            if (['en', 'tw', 'hk'].includes(urlLang)) return urlLang;
+            
+            const userLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+            if (userLang.startsWith('en')) return 'en';
+            if (userLang.includes('tw') || userLang.includes('hant')) return 'tw';
+            return 'hk';
+        }
+
+        // =============================================================
+        // 日期計算與預設快捷
+        // =============================================================
+        function setDefaultDate(daysToAdd = 30) {
+            const now = new Date();
+            const target = new Date(now.getTime() + daysToAdd * 24 * 60 * 60 * 1000);
+            const year = target.getFullYear();
+            const month = String(target.getMonth() + 1).padStart(2, '0');
+            const day = String(target.getDate()).padStart(2, '0');
+            const hours = String(target.getHours()).padStart(2, '0');
+            const minutes = String(target.getMinutes()).padStart(2, '0');
+            targetDate.value = `${year}-${month}-${day}T${hours}:${minutes}`;
+        }
+
+        document.querySelectorAll('.preset-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const days = parseInt(this.dataset.days);
+                setDefaultDate(days);
+
+                document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                if (countdownInterval || targetTime) {
+                    startCountdown();
+                }
+            });
+        });
+
+        // =============================================================
+        // 倒數核心邏輯 (修復 Timer 誤動作及 DOM Bug)
+        // =============================================================
+        function startCountdown() {
+            const t = texts[lang];
+            const dateVal = targetDate.value;
+            eventNameValue = eventName.value.trim() || t.noEvent;
+
+            if (!dateVal) {
+                alert(t.invalidDate);
+                return;
+            }
+
+            targetTime = new Date(dateVal).getTime();
+
+            if (isNaN(targetTime)) {
+                alert(t.invalidDate);
+                return;
+            }
+
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+
+            updateDisplay();
+            countdownInterval = setInterval(updateDisplay, 250);
+
+            // 更新分享連結 URL
+            shareSection.classList.add('show');
+            const url = new URL(window.location.href);
+            url.searchParams.set('lang', lang);
+            url.searchParams.set('event', eventNameValue);
+            url.searchParams.set('date', dateVal);
+            shareLink.value = url.toString();
+
+            updateStatus();
+        }
+
+        function updateDisplay() {
+            const now = Date.now();
+            const diff = targetTime - now;
+
+            if (diff <= 0) {
+                daysEl.textContent = '00';
+                hoursEl.textContent = '00';
+                minutesEl.textContent = '00';
+                secondsEl.textContent = '00';
+                
+                [daysEl, hoursEl, minutesEl, secondsEl].forEach(el => el.classList.add('ended'));
+                
+                if (countdownInterval) {
+                    clearInterval(countdownInterval);
+                    countdownInterval = null;
+                }
+                updateStatus();
+                return;
+            }
+
+            [daysEl, hoursEl, minutesEl, secondsEl].forEach(el => el.classList.remove('ended'));
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            daysEl.textContent = String(days).padStart(2, '0');
+            hoursEl.textContent = String(hours).padStart(2, '0');
+            minutesEl.textContent = String(minutes).padStart(2, '0');
+            secondsEl.textContent = String(seconds).padStart(2, '0');
+
+            updateStatus();
+        }
+
+        function updateStatus() {
+            const t = texts[lang];
+            const name = escapeHtml(eventNameValue || t.noEvent);
+
+            if (!targetTime) {
+                statusText.innerHTML = t.statusWaiting;
+                return;
+            }
+
+            if (targetTime - Date.now() <= 0) {
+                statusText.innerHTML = t.statusEnded.replace('{event}', name);
+            } else {
+                statusText.innerHTML = t.statusCounting.replace('{event}', name);
+            }
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+        }
+
+        // =============================================================
+        // 重設邏輯
+        // =============================================================
+        function resetCountdown() {
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
+            targetTime = null;
+            daysEl.textContent = '00';
+            hoursEl.textContent = '00';
+            minutesEl.textContent = '00';
+            secondsEl.textContent = '00';
+            [daysEl, hoursEl, minutesEl, secondsEl].forEach(el => el.classList.remove('ended'));
+            
+            shareSection.classList.remove('show');
+            document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+            
+            statusText.innerHTML = texts[lang].statusWaiting;
+        }
+
+        // =============================================================
+        // 複製連結
+        // =============================================================
+        function copyLink() {
+            const t = texts[lang];
+            const text = shareLink.value;
+            if (!text) return;
+
+            const updateBtnText = () => {
+                const original = copyLinkBtn.innerText;
+                copyLinkBtn.innerText = t.copied;
+                setTimeout(() => { copyLinkBtn.innerText = original; }, 2000);
+            };
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(updateBtnText).catch(() => {
+                    shareLink.select();
+                    document.execCommand('copy');
+                    updateBtnText();
+                });
+            } else {
+                shareLink.select();
+                document.execCommand('copy');
+                updateBtnText();
+            }
+        }
+
+        // =============================================================
+        // 事件監聽與初始化
+        // =============================================================
+        startBtn.addEventListener('click', startCountdown);
+        resetBtn.addEventListener('click', resetCountdown);
+        copyLinkBtn.addEventListener('click', copyLink);
+
+        eventName.addEventListener('keydown', (e) => { if (e.key === 'Enter') startCountdown(); });
+        targetDate.addEventListener('keydown', (e) => { if (e.key === 'Enter') startCountdown(); });
+
+        // 初始化
+        const currentLang = detectLanguage();
+        switchLang(currentLang);
+        setDefaultDate(30);
+
+        // 解析 URL 參數自動執行倒數
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('date')) {
+            const dateParam = params.get('date');
+            const eventParam = params.get('event');
+            
+            if (eventParam) {
+                eventName.value = decodeURIComponent(eventParam);
+            }
+            targetDate.value = dateParam;
+            startCountdown();
+        }
+    </script>
+</body>
+</html>

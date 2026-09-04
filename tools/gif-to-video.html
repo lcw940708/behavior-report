@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GIF to Video Converter — GIF 轉 MP4 / WebM 線上工具｜Free Online</title>
+    <meta name="description" content="Free online GIF to Video converter. Convert animated GIF to MP4 or WebM in your browser. 免費線上 GIF 轉影片，支援 MP4、WebM，保護隱私，無需上傳伺服器。" />
+    <meta name="keywords" content="gif to mp4, gif to video, gif to webm, convert gif to mp4, animated gif to video, GIF轉MP4, GIF轉影片, GIF轉WebM, 線上GIF轉影片, free gif converter" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/gif-to-video.html" />
+
+    <meta property="og:title" content="GIF to Video Converter — Free Online | GIF 轉 MP4 / WebM" />
+    <meta property="og:description" content="Convert GIF to MP4 or WebM in your browser. No server upload. 瀏覽器內轉換，保護隱私。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.behavior-report.com/tools/gif-to-video.html" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="GIF to Video Converter — Free Online" />
+    <meta name="twitter:description" content="GIF → MP4 / WebM. 100% browser-based." />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "GIF to Video Converter",
+      "description": "Free online tool to convert animated GIF to MP4 or WebM. Runs entirely in the browser.",
+      "url": "https://www.behavior-report.com/tools/gif-to-video.html",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Any",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "inLanguage": ["en", "zh-Hant"]
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0b0f19; --card: #151d30; --text: #94a3b8; --text-light: #cbd5e1;
+            --cyan: #22d3ee; --cyan-hover: #67e8f9; --border: #24324f;
+            --red: #ef4444; --yellow: #fbbf24; --green: #22c55e;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg); color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", sans-serif;
+            padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+        }
+        .container {
+            max-width: 720px; width: 100%; background: var(--card); padding: 30px;
+            border-radius: 16px; border: 1px solid var(--border); margin: 20px 0;
+        }
+        .lang-switch { text-align: center; margin-bottom: 20px; }
+        .lang-switch a { color: var(--cyan); text-decoration: none; margin: 0 10px; font-size: 0.9rem; cursor: pointer; }
+        .lang-switch a:hover { text-decoration: underline; }
+        .tool-title { font-size: 1.55rem; color: #fff; text-align: center; font-weight: bold; }
+        .tool-sub { text-align: center; color: var(--text); font-size: 0.95rem; margin: 10px 0 22px; }
+        .badge-row { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+        .badge {
+            background: rgba(34, 211, 238, 0.08); border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 12px; border-radius: 30px; font-size: 0.72rem; color: var(--cyan);
+        }
+        .drop-zone {
+            border: 2px dashed var(--border); border-radius: 12px; padding: 36px 20px;
+            text-align: center; cursor: pointer; transition: all 0.25s; background: var(--bg);
+        }
+        .drop-zone:hover, .drop-zone.dragover { border-color: var(--cyan); background: rgba(34, 211, 238, 0.04); }
+        .drop-zone .icon { font-size: 2.4rem; margin-bottom: 10px; }
+        .drop-zone .main { color: #fff; font-weight: 600; font-size: 1.05rem; }
+        .drop-zone .sub { font-size: 0.85rem; margin-top: 6px; color: #64748b; }
+
+        .preview-wrap { display: none; margin-top: 18px; text-align: center; }
+        .preview-wrap.show { display: block; }
+        .preview-wrap img {
+            max-width: 100%; max-height: 280px; border-radius: 10px;
+            border: 1px solid var(--border); background: #000;
+        }
+        .file-meta { font-size: 0.8rem; color: #64748b; margin-top: 8px; }
+
+        .settings { display: none; margin-top: 18px; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .settings.show { display: grid; }
+        .field label { display: block; font-size: 0.8rem; color: var(--text-light); margin-bottom: 5px; }
+        .field select {
+            width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border);
+            background: var(--bg); color: var(--text-light); font-size: 0.9rem; outline: none;
+        }
+        .field select:focus { border-color: var(--cyan); }
+        .field select option { background: var(--card); }
+
+        .btn-group { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+        .btn {
+            padding: 12px 22px; border-radius: 10px; border: none; font-size: 0.95rem; font-weight: bold;
+            cursor: pointer; transition: all 0.25s; flex: 1;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+        .btn-primary { background: var(--cyan); color: #0b0f19; }
+        .btn-primary:hover:not(:disabled) { background: var(--cyan-hover); }
+        .btn-danger { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--red); color: #fca5a5; }
+
+        .progress-wrap { display: none; margin-top: 18px; }
+        .progress-wrap.show { display: block; }
+        .progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+        .progress-bar .fill { height: 100%; width: 0%; background: var(--cyan); transition: width 0.15s; }
+        .progress-text { font-size: 0.85rem; color: var(--text); margin-top: 8px; text-align: center; }
+
+        .error-box {
+            display: none; margin-top: 12px; padding: 10px 14px; border-radius: 8px;
+            background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5; font-size: 0.85rem; line-height: 1.5;
+        }
+        .error-box.show { display: block; }
+
+        .result-wrap { display: none; margin-top: 20px; text-align: center; }
+        .result-wrap.show { display: block; }
+        .result-wrap video {
+            max-width: 100%; max-height: 320px; border-radius: 10px;
+            border: 1px solid var(--border); background: #000;
+        }
+        .result-info { font-size: 0.85rem; color: #64748b; margin: 10px 0 14px; }
+        .result-info .highlight { color: var(--cyan); font-weight: bold; }
+
+        .tips {
+            margin-top: 24px; padding-top: 18px; border-top: 1px solid rgba(148, 163, 184, 0.08);
+            font-size: 0.82rem; line-height: 1.65; color: #64748b;
+        }
+        .tips strong { color: var(--text-light); }
+
+        .story-suggest { margin-top: 36px; padding-top: 22px; border-top: 1px solid rgba(148, 163, 184, 0.08); }
+        .story-suggest .label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+        .story-suggest .items { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3); border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 7px 16px; border-radius: 30px; font-size: 0.84rem; color: var(--text-light);
+            text-decoration: none; transition: all 0.2s;
+        }
+        .story-suggest .items a:hover { border-color: var(--cyan); color: var(--cyan); }
+
+        footer { text-align: center; margin-top: 28px; font-size: 11px; color: #555; }
+        footer a { color: #555; text-decoration: none; margin: 0 8px; }
+        @media (max-width: 600px) {
+            .container { padding: 18px; }
+            .settings { grid-template-columns: 1fr; }
+            .btn { flex: none; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="lang-switch">
+            <a onclick="switchLang('hk')">🇭🇰 港版</a> |
+            <a onclick="switchLang('tw')">🇹🇼 台版</a> |
+            <a onclick="switchLang('en')">🇬🇧 English</a>
+        </div>
+
+        <h1 class="tool-title" id="toolTitle">🎞️ GIF to Video Converter</h1>
+        <p class="tool-sub" id="toolSub">Convert animated GIF to MP4 or WebM. 100% in your browser.</p>
+
+        <div class="badge-row">
+            <span class="badge" id="badge1">🖼️ GIF</span>
+            <span class="badge" id="badge2">🎥 MP4 / WebM</span>
+            <span class="badge" id="badge3">🔒 Private</span>
+            <span class="badge" id="badge4">🆓 Free</span>
+        </div>
+
+        <div class="drop-zone" id="dropZone">
+            <div class="icon">📁</div>
+            <div class="main" id="dropMain">Click or drop GIF here</div>
+            <div class="sub" id="dropSub">Animated GIF · Keep under ~15MB for best results</div>
+            <input type="file" id="fileInput" accept="image/gif,.gif" hidden />
+        </div>
+
+        <div class="preview-wrap" id="previewWrap">
+            <img id="gifPreview" alt="GIF preview" />
+            <div class="file-meta" id="fileMeta"></div>
+        </div>
+
+        <div class="settings" id="settings">
+            <div class="field">
+                <label id="labelFormat">Output Format</label>
+                <select id="outFormat">
+                    <option value="webm" selected>WebM (recommended)</option>
+                    <option value="mp4">MP4 (if browser supports)</option>
+                </select>
+            </div>
+            <div class="field">
+                <label id="labelScale">Scale</label>
+                <select id="scale">
+                    <option value="1" selected>100% (original)</option>
+                    <option value="0.75">75%</option>
+                    <option value="0.5">50% (smaller)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-primary" id="convertBtn" disabled>🎞️ Convert to Video</button>
+            <button class="btn btn-danger" id="resetBtn">↩️ Reset</button>
+        </div>
+
+        <div class="progress-wrap" id="progressWrap">
+            <div class="progress-bar"><div class="fill" id="progressFill"></div></div>
+            <div class="progress-text" id="progressText">Preparing…</div>
+        </div>
+        <div class="error-box" id="errorBox"></div>
+
+        <div class="result-wrap" id="resultWrap">
+            <video id="resultVideo" controls playsinline loop></video>
+            <div class="result-info" id="resultInfo"></div>
+            <button class="btn btn-primary" id="downloadBtn" style="max-width:280px;margin:0 auto;">⬇️ Download</button>
+        </div>
+
+        <div class="tips" id="tips">
+            <strong>Note:</strong> WebM works in Chrome / Firefox / Edge. MP4 depends on browser support. All processing stays in your browser — file is never uploaded.
+        </div>
+
+        <div class="story-suggest">
+            <div class="label" id="storyLabel">🛠 Other tools</div>
+            <div class="items">
+                <a href="video-to-gif.html">🎬 Video to GIF</a>
+                <a href="click-speed-test.html">🖱️ Click Speed</a>
+                <a href="../index.html">🏠 Home</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">Home</a> |
+        <a href="../about.html">About</a> |
+        <a href="../privacy.html">Privacy</a>
+    </footer>
+
+    <!-- GIF frame decoder -->
+<script src="https://cdn.jsdelivr.net/npm/gifuct-js@2.1.2/dist/gifuct-js.min.js"></script>
+
+<script type="module">
+import { parseGIF, decompressFrames } from 'https://cdn.jsdelivr.net/npm/gifuct-js@2.1.2/+esm';
+
+const texts = {
+    hk: {
+        title: '🎞️ GIF 轉影片',
+        sub: '上傳動態 GIF，轉成 MP4 或 WebM。全程瀏覽器處理，唔會上傳伺服器。',
+        badge1: '🖼️ GIF', badge2: '🎥 MP4 / WebM', badge3: '🔒 私隱', badge4: '🆓 免費',
+        dropMain: '點擊或拖放 GIF 到呢度',
+        dropSub: '動態 GIF · 建議 ≤ 15MB',
+        labelFormat: '輸出格式', labelScale: '縮放',
+        convert: '🎞️ 轉換成影片', reset: '↩️ 重設', download: '⬇️ 下載影片',
+        progressPrep: '準備中…', progressDecode: '解碼 GIF…', progressRecord: '錄製影片…',
+        progressDone: '完成！',
+        resultInfo: '檔案大約 ',
+        tips: '<strong>說明：</strong>WebM 喺 Chrome / Firefox / Edge 最穩。MP4 視乎瀏覽器支援。全程喺你嘅裝置處理。',
+        storyLabel: '🛠 其他工具',
+        noFile: '請先選擇 GIF',
+        notGif: '請上傳 GIF 檔案',
+        noRecorder: '此瀏覽器不支援影片錄製，請改用 Chrome / Firefox / Edge。',
+        error: '轉換失敗：'
+    },
+    tw: {
+        title: '🎞️ GIF 轉影片',
+        sub: '上傳動態 GIF，轉成 MP4 或 WebM。全程瀏覽器處理，不會上傳伺服器。',
+        badge1: '🖼️ GIF', badge2: '🎥 MP4 / WebM', badge3: '🔒 隱私', badge4: '🆓 免費',
+        dropMain: '點擊或拖放 GIF 到這裡',
+        dropSub: '動態 GIF · 建議 ≤ 15MB',
+        labelFormat: '輸出格式', labelScale: '縮放',
+        convert: '🎞️ 轉換成影片', reset: '↩️ 重設', download: '⬇️ 下載影片',
+        progressPrep: '準備中…', progressDecode: '解碼 GIF…', progressRecord: '錄製影片…',
+        progressDone: '完成！',
+        resultInfo: '檔案大約 ',
+        tips: '<strong>說明：</strong>WebM 在 Chrome / Firefox / Edge 最穩。MP4 視瀏覽器支援而定。全程在你的裝置處理。',
+        storyLabel: '🛠 其他工具',
+        noFile: '請先選擇 GIF',
+        notGif: '請上傳 GIF 檔案',
+        noRecorder: '此瀏覽器不支援影片錄製，請改用 Chrome / Firefox / Edge。',
+        error: '轉換失敗：'
+    },
+    en: {
+        title: '🎞️ GIF to Video Converter',
+        sub: 'Convert animated GIF to MP4 or WebM. Fully in-browser, nothing uploaded.',
+        badge1: '🖼️ GIF', badge2: '🎥 MP4 / WebM', badge3: '🔒 Private', badge4: '🆓 Free',
+        dropMain: 'Click or drop GIF here',
+        dropSub: 'Animated GIF · Keep under ~15MB',
+        labelFormat: 'Output Format', labelScale: 'Scale',
+        convert: '🎞️ Convert to Video', reset: '↩️ Reset', download: '⬇️ Download Video',
+        progressPrep: 'Preparing…', progressDecode: 'Decoding GIF…', progressRecord: 'Recording video…',
+        progressDone: 'Done!',
+        resultInfo: 'File size about ',
+        tips: '<strong>Note:</strong> WebM works best in Chrome / Firefox / Edge. MP4 depends on browser support. Nothing is uploaded.',
+        storyLabel: '🛠 Other tools',
+        noFile: 'Please select a GIF first',
+        notGif: 'Please upload a GIF file',
+        noRecorder: 'This browser cannot record video. Please use Chrome / Firefox / Edge.',
+        error: 'Conversion failed: '
+    }
+};
+
+let lang = 'hk';
+let gifFile = null;
+let gifBuffer = null;
+let videoBlob = null;
+let resultUrl = null;
+
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const previewWrap = document.getElementById('previewWrap');
+const gifPreview = document.getElementById('gifPreview');
+const fileMeta = document.getElementById('fileMeta');
+const settings = document.getElementById('settings');
+const convertBtn = document.getElementById('convertBtn');
+const progressWrap = document.getElementById('progressWrap');
+const progressFill = document.getElementById('progressFill');
+const progressText = document.getElementById('progressText');
+const errorBox = document.getElementById('errorBox');
+const resultWrap = document.getElementById('resultWrap');
+const resultVideo = document.getElementById('resultVideo');
+const resultInfo = document.getElementById('resultInfo');
+
+function switchLang(l) {
+    lang = l;
+    const t = texts[l];
+    document.getElementById('toolTitle').textContent = t.title;
+    document.getElementById('toolSub').textContent = t.sub;
+    ['badge1','badge2','badge3','badge4'].forEach(id => document.getElementById(id).textContent = t[id]);
+    document.getElementById('dropMain').textContent = t.dropMain;
+    document.getElementById('dropSub').textContent = t.dropSub;
+    document.getElementById('labelFormat').textContent = t.labelFormat;
+    document.getElementById('labelScale').textContent = t.labelScale;
+    document.getElementById('convertBtn').textContent = t.convert;
+    document.getElementById('resetBtn').textContent = t.reset;
+    document.getElementById('downloadBtn').textContent = t.download;
+    document.getElementById('tips').innerHTML = t.tips;
+    document.getElementById('storyLabel').textContent = t.storyLabel;
+}
+window.switchLang = switchLang;
+
+function detectLanguage() {
+    const p = new URLSearchParams(location.search);
+    if (p.get('lang') === 'en') return 'en';
+    if (p.get('lang') === 'tw') return 'tw';
+    const n = navigator.language || '';
+    if (n.startsWith('en')) return 'en';
+    if (n.includes('TW') || n.includes('tw')) return 'tw';
+    return 'hk';
+}
+switchLang(detectLanguage());
+
+function formatSize(b) {
+    if (b < 1024) return b + ' B';
+    if (b < 1048576) return (b / 1024).toFixed(1) + ' KB';
+    return (b / 1048576).toFixed(2) + ' MB';
+}
+function showError(msg) {
+    errorBox.textContent = texts[lang].error + msg;
+    errorBox.classList.add('show');
+}
+function clearError() {
+    errorBox.classList.remove('show');
+    errorBox.textContent = '';
+}
+
+function pickMime(preferMp4) {
+    const candidates = preferMp4
+        ? ['video/mp4;codecs=avc1', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm']
+        : ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm', 'video/mp4'];
+    for (const m of candidates) {
+        if (window.MediaRecorder && MediaRecorder.isTypeSupported(m)) return m;
+    }
+    return null;
+}
+
+async function loadGif(file) {
+    clearError();
+    if (!file || (!file.type.includes('gif') && !file.name.toLowerCase().endsWith('.gif'))) {
+        showError(texts[lang].notGif);
+        return;
+    }
+    gifFile = file;
+    gifBuffer = await file.arrayBuffer();
+
+    if (resultUrl) URL.revokeObjectURL(resultUrl);
+    resultUrl = null;
+    videoBlob = null;
+
+    const url = URL.createObjectURL(file);
+    gifPreview.src = url;
+    previewWrap.classList.add('show');
+    settings.classList.add('show');
+    convertBtn.disabled = false;
+    resultWrap.classList.remove('show');
+    progressWrap.classList.remove('show');
+    fileMeta.textContent = `${file.name} · ${formatSize(file.size)}`;
+}
+
+dropZone.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', () => { if (fileInput.files[0]) loadGif(fileInput.files[0]); });
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    const f = e.dataTransfer.files[0];
+    if (f) loadGif(f);
+});
+
+function resetAll() {
+    clearError();
+    gifFile = null;
+    gifBuffer = null;
+    videoBlob = null;
+    if (resultUrl) URL.revokeObjectURL(resultUrl);
+    resultUrl = null;
+    gifPreview.removeAttribute('src');
+    fileInput.value = '';
+    previewWrap.classList.remove('show');
+    settings.classList.remove('show');
+    progressWrap.classList.remove('show');
+    resultWrap.classList.remove('show');
+    convertBtn.disabled = true;
+    fileMeta.textContent = '';
+}
+document.getElementById('resetBtn').addEventListener('click', resetAll);
+
+async function convert() {
+    const t = texts[lang];
+    clearError();
+    if (!gifBuffer) { alert(t.noFile); return; }
+
+    const preferMp4 = document.getElementById('outFormat').value === 'mp4';
+    const scale = parseFloat(document.getElementById('scale').value) || 1;
+    const mime = pickMime(preferMp4);
+    if (!mime) {
+        showError(t.noRecorder);
+        return;
+    }
+
+    convertBtn.disabled = true;
+    progressWrap.classList.add('show');
+    resultWrap.classList.remove('show');
+    progressFill.style.width = '5%';
+    progressText.textContent = t.progressPrep;
+
+    try {
+        progressText.textContent = t.progressDecode;
+        const parsed = parseGIF(gifBuffer);
+        const frames = decompressFrames(parsed, true);
+        if (!frames || !frames.length) throw new Error('No frames in GIF');
+
+        const width = parsed.lsd ? parsed.lsd.width : frames[0].dims.width;
+        const height = parsed.lsd ? parsed.lsd.height : frames[0].dims.height;
+        const outW = Math.max(2, Math.round(width * scale / 2) * 2);
+        const outH = Math.max(2, Math.round(height * scale / 2) * 2);
+
+        const canvas = document.createElement('canvas');
+        canvas.width = outW;
+        canvas.height = outH;
+        const ctx = canvas.getContext('2d', { alpha: false });
+
+        const temp = document.createElement('canvas');
+        const tctx = temp.getContext('2d');
+
+        const frameCanvas = document.createElement('canvas');
+        frameCanvas.width = width;
+        frameCanvas.height = height;
+        const fctx = frameCanvas.getContext('2d');
+        fctx.fillStyle = '#000';
+        fctx.fillRect(0, 0, width, height);
+
+        progressFill.style.width = '15%';
+        progressText.textContent = t.progressRecord;
+
+        const stream = canvas.captureStream(0);
+        const track = stream.getVideoTracks()[0];
+
+        const chunks = [];
+        const recorder = new MediaRecorder(stream, {
+            mimeType: mime,
+            videoBitsPerSecond: 2500000
+        });
+        recorder.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+
+        const stopped = new Promise((resolve, reject) => {
+            recorder.onstop = resolve;
+            recorder.onerror = e => reject(e.error || new Error('MediaRecorder error'));
+        });
+
+        recorder.start();
+
+        for (let i = 0; i < frames.length; i++) {
+            const frame = frames[i];
+            const dims = frame.dims;
+
+            if (frame.disposalType === 2) {
+                fctx.clearRect(dims.left, dims.top, dims.width, dims.height);
+                fctx.fillStyle = '#000';
+                fctx.fillRect(dims.left, dims.top, dims.width, dims.height);
+            }
+
+            temp.width = dims.width;
+            temp.height = dims.height;
+            const imgData = tctx.createImageData(dims.width, dims.height);
+            imgData.data.set(frame.patch);
+            tctx.putImageData(imgData, 0, 0);
+            fctx.drawImage(temp, dims.left, dims.top);
+
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, outW, outH);
+            ctx.drawImage(frameCanvas, 0, 0, outW, outH);
+
+            if (track.requestFrame) track.requestFrame();
+
+            const delay = Math.max(20, frame.delay || 100);
+            await new Promise(r => setTimeout(r, delay));
+
+            const pct = 15 + Math.round(((i + 1) / frames.length) * 75);
+            progressFill.style.width = pct + '%';
+            progressText.textContent = `${t.progressRecord} ${i + 1}/${frames.length}`;
+        }
+
+        await new Promise(r => setTimeout(r, 50));
+        recorder.stop();
+        await stopped;
+        stream.getTracks().forEach(tr => tr.stop());
+
+        const ext = mime.includes('mp4') ? 'mp4' : 'webm';
+        videoBlob = new Blob(chunks, { type: mime.split(';')[0] });
+        if (resultUrl) URL.revokeObjectURL(resultUrl);
+        resultUrl = URL.createObjectURL(videoBlob);
+
+        resultVideo.src = resultUrl;
+        resultVideo.dataset.ext = ext;
+        resultInfo.innerHTML = t.resultInfo + `<span class="highlight">${formatSize(videoBlob.size)}</span> · ${outW}×${outH} · ${ext.toUpperCase()} · ${frames.length} frames`;
+        resultWrap.classList.add('show');
+        progressFill.style.width = '100%';
+        progressText.textContent = t.progressDone;
+    } catch (err) {
+        console.error(err);
+        showError(err && err.message ? err.message : String(err));
+    } finally {
+        convertBtn.disabled = false;
+    }
+}
+
+convertBtn.addEventListener('click', convert);
+document.getElementById('downloadBtn').addEventListener('click', () => {
+    if (!videoBlob) return;
+    const ext = resultVideo.dataset.ext || 'webm';
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(videoBlob);
+    a.download = 'converted.' + ext;
+    a.click();
+});
+</script>
+</body>
+</html>

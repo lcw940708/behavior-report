@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>港台天氣查詢 — 香港台灣即時天氣預報｜ABRG 免費工具</title>
+    <meta name="description" content="免費港台天氣查詢工具，即時顯示香港九天天氣預報及台灣各縣市天氣，純前端處理。" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/weather.html" />
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --yellow: #fbbf24;
+            --blue: #60a5fa;
+            --green: #34d399;
+            --red: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 780px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .tool-title .emoji {
+            font-size: 1.8rem;
+        }
+
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 10px 0 20px;
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .lang-switch .lang-btn {
+            padding: 8px 24px;
+            border-radius: 8px;
+            border: 2px solid var(--border);
+            background: transparent;
+            color: var(--text);
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .lang-switch .lang-btn.active {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.08);
+        }
+
+        .lang-switch .lang-btn:hover:not(.active) {
+            border-color: var(--text-light);
+            color: var(--text-light);
+        }
+
+        .weather-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .weather-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hk-weather-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .hk-day-card {
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 10px 8px;
+            text-align: center;
+            border: 1px solid rgba(148, 163, 184, 0.06);
+        }
+
+        .hk-day-card.today-card {
+            border-color: var(--cyan);
+            background: rgba(34, 211, 238, 0.05);
+        }
+
+        .hk-day-card .day {
+            font-size: 0.7rem;
+            color: #64748b;
+        }
+
+        .hk-day-card.today-card .day {
+            color: var(--cyan);
+            font-weight: bold;
+        }
+
+        .hk-day-card .date {
+            font-size: 0.65rem;
+            color: #475569;
+            margin-bottom: 4px;
+        }
+
+        .hk-day-card .weather-icon {
+            font-size: 1.8rem;
+            display: block;
+            margin: 4px 0;
+        }
+
+        .hk-day-card .temp {
+            font-size: 1rem;
+            color: var(--text-light);
+            font-weight: bold;
+        }
+
+        .hk-day-card .temp .high {
+            color: var(--red);
+        }
+
+        .hk-day-card .temp .low {
+            color: var(--blue);
+        }
+
+        .hk-day-card .desc {
+            font-size: 0.65rem;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        .tw-city-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .tw-city-card {
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 10px 8px;
+            text-align: center;
+            border: 1px solid rgba(148, 163, 184, 0.06);
+        }
+
+        .tw-city-card .city-name {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: bold;
+        }
+
+        .tw-city-card .weather-icon {
+            font-size: 1.8rem;
+            display: block;
+            margin: 4px 0;
+        }
+
+        .tw-city-card .temp {
+            font-size: 1rem;
+            color: var(--text-light);
+            font-weight: bold;
+        }
+
+        .tw-city-card .temp .high {
+            color: var(--red);
+        }
+
+        .tw-city-card .temp .low {
+            color: var(--blue);
+        }
+
+        .tw-city-card .desc {
+            font-size: 0.65rem;
+            color: #64748b;
+        }
+
+        .status-bar {
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            text-align: center;
+            border: 1px solid rgba(148, 163, 184, 0.06);
+            background: rgba(255, 255, 255, 0.02);
+            margin-bottom: 16px;
+        }
+
+        .status-bar.loading {
+            border-color: var(--yellow);
+            color: var(--yellow);
+        }
+
+        .status-bar.error {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        .status-bar.success {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .update-time {
+            text-align: right;
+            font-size: 0.7rem;
+            color: #475569;
+            margin-top: 12px;
+        }
+
+        .story-suggest {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+        .story-suggest .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .story-suggest .items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .story-suggest .items a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .other-tools {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .other-tools a {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #fca5a5;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .other-tools a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #555;
+        }
+        footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        footer a:hover {
+            color: #888;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 18px;
+            }
+            .hk-weather-grid {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            }
+            .tw-city-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+            .lang-switch .lang-btn {
+                padding: 6px 16px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 class="tool-title"><span class="emoji">🌤️</span> 港台天氣查詢</h1>
+        <p class="tool-sub">即時天氣預報 · 香港即日與預報 · 台灣各縣市天氣</p>
+
+        <div class="badge-row">
+            <span class="badge">🇭🇰 香港天文台</span>
+            <span class="badge">🇹🇼 台灣氣象署</span>
+            <span class="badge">🆓 完全免費</span>
+            <span class="badge">⚡ 即時更新</span>
+        </div>
+
+        <div class="lang-switch">
+            <button class="lang-btn active" data-lang="hk">🇭🇰 香港天氣</button>
+            <button class="lang-btn" data-lang="tw">🇹🇼 台灣天氣</button>
+        </div>
+
+        <div class="status-bar" id="statusBar">
+            <span id="statusText">⏳ 載入天氣資料...</span>
+        </div>
+
+        <div class="weather-content active" id="hkWeather">
+            <div id="hkWeatherGrid" class="hk-weather-grid"></div>
+            <div class="update-time" id="hkUpdateTime"></div>
+        </div>
+
+        <div class="weather-content" id="twWeather">
+            <div id="twWeatherGrid" class="tw-city-grid"></div>
+            <div class="update-time" id="twUpdateTime"></div>
+        </div>
+
+        <div class="story-suggest">
+            <div class="label">📖 你可能會中意嘅連載或測驗</div>
+            <div class="items">
+                <a href="../story_01.html">《你睡著以後》</a>
+                <a href="../story_02.html">《貓狗人格》</a>
+                <a href="../quiz-01.html">隱私天平</a>
+                <a href="../index.html">🏠 返回主頁</a>
+            </div>
+            <div class="other-tools">
+                <span style="font-size:0.75rem;color:#64748b;align-self:center;">🔧 其他工具：</span>
+                <a href="qr-generator.html">📱 QR Code 生成器</a>
+                <a href="color-picker.html">🎨 顏色選取器</a>
+                <a href="diff.html">🔍 文字比較</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const langBtns = document.querySelectorAll('.lang-btn');
+            const hkWeather = document.getElementById('hkWeather');
+            const twWeather = document.getElementById('twWeather');
+            const hkWeatherGrid = document.getElementById('hkWeatherGrid');
+            const twWeatherGrid = document.getElementById('twWeatherGrid');
+            const hkUpdateTime = document.getElementById('hkUpdateTime');
+            const twUpdateTime = document.getElementById('twUpdateTime');
+            const statusBar = document.getElementById('statusBar');
+            const statusText = document.getElementById('statusText');
+
+            let currentLang = 'hk';
+
+            const hkIconMap = {
+                '天晴': '☀️', '大致天晴': '☀️', '晴': '☀️',
+                '部分時間有陽光': '⛅', '短暫時間有陽光': '⛅',
+                '多雲': '☁️', '大致多雲': '☁️', '密雲': '☁️',
+                '有雨': '🌧️', '有幾陣雨': '🌦️', '驟雨': '🌦️',
+                '雷暴': '⛈️', '有霧': '🌫️', '薄霧': '🌫️',
+                '炎熱': '🌤️', '酷熱': '☀️', '寒冷': '🥶'
+            };
+
+            const twIconMap = {
+                '晴': '☀️', '多雲': '⛅', '陰': '☁️',
+                '雨': '🌧️', '陣雨': '🌦️', '雷雨': '⛈️',
+                '霧': '🌫️', '短暫雨': '🌧️', '短暫陣雨': '🌦️'
+            };
+
+            function setStatus(text, type) {
+                statusText.textContent = text;
+                statusBar.className = 'status-bar';
+                if (type) statusBar.classList.add(type);
+            }
+
+            function hideStatus() {
+                statusBar.className = 'status-bar';
+                statusText.textContent = '';
+            }
+
+            async function fetchWithTimeout(resource, options = {}) {
+                const { timeout = 8000 } = options;
+                const controller = new AbortController();
+                const id = setTimeout(() => controller.abort(), timeout);
+                const response = await fetch(resource, {
+                    ...options,
+                    signal: controller.signal
+                });
+                clearTimeout(id);
+                return response;
+            }
+
+            langBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    langBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentLang = this.dataset.lang;
+
+                    if (currentLang === 'hk') {
+                        hkWeather.classList.add('active');
+                        twWeather.classList.remove('active');
+                    } else {
+                        twWeather.classList.add('active');
+                        hkWeather.classList.remove('active');
+                    }
+                });
+            });
+
+            // =============================================================
+            // 香港天氣
+            // =============================================================
+            async function fetchHkWeather() {
+                setStatus('⏳ 載入香港天氣...', 'loading');
+                hkWeatherGrid.innerHTML = '';
+                let loadedAnything = false;
+
+                // 1. 抓取即時天氣 (rhrread)
+                try {
+                    const rhrUrl = 'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread&lang=tc';
+                    const rhrRes = await fetchWithTimeout(rhrUrl);
+                    if (rhrRes.ok) {
+                        const rhrData = await rhrRes.json();
+                        let currentTemp = '--';
+                        if (rhrData.temperature && rhrData.temperature.data) {
+                            const hko = rhrData.temperature.data.find(t => t.place === '香港天文台');
+                            if (hko) currentTemp = hko.value;
+                        }
+
+                        let icon = '🌤️';
+                        let weatherDesc = '大致多雲';
+
+                        if (rhrData.icon && rhrData.icon.length > 0) {
+                            const iconNum = rhrData.icon[0];
+                            if ([50, 51, 52].includes(iconNum)) {
+                                icon = '☀️'; weatherDesc = '天晴 / 陽光充沛';
+                            } else if ([53, 54, 60, 61].includes(iconNum)) {
+                                icon = '⛅'; weatherDesc = '部分時間有陽光';
+                            } else if ([62, 63, 64, 65].includes(iconNum)) {
+                                icon = '🌧️'; weatherDesc = '有驟雨 / 有雨';
+                            } else if ([66, 67].includes(iconNum)) {
+                                icon = '⛈️'; weatherDesc = '有雷暴';
+                            } else if ([80, 81, 82, 83].includes(iconNum)) {
+                                icon = '🌫️'; weatherDesc = '有霧 / 薄霧';
+                            }
+                        }
+
+                        const now = new Date();
+                        const todayCard = document.createElement('div');
+                        todayCard.className = 'hk-day-card today-card';
+                        todayCard.innerHTML = `
+                            <div class="day">今日 (即時)</div>
+                            <div class="date">${now.getMonth()+1}月${now.getDate()}日</div>
+                            <span class="weather-icon">${icon}</span>
+                            <div class="temp"><span class="high">${currentTemp}°C</span></div>
+                            <div class="desc">${weatherDesc}</div>
+                        `;
+                        hkWeatherGrid.appendChild(todayCard);
+                        loadedAnything = true;
+                    }
+                } catch (e) {
+                    console.warn('即時天氣讀取失敗:', e);
+                }
+
+                // 2. 抓取預報天氣 (fnd)
+                try {
+                    const fndUrl = 'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=tc';
+                    const fndRes = await fetchWithTimeout(fndUrl);
+                    if (fndRes.ok) {
+                        const fndData = await fndRes.json();
+                        if (fndData.weatherForecast) {
+                            const forecast = fndData.weatherForecast.slice(0, 6);
+                            forecast.forEach(day => {
+                                const card = document.createElement('div');
+                                card.className = 'hk-day-card';
+
+                                let min = day.forecastMintemp ? (typeof day.forecastMintemp === 'object' ? day.forecastMintemp.value : day.forecastMintemp) : '--';
+                                let max = day.forecastMaxtemp ? (typeof day.forecastMaxtemp === 'object' ? day.forecastMaxtemp.value : day.forecastMaxtemp) : '--';
+
+                                let icon = '🌤️';
+                                const wxDesc = day.forecastWeather || '';
+                                for (const key in hkIconMap) {
+                                    if (wxDesc.includes(key)) {
+                                        icon = hkIconMap[key];
+                                        break;
+                                    }
+                                }
+
+                                let formattedDate = day.forecastDate || '';
+                                if (formattedDate.length === 8) {
+                                    formattedDate = `${parseInt(formattedDate.substring(4, 6))}月${parseInt(formattedDate.substring(6, 8))}日`;
+                                }
+
+                                card.innerHTML = `
+                                    <div class="day">${day.week || ''}</div>
+                                    <div class="date">${formattedDate}</div>
+                                    <span class="weather-icon">${icon}</span>
+                                    <div class="temp"><span class="low">${min}°</span> / <span class="high">${max}°</span></div>
+                                    <div class="desc">${wxDesc}</div>
+                                `;
+                                hkWeatherGrid.appendChild(card);
+                            });
+                            loadedAnything = true;
+                        }
+                    }
+                } catch (e) {
+                    console.warn('九天預報讀取失敗:', e);
+                }
+
+                if (loadedAnything) {
+                    const now = new Date();
+                    hkUpdateTime.textContent = `更新時間：${now.toLocaleTimeString('zh-HK')}`;
+                    setStatus('✅ 香港天氣已更新', 'success');
+                    setTimeout(hideStatus, 3000);
+                } else {
+                    setStatus('❌ 香港天氣載入失敗', 'error');
+                    hkWeatherGrid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:20px;color:#64748b;">⚠️ 無法載入香港天氣資料</div>`;
+                }
+            }
+
+            // =============================================================
+            // 台灣天氣
+            // =============================================================
+            async function fetchTwWeather() {
+                try {
+                    const apiKey = 'CWA-C2CA8B63-43E2-4AC5-8852-E80F39C92FB8';
+                    const url = `https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001?format=JSON&Authorization=${apiKey}`;
+
+                    const response = await fetchWithTimeout(url);
+                    if (!response.ok) throw new Error('API Key 或網絡解析錯誤');
+
+                    const data = await response.json();
+                    if (!data.records || !data.records.location) throw new Error('格式不正確');
+
+                    twWeatherGrid.innerHTML = '';
+                    const locations = data.records.location.slice(0, 15);
+
+                    locations.forEach(loc => {
+                        const card = document.createElement('div');
+                        card.className = 'tw-city-card';
+                        const name = loc.locationName;
+                        
+                        const wx = loc.weatherElement.find(el => el.elementName === 'Wx');
+                        const wxDesc = wx ? wx.time[0].parameter.parameterName : '';
+
+                        const maxTemp = loc.weatherElement.find(el => el.elementName === 'MaxT');
+                        const minTemp = loc.weatherElement.find(el => el.elementName === 'MinT');
+                        const max = maxTemp ? maxTemp.time[0].parameter.parameterName : '--';
+                        const min = minTemp ? minTemp.time[0].parameter.parameterName : '--';
+
+                        let icon = '🌤️';
+                        if (wxDesc.includes('雷')) icon = '⛈️';
+                        else if (wxDesc.includes('雨')) icon = '🌧️';
+                        else if (wxDesc.includes('陰')) icon = '☁️';
+                        else if (wxDesc.includes('多雲')) icon = '⛅';
+                        else if (wxDesc.includes('晴')) icon = '☀️';
+
+                        card.innerHTML = `
+                            <div class="city-name">${name}</div>
+                            <span class="weather-icon">${icon}</span>
+                            <div class="temp"><span class="low">${min}°</span> / <span class="high">${max}°</span></div>
+                            <div class="desc">${wxDesc}</div>
+                        `;
+                        twWeatherGrid.appendChild(card);
+                    });
+
+                    const now = new Date();
+                    twUpdateTime.textContent = `更新時間：${now.toLocaleTimeString('zh-TW')}`;
+
+                } catch (err) {
+                    console.warn('台灣天氣獲取失敗:', err);
+                    twWeatherGrid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:20px;color:#64748b;">⚠️ 無法載入台灣天氣資料</div>`;
+                }
+            }
+
+            fetchHkWeather();
+            fetchTwWeather();
+
+            setInterval(() => {
+                fetchHkWeather();
+                fetchTwWeather();
+            }, 30 * 60 * 1000);
+        });
+    </script>
+</body>
+</html>

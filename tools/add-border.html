@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO 基本標籤 / SEO Basic Tags -->
+    <title>免費線上圖片邊框添加器 — 自訂顏色、厚度與圓角｜Free Image Border Generator</title>
+    <meta name="description" content="免費線上圖片邊框添加器 (Free Online Image Border Generator)。支援上傳圖片、自訂邊框顏色、厚度、圓角 (Border Radius) 與內襯 (Padding)，並提供即時高清外銷 PNG/JPG 功能。100% 瀏覽器本地處理，極速隱私安全。Add borders to images online for free." />
+    <meta name="keywords" content="圖片邊框添加器, 圖片加邊框, 圖片相框工具, add border to image, photo border generator, image border maker, online image border, add frame to photo" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/add-border.html" />
+
+    <!-- Open Graph 社交分享標籤 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="免費線上圖片邊框添加器 — 自訂顏色、厚度與樣式｜Free Image Border Generator" />
+    <meta property="og:description" content="輕鬆為圖片加上完美邊框！支援顏色選擇、厚度調整、圓角效果與一鍵下載高清圖，100% 本地即時處理。" />
+    <meta property="og:url" content="https://www.behavior-report.com/tools/add-border.html" />
+
+    <!-- Schema.org 結構化資料 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "免費線上圖片邊框添加器 (Free Image Border Generator)",
+      "url": "https://www.behavior-report.com/tools/add-border.html",
+      "description": "提供線上圖片邊框添加與相框效果製作服務，支援自訂邊框顏色、寬度厚度、圓角半徑與下載高清格式。",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "All",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --green: #10b981;
+            --red: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 950px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch { text-align: center; margin-bottom: 20px; }
+        .lang-switch button {
+            background: transparent; border: none; color: var(--cyan);
+            cursor: pointer; font-size: 0.9rem; margin: 0 8px; font-weight: bold;
+        }
+        .lang-switch button:hover { text-decoration: underline; }
+
+        .tool-title { font-size: 1.6rem; color: #ffffff; text-align: center; font-weight: bold; }
+        .tool-sub { text-align: center; color: var(--text); font-size: 0.95rem; margin: 10px 0 25px; }
+
+        .badge-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 25px; }
+        .badge { background: rgba(34, 211, 238, 0.08); border: 1px solid rgba(34, 211, 238, 0.2); padding: 4px 14px; border-radius: 30px; font-size: 0.75rem; color: var(--cyan); }
+
+        .upload-area {
+            border: 2px dashed rgba(148, 163, 184, 0.25);
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.02);
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover, .upload-area.dragover { border-color: var(--cyan); background: rgba(34, 211, 238, 0.04); }
+        .upload-area .icon { font-size: 2.5rem; display: block; margin-bottom: 8px; }
+        .upload-area p { font-size: 0.95rem; color: var(--text-light); }
+        #imageInput { display: none; }
+
+        .editor-container { display: none; flex-direction: column; gap: 20px; margin-bottom: 20px; width: 100%; }
+
+        .workspace {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        @media (max-width: 768px) {
+            .workspace { grid-template-columns: 1fr; }
+        }
+
+        .controls-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .control-group { display: flex; flex-direction: column; gap: 6px; }
+        .control-group label { font-size: 0.85rem; color: var(--text-light); display: flex; justify-content: space-between; }
+        .control-group label span { color: var(--cyan); font-family: monospace; }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--cyan);
+            cursor: pointer;
+        }
+
+        .color-picker-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: 1px solid var(--border);
+            width: 40px;
+            height: 36px;
+            border-radius: 8px;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+        input[type="color"]::-webkit-color-swatch { border: none; border-radius: 6px; }
+
+        select {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text-light);
+            padding: 8px 12px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .preview-box {
+            background: #000;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 350px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        canvas {
+            max-width: 100%;
+            max-height: 480px;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .btn-group { display: flex; gap: 12px; width: 100%; flex-wrap: wrap; margin-top: 10px; }
+        .btn {
+            padding: 12px 20px; border-radius: 10px; border: none; font-size: 0.95rem;
+            font-weight: bold; cursor: pointer; transition: all 0.25s;
+            display: inline-flex; align-items: center; gap: 8px; justify-content: center; flex: 1;
+            min-width: 140px;
+        }
+        .btn-primary { background: var(--cyan); color: #0b0f19; }
+        .btn-primary:hover { background: var(--cyan-hover); }
+        .btn-danger { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--red); color: #fca5a5; }
+
+        .seo-article { margin-top: 40px; padding-top: 25px; border-top: 1px solid rgba(148, 163, 184, 0.08); line-height: 1.6; }
+        .seo-article h2 { color: #ffffff; font-size: 1.1rem; margin-bottom: 12px; }
+        .seo-article p { font-size: 0.85rem; color: var(--text); margin-bottom: 12px; }
+
+        footer { text-align: center; margin-top: 30px; font-size: 11px; color: #555; }
+        footer a { color: #555; text-decoration: none; margin: 0 8px; }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="lang-switch">
+        <button onclick="setLang('zh')">繁體中文</button> |
+        <button onclick="setLang('en')">English</button>
+    </div>
+
+    <h1 class="tool-title" id="toolTitle">🖼️ 免費線上圖片邊框添加器 (Add Border Tool)</h1>
+    <p class="tool-sub" id="toolSub">自訂邊框顏色 · 調整厚度與圓角 · 即時高清匯出 PNG / JPG</p>
+
+    <div class="badge-row">
+        <span class="badge" id="b1">🔒 100% 本地處理 (Private)</span>
+        <span class="badge" id="b2">🎨 自訂色彩與圓角</span>
+        <span class="badge" id="b3">🆓 完全免費 (100% Free)</span>
+    </div>
+
+    <div class="upload-area" id="dropArea">
+        <span class="icon">📷</span>
+        <p id="uploadText">拖曳圖片檔案到這裡，或點擊選擇檔案 (PNG, JPG, WEBM, GIF)</p>
+        <input type="file" id="imageInput" accept="image/*" />
+    </div>
+
+    <div class="editor-container" id="editorContainer">
+        <div class="workspace">
+            <div class="controls-card">
+                <div class="control-group">
+                    <label id="lblColor">🎨 邊框顏色 (Border Color)</label>
+                    <div class="color-picker-row">
+                        <input type="color" id="borderColor" value="#ffffff" />
+                        <span id="colorHex" style="font-family: monospace; font-size: 0.85rem; color: var(--cyan);">#ffffff</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label><span id="lblWidth">📏 邊框厚度 (Border Width)</span> <span id="valWidth">20px</span></label>
+                    <input type="range" id="borderWidth" min="0" max="150" value="20" />
+                </div>
+
+                <div class="control-group">
+                    <label><span id="lblRadius">⭕ 圖片圓角 (Image Radius)</span> <span id="valRadius">0px</span></label>
+                    <input type="range" id="borderRadius" min="0" max="100" value="0" />
+                </div>
+
+                <div class="control-group">
+                    <label><span id="lblOuterRadius">🔳 外框圓角 (Outer Radius)</span> <span id="valOuterRadius">0px</span></label>
+                    <input type="range" id="outerRadius" min="0" max="100" value="0" />
+                </div>
+
+                <div class="control-group">
+                    <label id="lblFormat">💾 下載格式 (Export Format)</label>
+                    <select id="exportFormat">
+                        <option value="png">PNG (高清無損 / High Quality)</option>
+                        <option value="jpeg">JPG (較小檔案 / Smaller File)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="preview-box">
+                <canvas id="previewCanvas"></canvas>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-primary" id="downloadBtn">📥 下載邊框圖片 (Download Image)</button>
+            <button class="btn btn-danger" id="clearBtn">🗑️ 清空重新上傳 (Clear)</button>
+        </div>
+    </div>
+
+    <article class="seo-article">
+        <h2 id="seoTitle">為什麼選擇我們的線上圖片邊框添加器？</h2>
+        <p id="seoP1">這款線上圖片加邊框工具專為攝影師、社群小編與設計師打造。支援免費線上為 PNG 或 JPG 圖片加入外框、設定自訂顏色、調節邊框寬度厚度、以及輕鬆達成圓角效果。</p>
+        <p id="seoP2"><strong>Free Online Photo Border Maker.</strong> Easily add solid or colored borders, margins, and rounded frames to your images. Features zero quality loss, fast browser-side canvas rendering, and free instant file downloads.</p>
+    </article>
+</div>
+
+<footer>
+    <a href="../index.html">Home</a> | <a href="../privacy.html">Privacy Policy</a>
+</footer>
+
+<script>
+    let img = new Image();
+    const dropArea = document.getElementById('dropArea');
+    const imageInput = document.getElementById('imageInput');
+    const editorContainer = document.getElementById('editorContainer');
+    const previewCanvas = document.getElementById('previewCanvas');
+    const ctx = previewCanvas.getContext('2d');
+
+    const borderColor = document.getElementById('borderColor');
+    const colorHex = document.getElementById('colorHex');
+    const borderWidth = document.getElementById('borderWidth');
+    const borderRadius = document.getElementById('borderRadius');
+    const outerRadius = document.getElementById('outerRadius');
+    const exportFormat = document.getElementById('exportFormat');
+
+    const valWidth = document.getElementById('valWidth');
+    const valRadius = document.getElementById('valRadius');
+    const valOuterRadius = document.getElementById('valOuterRadius');
+
+    const downloadBtn = document.getElementById('downloadBtn');
+    const clearBtn = document.getElementById('clearBtn');
+
+    const i18n = {
+        zh: {
+            title: "🖼️ 免費線上圖片邊框添加器 (Add Border Tool)",
+            sub: "自訂邊框顏色 · 調整厚度與圓角 · 即時高清匯出 PNG / JPG",
+            b1: "🔒 100% 本地處理 (Private)", b2: "🎨 自訂色彩與圓角", b3: "🆓 完全免費 (100% Free)",
+            upload: "拖曳圖片檔案到這裡，或點擊選擇檔案 (PNG, JPG, WEBM, GIF)",
+            lblColor: "🎨 邊框顏色 (Border Color)",
+            lblWidth: "📏 邊框厚度 (Border Width)",
+            lblRadius: "⭕ 圖片圓角 (Image Radius)",
+            lblOuterRadius: "🔳 外框圓角 (Outer Radius)",
+            lblFormat: "💾 下載格式 (Export Format)",
+            download: "📥 下載邊框圖片 (Download Image)", clear: "🗑️ 清空重新上傳",
+            seoTitle: "為什麼選擇我們的線上圖片邊框添加器？",
+            seoP1: "這款線上圖片加邊框工具專為攝影師、社群小編與設計師打造。支援免費線上為 PNG 或 JPG 圖片加入外框、設定自訂顏色、調節邊框寬度厚度、以及輕鬆達成圓角效果。",
+            seoP2: "<strong>Free Online Photo Border Maker.</strong> Easily add solid or colored borders, margins, and rounded frames to your images. Features zero quality loss, fast browser-side canvas rendering, and free instant file downloads."
+        },
+        en: {
+            title: "🖼️ Free Online Image Border Generator",
+            sub: "Custom colors · Adjust thickness & border radius · High quality PNG / JPG export",
+            b1: "🔒 100% Local & Private", b2: "🎨 Custom Colors & Radius", b3: "🆓 100% Free to Use",
+            upload: "Drag & drop image file here, or click to browse (PNG, JPG, WEBM, GIF)",
+            lblColor: "🎨 Border Color",
+            lblWidth: "📏 Border Thickness",
+            lblRadius: "⭕ Image Radius",
+            lblOuterRadius: "🔳 Outer Radius",
+            lblFormat: "💾 Export Format",
+            download: "📥 Download Image", clear: "🗑️ Clear Image",
+            seoTitle: "Why Choose Our Photo Border Generator?",
+            seoP1: "Designed for photographers, content creators, and designers. Add sleek borders, background padding, and custom frames to your images directly in your browser.",
+            seoP2: "100% free online tool with privacy guaranteed. All rendering happens locally using modern HTML5 canvas technology."
+        }
+    };
+
+    function setLang(lang) {
+        const t = i18n[lang];
+        document.getElementById('toolTitle').innerText = t.title;
+        document.getElementById('toolSub').innerText = t.sub;
+        document.getElementById('b1').innerText = t.b1;
+        document.getElementById('b2').innerText = t.b2;
+        document.getElementById('b3').innerText = t.b3;
+        document.getElementById('uploadText').innerText = t.upload;
+        document.getElementById('lblColor').innerText = t.lblColor;
+        document.getElementById('lblWidth').innerText = t.lblWidth;
+        document.getElementById('lblRadius').innerText = t.lblRadius;
+        document.getElementById('lblOuterRadius').innerText = t.lblOuterRadius;
+        document.getElementById('lblFormat').innerText = t.lblFormat;
+        downloadBtn.innerText = t.download;
+        clearBtn.innerText = t.clear;
+        document.getElementById('seoTitle').innerText = t.seoTitle;
+        document.getElementById('seoP1').innerHTML = t.seoP1;
+        document.getElementById('seoP2').innerHTML = t.seoP2;
+    }
+
+    dropArea.addEventListener('click', () => imageInput.click());
+    dropArea.addEventListener('dragover', (e) => { e.preventDefault(); dropArea.classList.add('dragover'); });
+    dropArea.addEventListener('dragleave', () => dropArea.classList.remove('dragover'));
+    dropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropArea.classList.remove('dragover');
+        if (e.dataTransfer.files.length > 0) loadImage(e.dataTransfer.files[0]);
+    });
+
+    imageInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) loadImage(e.target.files[0]);
+    });
+
+    function loadImage(file) {
+        if (!file.type.startsWith('image/')) return;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            img = new Image();
+            img.onload = () => {
+                editorContainer.style.display = 'flex';
+                drawBorder();
+            };
+            img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function drawBorder() {
+        if (!img.src) return;
+
+        const bWidth = parseInt(borderWidth.value, 10);
+        const bRadius = parseInt(borderRadius.value, 10);
+        const oRadius = parseInt(outerRadius.value, 10);
+        const color = borderColor.value;
+
+        colorHex.innerText = color;
+        valWidth.innerText = bWidth + 'px';
+        valRadius.innerText = bRadius + 'px';
+        valOuterRadius.innerText = oRadius + 'px';
+
+        const totalWidth = img.width + bWidth * 2;
+        const totalHeight = img.height + bWidth * 2;
+
+        previewCanvas.width = totalWidth;
+        previewCanvas.height = totalHeight;
+
+        ctx.clearRect(0, 0, totalWidth, totalHeight);
+
+        // Draw Outer Border Frame with optional outer radius
+        ctx.fillStyle = color;
+        if (oRadius > 0) {
+            drawRoundedRect(ctx, 0, 0, totalWidth, totalHeight, oRadius);
+            ctx.fill();
+        } else {
+            ctx.fillRect(0, 0, totalWidth, totalHeight);
+        }
+
+        // Draw Image inside border with optional inner radius
+        ctx.save();
+        if (bRadius > 0) {
+            drawRoundedRect(ctx, bWidth, bWidth, img.width, img.height, bRadius);
+            ctx.clip();
+        }
+        ctx.drawImage(img, bWidth, bWidth, img.width, img.height);
+        ctx.restore();
+    }
+
+    function drawRoundedRect(ctx, x, y, width, height, radius) {
+        const r = Math.min(radius, width / 2, height / 2);
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.arcTo(x + width, y, x + width, y + height, r);
+        ctx.arcTo(x + width, y + height, x, y + height, r);
+        ctx.arcTo(x, y + height, x, y, r);
+        ctx.arcTo(x, y, x + width, y, r);
+        ctx.closePath();
+    }
+
+    [borderColor, borderWidth, borderRadius, outerRadius].forEach(el => {
+        el.addEventListener('input', drawBorder);
+    });
+
+    downloadBtn.addEventListener('click', () => {
+        if (!img.src) return;
+        const format = exportFormat.value;
+        const mimeType = format === 'jpeg' ? 'image/jpeg' : 'image/png';
+        const link = document.createElement('a');
+        link.download = `framed-image-${Date.now()}.${format}`;
+        link.href = previewCanvas.toDataURL(mimeType, 0.92);
+        link.click();
+    });
+
+    clearBtn.addEventListener('click', () => {
+        img = new Image();
+        imageInput.value = '';
+        editorContainer.style.display = 'none';
+    });
+</script>
+<!-- 語言參數接收與傳遞 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang');
+    if (lang) {
+        // 如果工具頁面有語言切換函數，呼叫它
+        if (typeof setLang === 'function') {
+            setLang(lang);
+        }
+        // 更新所有內部連結加入 lang 參數
+        document.querySelectorAll('a[href]').forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('../')) {
+                const url = new URL(href, window.location.href);
+                url.searchParams.set('lang', lang);
+                link.setAttribute('href', url.toString());
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

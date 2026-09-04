@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【月平息轉 APR 換算器教學】實際年利率計算｜貸款真實成本｜Free Monthly Flat Rate to APR Calculator Guide</title>
+    <meta name="description" content="月平息轉 APR 換算器完整教學！輸入貸款金額、月平息、還款期數及手續費，即時計算實際年利率 (APR)、每月還款額與總利息成本。Free online monthly flat rate to APR calculator guide.">
+    <meta name="keywords" content="月平息轉APR, 月平息計算, 實際年利率, APR 計算, 貸款成本, Monthly Flat Rate, 貸款比較, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/monthly-flat-rate-to-apr-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【月平息轉 APR 換算器教學】實際年利率計算｜貸款真實成本｜Free Monthly Flat Rate to APR Calculator Guide">
+    <meta property="og:description" content="輸入貸款金額、月平息、還款期數及手續費，即時計算實際年利率 (APR) 與總利息成本。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/monthly-flat-rate-to-apr-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Monthly Flat Rate to APR Calculator Guide – Calculate True Loan Cost">
+    <meta name="twitter:description" content="Calculate APR, monthly repayment, and total interest from flat rate instantly. Free online calculator guide.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "月平息轉 APR 換算器教學：實際年利率計算 — 貸款真實成本與比較",
+      "description": "介紹如何使用月平息轉 APR 換算器計算貸款的真實年利率（APR）、每月還款額與總利息成本，適用於私人貸款、信用卡分期與債務整合決策。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-cyan: #22d3ee;
+            --accent-green: #22c55e;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--accent-cyan);
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: var(--accent-cyan);
+        }
+
+        .insight-quote .story-highlight {
+            color: #cbd5e1;
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .insight-quote .emoji-highlight {
+            font-style: normal;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--accent-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>月平息轉 APR 換算器教學：實際年利率計算 — 貸款真實成本與比較</h1>
+
+        <h2>1. 導言</h2>
+        <p>你係咪見過銀行廣告寫「月平息低至 0.15%」，心諗「嘩，好平喎」？但當你真正借錢之後，發現 <strong>實際還款利息好似多過預期</strong>？<strong>月平息（Monthly Flat Rate）</strong> 同 <strong>實際年利率（APR, Annual Percentage Rate）</strong> 嘅分別，就係銀行最鍾意玩嘅 <strong>「數字遊戲」</strong>。我哋嘅免費月平息轉 APR 換算器幫你輸入 <strong>貸款金額、月平息、還款期數同手續費</strong>，即時計算 <strong>實際年利率（APR）</strong>、<strong>每月還款額</strong>、<strong>總利息支出</strong>，仲會顯示 <strong>1.9 倍速算法則</strong> 做參考對比。所有運算喺瀏覽器入面完成，數據唔會離開你嘅裝置，私隱 100% 安全。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>月平息（Monthly Flat Rate）與實際年利率（APR）</strong> 係借貸市場中最常用但又最容易混淆嘅兩個利率指標。主要概念包括：</p>
+        <ul>
+            <li><strong>月平息（Monthly Flat Rate）：</strong> 按「原始貸款額」計算每月利息嘅方式。每月利息 = 貸款額 × 月平息率，無論你還咗幾多本金，利息都唔會減少。</li>
+            <li><strong>實際年利率（APR）：</strong> 採用內部回報率（IRR）計算，將所有利息、手續費、行政費及還款時間納入計算，反映真實年度借貸成本。</li>
+            <li><strong>點解 APR 會高過月平息？</strong> 因為 APR 考慮咗「本金逐步償還」嘅因素——你每月還緊本金，但利息仍然按原始貸款額計算，所以實際利率比表面高。</li>
+            <li><strong>1.9 倍速算法則：</strong> 業界常用「月平息 × 12 個月 × 1.9」快速估算 APR。例如月平息 0.2% → APR ≈ 0.2 × 12 × 1.9 = 4.56%。</li>
+            <li><strong>手續費嘅影響：</strong> 一次性手續費會進一步推高 APR，因為你實際到手嘅資金少咗，但利息照舊按原額計算。</li>
+        </ul>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>私人貸款比較：</strong> 比較不同銀行嘅「低月平息」貸款產品，邊個 APR 最低。</li>
+            <li><strong>信用卡分期成本計算：</strong> 信用卡分期通常用月平息報價，用 APR 先睇到真實成本。</li>
+            <li><strong>債務整合決策：</strong> 比較現有貸款同新貸款嘅 APR，決定轉唔轉會。</li>
+            <li><strong>買車貸款評估：</strong> 汽車貸款常見月平息報價，用 APR 比較至公道。</li>
+            <li><strong>財務健康檢查：</strong> 定期檢視現有貸款嘅實際利率，確保冇俾銀行賺多咗。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>輸入基本資料：</strong>
+                <ul>
+                    <li>💰 貸款金額（Loan Amount）</li>
+                    <li>📊 月平息（Monthly Flat Rate %）</li>
+                    <li>📅 還款期數（Tenure in Months）</li>
+                    <li>💳 一次性手續費（Optional）</li>
+                </ul>
+            </li>
+            <li><strong>即時計算：</strong> 輸入會自動更新結果，無需點擊按鈕。</li>
+            <li><strong>檢視結果：</strong>
+                <ul>
+                    <li>📈 實際年利率（APR）— 真實借貸成本</li>
+                    <li>📐 1.9 倍速算參考值 — 快速對比</li>
+                    <li>💵 每月還款額</li>
+                    <li>📊 總利息支出</li>
+                    <li>💰 總還款開支（含手續費）</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站月平息轉 APR 工具</th>
+                    <th>Excel IRR 手動計算</th>
+                    <th>銀行網站試算</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>需購買軟件</td>
+                    <td>通常免費</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>✅ 本地處理</td>
+                    <td>⚠️ 可能記錄</td>
+                </tr>
+                <tr>
+                    <td><strong>計算速度</strong></td>
+                    <td>⚡ 即時</td>
+                    <td>🐢 需設定公式</td>
+                    <td>⚡ 即時</td>
+                </tr>
+                <tr>
+                    <td><strong>手續費納入</strong></td>
+                    <td>✅ 支援</td>
+                    <td>⚠️ 需手動調整</td>
+                    <td>✅ 通常支援</td>
+                </tr>
+                <tr>
+                    <td><strong>1.9 倍速算顯示</strong></td>
+                    <td>✅ 自動顯示</td>
+                    <td>❌ 無</td>
+                    <td>❌ 無</td>
+                </tr>
+                <tr>
+                    <td><strong>總利息 + 總還款</strong></td>
+                    <td>✅ 自動計算</td>
+                    <td>⚠️ 需手動</td>
+                    <td>✅ 通常有</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>中等</td>
+                    <td>低</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p><span class="emoji-highlight">🏦</span> 我仲記得 <strong>第一次喺銀行櫃檯聽到「月平息 0.2%」</strong> 嗰陣，我以為自己執到寶。個職員同我講：「先生，$10 萬貸款，每個月利息只係 $200 蚊咋！」我心諗：<span class="story-highlight">嘩，咁抵？</span></p>
+            <p>但當我返到屋企仔細計數，先發現 <strong>真相係另一回事</strong>。嗰 $200 蚊係每個月都照收，但其實我每個月都還緊本金，即係 <span class="story-highlight">我欠銀行嘅錢越嚟越少，但利息從來冇少過</span>。結果 APR 一計出嚟，竟然係 <strong>4.56%</strong>，而唔係廣告暗示嘅 2.4%（0.2% × 12）。</p>
+            <p><span class="emoji-highlight">💡</span> 呢個經歷教識我 <strong>一個好重要嘅道理</strong>：<span class="story-highlight">銀行永遠唔會用 APR 嚟賣廣告，因為 APR 先係「真實成本」</span>。佢哋會用月平息、手續費、行政費呢啲名詞嚟 <strong>模糊視線</strong>。而家我每次見到「低月平息」嘅廣告，第一件事就係 <strong>用呢個工具計吓 APR</strong> — <span class="story-highlight">知道自己真係要俾幾多息</span>，先至決定借唔借。</p>
+            <p style="margin-top:10px; font-style:normal;">記住：<strong>月平息係「表面數字」，APR 先係「真實數字」。</strong> 借錢之前，唔好俾表面數字呃到。</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">📊 想知道貸款真實成本有幾高？即時轉換月平息做 APR！</h3>
+            <p style="margin:0; font-size:0.9rem;">輸入月平息、期數同手續費即時計算實際年利率、每月還款額同總利息，完全免費且保護私隱。</p>
+            <a href="../tools/monthly-flat-rate-to-apr.html?lang=hk" class="cta-btn-link" id="ctaBtnZh">👉 立即免費試用月平息轉 APR 換算器</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Monthly Flat Rate to APR Converter Guide: True Loan Cost & Comparison</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Have you ever seen a bank ad saying "Monthly flat rate as low as 0.15%" and thought, "Wow, that's cheap"? But when you actually borrowed the money, you found that <strong>the interest you paid seemed higher than expected</strong>? The difference between <strong>Monthly Flat Rate and Annual Percentage Rate (APR)</strong> is exactly the <strong>"number game"</strong> that banks love to play. Our free Monthly Flat Rate to APR Converter lets you enter <strong>loan amount, flat rate, tenure, and fees</strong> to instantly calculate <strong>APR, monthly repayment, total interest, and the Rule of 1.9 estimate</strong>. All processing happens in your browser—your data never leaves your device, ensuring 100% privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>Monthly Flat Rate and Annual Percentage Rate (APR)</strong> are two of the most commonly used—but most easily confused—interest metrics in the lending market. Key concepts include:</p>
+        <ul>
+            <li><strong>Monthly Flat Rate:</strong> Interest is calculated on the "original loan amount" each month. Monthly interest = Loan Amount × Flat Rate, and it never decreases as you repay principal.</li>
+            <li><strong>Annual Percentage Rate (APR):</strong> Calculated using Internal Rate of Return (IRR), factoring in all interest, fees, administrative charges, and repayment timing—reflecting the true annual cost of borrowing.</li>
+            <li><strong>Why is APR higher than the flat rate?</strong> Because APR accounts for the "principal being paid down" factor—you repay principal each month, but interest stays at the original loan amount, so the effective rate is higher.</li>
+            <li><strong>Rule of 1.9:</strong> A common industry rule of thumb: APR ≈ Monthly Flat Rate × 12 × 1.9. For example, 0.2% flat rate → APR ≈ 0.2 × 12 × 1.9 = 4.56%.</li>
+            <li><strong>Impact of Fees:</strong> Upfront fees further increase APR because you receive less money upfront, but interest is still calculated on the original loan amount.</li>
+        </ul>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Personal Loan Comparison:</strong> Compare "low flat rate" loan offers across banks—which one has the lowest APR?</li>
+            <li><strong>Credit Card Installment Cost:</strong> Credit card installments are often quoted in flat rates—APR reveals the true cost.</li>
+            <li><strong>Debt Consolidation Decisions:</strong> Compare APR of existing loans vs. new loans to decide whether to switch.</li>
+            <li><strong>Car Loan Evaluation:</strong> Car loans are commonly quoted in flat rates—APR provides a fair comparison.</li>
+            <li><strong>Financial Health Check:</strong> Regularly review the APR of your existing loans to ensure you're not overpaying.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Enter Basic Information:</strong>
+                <ul>
+                    <li>💰 Loan Amount</li>
+                    <li>📊 Monthly Flat Rate (%)</li>
+                    <li>📅 Tenure (Months)</li>
+                    <li>💳 Upfront Handling Fee (Optional)</li>
+                </ul>
+            </li>
+            <li><strong>Calculate:</strong> Inputs auto-update results instantly—no button clicks needed.</li>
+            <li><strong>View Results:</strong>
+                <ul>
+                    <li>📈 Annual Percentage Rate (APR) — True borrowing cost</li>
+                    <li>📐 Rule of 1.9 Estimate — Quick reference</li>
+                    <li>💵 Monthly Repayment</li>
+                    <li>📊 Total Interest Paid</li>
+                    <li>💰 Total Cost (Including Fees)</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Flat Rate to APR Tool (Us)</th>
+                    <th>Excel IRR Manual</th>
+                    <th>Bank Calculators</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Software Purchase</td>
+                    <td>Usually Free</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>✅ Local</td>
+                    <td>⚠️ May track</td>
+                </tr>
+                <tr>
+                    <td><strong>Speed</strong></td>
+                    <td>⚡ Instant</td>
+                    <td>🐢 Formula setup</td>
+                    <td>⚡ Instant</td>
+                </tr>
+                <tr>
+                    <td><strong>Fee Inclusion</strong></td>
+                    <td>✅ Supported</td>
+                    <td>⚠️ Manual adjustment</td>
+                    <td>✅ Usually</td>
+                </tr>
+                <tr>
+                    <td><strong>Rule of 1.9 Display</strong></td>
+                    <td>✅ Auto-displayed</td>
+                    <td>❌ Not available</td>
+                    <td>❌ Not available</td>
+                </tr>
+                <tr>
+                    <td><strong>Total Interest + Cost</strong></td>
+                    <td>✅ Auto-calculated</td>
+                    <td>⚠️ Manual</td>
+                    <td>✅ Usually</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Medium</td>
+                    <td>Low</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p><span class="emoji-highlight">🏦</span> I still remember the <strong>first time I heard "0.2% monthly flat rate"</strong> at a bank counter. I thought I had found a great deal. The banker told me: "Sir, for a $10,000 loan, your monthly interest is only $20!" I thought: <span class="story-highlight">Wow, that's cheap?</span></p>
+            <p>But when I got home and did the math, I realized <strong>the truth was quite different</strong>. That $20 interest stayed the same every month, even though I was repaying principal. That meant <span class="story-highlight">I owed less and less each month, but the interest never went down</span>. When I calculated the APR, it turned out to be <strong>4.56%</strong>—not the 2.4% (0.2% × 12) that the ad seemed to suggest.</p>
+            <p><span class="emoji-highlight">💡</span> That experience taught me <strong>one very important lesson</strong>: <span class="story-highlight">Banks will never advertise using APR, because APR is the "true cost"</span>. They use terms like flat rate, handling fees, and administrative charges to <strong>blur the picture</strong>. Now, whenever I see a "low flat rate" ad, the first thing I do is <strong>use this tool to calculate the APR</strong>—<span class="story-highlight">so I know exactly how much I'll really be paying</span> before deciding whether to borrow.</p>
+            <p style="margin-top:10px; font-style:normal;">Remember: <strong>The flat rate is a "surface number." APR is the "real number."</strong> Don't let surface numbers fool you before borrowing.</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">📊 Want to Know Your True Loan Cost? Convert Flat Rate to APR Now!</h3>
+            <p style="margin:0; font-size:0.9rem;">Enter flat rate, tenure, and fees for instant APR, monthly repayment, and total interest—completely free with privacy protection.</p>
+            <a href="../tools/monthly-flat-rate-to-apr.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Flat Rate to APR Converter Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtnZh = document.getElementById('ctaBtnZh');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtnZh.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtnZh.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <link rel="canonical" href="https://www.behavior-report.com/tools/youtube-duration-calculator.html" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube 影片長度計算器 | YouTube Duration & Speed Calculator | ABRG</title>
+    <meta name="description" content="免費線上 YouTube 影片長度與倍速播放計算器 (YouTube Duration Calculator)。快速計算多條影片總時長，並分析 1.25x、1.5x、2.0x 倍速下能節省多少時間！">
+    <meta name="keywords" content="YouTube 影片長度計算, 播放清單時間計算, YouTube 時間加總, 倍速播放計算, 影片總時長, YouTube Duration Calculator, Video Speed Calculator">
+    
+    <style>
+        :root { 
+            --bg-color: #0b0f19; 
+            --card-bg: #151d30; 
+            --text-color: #94a3b8; 
+            --accent-cyan: #22d3ee; 
+            --accent-red: #ef4444; 
+            --accent-green: #10b981;
+            --accent-gold: #f59e0b;
+            --border-color: rgba(148, 163, 184, 0.15);
+        }
+        * { box-sizing: border-box; }
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
+        .container { max-width: 800px; width: 100%; }
+
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .back-btn {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-btn:hover { text-decoration: underline; }
+
+        .lang-switch button {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-left: 5px;
+        }
+        .lang-switch button:hover {
+            background: var(--accent-cyan);
+            color: #0b0f19;
+        }
+
+        .hero { text-align: center; padding: 10px 0 20px; border-bottom: 1px solid rgba(148, 163, 184, 0.1); margin-bottom: 25px; }
+        .hero h1 { font-size: 1.8rem; color: #ffffff; font-weight: bold; margin-bottom: 8px; }
+        .hero h1 span { color: var(--accent-red); }
+        .hero p { font-size: 0.9rem; color: var(--text-color); margin: 0 auto; line-height: 1.5; }
+
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: rgba(21, 29, 48, 0.8);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .tab-btn.active {
+            background: var(--accent-red);
+            color: #ffffff;
+            border-color: var(--accent-red);
+        }
+
+        .tool-card-box {
+            background: rgba(21, 29, 48, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 25px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        textarea, input[type="text"] {
+            width: 100%;
+            background: #0b0f19;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            font-family: inherit;
+        }
+        textarea {
+            height: 140px;
+            resize: vertical;
+        }
+        textarea:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+        }
+
+        .action-btn {
+            background: var(--accent-cyan);
+            color: #0b0f19;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
+        }
+
+        .result-panel {
+            background: #0b0f19;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .result-title {
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+        .result-item {
+            background: rgba(21, 29, 48, 0.6);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+        .result-item .label { font-size: 0.8rem; color: var(--text-color); margin-bottom: 4px; }
+        .result-item .val { font-size: 1.1rem; font-weight: bold; color: #fff; }
+
+        /* SEO 說明區塊 */
+        .seo-content {
+            background: rgba(21, 29, 48, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+        .seo-content h2 { color: #fff; font-size: 1.3rem; margin-top: 0; }
+        .seo-content h3 { color: var(--accent-cyan); font-size: 1.1rem; margin-top: 20px; }
+
+        .footer { 
+            margin-top: 40px; 
+            padding-top: 20px; 
+            border-top: 1px solid rgba(148, 163, 184, 0.1); 
+            text-align: center; 
+            font-size: 0.85rem; 
+            color: #555; 
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="top-nav">
+        <a href="../index.html" class="back-btn" id="nav-back">← 返主頁 Back to Home</a>
+        <div class="lang-switch">
+            <button onclick="setLang('zh')">中文</button>
+            <button onclick="setLang('en')">English</button>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h1 id="title-text">⏱️ YouTube 影片長度計算器 <span>Duration</span></h1>
+        <p id="desc-text">計算多條影片加總時間，或估算開啟 1.25x、1.5x、2.0x 倍速播放後能節省的時間。</p>
+    </div>
+
+    <div class="tab-container">
+        <button class="tab-btn active" id="tab-multi" onclick="switchTab('multi')">📚 多影片加總 (Sum)</button>
+        <button class="tab-btn" id="tab-speed" onclick="switchTab('speed')">⚡ 倍速試算 (Speed)</button>
+    </div>
+
+    <!-- 模式一：多影片加總 -->
+    <div id="section-multi" class="tool-card-box">
+        <label id="lbl-multi-input">請輸入每條影片的長度（每行一個，支援 MM:SS 或 HH:MM:SS）：</label>
+        <textarea id="multi-input" placeholder="10:15&#10;05:30&#10;1:20:00"></textarea>
+        <button class="action-btn" id="btn-calc-multi" onclick="calcMulti()">計算總時間 / Calculate Total</button>
+
+        <div class="result-panel" id="res-multi-panel" style="display: none;">
+            <div class="result-title" id="res-multi-title">📊 計算結果</div>
+            <div class="result-grid">
+                <div class="result-item">
+                    <div class="label" id="lbl-total-videos">影片數量</div>
+                    <div class="val" id="val-total-count">0</div>
+                </div>
+                <div class="result-item">
+                    <div class="label" id="lbl-total-time">1.0x 總長度</div>
+                    <div class="val" id="val-total-1x">00:00:00</div>
+                </div>
+                <div class="result-item">
+                    <div class="label">1.25x 倍速</div>
+                    <div class="val" id="val-total-125x">00:00:00</div>
+                </div>
+                <div class="result-item">
+                    <div class="label">1.5x 倍速</div>
+                    <div class="val" id="val-total-15x">00:00:00</div>
+                </div>
+                <div class="result-item">
+                    <div class="label">2.0x 倍速</div>
+                    <div class="val" id="val-total-2x">00:00:00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模式二：單影片倍速計算 -->
+    <div id="section-speed" class="tool-card-box" style="display: none;">
+        <label id="lbl-speed-input">輸入影片原始長度（例如 45:00 或 1:30:00）：</label>
+        <input type="text" id="speed-input" placeholder="45:00">
+        <button class="action-btn" id="btn-calc-speed" onclick="calcSpeed()">試算倍速時間 / Calculate Speed</button>
+
+        <div class="result-panel" id="res-speed-panel" style="display: none;">
+            <div class="result-title" id="res-speed-title">⚡ 各倍速所需時間與節省</div>
+            <div class="result-grid">
+                <div class="result-item">
+                    <div class="label">1.25x 播放時間</div>
+                    <div class="val" id="val-s125">00:00</div>
+                </div>
+                <div class="result-item">
+                    <div class="label">1.5x 播放時間</div>
+                    <div class="val" id="val-s15">00:00</div>
+                </div>
+                <div class="result-item">
+                    <div class="label">1.75x 播放時間</div>
+                    <div class="val" id="val-s175">00:00</div>
+                </div>
+                <div class="result-item">
+                    <div class="label">2.0x 播放時間</div>
+                    <div class="val" id="val-s2">00:00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEO 說明文章區塊 -->
+    <div class="seo-content">
+        <h2 id="seo-h2">為什麼需要 YouTube 影片長度計算器？</h2>
+        <p id="seo-p1">無論是在網頁上看教學影片、準備公開考試，還是觀看長篇 Podcast，我們經常需要規劃學習時間。此工具能快速幫你把整個播放清單的時間加總，並告訴你開啟倍速後能省下多少寶貴時間。</p>
+        
+        <h3 id="seo-h3-1">不同倍速播放下能節省多少時間？</h3>
+        <p id="seo-p2">以 60 分鐘的影片為例：<br>
+        • <b>1.25x 倍速</b>：需時約 48 分鐘（省 12 分鐘）<br>
+        • <b>1.5x 倍速</b>：需時約 40 分鐘（省 20 分鐘）<br>
+        • <b>2.0x 倍速</b>：只需 30 分鐘（省 30 分鐘）</p>
+        
+        <h3 id="seo-h3-2">支援的時間輸入格式</h3>
+        <p id="seo-p3">工具支援常見的 <code>MM:SS</code>（如 15:30）以及 <code>HH:MM:SS</code>（如 01:20:45）格式，系統會自動轉換為秒數進行精準加總與計算。</p>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../contact.html">聯絡我們</a> |
+        <a href="../privacy.html">隱私權政策</a>
+        <br><br>
+        &copy; 2026 ABRG 大數據趣味行為觀察社
+    </div>
+</div>
+
+<script>
+    let currentLang = 'zh';
+    function detectLanguage() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('lang') === 'en') return 'en';
+    if (params.get('lang') === 'tw') return 'zh';
+    if (params.get('lang') === 'hk') return 'zh';
+    
+    // 如果無參數，用瀏覽器語言
+    const userLang = navigator.language || navigator.userLanguage;
+    if (userLang.startsWith('en')) return 'en';
+    return 'zh';
+}
+
+    const langData = {
+        zh: {
+            back: "← 返主頁",
+            title: "⏱️ YouTube 影片長度計算器 <span>Duration</span>",
+            desc: "計算多條影片加總時間，或估算開啟 1.25x、1.5x、2.0x 倍速播放後能節省的時間。",
+            tabMulti: "📚 多影片加總",
+            tabSpeed: "⚡ 倍速試算",
+            lblMultiInput: "請輸入每條影片的長度（每行一個，支援 MM:SS 或 HH:MM:SS）：",
+            btnCalcMulti: "計算總時間",
+            lblSpeedInput: "輸入影片原始長度（例如 45:00 或 1:30:00）：",
+            btnCalcSpeed: "試算倍速時間",
+            resMultiTitle: "📊 計算結果",
+            resSpeedTitle: "⚡ 各倍速所需時間",
+            lblTotalVideos: "影片數量",
+            lblTotalTime: "1.0x 總長度",
+            seoH2: "為什麼需要 YouTube 影片長度計算器？",
+            seoP1: "無論是在網頁上看教學影片、準備公開考試，還是觀看長篇 Podcast，我們經常需要規劃學習時間。此工具能快速幫你把整個播放清單的時間加總，並告訴你開啟倍速後能省下多少寶貴時間。",
+            seoH3_1: "不同倍速播放下能節省多少時間？",
+            seoP2: "以 60 分鐘的影片為例：<br>• <b>1.25x 倍速</b>：需時約 48 分鐘（省 12 分鐘）<br>• <b>1.5x 倍速</b>：需時約 40 分鐘（省 20 分鐘）<br>• <b>2.0x 倍速</b>：只需 30 分鐘（省 30 分鐘）",
+            seoH3_2: "支援的時間輸入格式",
+            seoP3: "工具支援常見的 MM:SS（如 15:30）以及 HH:MM:SS（如 01:20:45）格式，系統會自動轉換為秒數進行精準加總與計算。"
+        },
+        en: {
+            back: "← Back to Home",
+            title: "⏱️ YouTube <span>Duration Calculator</span>",
+            desc: "Calculate total playlist duration and estimate time saved when watching at 1.25x, 1.5x, or 2.0x playback speeds.",
+            tabMulti: "📚 Multi-video Sum",
+            tabSpeed: "⚡ Speed Calculator",
+            lblMultiInput: "Enter video durations (one per line, MM:SS or HH:MM:SS):",
+            btnCalcMulti: "Calculate Total",
+            lblSpeedInput: "Enter video duration (e.g., 45:00 or 1:30:00):",
+            btnCalcSpeed: "Calculate Speed",
+            resMultiTitle: "📊 Calculation Results",
+            resSpeedTitle: "⚡ Time Required at Playback Speeds",
+            lblTotalVideos: "Total Videos",
+            lblTotalTime: "1.0x Duration",
+            seoH2: "Why Use a YouTube Duration Calculator?",
+            seoP1: "Whether you're studying with online lectures or bingeing podcasts, planning your learning time is crucial. This tool calculates total playlist time and reveals how much time speed adjustments save.",
+            seoH3_1: "How Much Time Does Playback Speed Save?",
+            seoP2: "For a 60-minute video:<br>• <b>1.25x Speed</b>: Takes ~48 min (Saves 12 min)<br>• <b>1.5x Speed</b>: Takes ~40 min (Saves 20 min)<br>• <b>2.0x Speed</b>: Takes 30 min (Saves 30 min)",
+            seoH3_2: "Supported Input Formats",
+            seoP3: "Supports standard MM:SS (e.g., 15:30) and HH:MM:SS (e.g., 01:20:45) formats, automatically converting to total seconds for calculations."
+        }
+    };
+
+    function parseToSeconds(str) {
+        const parts = str.trim().split(':').map(Number);
+        if (parts.some(isNaN)) return 0;
+        if (parts.length === 3) {
+            return parts[0] * 3600 + parts[1] * 60 + parts[2];
+        } else if (parts.length === 2) {
+            return parts[0] * 60 + parts[1];
+        } else if (parts.length === 1) {
+            return parts[0];
+        }
+        return 0;
+    }
+
+    function formatSeconds(sec) {
+        sec = Math.round(sec);
+        const h = Math.floor(sec / 3600);
+        const m = Math.floor((sec % 3600) / 60);
+        const s = sec % 60;
+        if (h > 0) {
+            return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }
+        return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    }
+
+    function switchTab(tab) {
+        if(tab === 'multi') {
+            document.getElementById('section-multi').style.display = 'block';
+            document.getElementById('section-speed').style.display = 'none';
+            document.getElementById('tab-multi').classList.add('active');
+            document.getElementById('tab-speed').classList.remove('active');
+        } else {
+            document.getElementById('section-multi').style.display = 'none';
+            document.getElementById('section-speed').style.display = 'block';
+            document.getElementById('tab-speed').classList.add('active');
+            document.getElementById('tab-multi').classList.remove('active');
+        }
+    }
+
+    function calcMulti() {
+        const input = document.getElementById('multi-input').value;
+        const lines = input.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+        
+        let totalSec = 0;
+        let validCount = 0;
+
+        lines.forEach(line => {
+            const sec = parseToSeconds(line);
+            if (sec > 0) {
+                totalSec += sec;
+                validCount++;
+            }
+        });
+
+        document.getElementById('val-total-count').innerText = validCount;
+        document.getElementById('val-total-1x').innerText = formatSeconds(totalSec);
+        document.getElementById('val-total-125x').innerText = formatSeconds(totalSec / 1.25);
+        document.getElementById('val-total-15x').innerText = formatSeconds(totalSec / 1.5);
+        document.getElementById('val-total-2x').innerText = formatSeconds(totalSec / 2.0);
+
+        document.getElementById('res-multi-panel').style.display = 'block';
+    }
+
+    function calcSpeed() {
+        const input = document.getElementById('speed-input').value;
+        const totalSec = parseToSeconds(input);
+
+        if (totalSec <= 0) return;
+
+        document.getElementById('val-s125').innerText = formatSeconds(totalSec / 1.25);
+        document.getElementById('val-s15').innerText = formatSeconds(totalSec / 1.5);
+        document.getElementById('val-s175').innerText = formatSeconds(totalSec / 1.75);
+        document.getElementById('val-s2').innerText = formatSeconds(totalSec / 2.0);
+
+        document.getElementById('res-speed-panel').style.display = 'block';
+    }
+
+    function setLang(lang) {
+        currentLang = lang;
+        const d = langData[lang];
+        document.getElementById('nav-back').innerText = d.back;
+        document.getElementById('title-text').innerHTML = d.title;
+        document.getElementById('desc-text').innerText = d.desc;
+        document.getElementById('tab-multi').innerText = d.tabMulti;
+        document.getElementById('tab-speed').innerText = d.tabSpeed;
+        document.getElementById('lbl-multi-input').innerText = d.lblMultiInput;
+        document.getElementById('btn-calc-multi').innerText = d.btnCalcMulti;
+        document.getElementById('lbl-speed-input').innerText = d.lblSpeedInput;
+        document.getElementById('btn-calc-speed').innerText = d.btnCalcSpeed;
+        document.getElementById('res-multi-title').innerText = d.resMultiTitle;
+        document.getElementById('res-speed-title').innerText = d.resSpeedTitle;
+        document.getElementById('lbl-total-videos').innerText = d.lblTotalVideos;
+        document.getElementById('lbl-total-time').innerText = d.lblTotalTime;
+
+        document.getElementById('seo-h2').innerText = d.seoH2;
+        document.getElementById('seo-p1').innerText = d.seoP1;
+        document.getElementById('seo-h3-1').innerText = d.seoH3_1;
+        document.getElementById('seo-p2').innerHTML = d.seoP2;
+        document.getElementById('seo-h3-2').innerText = d.seoH3_2;
+        document.getElementById('seo-p3').innerText = d.seoP3;
+    }
+    // 初始化 - 使用偵測到的語言
+const detectedLang = detectLanguage();
+setLang(detectedLang);
+</script>
+</body>
+</html>

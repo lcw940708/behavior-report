@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Markdown 編輯器 — 即時預覽 Markdown to HTML｜ABRG 免費工具</title>
+    <meta name="description" content="免費 Markdown 編輯器，左寫右即時預覽，支援 GitHub Flavored Markdown。Free online Markdown editor with live preview, supports GFM." />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/markdown-editor.html" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/15.0.0/marked.min.js">
+    </script>
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --green: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 960px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .tool-title .emoji {
+            font-size: 1.8rem;
+        }
+
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 6px 0 20px;
+        }
+
+        /* ===== 語言切換 ===== */
+        .lang-switch {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .lang-switch .lang-btn {
+            padding: 6px 18px;
+            border-radius: 6px;
+            border: 2px solid var(--border);
+            background: transparent;
+            color: var(--text);
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .lang-switch .lang-btn.active {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.08);
+        }
+
+        .lang-switch .lang-btn:hover:not(.active) {
+            border-color: var(--text-light);
+            color: var(--text-light);
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        /* ===== 編輯器 ===== */
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            min-height: 450px;
+        }
+
+        .editor-panel {
+            background: var(--bg);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .editor-panel .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid var(--border);
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .editor-panel .panel-header .actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .editor-panel .panel-header .actions button {
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .editor-panel .panel-header .actions button:hover {
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.05);
+        }
+
+        .editor-panel textarea {
+            flex: 1;
+            width: 100%;
+            padding: 14px;
+            background: var(--bg);
+            color: var(--text-light);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: none;
+            outline: none;
+            resize: none;
+            line-height: 1.7;
+            min-height: 400px;
+        }
+
+        .editor-panel textarea::placeholder {
+            color: #475569;
+        }
+
+        .editor-panel .preview-content {
+            flex: 1;
+            padding: 14px;
+            overflow-y: auto;
+            min-height: 400px;
+            color: var(--text-light);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        /* ===== Markdown Preview 樣式 ===== */
+        .preview-content h1,
+        .preview-content h2,
+        .preview-content h3,
+        .preview-content h4,
+        .preview-content h5,
+        .preview-content h6 {
+            color: #ffffff;
+            margin: 16px 0 8px 0;
+            font-weight: bold;
+        }
+
+        .preview-content h1 {
+            font-size: 1.8rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+        }
+        .preview-content h2 {
+            font-size: 1.5rem;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.06);
+            padding-bottom: 6px;
+        }
+        .preview-content h3 {
+            font-size: 1.2rem;
+        }
+        .preview-content h4 {
+            font-size: 1rem;
+        }
+
+        .preview-content p {
+            margin: 8px 0;
+            color: var(--text-light);
+        }
+
+        .preview-content a {
+            color: var(--cyan);
+            text-decoration: none;
+        }
+        .preview-content a:hover {
+            text-decoration: underline;
+        }
+
+        .preview-content ul,
+        .preview-content ol {
+            padding-left: 24px;
+            margin: 8px 0;
+        }
+
+        .preview-content li {
+            margin: 4px 0;
+        }
+
+        .preview-content blockquote {
+            border-left: 3px solid var(--cyan);
+            padding-left: 16px;
+            margin: 12px 0;
+            color: #94a3b8;
+            background: rgba(34, 211, 238, 0.03);
+            padding: 10px 16px;
+            border-radius: 4px;
+        }
+
+        .preview-content code {
+            background: rgba(34, 211, 238, 0.06);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: var(--cyan);
+        }
+
+        .preview-content pre {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px 16px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 12px 0;
+            border: 1px solid var(--border);
+        }
+
+        .preview-content pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        .preview-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+        }
+
+        .preview-content table th,
+        .preview-content table td {
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        .preview-content table th {
+            background: rgba(255, 255, 255, 0.04);
+            color: #ffffff;
+        }
+
+        .preview-content hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 16px 0;
+        }
+
+        .preview-content img {
+            max-width: 100%;
+            border-radius: 6px;
+        }
+
+        .preview-content .empty-state {
+            color: #475569;
+            text-align: center;
+            padding: 60px 20px;
+            font-size: 0.95rem;
+        }
+
+        /* ===== 按鈕 ===== */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-primary {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background: var(--cyan-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: var(--green);
+            color: #0b0f19;
+        }
+        .btn-success:hover:not(:disabled) {
+            background: #34d399;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        .btn-outline:hover:not(:disabled) {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        /* ===== Story suggest ===== */
+        .story-suggest {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+        .story-suggest .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .story-suggest .items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .story-suggest .items a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .other-tools {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .other-tools a {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #fca5a5;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .other-tools a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #555;
+        }
+        footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        footer a:hover {
+            color: #888;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 18px;
+            }
+            .editor-container {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+            .editor-panel textarea {
+                min-height: 250px;
+            }
+            .editor-panel .preview-content {
+                min-height: 200px;
+            }
+            .btn {
+                flex: none;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 class="tool-title"><span class="emoji">📝</span> <span id="titleText">Markdown 編輯器</span></h1>
+        <p class="tool-sub" id="subText">左寫右即時預覽 · 支援 GitHub Flavored Markdown</p>
+
+        <!-- ===== 語言切換 ===== -->
+        <div class="lang-switch">
+            <button class="lang-btn" data-lang="hk">🇭🇰 中文</button>
+            <button class="lang-btn" data-lang="tw">🇹🇼 中文</button>
+            <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+        </div>
+
+        <div class="badge-row">
+            <span class="badge" id="badge1">⚡ 即時預覽</span>
+            <span class="badge" id="badge2">🔄 雙向同步</span>
+            <span class="badge" id="badge3">🆓 完全免費</span>
+        </div>
+
+        <!-- ===== 編輯器 ===== -->
+        <div class="editor-container">
+            <!-- 左：輸入 -->
+            <div class="editor-panel">
+                <div class="panel-header">
+                    <span id="panelInputLabel">📝 輸入</span>
+                    <div class="actions">
+                        <button id="clearEditorBtn" title="Clear">🗑️</button>
+                    </div>
+                </div>
+                <textarea id="markdownInput" placeholder="# 標題&#10;## 副標題&#10;輸入 Markdown 內容..."></textarea>
+            </div>
+
+            <!-- 右：預覽 -->
+            <div class="editor-panel">
+                <div class="panel-header">
+                    <span id="panelPreviewLabel">👁️ 預覽</span>
+                    <div class="actions">
+                        <button id="copyHtmlBtn" title="Copy HTML">📋</button>
+                    </div>
+                </div>
+                <div class="preview-content" id="previewContent">
+                    <div class="empty-state" id="emptyState">
+                        <span style="font-size:2rem;display:block;margin-bottom:12px;">📝</span>
+                        <span id="emptyText">輸入 Markdown 內容，右邊會即時顯示預覽</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== 按鈕 ===== -->
+        <div class="btn-group">
+            <button class="btn btn-primary" id="copyMarkdownBtn">📋 <span id="copyMdText">複製 Markdown</span></button>
+            <button class="btn btn-success" id="copyHtmlBtn2">📋 <span id="copyHtmlText">複製 HTML</span></button>
+            <button class="btn btn-outline" id="downloadHtmlBtn">⬇️ <span id="downloadHtmlText">下載 HTML</span></button>
+        </div>
+
+        <!-- ===== Story suggest ===== -->
+        <div class="story-suggest">
+            <div class="label" id="storyLabel">📖 你可能會中意嘅連載或測驗</div>
+            <div class="items">
+                <a href="../story_01.html">《你睡著以後》</a>
+                <a href="../story_02.html">《貓狗人格》</a>
+                <a href="../quiz-01.html">隱私天平</a>
+                <a href="../index.html">🏠 返回主頁</a>
+            </div>
+            <div class="other-tools">
+                <span style="font-size:0.75rem;color:#64748b;align-self:center;" id="otherToolsLabel">🔧 其他工具：</span>
+                <a href="timestamp-converter.html">⏱️ 時間戳轉換</a>
+                <a href="base64-converter.html">🔢 Base64 編解碼</a>
+                <a href="diff.html">🔍 文字比較</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // =============================================================
+            // 語言文字
+            // =============================================================
+            const texts = {
+                zh: {
+                    title: 'Markdown 編輯器',
+                    sub: '左寫右即時預覽 · 支援 GitHub Flavored Markdown',
+                    panelInput: '📝 輸入',
+                    panelPreview: '👁️ 預覽',
+                    emptyText: '輸入 Markdown 內容，右邊會即時顯示預覽',
+                    copyMd: '複製 Markdown',
+                    copyHtml: '複製 HTML',
+                    downloadHtml: '下載 HTML',
+                    badge1: '⚡ 即時預覽',
+                    badge2: '🔄 雙向同步',
+                    badge3: '🆓 完全免費',
+                    storyLabel: '📖 你可能會中意嘅連載或測驗',
+                    otherTools: '🔧 其他工具：',
+                    copied: '✅ 已複製',
+                },
+                en: {
+                    title: 'Markdown Editor',
+                    sub: 'Live Preview · GitHub Flavored Markdown',
+                    panelInput: '📝 Input',
+                    panelPreview: '👁️ Preview',
+                    emptyText: 'Type Markdown on the left, preview appears here',
+                    copyMd: 'Copy Markdown',
+                    copyHtml: 'Copy HTML',
+                    downloadHtml: 'Download HTML',
+                    badge1: '⚡ Live Preview',
+                    badge2: '🔄 Sync',
+                    badge3: '🆓 Free',
+                    storyLabel: '📖 You might also like',
+                    otherTools: '🔧 Other Tools:',
+                    copied: '✅ Copied',
+                }
+            };
+
+            let currentLang = 'zh';
+
+            // =============================================================
+            // DOM refs
+            // =============================================================
+            const langBtns = document.querySelectorAll('.lang-btn');
+            const titleText = document.getElementById('titleText');
+            const subText = document.getElementById('subText');
+            const panelInputLabel = document.getElementById('panelInputLabel');
+            const panelPreviewLabel = document.getElementById('panelPreviewLabel');
+            const emptyText = document.getElementById('emptyText');
+            const copyMdText = document.getElementById('copyMdText');
+            const copyHtmlText = document.getElementById('copyHtmlText');
+            const downloadHtmlText = document.getElementById('downloadHtmlText');
+            const badge1 = document.getElementById('badge1');
+            const badge2 = document.getElementById('badge2');
+            const badge3 = document.getElementById('badge3');
+            const storyLabel = document.getElementById('storyLabel');
+            const otherToolsLabel = document.getElementById('otherToolsLabel');
+
+            const markdownInput = document.getElementById('markdownInput');
+            const previewContent = document.getElementById('previewContent');
+            const emptyState = document.getElementById('emptyState');
+            const clearEditorBtn = document.getElementById('clearEditorBtn');
+            const copyMarkdownBtn = document.getElementById('copyMarkdownBtn');
+            const copyHtmlBtn = document.getElementById('copyHtmlBtn');
+            const copyHtmlBtn2 = document.getElementById('copyHtmlBtn2');
+            const downloadHtmlBtn = document.getElementById('downloadHtmlBtn');
+
+            // =============================================================
+            // 語言切換
+            // =============================================================
+            function switchLang(lang) {
+                currentLang = lang;
+                const t = lang === 'en' ? texts.en : texts.zh;
+
+                titleText.textContent = t.title;
+                subText.textContent = t.sub;
+                panelInputLabel.textContent = t.panelInput;
+                panelPreviewLabel.textContent = t.panelPreview;
+                emptyText.textContent = t.emptyText;
+                copyMdText.textContent = t.copyMd;
+                copyHtmlText.textContent = t.copyHtml;
+                downloadHtmlText.textContent = t.downloadHtml;
+                badge1.textContent = t.badge1;
+                badge2.textContent = t.badge2;
+                badge3.textContent = t.badge3;
+                storyLabel.textContent = t.storyLabel;
+                otherToolsLabel.textContent = t.otherTools;
+
+                langBtns.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.lang === lang || (lang === 'zh' && btn.dataset.lang === 'hk')) {
+                        btn.classList.add('active');
+                    }
+                });
+            }
+
+            langBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lang = this.dataset.lang;
+                    if (lang === 'hk' || lang === 'tw') {
+                        switchLang('zh');
+                    } else {
+                        switchLang('en');
+                    }
+                });
+            });
+
+            // =============================================================
+            // 偵測語言（URL 參數優先）
+            // =============================================================
+            function detectLanguage() {
+                const params = new URLSearchParams(window.location.search);
+                if (params.get('lang') === 'en') return 'en';
+                if (params.get('lang') === 'zh') return 'zh';
+                const userLang = navigator.language || navigator.userLanguage;
+                if (userLang.startsWith('en')) return 'en';
+                return 'zh';
+            }
+
+            // =============================================================
+            // Markdown → HTML
+            // =============================================================
+            function renderMarkdown() {
+                const text = markdownInput.value;
+
+                if (!text || text.trim() === '') {
+                    previewContent.innerHTML = `
+                        <div class="empty-state">
+                            <span style="font-size:2rem;display:block;margin-bottom:12px;">📝</span>
+                            <span>${emptyText.textContent}</span>
+                        </div>
+                    `;
+                    return;
+                }
+
+                try {
+                    const html = marked.parse(text);
+                    previewContent.innerHTML = html;
+                } catch (err) {
+                    previewContent.innerHTML = `
+                        <div style="color:var(--red);padding:20px;">
+                            ⚠️ ${currentLang === 'en' ? 'Error parsing Markdown' : 'Markdown 解析錯誤'}
+                        </div>
+                    `;
+                }
+            }
+
+            // =============================================================
+            // 複製
+            // =============================================================
+            function copyText(text, btn) {
+                navigator.clipboard.writeText(text).then(() => {
+                    const t = currentLang === 'en' ? texts.en : texts.zh;
+                    const original = btn.textContent;
+                    btn.textContent = t.copied;
+                    setTimeout(() => {
+                        btn.textContent = original;
+                    }, 2000);
+                }).catch(() => {
+                    // fallback
+                    const textarea = document.createElement('textarea');
+                    textarea.value = text;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    alert(currentLang === 'en' ? 'Copied!' : '已複製！');
+                });
+            }
+
+            function copyMarkdown() {
+                copyText(markdownInput.value, copyMarkdownBtn);
+            }
+
+            function copyHtml() {
+                const html = previewContent.innerHTML;
+                copyText(html, copyHtmlBtn2);
+            }
+
+            // =============================================================
+            // 下載 HTML
+            // =============================================================
+            function downloadHtml() {
+                const content = markdownInput.value;
+                if (!content || content.trim() === '') {
+                    alert(currentLang === 'en' ? 'Please enter some Markdown content' : '請輸入 Markdown 內容');
+                    return;
+                }
+
+                const html = marked.parse(content);
+                const fullHtml = `<!DOCTYPE html>
+        <html>
+        <head><meta charset="UTF-8"><title>Markdown Output</title>
+        <style>body{max-width:800px;margin:40px auto;padding:20px;font-family:-apple-system,sans-serif;line-height:1.7;color:#333;background:#fafafa;}
+        h1,h2{border-bottom:1px solid #eee;padding-bottom:8px;}
+        code{background:#f0f0f0;padding:2px 6px;border-radius:4px;}
+        pre{background:#f0f0f0;padding:12px 16px;border-radius:6px;overflow-x:auto;}
+        blockquote{border-left:4px solid #ccc;padding-left:16px;color:#666;}
+        table{border-collapse:collapse;width:100%;}
+        th,td{border:1px solid #ddd;padding:8px 12px;}
+        th{background:#f5f5f5;}
+        img{max-width:100%;}
+        </style>
+        </head>
+        <body>${html}</body>
+        </html>`;
+
+                const blob = new Blob([fullHtml], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `markdown_${Date.now()}.html`;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+
+            // =============================================================
+            // 清空
+            // =============================================================
+            function clearEditor() {
+                markdownInput.value = '';
+                renderMarkdown();
+                markdownInput.focus();
+            }
+
+            // =============================================================
+            // Event Listeners
+            // =============================================================
+            markdownInput.addEventListener('input', renderMarkdown);
+            clearEditorBtn.addEventListener('click', clearEditor);
+            copyMarkdownBtn.addEventListener('click', copyMarkdown);
+            copyHtmlBtn.addEventListener('click', copyHtml);
+            copyHtmlBtn2.addEventListener('click', copyHtml);
+            downloadHtmlBtn.addEventListener('click', downloadHtml);
+
+            // =============================================================
+            // 初始化
+            // =============================================================
+            const detectedLang = detectLanguage();
+            switchLang(detectedLang);
+
+            // Default content
+            const defaultMarkdown = `# Markdown 範例
+
+    ## 標題
+
+    呢度係 **粗體** 同 *斜體* 文字。
+
+    ### 列表
+
+    - 項目一
+    - 項目二
+    - 項目三
+
+    ### 程式碼
+
+    \`\`\`javascript
+    console.log('Hello World');
+    \`\`\`
+
+    ### 引用
+
+    > 呢度係引用文字。
+
+    ### 連結
+
+    [ABRG 主頁](https://www.behavior-report.com)
+
+    ---
+
+    ### 表格
+
+    | 名稱 | 說明 |
+    |------|------|
+    | 工具一 | 功能一 |
+    | 工具二 | 功能二 |`;
+
+            markdownInput.value = defaultMarkdown;
+            renderMarkdown();
+
+        });
+    </script>
+
+</body>
+
+</html>

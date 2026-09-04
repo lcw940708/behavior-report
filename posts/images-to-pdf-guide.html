@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO & AdSense 元數據 -->
+    <title>【圖片轉 PDF 教學】將多張 JPG/PNG 合併成一個 PDF｜Free Images to PDF Guide</title>
+    <meta name="description" content="免費且安全的線上圖片轉 PDF 工具！將多張 JPG/PNG/WebP 圖片合併成一個 PDF 檔案，支援拖曳排序、選擇頁面大小，純前端運算保護文件私隱。適用於掃描文件、作品集製作與報告整理。Free online images to PDF converter guide.">
+    <meta name="keywords" content="圖片轉 PDF, JPG 轉 PDF, PNG 轉 PDF, 合併圖片成 PDF, 免費 PDF 工具, Images to PDF, Convert Images to PDF, JPG to PDF, PNG to PDF, Free PDF Tool, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/images-to-pdf-guide.html">
+
+    <!-- Hreflang 國際化標籤 -->
+    <link rel="alternate" hreflang="zh-Hant" href="https://www.behavior-report.com/posts/images-to-pdf-guide.html?lang=hk" />
+    <link rel="alternate" hreflang="en" href="https://www.behavior-report.com/posts/images-to-pdf-guide.html?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://www.behavior-report.com/posts/images-to-pdf-guide.html" />
+
+    <!-- Open Graph (社交媒體優化) -->
+    <meta property="og:title" content="【圖片轉 PDF 教學】將多張 JPG/PNG 合併成一個 PDF — Images to PDF Guide">
+    <meta property="og:description" content="100% 純前端運算！教你免費將多張圖片合併成一個 PDF 檔案，支援拖曳排序與頁面大小選擇。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/images-to-pdf-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Images to PDF Guide – Merge Photos into One PDF">
+    <meta name="twitter:description" content="Learn how to convert and merge multiple JPG, PNG, and WebP images into a single PDF file for free.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "圖片轉 PDF 教學：將多張 JPG/PNG 合併成一個 PDF",
+      "description": "介紹如何使用純前端技術嘅圖片轉 PDF 工具，適用於掃描文件、作品集製作與報告整理等場景。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn active" id="btn-zh" onclick="setLang('zh')">🇭🇰 繁體中文</button>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇬🇧 English</button>
+    </div>
+
+    <!-- 中文內容區塊 -->
+    <div id="content-zh">
+        <h1>圖片轉 PDF 教學：將多張 JPG/PNG 合併成一個 PDF</h1>
+
+        <h2>1. 導言</h2>
+        <p>你有冇試過要將多張圖片（例如掃描文件、產品相、設計圖）合併成一個 PDF 檔案？無論係將多頁掃描文件整合、製作作品集，定係將多張相片打包傳送，將圖片轉換成 PDF 都係非常實用嘅功能。我哋嘅免費線上圖片轉 PDF 工具專為解決呢個問題而設：支援上傳多張 JPG/PNG/WebP 圖片、拖曳排序、選擇頁面大小，而且 100% 純前端運算，圖片唔會離開你嘅瀏覽器。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p>圖片轉 PDF（Images to PDF）係指將一張或多張圖片嵌入到 PDF 文件中，每張圖片成為一頁。呢個功能喺多個場景中非常有用：掃描文件（如合約、收據）通常以圖片格式儲存，將佢哋轉換成 PDF 可以方便歸檔同分享；設計師或攝影師可以將作品集圖片合併成一個 PDF 方便展示。</p>
+        <p>傳統做法通常需要將圖片插入 Word 再另存為 PDF，或者使用付費軟件。前者操作繁瑣，後者成本高。我哋嘅工具採用 PDF-lib 技術，所有轉換喺你嘅瀏覽器內完成，圖片由頭到尾都唔會離開你嘅裝置。</p>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>掃描文件整合：</strong>將多張掃描嘅合約、收據、證件圖片合併成一個 PDF，方便傳送同歸檔。</li>
+            <li><strong>作品集製作：</strong>設計師、攝影師可將多張作品圖片合併成一個 PDF，方便向客戶展示。</li>
+            <li><strong>報告與簡報：</strong>將多張圖表、截圖、產品相片整合成 PDF，方便插入報告或簡報。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>上傳圖片：</strong>點擊或拖曳上傳多張 JPG、PNG 或 WebP 圖片。</li>
+            <li><strong>調整順序：</strong>點擊 ↑ / ↓ 按鈕調整圖片排列順序，確保頁面順序正確。</li>
+            <li><strong>選擇頁面大小：</strong>選擇 A4、A5、Letter 或「自動適應圖片大小」。</li>
+            <li><strong>轉換成 PDF：</strong>點擊「轉換成 PDF」按鈕，系統會自動生成合併後嘅 PDF。</li>
+            <li><strong>下載檔案：</strong>轉換完成後點擊「下載 PDF」即可儲存檔案。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站前端工具</th>
+                    <th>Word 轉 PDF</th>
+                    <th>付費軟件</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>需有 Word</td>
+                    <td>昂貴</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>100% 本地處理</td>
+                    <td>本地（但步驟繁瑣）</td>
+                    <td>視乎軟件</td>
+                </tr>
+                <tr>
+                    <td><strong>拖曳排序</strong></td>
+                    <td>✅ 支援</td>
+                    <td>❌ 需手動</td>
+                    <td>✅ 通常支援</td>
+                </tr>
+                <tr>
+                    <td><strong>頁面大小選擇</strong></td>
+                    <td>✅ A4/A5/Letter/自動</td>
+                    <td>✅ 可自訂</td>
+                    <td>✅ 可自訂</td>
+                </tr>
+                <tr>
+                    <td><strong>操作時間</strong></td>
+                    <td>數秒</td>
+                    <td>數分鐘</td>
+                    <td>數秒</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「之前要將 20 張產品相片整合成一個 PDF 俾客戶睇，如果用 Word 逐張插入再另存，搞嚟搞去至少要 10 分鐘。後來用咗呢個圖片轉 PDF 工具，將 20 張相一次過拖入去，再調整一下順序，揀 A4 尺寸，10 秒就出到一個整齊嘅 PDF。對於成日要處理產品相、作品集嘅人嚟講，呢個工具真係幫到手。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ 需要將多張圖片合併成一個 PDF？</h3>
+            <p style="margin:0; font-size:0.9rem;">免費、安全、無需註冊，即刻試用圖片轉 PDF 工具！</p>
+            <a href="../tools/images-to-pdf.html?lang=hk" class="cta-btn-link tool-link">👉 立即免費試用圖片轉 PDF 工具</a>
+        </div>
+    </div>
+
+    <!-- English Content Section -->
+    <div id="content-en" style="display: none;">
+        <h1>Free Images to PDF Guide: Merge Multiple JPG/PNG Images into One PDF</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Have you ever needed to combine multiple images (scanned documents, product photos, designs) into a single PDF file? Whether consolidating multi-page scans, creating a portfolio, or packaging multiple photos for sending, converting images to PDF is a highly practical function. Our free online Images to PDF tool solves this problem: supports uploading multiple JPG/PNG/WebP images, drag-to-sort, page size selection, and 100% client-side processing—your images never leave your browser.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p>Images to PDF conversion involves embedding one or more images into a PDF document, with each image becoming a separate page. This is useful in many scenarios: scanned documents (contracts, receipts) are often stored as images, and converting them to PDF makes archiving and sharing easier; designers and photographers can combine portfolio images into a single PDF for client presentation.</p>
+        <p>Traditional methods often involve inserting images into Word and saving as PDF, or using paid software—the former is cumbersome, the latter expensive. Our tool leverages PDF-lib technology—all conversion happens locally in your browser, and your images never leave your device.</p>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Document Scanning Integration:</strong> Combine multiple scanned contracts, receipts, and ID images into one PDF for easy sharing and archiving.</li>
+            <li><strong>Portfolio Creation:</strong> Designers and photographers can merge multiple artwork images into a single PDF for client presentations.</li>
+            <li><strong>Report & Presentation Prep:</strong> Integrate charts, screenshots, and product photos into a PDF for easy insertion into reports or presentations.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Upload Images:</strong> Click or drag-and-drop multiple JPG, PNG, or WebP images.</li>
+            <li><strong>Adjust Order:</strong> Use the ↑ / ↓ buttons to reorder images for the correct page sequence.</li>
+            <li><strong>Select Page Size:</strong> Choose A4, A5, Letter, or "Auto-fit to image size."</li>
+            <li><strong>Convert to PDF:</strong> Click "Convert to PDF"—the system generates the merged PDF automatically.</li>
+            <li><strong>Download File:</strong> Click "Download PDF" to save the final file.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Client-Side Tool (Us)</th>
+                    <th>Word to PDF</th>
+                    <th>Paid Software</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Requires Word</td>
+                    <td>Expensive</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>100% Local Processing</td>
+                    <td>Local (but complicated)</td>
+                    <td>Depends on Software</td>
+                </tr>
+                <tr>
+                    <td><strong>Drag & Drop Sorting</strong></td>
+                    <td>✅ Supported</td>
+                    <td>❌ Manual</td>
+                    <td>✅ Usually</td>
+                </tr>
+                <tr>
+                    <td><strong>Page Size Selection</strong></td>
+                    <td>✅ A4/A5/Letter/Auto</td>
+                    <td>✅ Customizable</td>
+                    <td>✅ Customizable</td>
+                </tr>
+                <tr>
+                    <td><strong>Time to Complete</strong></td>
+                    <td>Seconds</td>
+                    <td>Minutes</td>
+                    <td>Seconds</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"I once needed to combine 20 product photos into a single PDF for a client. Using Word to insert each image and save as PDF would have taken at least 10 minutes. Then I used this Images to PDF tool—dragged in all 20 photos, adjusted the order, selected A4 size, and 10 seconds later I had a polished PDF. For anyone who regularly handles product photos or portfolios, this tool is a lifesaver."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ Need to Merge Multiple Images into One PDF?</h3>
+            <p style="margin:0; font-size:0.9rem;">Free, secure, and no registration required—try the Images to PDF tool now.</p>
+            <a href="../tools/images-to-pdf.html?lang=en" class="cta-btn-link tool-link">👉 Try the Free Images to PDF Tool Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" class="footer-home">主頁</a> |
+        <a href="../blog.html" class="footer-blog">文章 Blog</a> |
+        <a href="../about.html" class="footer-about">關於我</a> |
+        <a href="../privacy.html" class="footer-privacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+    function setLang(lang, updateUrl = true) {
+        const zhContent = document.getElementById('content-zh');
+        const enContent = document.getElementById('content-en');
+        const btnZh = document.getElementById('btn-zh');
+        const btnEn = document.getElementById('btn-en');
+        const backLink = document.getElementById('backLink');
+        const toolLinks = document.querySelectorAll('.tool-link');
+        const footerHome = document.querySelector('.footer-home');
+        const footerBlog = document.querySelector('.footer-blog');
+        const footerAbout = document.querySelector('.footer-about');
+        const footerPrivacy = document.querySelector('.footer-privacy');
+
+        if (lang === 'en') {
+            zhContent.style.display = 'none';
+            enContent.style.display = 'block';
+            btnZh.classList.remove('active');
+            btnEn.classList.add('active');
+            backLink.textContent = "← Back to Articles";
+            document.documentElement.lang = "en";
+
+            // 更新工具連結附帶參數，確保跳轉至英文介面
+            toolLinks.forEach(link => {
+                link.href = "../tools/images-to-pdf.html?lang=en";
+            });
+
+            footerHome.textContent = "Home";
+            footerBlog.textContent = "Blog";
+            footerAbout.textContent = "About";
+            footerPrivacy.textContent = "Privacy Policy";
+        } else {
+            zhContent.style.display = 'block';
+            enContent.style.display = 'none';
+            btnZh.classList.add('active');
+            btnEn.classList.remove('active');
+            backLink.textContent = "← 返回文章列表";
+            document.documentElement.lang = "zh-Hant-HK";
+
+            // 更新工具連結附帶參數，確保跳轉至中文介面
+            toolLinks.forEach(link => {
+                link.href = "../tools/images-to-pdf.html?lang=hk";
+            });
+
+            footerHome.textContent = "主頁";
+            footerBlog.textContent = "文章 Blog";
+            footerAbout.textContent = "關於我";
+            footerPrivacy.textContent = "隱私權政策";
+        }
+
+        if (updateUrl) {
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', lang === 'en' ? 'en' : 'hk');
+            window.history.pushState({}, '', newUrl);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const langParam = urlParams.get('lang');
+        if (langParam === 'en') {
+            setLang('en', false);
+        } else {
+            setLang('zh', false);
+        }
+    });
+</script>
+
+</body>
+</html>

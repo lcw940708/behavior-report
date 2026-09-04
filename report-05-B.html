@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📋 封鎖已讀不回對象後，該怎麼面對空虛？——ABRG 行為觀察報告</title>
+    <meta name="description" content="選擇封鎖的你，冷酷背後有什麼逃避模式？這份報告幫你拆解，並提供三階段關係重建指南。">
+    <style>
+        :root { --bg-color: #0b0f19; --card-bg: #151d30; --text-color: #94a3b8; --accent-cyan: #22d3ee; --accent-red: #ef4444; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-color); color: var(--text-color); font-family: -apple-system, BlinkMacSystemFont, sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .container { max-width: 650px; width: 100%; background-color: var(--card-bg); padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid rgba(239, 68, 68, 0.2); margin: 20px 0; }
+        .lang-switch { text-align: center; margin-bottom: 20px; }
+        .lang-switch a { color: var(--accent-cyan); text-decoration: none; margin: 0 10px; font-size: 0.9rem; cursor: pointer; }
+        .lang-switch a:hover { text-decoration: underline; }
+        .header-title { font-size: 1.4rem; color: #ffffff; text-align: center; font-weight: bold; margin-bottom: 10px; line-height: 1.4; }
+        .header-sub { font-size: 0.85rem; color: #6b7280; text-align: center; margin-bottom: 30px; border-bottom: 1px solid rgba(148, 163, 184, 0.1); padding-bottom: 15px; }
+        .salutation { font-size: 1.1rem; color: #ffffff; font-weight: bold; margin-bottom: 15px; }
+        .section-title { font-size: 1.1rem; color: var(--accent-red); font-weight: bold; margin-top: 30px; margin-bottom: 15px; }
+        .body-text { font-size: 1rem; line-height: 1.8; color: #cbd5e1; white-space: pre-wrap; margin-bottom: 20px; }
+        .guideline-item { font-size: 1rem; line-height: 1.8; color: #cbd5e1; margin-bottom: 15px; padding-left: 10px; border-left: 2px solid var(--accent-cyan); white-space: pre-wrap; }
+        .btn-link { display: flex; align-items: center; justify-content: center; width: 100%; background: rgba(36, 50, 79, 0.3); border: 1px solid rgba(34, 211, 238, 0.3); padding: 15px; border-radius: 8px; color: #ffffff; font-size: 1rem; cursor: pointer; margin-top: 30px; text-decoration: none; font-weight: bold; transition: all 0.2s; box-sizing: border-box; }
+        .btn-link:hover { background: rgba(34, 211, 238, 0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); }
+        .disclaimer { font-size: 0.8rem; color: #6b7280; margin-top: 30px; padding-top: 15px; border-top: 1px solid rgba(148, 163, 184, 0.1); text-align: center; }
+        footer { text-align: center; margin-top: 40px; padding-bottom: 20px; font-size: 11px; color: #555; }
+        footer a { color: #555; text-decoration: none; margin: 0 8px; }
+        footer a:hover { color: #888; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="lang-switch">
+        <a onclick="switchLang('hk')">🇭🇰 港版</a> | <a onclick="switchLang('tw')">🇹🇼 台版</a>
+    </div>
+
+    <div class="header-title" id="reportTitle">📋 社交觀察筆記（05題：選項 B）</div>
+    <div class="header-sub">ABRG 趣味行為學研究社 · 大數據動態隨筆中心</div>
+    
+    <div class="salutation" id="salutation">親愛的求助者：</div>
+    
+    <div class="section-title">一、 大數據社交傾向行為剖析</div>
+    <div class="body-text" id="expertText">你嘅方法係：直接封鎖。唔等佢覆，唔等佢解釋，唔等佢傷害你。你先下手為強。
+
+你話俾自己聽：我唔係被拋棄嗰個，我係主動走嗰個。你覺得咁樣就唔會輸。
+
+但你有冇發現，每次你封鎖完之後，都會有一陣空虛？你會諗：如果佢頭先真係忙緊呢？如果佢準備覆我呢？如果我封鎖錯咗呢？
+
+你嘅封鎖，其實係一種防禦。你驚自己投入太多之後會受傷，驚自己信錯人之後會崩潰。所以你選擇喺人哋傷害你之前，先主動切斷。
+
+但封鎖嘅代價係：你會永遠唔知嗰個答案。而且你會開始習慣「先走」，習慣到有一日你分唔清你係真係保護自己，定係只係唔敢等人。
+
+如果你覺得似曾相識，可以留意吓：你幾時會想封鎖人？嗰陣你嘅諗法係咩？
+
+但你需要留意：你嘅先走一步，有時係一種害怕被拒絕嘅逃避。</div>
+    
+    <div class="section-title">二、 🛡️ ABRG 指定：三階段日常社交自救指南</div>
+    <div id="guidelinesContainer"><div class="guideline-item">• 問自己：我封鎖佢，係因為佢傷害我，定係我驚佢會傷害我？</div><div class="guideline-item">• 練習喺封鎖之前，俾自己一個「冷靜期」</div><div class="guideline-item">• 留意自己幾時用「主動走」去逃避「被拒絕」</div></div>
+    
+    <div class="disclaimer">• 本測試僅供大眾趣味性格傾向分析與日常休閒娛樂參考，不構成任何專業心理諮詢或醫療診斷建議。</div>
+    
+    <a href="story_05.html?lang=hk" class="btn-link">📖 點擊閱讀相關故事</a>
+    <a href="index.html" class="btn-link">🔄 返回首頁</a>
+</div>
+
+<footer>
+    <a href="index.html">主頁</a> | <a href="about.html">關於我</a> | <a href="contact.html">聯絡我們</a> | <a href="privacy.html">隱私權政策</a>
+</footer>
+
+<script>
+    const data = {
+        hk: {
+            title: `📋 社交觀察筆記（05題：選項 B）`,
+            expert: `你嘅方法係：直接封鎖。唔等佢覆，唔等佢解釋，唔等佢傷害你。你先下手為強。
+
+你話俾自己聽：我唔係被拋棄嗰個，我係主動走嗰個。你覺得咁樣就唔會輸。
+
+但你有冇發現，每次你封鎖完之後，都會有一陣空虛？你會諗：如果佢頭先真係忙緊呢？如果佢準備覆我呢？如果我封鎖錯咗呢？
+
+你嘅封鎖，其實係一種防禦。你驚自己投入太多之後會受傷，驚自己信錯人之後會崩潰。所以你選擇喺人哋傷害你之前，先主動切斷。
+
+但封鎖嘅代價係：你會永遠唔知嗰個答案。而且你會開始習慣「先走」，習慣到有一日你分唔清你係真係保護自己，定係只係唔敢等人。
+
+如果你覺得似曾相識，可以留意吓：你幾時會想封鎖人？嗰陣你嘅諗法係咩？
+
+但你需要留意：你嘅先走一步，有時係一種害怕被拒絕嘅逃避。`,
+            guidelines: `<div class="guideline-item">• 問自己：我封鎖佢，係因為佢傷害我，定係我驚佢會傷害我？</div><div class="guideline-item">• 練習喺封鎖之前，俾自己一個「冷靜期」</div><div class="guideline-item">• 留意自己幾時用「主動走」去逃避「被拒絕」</div>`
+        },
+        tw: {
+            title: `📋 社交觀察筆記（05題：選項 B）`,
+            expert: `你的方法是：直接封鎖。不等他回、不等他解釋、不等他傷害你。你先下手為強。
+
+你告訴自己：我不是被拋棄的那個，我是主動走的那個。你覺得這樣就不會輸。
+
+但你有沒有發現，每次你封鎖完之後，都會有一陣空虛？你會想：如果他剛剛真的在忙呢？如果他正準備回我呢？如果我封鎖錯了呢？
+
+你的封鎖，其實是一種防禦。你怕自己投入太多之後會受傷，怕自己信錯人之後會崩潰。所以你選擇在別人傷害你之前，先主動切斷。
+
+但封鎖的代價是：你會永遠不知道那個答案。而且你會開始習慣「先走」，習慣到有一天你分不清你是真的在保護自己，還是只是不敢等。
+
+如果你覺得似曾相識，可以留意一下：你什麼時候會想封鎖人？那時候你在想什麼？
+
+但你需要留意：你的先走一步，有時是一種害怕被拒絕的逃避。`,
+            guidelines: `<div class="guideline-item">• 問自己：我封鎖他，是因為他傷害了我，還是怕他會傷害我？</div><div class="guideline-item">• 練習在封鎖之前，給自己一個「冷靜期」</div><div class="guideline-item">• 留意自己什麼時候用「主動走」去逃避「被拒絕」</div>`
+        }
+    };
+    
+    let currentLang = 'hk';
+    
+    function switchLang(lang) {
+        currentLang = lang;
+        document.getElementById('reportTitle').innerText = data[lang].title;
+        document.getElementById('expertText').innerText = data[lang].expert;
+        document.getElementById('guidelinesContainer').innerHTML = data[lang].guidelines;
+        
+        // 更新 salutation
+        document.getElementById('salutation').innerText = lang === 'hk' ? '親愛的求助者：' : '親愛的求助者：';
+        
+        // 更新所有連結加 lang 參數
+        document.querySelectorAll('a').forEach(a => {
+            if (a.href && !a.href.includes('javascript:') && a.href !== '#') {
+                try {
+                    const url = new URL(a.href);
+                    url.searchParams.set('lang', lang);
+                    a.href = url.toString();
+                } catch(e) {}
+            }
+        });
+    }
+    
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('lang') === 'tw') switchLang('tw');
+</script>
+</body>
+</html>

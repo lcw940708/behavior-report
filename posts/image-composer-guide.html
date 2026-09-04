@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【免費圖片合成工具教學】將兩張圖片合成一張｜Free Image Composer Guide</title>
+    <meta name="description" content="免費且安全的線上圖片合成工具！將前景透明 PNG 與背景圖片合成一張，適用於製作浮水印、相片拼貼、產品展示與設計素材。Free online image composer guide.">
+    <meta name="keywords" content="圖片合成, 合成圖片, 浮水印合成, 透明 PNG 合成, 免費圖片合成工具, Image Composer, Merge Images, Overlay PNG, Free Photo Merger, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/image-composer-guide.html">
+
+    <!-- Open Graph (社交媒體優化) -->
+    <meta property="og:title" content="【免費圖片合成工具教學】將兩張圖片合成一張 — Image Composer Guide">
+    <meta property="og:description" content="100% 純前端運算！教你免費將透明 PNG 前景與背景圖片合成，適用於浮水印、拼貼與設計。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/image-composer-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Image Composer Guide – Merge Two Images into One">
+    <meta name="twitter:description" content="Learn how to overlay transparent PNG foregrounds onto backgrounds with our free, privacy-first online tool.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "免費圖片合成工具教學：將兩張圖片合成一張",
+      "description": "介紹如何使用純前端技術嘅圖片合成工具，適用於浮水印製作、相片拼貼與設計素材合成。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- 中文內容區塊 -->
+    <div id="content-zh">
+        <h1>免費圖片合成工具教學：將兩張圖片合成一張</h1>
+
+        <h2>1. 導言</h2>
+        <p>無論你係想將產品相片合成到背景、製作浮水印、設計拼貼作品，定係將 Logo 放到圖片上，圖片合成都係非常常用嘅功能。但市面上好多合成工具一係要下載軟件，一係要將圖片上傳到雲端伺服器，私隱風險高。我哋嘅免費線上圖片合成工具專為解決呢啲問題而設：上傳前景（透明 PNG）同背景圖片，自動合成埋一齊，而且 100% 純前端運算，圖片唔會離開你嘅瀏覽器。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p>圖片合成（Image Composition）係指將兩張或多張圖片合併成一張新圖片。最常見嘅用法係將一個帶有透明背景（PNG）嘅前景物件（如人物、產品、Logo）疊加到背景圖片上，產生一個完整嘅視覺作品。</p>
+        <p>傳統合成方法通常需要用到 Photoshop 等專業軟件，學習成本高且需要安裝。一般免費網站又往往會將圖片上傳到伺服器處理，有數據外洩風險。我哋嘅工具採用 HTML5 Canvas 技術，所有合成運算喺你嘅瀏覽器內完成，圖片由頭到尾都唔會離開你嘅裝置。</p>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>浮水印製作：</strong>將公司 Logo 合成到產品圖片上，保護版權。</li>
+            <li><strong>產品展示圖製作：</strong>將去背嘅產品相片合成到專業背景上，提升網店質感。</li>
+            <li><strong>設計素材合成：</strong>設計師可將多個素材圖片合成，製作海報或社交媒體貼文。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>上傳前景圖片：</strong>點擊或拖曳上傳透明 PNG 檔案（建議使用已去背嘅圖片）。</li>
+            <li><strong>上傳背景圖片：</strong>點擊或拖曳上傳背景圖片（JPG、PNG 等格式）。</li>
+            <li><strong>合成圖片：</strong>點擊「合成圖片」按鈕，系統會自動將前景置中疊加到背景上。</li>
+            <li><strong>下載結果：</strong>預覽合成結果，點擊「下載 PNG」儲存圖片。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站前端工具</th>
+                    <th>Photoshop 合成</th>
+                    <th>其他線上工具</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>昂貴訂閱或一次性購買</td>
+                    <td>免費但有廣告或限制</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>100% 本地處理</td>
+                    <td>高（本地軟件）</td>
+                    <td>低（需上傳伺服器）</td>
+                </tr>
+                <tr>
+                    <td><strong>學習曲線</strong></td>
+                    <td>極低（兩步完成）</td>
+                    <td>高（需學習工具）</td>
+                    <td>中等</td>
+                </tr>
+                <tr>
+                    <td><strong>透明 PNG 支援</strong></td>
+                    <td>✅ 原生支援</td>
+                    <td>✅ 支援</td>
+                    <td>❌ 通常不支援</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「之前做網店產品圖嘅時候，成日要將產品相片合成到唔同背景上。以前用 Photoshop 逐張做，一張相搞成幾分鐘。後來用咗呢個圖片合成工具，上傳去背好嘅前景同背景相，一鍵就合成好。對於成日要處理大量產品相嘅電商賣家嚟講，呢個工具真係幫到手。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ 需要將兩張圖片合成埋一齊？</h3>
+            <p style="margin:0; font-size:0.9rem;">透明 PNG 前景 + 背景，一鍵合成，完全免費且保護私隱。</p>
+            <a href="../tools/composer.html" class="cta-btn-link" id="ctaBtn">👉 立即免費試用圖片合成工具</a>
+        </div>
+    </div>
+
+    <!-- English Content Section -->
+    <div id="content-en" style="display: none;">
+        <h1>Free Image Composer Guide: Merge Two Images into One</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Whether you want to composite product photos onto backgrounds, create watermarks, design collages, or overlay logos, image composition is a frequently used function. Many composition tools either require software installation or upload your images to cloud servers—creating privacy risks. Our free online image composer solves these problems: upload a transparent PNG foreground and a background image, merge them together automatically—all with 100% client-side processing.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p>Image composition combines two or more images into a single new image. The most common use is overlaying a transparent-background foreground object (person, product, logo) onto a background image to create a complete visual work.</p>
+        <p>Traditional methods require professional software like Photoshop—expensive and with a steep learning curve. Many free online tools upload images to servers, creating privacy risks. Our tool leverages HTML5 Canvas—all composition happens locally in your browser, and your images never leave your device.</p>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Watermark Creation:</strong> Overlay company logos onto product images to protect copyrights.</li>
+            <li><strong>Product Display Images:</strong> Composite product photos onto professional backgrounds for e-commerce stores.</li>
+            <li><strong>Design Asset Composition:</strong> Designers can combine multiple assets for posters or social media posts.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Upload Foreground:</strong> Click or drag-and-drop a transparent PNG file (ideally with background removed).</li>
+            <li><strong>Upload Background:</strong> Click or drag-and-drop a background image (JPG, PNG, etc.).</li>
+            <li><strong>Compose Image:</strong> Click "Compose Image"—the foreground is automatically centered over the background.</li>
+            <li><strong>Download Result:</strong> Preview the result and click "Download PNG" to save.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Client-Side Tool (Us)</th>
+                    <th>Photoshop</th>
+                    <th>Other Online Tools</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Expensive</td>
+                    <td>Freemium / Ads</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>100% Local Processing</td>
+                    <td>High (Local)</td>
+                    <td>Low (Server Upload)</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low (Two Steps)</td>
+                    <td>High (Skill Required)</td>
+                    <td>Medium</td>
+                </tr>
+                <tr>
+                    <td><strong>Transparent PNG Support</strong></td>
+                    <td>✅ Native</td>
+                    <td>✅ Supported</td>
+                    <td>❌ Usually Not</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"When I was creating product images for e-commerce, I used to composite product photos onto different backgrounds in Photoshop—each image took several minutes. Now I just upload the already-removed foreground and background, and it composes in one click. For anyone handling bulk product images, this tool is a lifesaver."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ Need to Merge Two Images into One?</h3>
+            <p style="margin:0; font-size:0.9rem;">Transparent PNG foreground + background, one-click composition, completely free with privacy protection.</p>
+            <a href="../tools/composer.html?lang=en" class="cta-btn-link" id="ctaBtn">👉 Try the Free Image Composer Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html">主頁</a> |
+        <a href="../blog.html">文章 Blog</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtn = document.getElementById('ctaBtn');
+    const brandLink = document.getElementById('brandLink');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtn.href = `../tools/composer.html?lang=en`;
+        brandLink.href = `../index.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtn.href = `../tools/composer.html?lang=${targetLang}`;
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+// 頁面載入時執行
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    // 語言按鈕切換
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

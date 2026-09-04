@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>退休規劃計算器 — Retirement Planner & Nest Egg Calculator | ABRG</title>
+    <meta name="description" content="免費線上退休規劃計算器！輸入當前年齡、退休目標、現有儲蓄與每月投資，即時試算退休總資產與每月可提取生活費。Calculate your retirement nest egg and monthly payout effortlessly." />
+    <meta name="keywords" content="退休規劃計算器, Retirement Planner, 退休金試算, 退休儲蓄計算, 複利計算器, Nest Egg Calculator, Retirement Savings Calculator, Financial Freedom" />
+    <link rel="canonical" href="https://www.behavior-report.com/retirement-planner.html" />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="退休規劃計算器 — Free Online Retirement Planner | ABRG" />
+    <meta property="og:description" content="輸入年齡、現有資產與每月儲蓄，即時試算退休時的總資產及每月可提取金額 (Bilingual Chinese & English)." />
+    <meta property="og:url" content="https://www.behavior-report.com/retirement-planner.html" />
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Retirement Planner & Savings Calculator | ABRG" />
+    <meta name="twitter:description" content="Calculate your future retirement savings and monthly retirement income instantly." />
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "退休規劃計算器 / Retirement Planner",
+      "url": "https://www.behavior-report.com/retirement-planner.html",
+      "description": "估算退休時的總資產及每月可提取金額的線上工具。Estimate retirement nest egg and monthly payout.",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "All",
+      "inLanguage": ["zh-HK", "zh-TW", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root { 
+            --bg-color: #0b0f19; 
+            --card-bg: #151d30; 
+            --text-color: #94a3b8; 
+            --accent-cyan: #22d3ee; 
+            --accent-amber: #f59e0b;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+        }
+        * { box-sizing: border-box; }
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            margin: 0; 
+            padding: 15px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
+        .container { max-width: 900px; width: 100%; }
+        
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0 15px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 15px;
+        }
+        .brand {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+        .back-link {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        /* ===== Language Switcher ===== */
+        .lang-switch {
+            display: flex;
+            gap: 6px;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+        .lang-btn {
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-color);
+            font-size: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .lang-btn.active {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+            background: rgba(34, 211, 238, 0.08);
+        }
+        .lang-btn:hover:not(.active) {
+            border-color: #cbd5e1;
+            color: #cbd5e1;
+        }
+
+        .page-title {
+            font-size: 1.4rem;
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        .page-desc {
+            font-size: 0.85rem;
+            color: var(--text-color);
+            margin-bottom: 20px;
+        }
+
+        /* ===== Calculator Form & Layout ===== */
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .calculator-grid { grid-template-columns: 1fr; }
+        }
+
+        .panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .panel-title {
+            font-size: 1.05rem;
+            color: var(--accent-amber);
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-weight: 700;
+            border-left: 3px solid var(--accent-amber);
+            padding-left: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-control:focus {
+            border-color: var(--accent-cyan);
+        }
+        .unit-suffix {
+            position: absolute;
+            right: 12px;
+            color: #64748b;
+            font-size: 0.85rem;
+            pointer-events: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent-cyan);
+            color: #0b0f19;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: opacity 0.2s;
+        }
+        .btn-submit:hover {
+            opacity: 0.9;
+        }
+
+        /* ===== Output Cards ===== */
+        .result-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .result-label {
+            font-size: 0.82rem;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+        .result-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-green);
+        }
+        .result-value.secondary {
+            color: var(--accent-cyan);
+        }
+        .result-desc {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .footer { 
+            margin-top: 40px; 
+            padding-top: 15px; 
+            border-top: 1px solid rgba(148, 163, 184, 0.1); 
+            text-align: center; 
+            font-size: 0.78rem; 
+            color: #555; 
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 8px; }
+        .footer a:hover { color: #aaa; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-switch">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文 (HK)</button>
+        <button class="lang-btn" data-lang="tw">🇹🇼 繁體中文 (TW)</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <h1 class="page-title" id="pageTitle">🌴 退休規劃計算器</h1>
+    <p class="page-desc" id="pageDesc">估算您退休時的總累積資產，以及退休後每月預期可提取的自由生活費。</p>
+
+    <div class="calculator-grid">
+        <!-- 輸入參數面板 -->
+        <div class="panel">
+            <h2 class="panel-title" id="inputPanelTitle">⚙️ 規劃參數設定</h2>
+            
+            <div class="form-group">
+                <label id="lblCurrentAge" for="currentAge">當前年齡 (Current Age)</label>
+                <div class="input-wrapper">
+                    <input type="number" id="currentAge" class="form-control" value="30" min="18" max="90">
+                    <span class="unit-suffix" id="unitAge1">歲</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label id="lblRetireAge" for="retireAge">預期退休年齡 (Target Retirement Age)</label>
+                <div class="input-wrapper">
+                    <input type="number" id="retireAge" class="form-control" value="65" min="30" max="100">
+                    <span class="unit-suffix" id="unitAge2">歲</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label id="lblCurrentSavings" for="currentSavings">現有退休儲蓄/投資 (Current Savings)</label>
+                <div class="input-wrapper">
+                    <input type="number" id="currentSavings" class="form-control" value="100000" step="10000">
+                    <span class="unit-suffix">$</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label id="lblMonthlySavings" for="monthlySavings">每月新增儲蓄/投資 (Monthly Savings)</label>
+                <div class="input-wrapper">
+                    <input type="number" id="monthlySavings" class="form-control" value="5000" step="500">
+                    <span class="unit-suffix">$</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label id="lblReturnRate" for="returnRate">預期年化回報率 (Expected Annual Return)</label>
+                <div class="input-wrapper">
+                    <input type="number" id="returnRate" class="form-control" value="6.0" step="0.5" min="0" max="30">
+                    <span class="unit-suffix">%</span>
+                </div>
+            </div>
+
+            <button type="button" class="btn-submit" id="btnCalculate">即時計算 / Calculate</button>
+        </div>
+
+        <!-- 輸出結果面板 -->
+        <div class="panel">
+            <h2 class="panel-title" id="resultPanelTitle">📊 退休金估算結果</h2>
+
+            <div class="result-card">
+                <div class="result-label" id="lblTotalWealth">退休時總資產 (Estimated Nest Egg)</div>
+                <div class="result-value" id="valTotalWealth">$0</div>
+                <div class="result-desc" id="descTotalWealth">包含了本金累積與複利滾動收益。</div>
+            </div>
+
+            <div class="result-card">
+                <div class="result-label" id="lblMonthlyPayout">退休後每月可提取金額 (Est. Monthly Payout)</div>
+                <div class="result-value secondary" id="valMonthlyPayout">$0</div>
+                <div class="result-desc" id="descMonthlyPayout">假設退休後提取 25 年（年化收益率 4% 估算）。</div>
+            </div>
+
+            <div class="result-card">
+                <div class="result-label" id="lblPrincipal">總投入本金與複利收益 (Total Principal vs Interest)</div>
+                <div style="font-size: 0.95rem; color: #cbd5e1; margin-top: 6px;">
+                    <span id="lblTotalPrincipal">總投入本金：</span><strong id="valTotalPrincipal" style="color: #ffffff;">$0</strong><br>
+                    <span id="lblTotalInterest">複利收益：</span><strong id="valTotalInterest" style="color: var(--accent-amber);">$0</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footHome">主頁</a> |
+        <a href="../blog.html" id="footBlog">最新文章</a> |
+        <a href="../about.html" id="footAbout">關於我</a> |
+        <a href="../privacy.html" id="footPrivacy">隱私權政策</a>
+        <br><br>
+        &copy; 2026 ABRG 大數據趣味行為觀察社
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    // 介面語言多語系翻譯
+    const i18n = {
+        zh: {
+            back: "← 文章列表",
+            title: "🌴 退休規劃計算器",
+            desc: "估算您退休時的總累積資產，以及退休後每月預期可提取的自由生活費。",
+            inputTitle: "⚙️ 規劃參數設定",
+            lblCurrentAge: "當前年齡",
+            lblRetireAge: "預期退休年齡",
+            lblCurrentSavings: "現有退休儲蓄/投資 ($)",
+            lblMonthlySavings: "每月新增儲蓄/投資 ($)",
+            lblReturnRate: "預期年化回報率 (%)",
+            unitAge: "歲",
+            btnCalc: "即時試算",
+            resultTitle: "📊 退休金估算結果",
+            lblTotalWealth: "退休時總資產",
+            descTotalWealth: "包含了本金累積與長遠複利滾動收益。",
+            lblMonthlyPayout: "退休後每月可提取金額",
+            descMonthlyPayout: "預設退休後提現期為 25 年（採 4% 年化收益估算）。",
+            lblPrincipal: "資產結構明細",
+            lblTotalPrincipal: "總投入本金：",
+            lblTotalInterest: "複利增長收益：",
+            footHome: "主頁",
+            footBlog: "最新文章",
+            footAbout: "關於我",
+            footPrivacy: "隱私權政策"
+        },
+        en: {
+            back: "← Articles",
+            title: "🌴 Retirement Planner",
+            desc: "Calculate your projected retirement nest egg and estimated monthly retirement income.",
+            inputTitle: "⚙️ Planning Parameters",
+            lblCurrentAge: "Current Age",
+            lblRetireAge: "Target Retirement Age",
+            lblCurrentSavings: "Current Savings / Investment ($)",
+            lblMonthlySavings: "Monthly Savings Contribution ($)",
+            lblReturnRate: "Expected Annual Return (%)",
+            unitAge: "yrs",
+            btnCalc: "Calculate Now",
+            resultTitle: "📊 Retirement Estimate Result",
+            lblTotalWealth: "Estimated Nest Egg at Retirement",
+            descTotalWealth: "Includes cumulative principal and long-term compound growth.",
+            lblMonthlyPayout: "Estimated Monthly Retirement Income",
+            descMonthlyPayout: "Based on a 25-year drawdown period with a 4% annual return.",
+            lblPrincipal: "Asset Breakdown",
+            lblTotalPrincipal: "Total Principal Contributed: ",
+            lblTotalInterest: "Total Compound Interest Earned: ",
+            footHome: "Home",
+            footBlog: "Blog",
+            footAbout: "About",
+            footPrivacy: "Privacy Policy"
+        }
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentLang = urlParams.get('lang') || 'hk';
+
+    function formatCurrency(amount) {
+        return '$' + Math.round(amount).toLocaleString('en-US');
+    }
+
+    // 計算邏輯
+    function calculateRetirement() {
+        const currentAge = parseFloat(document.getElementById('currentAge').value) || 0;
+        const retireAge = parseFloat(document.getElementById('retireAge').value) || 0;
+        const currentSavings = parseFloat(document.getElementById('currentSavings').value) || 0;
+        const monthlySavings = parseFloat(document.getElementById('monthlySavings').value) || 0;
+        const annualRate = (parseFloat(document.getElementById('returnRate').value) || 0) / 100;
+
+        const yearsToRetire = Math.max(0, retireAge - currentAge);
+        const months = yearsToRetire * 12;
+        const monthlyRate = annualRate / 12;
+
+        // 1. 現有儲蓄的複利終值
+        const fvCurrentSavings = currentSavings * Math.pow(1 + monthlyRate, months);
+
+        // 2. 每月投入的複利終值
+        let fvMonthlySavings = 0;
+        if (monthlyRate > 0) {
+            fvMonthlySavings = monthlySavings * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
+        } else {
+            fvMonthlySavings = monthlySavings * months;
+        }
+
+        const totalWealth = fvCurrentSavings + fvMonthlySavings;
+        const totalPrincipal = currentSavings + (monthlySavings * months);
+        const totalInterest = Math.max(0, totalWealth - totalPrincipal);
+
+        // 3. 退休後每月可提取金額 (假設 25 年提現期，4% 年化回報率)
+        const payoutYears = 25;
+        const payoutMonthlyRate = 0.04 / 12;
+        const totalPayoutMonths = payoutYears * 12;
+        
+        let monthlyPayout = 0;
+        if (payoutMonthlyRate > 0) {
+            monthlyPayout = totalWealth * (payoutMonthlyRate * Math.pow(1 + payoutMonthlyRate, totalPayoutMonths)) / (Math.pow(1 + payoutMonthlyRate, totalPayoutMonths) - 1);
+        } else {
+            monthlyPayout = totalWealth / totalPayoutMonths;
+        }
+
+        // 更新介面
+        document.getElementById('valTotalWealth').textContent = formatCurrency(totalWealth);
+        document.getElementById('valMonthlyPayout').textContent = formatCurrency(monthlyPayout);
+        document.getElementById('valTotalPrincipal').textContent = formatCurrency(totalPrincipal);
+        document.getElementById('valTotalInterest').textContent = formatCurrency(totalInterest);
+    }
+
+    // 多語系渲染
+    function renderPage(langKey) {
+        const isEn = (langKey === 'en');
+        const langData = isEn ? i18n.en : i18n.zh;
+
+        document.getElementById('backLink').textContent = langData.back;
+        document.getElementById('pageTitle').textContent = langData.title;
+        document.getElementById('pageDesc').textContent = langData.desc;
+        document.getElementById('inputPanelTitle').textContent = langData.inputTitle;
+        
+        document.getElementById('lblCurrentAge').textContent = langData.lblCurrentAge;
+        document.getElementById('lblRetireAge').textContent = langData.lblRetireAge;
+        document.getElementById('lblCurrentSavings').textContent = langData.lblCurrentSavings;
+        document.getElementById('lblMonthlySavings').textContent = langData.lblMonthlySavings;
+        document.getElementById('lblReturnRate').textContent = langData.lblReturnRate;
+        
+        document.getElementById('unitAge1').textContent = langData.unitAge;
+        document.getElementById('unitAge2').textContent = langData.unitAge;
+        document.getElementById('btnCalculate').textContent = langData.btnCalc;
+
+        document.getElementById('resultPanelTitle').textContent = langData.resultTitle;
+        document.getElementById('lblTotalWealth').textContent = langData.lblTotalWealth;
+        document.getElementById('descTotalWealth').textContent = langData.descTotalWealth;
+        document.getElementById('lblMonthlyPayout').textContent = langData.lblMonthlyPayout;
+        document.getElementById('descMonthlyPayout').textContent = langData.descMonthlyPayout;
+        document.getElementById('lblPrincipal').textContent = langData.lblPrincipal;
+        document.getElementById('lblTotalPrincipal').textContent = langData.lblTotalPrincipal;
+        document.getElementById('lblTotalInterest').textContent = langData.lblTotalInterest;
+
+        document.getElementById('footHome').textContent = langData.footHome;
+        document.getElementById('footBlog').textContent = langData.footBlog;
+        document.getElementById('footAbout').textContent = langData.footAbout;
+        document.getElementById('footPrivacy').textContent = langData.footPrivacy;
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.lang === langKey) {
+                btn.classList.add('active');
+            }
+        });
+
+        calculateRetirement();
+    }
+
+    // 事件監聽
+    document.getElementById('btnCalculate').addEventListener('click', calculateRetirement);
+    document.querySelectorAll('.form-control').forEach(input => {
+        input.addEventListener('input', calculateRetirement);
+    });
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.dataset.lang;
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            renderPage(selectedLang);
+        });
+    });
+
+    renderPage(currentLang);
+});
+</script>
+<!-- 語言參數接收與傳遞 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang');
+    if (lang) {
+        if (typeof setLang === 'function') {
+            setLang(lang);
+        }
+        document.querySelectorAll('a[href]').forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('../')) {
+                const url = new URL(href, window.location.href);
+                url.searchParams.set('lang', lang);
+                link.setAttribute('href', url.toString());
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

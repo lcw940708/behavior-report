@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO 基本標籤 / SEO Basic Tags -->
+    <title>免費線上圖片自由角度旋轉工具 (0-360°) — 照片任意旋轉｜Free Online Image Rotation Tool</title>
+    <meta name="description" content="免費線上圖片自由角度旋轉工具 (Free Online Image Rotation Tool)。支援 0-360° 任意角度旋轉照片、90度/180度快速旋轉、微調圖片傾斜。100% 瀏覽器本地運算，保障圖片隱私。Rotate images to any angle (0-360 degrees) online for free." />
+    <meta name="keywords" content="圖片旋轉, 自由角度旋轉, 照片旋轉工具, 圖片旋轉 360度, 旋轉照片, rotate image online, image rotator 360, rotate photo online free, rotate image arbitrary angle, straight image online" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/image-rotate.html" />
+
+    <!-- Open Graph 社交分享標籤 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="免費線上圖片自由角度旋轉工具 (0-360°) — 照片任意旋轉｜Free Online Image Rotation Tool" />
+    <meta property="og:description" content="零檔案上傳！支援 0-360 度自由微調旋轉與一鍵快速旋轉，高畫質無損導出照片。" />
+    <meta property="og:url" content="https://www.behavior-report.com/tools/image-rotate.html" />
+
+    <!-- Schema.org 結構化資料 (增加 Google 搜尋豐富結果) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "免費線上圖片自由角度旋轉工具 (Free Online Image Rotation Tool 0-360°)",
+      "url": "https://www.behavior-report.com/tools/image-rotate.html",
+      "description": "提供免費線上 0-360° 自由角度圖片旋轉服務，支援任意角度校正與 90° 快速旋轉，100% 本地處理。",
+      "applicationCategory": "GraphicsApplication",
+      "operatingSystem": "All",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --green: #10b981;
+            --red: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 950px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch { text-align: center; margin-bottom: 20px; }
+        .lang-switch button {
+            background: transparent; border: none; color: var(--cyan);
+            cursor: pointer; font-size: 0.9rem; margin: 0 8px; font-weight: bold;
+        }
+        .lang-switch button:hover { text-decoration: underline; }
+
+        .tool-title { font-size: 1.6rem; color: #ffffff; text-align: center; font-weight: bold; }
+        .tool-sub { text-align: center; color: var(--text); font-size: 0.95rem; margin: 10px 0 25px; }
+
+        .badge-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 25px; }
+        .badge { background: rgba(34, 211, 238, 0.08); border: 1px solid rgba(34, 211, 238, 0.2); padding: 4px 14px; border-radius: 30px; font-size: 0.75rem; color: var(--cyan); }
+
+        .upload-area {
+            border: 2px dashed rgba(148, 163, 184, 0.25);
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.02);
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover, .upload-area.dragover { border-color: var(--cyan); background: rgba(34, 211, 238, 0.04); }
+        .upload-area .icon { font-size: 2.5rem; display: block; margin-bottom: 8px; }
+        .upload-area p { font-size: 0.95rem; color: var(--text-light); }
+        #imageInput { display: none; }
+
+        .editor-container { display: none; flex-direction: column; align-items: center; margin-bottom: 20px; }
+        .toolbar {
+            display: flex; gap: 12px; align-items: center; justify-content: center;
+            background: var(--bg); padding: 15px 20px; border-radius: 10px;
+            border: 1px solid var(--border); margin-bottom: 15px; width: 100%; flex-wrap: wrap;
+        }
+
+        .slider-group {
+            display: flex; align-items: center; gap: 12px; width: 100%; max-width: 500px;
+            background: rgba(255, 255, 255, 0.03); padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border);
+        }
+        .slider-group label { font-size: 0.85rem; color: var(--text-light); white-space: nowrap; }
+        .slider-group input[type="range"] { flex: 1; cursor: pointer; }
+        .slider-group input[type="number"] {
+            width: 65px; background: var(--bg); border: 1px solid var(--border);
+            color: var(--cyan); text-align: center; padding: 4px; border-radius: 6px; font-weight: bold;
+        }
+
+        .quick-buttons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; width: 100%; }
+
+        .canvas-wrapper {
+            position: relative; max-width: 100%; overflow: auto;
+            border: 1px solid var(--border); border-radius: 8px; background: #000;
+            padding: 10px; display: flex; justify-content: center; align-items: center; min-height: 250px;
+        }
+        canvas { display: block; max-width: 100%; height: auto; }
+
+        .btn-group { display: flex; gap: 12px; margin-top: 10px; width: 100%; flex-wrap: wrap; }
+        .btn {
+            padding: 12px 20px; border-radius: 10px; border: none; font-size: 0.95rem;
+            font-weight: bold; cursor: pointer; transition: all 0.25s;
+            display: inline-flex; align-items: center; gap: 8px; justify-content: center; flex: 1;
+            min-width: 130px;
+        }
+        .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .btn-primary { background: var(--cyan); color: #0b0f19; }
+        .btn-primary:hover:not(:disabled) { background: var(--cyan-hover); }
+        .btn-success { background: var(--green); color: #0b0f19; }
+        .btn-secondary { background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border); color: var(--text-light); }
+        .btn-danger { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--red); color: #fca5a5; }
+
+        .seo-article { margin-top: 40px; padding-top: 25px; border-top: 1px solid rgba(148, 163, 184, 0.08); line-height: 1.6; }
+        .seo-article h2 { color: #ffffff; font-size: 1.1rem; margin-bottom: 12px; }
+        .seo-article p { font-size: 0.85rem; color: var(--text); margin-bottom: 12px; }
+
+        footer { text-align: center; margin-top: 30px; font-size: 11px; color: #555; }
+        footer a { color: #555; text-decoration: none; margin: 0 8px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="lang-switch">
+        <button onclick="setLang('zh')">繁體中文</button> |
+        <button onclick="setLang('en')">English</button>
+    </div>
+
+    <h1 class="tool-title" id="toolTitle">🔄 免費線上圖片自由角度旋轉工具 (0-360°)</h1>
+    <p class="tool-sub" id="toolSub">任意角度精準微調旋轉照片 · 100% 瀏覽器本地處理保障隱私</p>
+
+    <div class="badge-row">
+        <span class="badge" id="b1">🔒 100% 隱私安全 (Private)</span>
+        <span class="badge" id="b2">📐 0-360° 自由精準旋轉</span>
+        <span class="badge" id="b3">🆓 完全免費 (100% Free)</span>
+    </div>
+
+    <div class="upload-area" id="dropArea">
+        <span class="icon">🖼️</span>
+        <p id="uploadText">拖曳圖片到這裡，或點擊選擇檔案</p>
+        <input type="file" id="imageInput" accept="image/*" />
+    </div>
+
+    <div class="editor-container" id="editorContainer">
+        <div class="toolbar">
+            <div class="slider-group">
+                <label id="lblAngle">📐 旋轉角度:</label>
+                <input type="range" id="angleRange" min="0" max="360" value="0" step="0.5" />
+                <input type="number" id="angleNumber" min="0" max="360" value="0" step="0.5" />
+                <span style="color: var(--cyan); font-weight: bold;">°</span>
+            </div>
+
+            <div class="quick-buttons">
+                <button class="btn btn-secondary" style="flex: initial; padding: 8px 14px;" id="btnRotateCcw90">↺ -90°</button>
+                <button class="btn btn-secondary" style="flex: initial; padding: 8px 14px;" id="btnRotateCw90">↻ +90°</button>
+                <button class="btn btn-secondary" style="flex: initial; padding: 8px 14px;" id="btnRotate180">↻ 180°</button>
+                <button class="btn btn-secondary" style="flex: initial; padding: 8px 14px;" id="btnResetAngle">↺ 重置 0°</button>
+            </div>
+        </div>
+
+        <div class="canvas-wrapper">
+            <canvas id="mainCanvas"></canvas>
+        </div>
+    </div>
+
+    <div class="btn-group">
+        <button class="btn btn-success" id="downloadBtn" disabled>⬇️ 下載圖片 (Download Image)</button>
+        <button class="btn btn-danger" id="clearBtn">🗑️ 清空重新上傳 (Clear)</button>
+    </div>
+
+    <article class="seo-article">
+        <h2 id="seoTitle">為什麼選擇我們的線上圖片自由角度旋轉工具？</h2>
+        <p id="seoP1">本工具提供免費的線上圖片自由旋轉服務。無論是傾斜的照片需要 1°-5° 的微調水平校正，或是拍攝角度顛倒需要 90° / 180° / 270° 旋轉，都能輕鬆在瀏覽器內精準搞定。</p>
+        <p id="seoP2"><strong>Free Online Arbitrary Image Rotation Tool (0-360 Degrees).</strong> Rotate JPG, PNG, WEBP, and GIF images to any angle instantly. Smoothly fine-tune crooked photos or perform standard 90°/180° rotations without downloading software or uploading files to remote servers.</p>
+    </article>
+</div>
+
+<footer>
+    <a href="../index.html">Home</a> | <a href="../privacy.html">Privacy Policy</a>
+</footer>
+
+<script>
+    let rawImage = null;
+    let currentAngle = 0;
+
+    const dropArea = document.getElementById('dropArea');
+    const imageInput = document.getElementById('imageInput');
+    const editorContainer = document.getElementById('editorContainer');
+    const mainCanvas = document.getElementById('mainCanvas');
+    const ctx = mainCanvas.getContext('2d');
+
+    const angleRange = document.getElementById('angleRange');
+    const angleNumber = document.getElementById('angleNumber');
+    const btnRotateCcw90 = document.getElementById('btnRotateCcw90');
+    const btnRotateCw90 = document.getElementById('btnRotateCw90');
+    const btnRotate180 = document.getElementById('btnRotate180');
+    const btnResetAngle = document.getElementById('btnResetAngle');
+
+    const downloadBtn = document.getElementById('downloadBtn');
+    const clearBtn = document.getElementById('clearBtn');
+
+    // 雙語切換邏輯 / Language Toggle
+    const i18n = {
+        zh: {
+            title: "🔄 免費線上圖片自由角度旋轉工具 (0-360°)",
+            sub: "任意角度精準微調旋轉照片 · 100% 瀏覽器本地處理保障隱私",
+            b1: "🔒 100% 隱私安全 (Private)", b2: "📐 0-360° 自由精準旋轉", b3: "🆓 完全免費 (100% Free)",
+            upload: "拖曳圖片到這裡，或點擊選擇檔案",
+            lblAngle: "📐 旋轉角度:", reset: "↺ 重置 0°",
+            download: "⬇️ 下載圖片 (Download)", clear: "🗑️ 清空重新上傳",
+            seoTitle: "為什麼選擇我們的線上圖片自由角度旋轉工具？",
+            seoP1: "本工具提供免費的線上圖片自由旋轉服務。無論是傾斜的照片需要 1°-5° 的微調水平校正，或是拍攝角度顛倒需要 90° / 180° / 270° 旋轉，都能輕鬆在瀏覽器內精準搞定。",
+            seoP2: "<strong>Free Online Arbitrary Image Rotation Tool (0-360 Degrees).</strong> Rotate JPG, PNG, WEBP, and GIF images to any angle instantly. Smoothly fine-tune crooked photos or perform standard 90°/180° rotations without downloading software or uploading files to remote servers."
+        },
+        en: {
+            title: "🔄 Free Online Arbitrary Image Rotation Tool (0-360°)",
+            sub: "Rotate photos to any exact angle smoothly · 100% Browser-based & Private",
+            b1: "🔒 100% Private (No Upload)", b2: "📐 0-360° Fine Precision", b3: "🆓 100% Free to Use",
+            upload: "Drag & drop image here, or click to browse",
+            lblAngle: "📐 Rotation Angle:", reset: "↺ Reset 0°",
+            download: "⬇️ Download Image", clear: "🗑️ Clear & Reupload",
+            seoTitle: "Why Choose Our Free Online Image Rotator?",
+            seoP1: "Smoothly rotate photos to any custom degree online for free. Ideal for straightening crooked horizon lines with micro-adjustments or turning upside-down images with 90° or 180° rotations.",
+            seoP2: "All rendering is executed locally via HTML5 Canvas technology. Your files are never uploaded to any cloud server, maintaining complete privacy and super-fast processing."
+        }
+    };
+
+    function setLang(lang) {
+        const t = i18n[lang];
+        document.getElementById('toolTitle').innerText = t.title;
+        document.getElementById('toolSub').innerText = t.sub;
+        document.getElementById('b1').innerText = t.b1;
+        document.getElementById('b2').innerText = t.b2;
+        document.getElementById('b3').innerText = t.b3;
+        document.getElementById('uploadText').innerText = t.upload;
+        document.getElementById('lblAngle').innerText = t.lblAngle;
+        btnResetAngle.innerText = t.reset;
+        downloadBtn.innerText = t.download;
+        clearBtn.innerText = t.clear;
+        document.getElementById('seoTitle').innerText = t.seoTitle;
+        document.getElementById('seoP1').innerHTML = t.seoP1;
+        document.getElementById('seoP2').innerHTML = t.seoP2;
+    }
+
+    // 拖曳與上傳處理 / Upload Handling
+    dropArea.addEventListener('click', () => imageInput.click());
+    dropArea.addEventListener('dragover', (e) => { e.preventDefault(); dropArea.classList.add('dragover'); });
+    dropArea.addEventListener('dragleave', () => dropArea.classList.remove('dragover'));
+    dropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropArea.classList.remove('dragover');
+        if (e.dataTransfer.files.length > 0) loadImage(e.dataTransfer.files[0]);
+    });
+
+    imageInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) loadImage(e.target.files[0]);
+    });
+
+    function loadImage(file) {
+        if (!file.type.startsWith('image/')) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                rawImage = img;
+                updateAngle(0);
+                editorContainer.style.display = 'flex';
+                downloadBtn.disabled = false;
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function updateAngle(newAngle) {
+        // 規範角度在 0 - 360 之間
+        currentAngle = (parseFloat(newAngle) % 360 + 360) % 360;
+        angleRange.value = currentAngle;
+        angleNumber.value = currentAngle.toFixed(1);
+        renderImage();
+    }
+
+    // Canvas 核心動態邊界與旋轉繪製演算法
+    function renderImage() {
+        if (!rawImage) return;
+
+        const rad = (currentAngle * Math.PI) / 180;
+        const origW = rawImage.width;
+        const origH = rawImage.height;
+
+        // 動態計算旋轉後的包夾矩形 (Bounding Box) 尺寸，防止圖片切邊
+        const newW = Math.abs(origW * Math.cos(rad)) + Math.abs(origH * Math.sin(rad));
+        const newH = Math.abs(origW * Math.sin(rad)) + Math.abs(origH * Math.cos(rad));
+
+        mainCanvas.width = newW;
+        mainCanvas.height = newH;
+
+        ctx.clearRect(0, 0, newW, newH);
+        ctx.save();
+
+        // 移動原點至 Canvas 中心並旋轉
+        ctx.translate(newW / 2, newH / 2);
+        ctx.rotate(rad);
+
+        // 以原圖中心為基準繪製
+        ctx.drawImage(rawImage, -origW / 2, -origH / 2);
+        ctx.restore();
+    }
+
+    // 事件監聽：滑桿與數值輸入同步
+    angleRange.addEventListener('input', (e) => updateAngle(e.target.value));
+    angleNumber.addEventListener('input', (e) => updateAngle(e.target.value || 0));
+
+    // 快捷按鈕
+    btnRotateCcw90.addEventListener('click', () => updateAngle(currentAngle - 90));
+    btnRotateCw90.addEventListener('click', () => updateAngle(currentAngle + 90));
+    btnRotate180.addEventListener('click', () => updateAngle(currentAngle + 180));
+    btnResetAngle.addEventListener('click', () => updateAngle(0));
+
+    downloadBtn.addEventListener('click', () => {
+        if (!rawImage) return;
+        const link = document.createElement('a');
+        link.download = `rotated-image-${Math.round(currentAngle)}deg-${Date.now()}.png`;
+        link.href = mainCanvas.toDataURL('image/png');
+        link.click();
+    });
+
+    clearBtn.addEventListener('click', () => {
+        rawImage = null;
+        imageInput.value = '';
+        ctx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+        editorContainer.style.display = 'none';
+        downloadBtn.disabled = true;
+    });
+</script>
+<!-- 語言參數接收與傳遞 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang');
+    if (lang) {
+        // 如果工具頁面有語言切換函數，呼叫它
+        if (typeof setLang === 'function') {
+            setLang(lang);
+        }
+        // 更新所有內部連結加入 lang 參數
+        document.querySelectorAll('a[href]').forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('../')) {
+                const url = new URL(href, window.location.href);
+                url.searchParams.set('lang', lang);
+                link.setAttribute('href', url.toString());
+            }
+        });
+    }
+});
+</script>
+
+</body>
+</html>

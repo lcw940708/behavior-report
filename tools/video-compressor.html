@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Compressor — 影片壓縮 線上工具｜Free Online Compress Video</title>
+    <meta name="description" content="Free online video compressor. Reduce MP4/WebM file size while keeping quality. 免費線上影片壓縮，縮小檔案又保持畫質，全程瀏覽器處理。" />
+    <meta name="keywords" content="video compressor, compress video online, reduce video size, mp4 compressor, 影片壓縮, 線上壓縮影片, 縮小影片, MP4壓縮" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/video-compressor.html" />
+    <meta property="og:title" content="Video Compressor — Free Online | 影片壓縮" />
+    <meta property="og:description" content="Compress video in your browser. No server upload." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.behavior-report.com/tools/video-compressor.html" />
+    <style>
+        :root {
+            --bg: #0b0f19; --card: #151d30; --text: #94a3b8; --text-light: #cbd5e1;
+            --cyan: #22d3ee; --cyan-hover: #67e8f9; --border: #24324f;
+            --red: #ef4444; --green: #22c55e;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg); color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", sans-serif;
+            padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+        }
+        .container {
+            max-width: 720px; width: 100%; background: var(--card); padding: 30px;
+            border-radius: 16px; border: 1px solid var(--border); margin: 20px 0;
+        }
+        .lang-switch { text-align: center; margin-bottom: 20px; }
+        .lang-switch a { color: var(--cyan); text-decoration: none; margin: 0 10px; font-size: 0.9rem; cursor: pointer; }
+        .tool-title { font-size: 1.55rem; color: #fff; text-align: center; font-weight: bold; }
+        .tool-sub { text-align: center; color: var(--text); font-size: 0.95rem; margin: 10px 0 22px; }
+        .badge-row { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+        .badge {
+            background: rgba(34, 211, 238, 0.08); border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 12px; border-radius: 30px; font-size: 0.72rem; color: var(--cyan);
+        }
+        .drop-zone {
+            border: 2px dashed var(--border); border-radius: 12px; padding: 36px 20px;
+            text-align: center; cursor: pointer; transition: all 0.25s; background: var(--bg);
+        }
+        .drop-zone:hover, .drop-zone.dragover { border-color: var(--cyan); background: rgba(34, 211, 238, 0.04); }
+        .drop-zone .icon { font-size: 2.4rem; margin-bottom: 10px; }
+        .drop-zone .main { color: #fff; font-weight: 600; font-size: 1.05rem; }
+        .drop-zone .sub { font-size: 0.85rem; margin-top: 6px; color: #64748b; }
+        .preview-wrap { display: none; margin-top: 18px; }
+        .preview-wrap.show { display: block; }
+        .preview-wrap video { width: 100%; max-height: 280px; border-radius: 10px; background: #000; display: block; }
+        .file-meta { font-size: 0.8rem; color: #64748b; margin-top: 8px; text-align: center; }
+        .settings { display: none; margin-top: 18px; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .settings.show { display: grid; }
+        .field label { display: block; font-size: 0.8rem; color: var(--text-light); margin-bottom: 5px; }
+        .field select {
+            width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border);
+            background: var(--bg); color: var(--text-light); font-size: 0.9rem; outline: none;
+        }
+        .field select option { background: var(--card); }
+        .btn-group { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+        .btn {
+            padding: 12px 22px; border-radius: 10px; border: none; font-size: 0.95rem; font-weight: bold;
+            cursor: pointer; flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+        .btn-primary { background: var(--cyan); color: #0b0f19; }
+        .btn-primary:hover:not(:disabled) { background: var(--cyan-hover); }
+        .btn-danger { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--red); color: #fca5a5; }
+        .progress-wrap { display: none; margin-top: 18px; }
+        .progress-wrap.show { display: block; }
+        .progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+        .progress-bar .fill { height: 100%; width: 0%; background: var(--cyan); transition: width 0.2s; }
+        .progress-text { font-size: 0.85rem; color: var(--text); margin-top: 8px; text-align: center; }
+        .error-box {
+            display: none; margin-top: 12px; padding: 10px 14px; border-radius: 8px;
+            background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5; font-size: 0.85rem; line-height: 1.5;
+        }
+        .error-box.show { display: block; }
+        .result-wrap { display: none; margin-top: 20px; text-align: center; }
+        .result-wrap.show { display: block; }
+        .result-wrap video { width: 100%; max-height: 280px; border-radius: 10px; background: #000; display: block; }
+        .result-info { font-size: 0.85rem; color: #64748b; margin: 10px 0 14px; line-height: 1.6; }
+        .result-info .highlight { color: var(--cyan); font-weight: bold; }
+        .result-info .saved { color: var(--green); font-weight: bold; }
+        .tips {
+            margin-top: 24px; padding-top: 18px; border-top: 1px solid rgba(148, 163, 184, 0.08);
+            font-size: 0.82rem; line-height: 1.65; color: #64748b;
+        }
+        .tips strong { color: var(--text-light); }
+        .story-suggest { margin-top: 36px; padding-top: 22px; border-top: 1px solid rgba(148, 163, 184, 0.08); }
+        .story-suggest .label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+        .story-suggest .items { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3); border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 7px 16px; border-radius: 30px; font-size: 0.84rem; color: var(--text-light); text-decoration: none;
+        }
+        .story-suggest .items a:hover { border-color: var(--cyan); color: var(--cyan); }
+        footer { text-align: center; margin-top: 28px; font-size: 11px; color: #555; }
+        footer a { color: #555; text-decoration: none; margin: 0 8px; }
+        @media (max-width: 600px) {
+            .container { padding: 18px; }
+            .settings { grid-template-columns: 1fr; }
+            .btn { flex: none; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="lang-switch">
+            <a href="javascript:void(0)" onclick="switchLang('hk')">🇭🇰 港版</a> |
+            <a href="javascript:void(0)" onclick="switchLang('tw')">🇹🇼 台版</a> |
+            <a href="javascript:void(0)" onclick="switchLang('en')">🇬🇧 English</a>
+        </div>
+
+        <h1 class="tool-title" id="toolTitle">📦 Video Compressor</h1>
+        <p class="tool-sub" id="toolSub">Compress video file size while keeping good quality. 100% in-browser.</p>
+
+        <div class="badge-row">
+            <span class="badge" id="badge1">🎥 MP4 / WebM</span>
+            <span class="badge" id="badge2">📦 Compress</span>
+            <span class="badge" id="badge3">🔒 Private</span>
+            <span class="badge" id="badge4">🆓 Free</span>
+        </div>
+
+        <div class="drop-zone" id="dropZone">
+            <div class="icon">📁</div>
+            <div class="main" id="dropMain">Click or drop video here</div>
+            <div class="sub" id="dropSub">MP4, WebM, MOV · Under ~100MB recommended</div>
+            <input type="file" id="fileInput" accept="video/*" hidden />
+        </div>
+
+        <div class="preview-wrap" id="previewWrap">
+            <video id="videoPreview" controls playsinline muted></video>
+            <div class="file-meta" id="fileMeta"></div>
+        </div>
+
+        <div class="settings" id="settings">
+            <div class="field">
+                <label id="labelQuality">Quality</label>
+                <select id="quality">
+                    <option value="high">High (less compression)</option>
+                    <option value="medium" selected>Medium (balanced)</option>
+                    <option value="low">Low (max compression)</option>
+                </select>
+            </div>
+            <div class="field">
+                <label id="labelScale">Resolution</label>
+                <select id="scale">
+                    <option value="1" selected>Original</option>
+                    <option value="0.75">75%</option>
+                    <option value="0.5">50%</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-primary" id="convertBtn" disabled>📦 Compress Video</button>
+            <button class="btn btn-danger" id="resetBtn">↩️ Reset</button>
+        </div>
+
+        <div class="progress-wrap" id="progressWrap">
+            <div class="progress-bar"><div class="fill" id="progressFill"></div></div>
+            <div class="progress-text" id="progressText">Preparing…</div>
+        </div>
+        <div class="error-box" id="errorBox"></div>
+
+        <div class="result-wrap" id="resultWrap">
+            <video id="resultVideo" controls playsinline></video>
+            <div class="result-info" id="resultInfo"></div>
+            <button class="btn btn-primary" id="downloadBtn" style="max-width:280px;margin:0 auto;">⬇️ Download</button>
+        </div>
+
+        <div class="tips" id="tips">
+            <strong>Tips:</strong> Uses browser built-in compression (no big download). Lower quality + 50–75% scale = smaller file. Chrome / Edge recommended.
+        </div>
+
+        <div class="story-suggest">
+            <div class="label" id="storyLabel">🛠 Other tools</div>
+            <div class="items">
+                <a href="video-to-gif.html">🎬 Video to GIF</a>
+                <a href="gif-to-video.html">🎞️ GIF to Video</a>
+                <a href="../index.html">🏠 Home</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">Home</a> |
+        <a href="../about.html">About</a> |
+        <a href="../privacy.html">Privacy</a>
+    </footer>
+
+    <script>
+        const texts = {
+            hk: {
+                title: '📦 影片壓縮器',
+                sub: '壓縮影片檔案大小，盡量保持畫質。全程瀏覽器處理。',
+                badge1: '🎥 MP4 / WebM', badge2: '📦 壓縮', badge3: '🔒 私隱', badge4: '🆓 免費',
+                dropMain: '點擊或拖放影片到呢度',
+                dropSub: 'MP4、WebM、MOV · 建議 ≤ 100MB',
+                labelQuality: '畫質', labelScale: '解像度',
+                qHigh: '高（少壓縮）', qMed: '中（平衡）', qLow: '低（最大壓縮）',
+                scaleOrig: '原始',
+                convert: '📦 開始壓縮', reset: '↩️ 重設', download: '⬇️ 下載影片',
+                progressPrep: '準備中…', progressRun: '壓縮中…', progressDone: '完成！',
+                resultInfo: '原本 ', resultArrow: ' → ', resultSaved: ' 節省 ',
+                tips: '<strong>提示：</strong>用瀏覽器內建壓縮（唔使下載大型引擎）。畫質愈低、解像度愈細，檔案愈細。建議用 Chrome / Edge。',
+                storyLabel: '🛠 其他工具',
+                noFile: '請先選擇影片',
+                noRecorder: '此瀏覽器不支援影片壓縮，請用 Chrome 或 Edge。',
+                error: '壓縮失敗：'
+            },
+            tw: {
+                title: '📦 影片壓縮器',
+                sub: '壓縮影片檔案大小，盡量保持畫質。全程瀏覽器處理。',
+                badge1: '🎥 MP4 / WebM', badge2: '📦 壓縮', badge3: '🔒 隱私', badge4: '🆓 免費',
+                dropMain: '點擊或拖放影片到這裡',
+                dropSub: 'MP4、WebM、MOV · 建議 ≤ 100MB',
+                labelQuality: '畫質', labelScale: '解析度',
+                qHigh: '高（少壓縮）', qMed: '中（平衡）', qLow: '低（最大壓縮）',
+                scaleOrig: '原始',
+                convert: '📦 開始壓縮', reset: '↩️ 重設', download: '⬇️ 下載影片',
+                progressPrep: '準備中…', progressRun: '壓縮中…', progressDone: '完成！',
+                resultInfo: '原本 ', resultArrow: ' → ', resultSaved: ' 節省 ',
+                tips: '<strong>提示：</strong>用瀏覽器內建壓縮（不必下載大型引擎）。畫質愈低、解析度愈小，檔案愈小。建議用 Chrome / Edge。',
+                storyLabel: '🛠 其他工具',
+                noFile: '請先選擇影片',
+                noRecorder: '此瀏覽器不支援影片壓縮，請用 Chrome 或 Edge。',
+                error: '壓縮失敗：'
+            },
+            en: {
+                title: '📦 Video Compressor',
+                sub: 'Reduce video file size while keeping good quality. Fully in-browser.',
+                badge1: '🎥 MP4 / WebM', badge2: '📦 Compress', badge3: '🔒 Private', badge4: '🆓 Free',
+                dropMain: 'Click or drop video here',
+                dropSub: 'MP4, WebM, MOV · Under ~100MB recommended',
+                labelQuality: 'Quality', labelScale: 'Resolution',
+                qHigh: 'High (less compression)', qMed: 'Medium (balanced)', qLow: 'Low (max compression)',
+                scaleOrig: 'Original',
+                convert: '📦 Compress Video', reset: '↩️ Reset', download: '⬇️ Download',
+                progressPrep: 'Preparing…', progressRun: 'Compressing…', progressDone: 'Done!',
+                resultInfo: 'Original ', resultArrow: ' → ', resultSaved: ' Saved ',
+                tips: '<strong>Tips:</strong> Uses browser built-in compression (no big download). Lower quality + smaller scale = smaller file. Chrome / Edge recommended.',
+                storyLabel: '🛠 Other tools',
+                noFile: 'Please select a video first',
+                noRecorder: 'This browser cannot compress video. Please use Chrome or Edge.',
+                error: 'Compression failed: '
+            }
+        };
+
+        let lang = 'hk';
+        let videoFile = null;
+        let videoUrl = null;
+        let outBlob = null;
+        let outUrl = null;
+
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const videoPreview = document.getElementById('videoPreview');
+        const previewWrap = document.getElementById('previewWrap');
+        const settingsEl = document.getElementById('settings');
+        const convertBtn = document.getElementById('convertBtn');
+        const progressWrap = document.getElementById('progressWrap');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const errorBox = document.getElementById('errorBox');
+        const resultWrap = document.getElementById('resultWrap');
+        const resultVideo = document.getElementById('resultVideo');
+        const resultInfo = document.getElementById('resultInfo');
+
+        function switchLang(l) {
+            lang = l;
+            const t = texts[l];
+            document.getElementById('toolTitle').textContent = t.title;
+            document.getElementById('toolSub').textContent = t.sub;
+            ['badge1','badge2','badge3','badge4'].forEach(function (id) {
+                document.getElementById(id).textContent = t[id];
+            });
+            document.getElementById('dropMain').textContent = t.dropMain;
+            document.getElementById('dropSub').textContent = t.dropSub;
+            document.getElementById('labelQuality').textContent = t.labelQuality;
+            document.getElementById('labelScale').textContent = t.labelScale;
+            var q = document.getElementById('quality');
+            q.options[0].textContent = t.qHigh;
+            q.options[1].textContent = t.qMed;
+            q.options[2].textContent = t.qLow;
+            document.getElementById('scale').options[0].textContent = t.scaleOrig;
+            convertBtn.textContent = t.convert;
+            document.getElementById('resetBtn').textContent = t.reset;
+            document.getElementById('downloadBtn').textContent = t.download;
+            document.getElementById('tips').innerHTML = t.tips;
+            document.getElementById('storyLabel').textContent = t.storyLabel;
+        }
+        window.switchLang = switchLang;
+
+        (function () {
+            var p = new URLSearchParams(location.search);
+            if (p.get('lang') === 'en') return switchLang('en');
+            if (p.get('lang') === 'tw') return switchLang('tw');
+            var n = navigator.language || '';
+            if (n.indexOf('en') === 0) return switchLang('en');
+            if (n.indexOf('TW') >= 0 || n.indexOf('tw') >= 0) return switchLang('tw');
+            switchLang('hk');
+        })();
+
+        function formatSize(b) {
+            if (b < 1024) return b + ' B';
+            if (b < 1048576) return (b / 1024).toFixed(1) + ' KB';
+            return (b / 1048576).toFixed(2) + ' MB';
+        }
+        function showError(msg) {
+            errorBox.textContent = texts[lang].error + msg;
+            errorBox.classList.add('show');
+        }
+        function clearError() {
+            errorBox.classList.remove('show');
+            errorBox.textContent = '';
+        }
+
+        function loadVideo(file) {
+            clearError();
+            if (!file) return;
+            if (videoUrl) URL.revokeObjectURL(videoUrl);
+            if (outUrl) URL.revokeObjectURL(outUrl);
+            videoFile = file;
+            videoUrl = URL.createObjectURL(file);
+            outBlob = null;
+            outUrl = null;
+
+            videoPreview.src = videoUrl;
+            previewWrap.classList.add('show');
+            settingsEl.classList.add('show');
+            convertBtn.disabled = false;
+            resultWrap.classList.remove('show');
+            progressWrap.classList.remove('show');
+
+            videoPreview.onloadedmetadata = function () {
+                document.getElementById('fileMeta').textContent =
+                    file.name + ' · ' + formatSize(file.size) + ' · ' +
+                    (isFinite(videoPreview.duration) ? videoPreview.duration.toFixed(1) + 's · ' : '') +
+                    videoPreview.videoWidth + '×' + videoPreview.videoHeight;
+            };
+        }
+
+        dropZone.addEventListener('click', function () { fileInput.click(); });
+        fileInput.addEventListener('change', function () {
+            if (fileInput.files && fileInput.files[0]) loadVideo(fileInput.files[0]);
+        });
+        dropZone.addEventListener('dragover', function (e) {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+        dropZone.addEventListener('dragleave', function () {
+            dropZone.classList.remove('dragover');
+        });
+        dropZone.addEventListener('drop', function (e) {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+            if (f) loadVideo(f);
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', function () {
+            clearError();
+            if (videoUrl) URL.revokeObjectURL(videoUrl);
+            if (outUrl) URL.revokeObjectURL(outUrl);
+            videoFile = null; videoUrl = null; outBlob = null; outUrl = null;
+            videoPreview.removeAttribute('src');
+            fileInput.value = '';
+            previewWrap.classList.remove('show');
+            settingsEl.classList.remove('show');
+            progressWrap.classList.remove('show');
+            resultWrap.classList.remove('show');
+            convertBtn.disabled = true;
+            document.getElementById('fileMeta').textContent = '';
+        });
+
+        document.getElementById('downloadBtn').addEventListener('click', function () {
+            if (!outBlob) return;
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(outBlob);
+            a.download = 'compressed.webm';
+            a.click();
+        });
+
+        function pickMime() {
+            var list = [
+                'video/webm;codecs=vp9',
+                'video/webm;codecs=vp8',
+                'video/webm',
+                'video/mp4'
+            ];
+            for (var i = 0; i < list.length; i++) {
+                if (window.MediaRecorder && MediaRecorder.isTypeSupported(list[i])) return list[i];
+            }
+            return null;
+        }
+
+        function bitrateForQuality(q, w, h) {
+            var pixels = w * h;
+            var base = pixels > 1280 * 720 ? 2500000 : pixels > 640 * 360 ? 1200000 : 600000;
+            if (q === 'high') return Math.round(base * 1.4);
+            if (q === 'low') return Math.round(base * 0.45);
+            return base;
+        }
+
+        convertBtn.addEventListener('click', async function () {
+            var t = texts[lang];
+            clearError();
+            if (!videoFile) {
+                alert(t.noFile);
+                return;
+            }
+
+            var mime = pickMime();
+            if (!mime) {
+                showError(t.noRecorder);
+                return;
+            }
+
+            var quality = document.getElementById('quality').value;
+            var scale = parseFloat(document.getElementById('scale').value) || 1;
+
+            convertBtn.disabled = true;
+            progressWrap.classList.add('show');
+            resultWrap.classList.remove('show');
+            progressFill.style.width = '5%';
+            progressText.textContent = t.progressPrep;
+
+            var video = videoPreview;
+            try {
+                if (!video.videoWidth) {
+                    await new Promise(function (resolve, reject) {
+                        var timer = setTimeout(function () { reject(new Error('Video metadata timeout')); }, 8000);
+                        video.onloadedmetadata = function () {
+                            clearTimeout(timer);
+                            resolve();
+                        };
+                        video.load();
+                    });
+                }
+
+                var srcW = video.videoWidth;
+                var srcH = video.videoHeight;
+                var outW = Math.max(2, Math.round(srcW * scale / 2) * 2);
+                var outH = Math.max(2, Math.round(srcH * scale / 2) * 2);
+                var duration = video.duration;
+                if (!isFinite(duration) || duration <= 0) throw new Error('Invalid video duration');
+
+                var canvas = document.createElement('canvas');
+                canvas.width = outW;
+                canvas.height = outH;
+                var ctx = canvas.getContext('2d');
+
+                var stream = canvas.captureStream(30);
+                // 嘗試帶埋音訊
+                try {
+                    var vStream = video.captureStream ? video.captureStream() : (video.mozCaptureStream && video.mozCaptureStream());
+                    if (vStream) {
+                        var audioTracks = vStream.getAudioTracks();
+                        if (audioTracks && audioTracks.length) {
+                            stream.addTrack(audioTracks[0]);
+                        }
+                    }
+                } catch (e) {}
+
+                var bits = bitrateForQuality(quality, outW, outH);
+                var chunks = [];
+                var recorder = new MediaRecorder(stream, {
+                    mimeType: mime,
+                    videoBitsPerSecond: bits
+                });
+                recorder.ondataavailable = function (e) {
+                    if (e.data && e.data.size) chunks.push(e.data);
+                };
+
+                var stopped = new Promise(function (resolve, reject) {
+                    recorder.onstop = resolve;
+                    recorder.onerror = function (ev) {
+                        reject(ev.error || new Error('MediaRecorder error'));
+                    };
+                });
+
+                video.pause();
+                video.currentTime = 0;
+                await new Promise(function (r) {
+                    video.onseeked = function () { r(); };
+                });
+
+                progressText.textContent = t.progressRun;
+                recorder.start(200);
+
+                video.muted = true;
+                await video.play();
+
+                var start = performance.now();
+                var playing = true;
+                video.onended = function () { playing = false; };
+
+                function draw() {
+                    if (!playing && video.ended) return;
+                    ctx.drawImage(video, 0, 0, outW, outH);
+                    var pct = Math.min(95, Math.round((video.currentTime / duration) * 95));
+                    progressFill.style.width = pct + '%';
+                    progressText.textContent = t.progressRun + ' ' + pct + '%';
+                    if (!video.ended && playing) {
+                        requestAnimationFrame(draw);
+                    }
+                }
+                requestAnimationFrame(draw);
+
+                await new Promise(function (resolve) {
+                    if (video.ended) return resolve();
+                    video.onended = function () {
+                        playing = false;
+                        resolve();
+                    };
+                    // 安全 timeout：片長 + 5 秒
+                    setTimeout(resolve, (duration + 5) * 1000);
+                });
+
+                video.pause();
+                // 再畫最後一幀
+                ctx.drawImage(video, 0, 0, outW, outH);
+                await new Promise(function (r) { setTimeout(r, 100); });
+                recorder.stop();
+                await stopped;
+                stream.getTracks().forEach(function (tr) { tr.stop(); });
+
+                outBlob = new Blob(chunks, { type: mime.split(';')[0] });
+                if (!outBlob.size) throw new Error('Empty output');
+
+                if (outUrl) URL.revokeObjectURL(outUrl);
+                outUrl = URL.createObjectURL(outBlob);
+                resultVideo.src = outUrl;
+
+                var orig = videoFile.size;
+                var next = outBlob.size;
+                var saved = orig > next ? Math.round((1 - next / orig) * 100) : 0;
+                resultInfo.innerHTML =
+                    t.resultInfo + '<span class="highlight">' + formatSize(orig) + '</span>' +
+                    t.resultArrow + '<span class="highlight">' + formatSize(next) + '</span>' +
+                    (saved > 0 ? t.resultSaved + '<span class="saved">' + saved + '%</span>' : '') +
+                    ' · WebM · ' + outW + '×' + outH;
+
+                resultWrap.classList.add('show');
+                progressFill.style.width = '100%';
+                progressText.textContent = t.progressDone;
+            } catch (err) {
+                console.error(err);
+                showError(err && err.message ? err.message : String(err));
+            } finally {
+                convertBtn.disabled = false;
+                try { video.pause(); } catch (e) {}
+            }
+        });
+    </script>
+</body>
+</html>

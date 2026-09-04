@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【網頁 Meta 產生器教學】Open Graph Tags 生成｜社交媒體分享必備｜Free Meta Generator Guide</title>
+    <meta name="description" content="網頁 Meta 產生器教學！生成 Open Graph (OG) Tags 與 Twitter Cards，一鍵複製 HTML 代碼。內容創作者與 SEO 必備，純前端處理保護私隱。Free OG tags generator guide.">
+    <meta name="keywords" content="Meta 產生器, OG Tags, Open Graph, Twitter Cards, 社交媒體分享, SEO 優化, 網頁標題, 網站描述, 內容創作者, Meta Generator, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/meta-generator-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【網頁 Meta 產生器教學】Open Graph Tags 生成 — 社交媒體分享必備｜Free Meta Generator Guide">
+    <meta property="og:description" content="生成 Open Graph (OG) Tags 與 Twitter Cards，一鍵複製 HTML 代碼。內容創作者與 SEO 必備，100% 純前端運算。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/meta-generator-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Meta Generator Guide – Generate OG Tags for Social Sharing">
+    <meta name="twitter:description" content="Learn to generate Open Graph tags and Twitter Cards for better social media sharing. Essential for content creators and SEO.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "網頁 Meta 產生器教學：Open Graph Tags 生成 — 社交媒體分享必備",
+      "description": "介紹如何使用網頁 Meta 產生器生成 Open Graph (OG) Tags 與 Twitter Cards，適用於內容創作者、SEO 優化與社交媒體分享。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        code {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--primary-cyan);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>網頁 Meta 產生器教學：Open Graph Tags 生成 — 社交媒體分享必備</h1>
+
+        <h2>1. 導言</h2>
+        <p>你 Share 一篇文章去 Facebook，結果顯示咗一個 random 嘅標題同 description，甚至連張相都唔啱？或者你寫咗篇好正嘅 Blog，但喺 WhatsApp 分享出去嘅時候得個網址，乜 preview 都冇？呢個問題嘅根源係——你嘅網頁 <strong>缺少咗 Open Graph (OG) Tags</strong>。OG Tags 係一組 HTML Meta Tag，話俾社交媒體平台知你嘅網頁標題、描述同圖片係咩。我哋嘅免費 Meta 產生器可以幫你生成晒所有 OG Tags 同 Twitter Cards，仲有即時預覽。呢篇文章會教你點用呢個工具，仲會講吓點解 OG Tags 咁重要。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>Open Graph (OG) Tags</strong> 係 Facebook 喺 2010 年推出嘅協議，目的係令網頁喺社交媒體上有更豐富嘅展示。最基本嘅 OG Tags 包括：</p>
+        <ul>
+            <li><code>og:title</code> — 分享時顯示嘅標題</li>
+            <li><code>og:description</code> — 分享時顯示嘅描述</li>
+            <li><code>og:image</code> — 分享時顯示嘅縮圖</li>
+            <li><code>og:url</code> — 頁面嘅 Canonical URL</li>
+        </ul>
+        <p>除咗 OG Tags，仲有 <strong>Twitter Cards</strong>，用嚟控制 Twitter 上嘅分享顯示。我哋嘅工具會同時生成兩者，確保你喺各大平台嘅分享效果都一致。</p>
+        <p>所有運算喺你嘅瀏覽器入面完成，你輸入嘅資料唔會 Send 去任何 Server，私隱 100% 安全。仲有即時預覽，睇到分享出嚟會係咩樣。</p>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>內容創作者 / Blogger：</strong> Share 文章去 Facebook、Twitter、LinkedIn 時有靚 preview。</li>
+            <li><strong>SEO 優化：</strong> OG Tags 係 Google 同社交平台嘅 ranking signal 之一。</li>
+            <li><strong>電商網站：</strong> 產品頁面分享時顯示產品圖片、名稱同價錢。</li>
+            <li><strong>品牌官網：</strong> 確保品牌形象喺社交媒體上一致。</li>
+            <li><strong>活動頁面：</strong> 分享活動時有吸引人嘅 preview，增加報名人數。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>輸入網址：</strong> 你要分享嘅頁面網址。</li>
+            <li><strong>輸入標題：</strong> 建議 50-60 個字符，過長會被 cut。</li>
+            <li><strong>輸入描述：</strong> 建議 150-160 個字符，過長會被 cut。</li>
+            <li><strong>輸入圖片網址（可選）：</strong> 建議 1200x630 嘅 1.91:1 圖片。</li>
+            <li><strong>即時預覽：</strong> 右邊會顯示社交媒體上嘅分享效果。</li>
+            <li><strong>複製代碼：</strong> 一鍵複製生成嘅 HTML Meta Tags，貼入你嘅網頁 <code>&lt;head&gt;</code> 入面。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站前端工具</th>
+                    <th>手動編寫</th>
+                    <th>其他線上工具</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>需開發時間</td>
+                    <td>免費但有廣告</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>✅ 本地處理</td>
+                    <td>❌ 需上傳伺服器</td>
+                </tr>
+                <tr>
+                    <td><strong>即時預覽</strong></td>
+                    <td>✅ 即時顯示</td>
+                    <td>❌ 需手動檢查</td>
+                    <td>⚠️ 部分有</td>
+                </tr>
+                <tr>
+                    <td><strong>Twitter Cards</strong></td>
+                    <td>✅ 自動生成</td>
+                    <td>⚠️ 需手動加入</td>
+                    <td>⚠️ 部分有</td>
+                </tr>
+                <tr>
+                    <td><strong>字數提示</strong></td>
+                    <td>✅ 即時提示</td>
+                    <td>❌ 無</td>
+                    <td>⚠️ 部分有</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>高（需懂 HTML）</td>
+                    <td>中等</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「你寫咗一篇好正嘅文章，但 Share 出去嘅時候個 preview 爛咗——<strong>冇人會 Click 入去睇</strong>。呢個世界就係咁現實：人係視覺動物。OG Tags 唔係咩高科技，但係你同『有人睇』之間嘅第一道門。我見過太多內容創作者忽略咗呢樣嘢，然後問點解冇人睇佢啲嘢。<strong>你唔需要識寫 HTML，你只需要識用工具</strong>。而呢個工具，就係幫你喺『冇人睇』同『有人睇』之間搭條橋。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">📋 需要生成 OG Tags 改善社交分享？</h3>
+            <p style="margin:0; font-size:0.9rem;">輸入資料即時生成 OG Tags + Twitter Cards，有預覽，一鍵複製代碼。</p>
+            <a href="../tools/meta-generator.html" class="cta-btn-link" id="ctaBtn">👉 立即免費試用 Meta 產生器</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Meta Tags Generator Guide: Generate Open Graph Tags — Essential for Social Sharing</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Ever shared an article on Facebook only to see a random title and description, or even the wrong image? Or shared a great blog post on WhatsApp and it showed just a URL with no preview? The root cause is your page is missing <strong>Open Graph (OG) Tags</strong>. OG Tags are HTML meta tags that tell social media platforms what your page's title, description, and image are. Our free Meta Generator creates all the OG Tags and Twitter Cards you need, with a live preview. This guide shows you how to use it and why OG Tags matter.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>Open Graph (OG) Tags</strong> is a protocol launched by Facebook in 2010 to enable richer content display on social media. The basic OG Tags include:</p>
+        <ul>
+            <li><code>og:title</code> — The title shown when shared</li>
+            <li><code>og:description</code> — The description shown when shared</li>
+            <li><code>og:image</code> — The thumbnail image shown when shared</li>
+            <li><code>og:url</code> — The canonical URL of the page</li>
+        </ul>
+        <p>Beyond OG Tags, there are <strong>Twitter Cards</strong> that control how your content appears on Twitter. Our tool generates both, ensuring consistent sharing across all major platforms.</p>
+        <p>All processing happens in your browser—your data never leaves your device. There's also a live preview so you can see exactly what your shared content will look like.</p>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Content Creators / Bloggers：</strong> Share articles on Facebook, Twitter, LinkedIn with beautiful previews.</li>
+            <li><strong>SEO Optimization：</strong> OG Tags are a ranking signal for Google and social platforms.</li>
+            <li><strong>E-Commerce Sites：</strong> Product pages sharing with images, names, and prices.</li>
+            <li><strong>Brand Websites：</strong> Ensure consistent brand image across social media.</li>
+            <li><strong>Event Pages：</strong> Share events with attractive previews to increase registrations.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Enter URL：</strong> The page URL you want to share.</li>
+            <li><strong>Enter Title：</strong> Recommended 50-60 characters—longer gets truncated.</li>
+            <li><strong>Enter Description：</strong> Recommended 150-160 characters—longer gets truncated.</li>
+            <li><strong>Enter Image URL (Optional)：</strong> Recommended 1200x630 (1.91:1 ratio).</li>
+            <li><strong>Live Preview：</strong> See exactly how your content will appear on social media.</li>
+            <li><strong>Copy Code：</strong> One-click copy the generated HTML meta tags and paste into your page's <code>&lt;head&gt;</code>.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Client-Side Tool (Us)</th>
+                    <th>Manual Coding</th>
+                    <th>Other Online Tools</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Dev Time Required</td>
+                    <td>Freemium / Ads</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local Processing</td>
+                    <td>✅ Local Processing</td>
+                    <td>❌ Server Upload</td>
+                </tr>
+                <tr>
+                    <td><strong>Live Preview</strong></td>
+                    <td>✅ Real-time</td>
+                    <td>❌ Manual Check</td>
+                    <td>⚠️ Some</td>
+                </tr>
+                <tr>
+                    <td><strong>Twitter Cards</strong></td>
+                    <td>✅ Auto-generated</td>
+                    <td>⚠️ Manual Add</td>
+                    <td>⚠️ Some</td>
+                </tr>
+                <tr>
+                    <td><strong>Character Count</strong></td>
+                    <td>✅ Real-time</td>
+                    <td>❌ None</td>
+                    <td>⚠️ Some</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>High (HTML Required)</td>
+                    <td>Medium</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"You wrote a great article, but when you share it, the preview is broken—<strong>nobody clicks</strong>. That's the reality: humans are visual creatures. OG Tags aren't high-tech, but they're the first door between you and 'being seen.' I've seen too many content creators ignore this and wonder why nobody reads their work. <strong>You don't need to know HTML—you just need to know how to use tools</strong>. And this tool is the bridge between 'no one sees it' and 'someone actually clicks.'"</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">📋 Need to Generate OG Tags for Social Sharing?</h3>
+            <p style="margin:0; font-size:0.9rem;">Enter your data, preview instantly, copy the code—essential for content creators and SEO.</p>
+            <a href="../tools/meta-generator.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Meta Generator Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtn = document.getElementById('ctaBtn');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtn.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtn.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

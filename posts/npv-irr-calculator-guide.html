@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【NPV IRR 計算機教學】淨現值與內部報酬率｜投資可行性評估｜Free NPV IRR Calculator Guide</title>
+    <meta name="description" content="NPV IRR 計算機完整教學！輸入初始投資與各期現金流，即時評估投資項目或商業方案的淨現值 (NPV) 與內部報酬率 (IRR)。Free online NPV IRR calculator guide.">
+    <meta name="keywords" content="NPV 計算器, IRR 計算器, 淨現值計算, 內部報酬率, 投資評估, 現金流分析, Net Present Value, Internal Rate of Return, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/npv-irr-calculator-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【NPV IRR 計算機教學】淨現值與內部報酬率｜投資可行性評估｜Free NPV IRR Calculator Guide">
+    <meta property="og:description" content="輸入初始投資與各期現金流，即時評估投資項目或商業方案的淨現值 (NPV) 與內部報酬率 (IRR)。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/npv-irr-calculator-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free NPV IRR Calculator Guide – Evaluate Investment Feasibility">
+    <meta name="twitter:description" content="Calculate Net Present Value and Internal Rate of Return for investment projects and business decisions.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "NPV IRR 計算機教學：淨現值與內部報酬率 — 投資可行性評估",
+      "description": "介紹如何使用 NPV IRR 計算機評估投資項目或商業方案的淨現值與內部報酬率，適用於投資決策、商業分析與財務規劃。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>NPV IRR 計算機教學：淨現值與內部報酬率 — 投資可行性評估</h1>
+
+        <h2>1. 導言</h2>
+        <p>你係投資者、企業老闆或者財務分析師，需要評估一個投資項目值唔值得做？或者你想比較兩個不同嘅商業方案，但係一個賺 $50 萬要 3 年，另一個賺 $80 萬要 5 年，邊個更著數？<strong>淨現值（NPV）與內部報酬率（IRR）</strong> 就係為咗解答呢個問題而存在。我哋嘅免費 NPV IRR 計算機幫你輸入 <strong>初始投資金額與各期現金流</strong>，即時計算 <strong>淨現值（NPV）</strong>、<strong>內部報酬率（IRR）</strong>，仲會自動評估 <strong>項目可行性</strong> 同計算 <strong>靜態回收期（Payback Period）</strong>。所有運算喺瀏覽器入面完成，數據唔會離開你嘅裝置，私隱 100% 安全。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>淨現值（Net Present Value, NPV）與內部報酬率（Internal Rate of Return, IRR）</strong> 係企業財務與投資決策中最核心嘅兩個指標。主要概念包括：</p>
+        <ul>
+            <li><strong>淨現值（NPV）：</strong> 將未來所有現金流按「折現率」折算成今日嘅價值，減去初始投資後嘅差額。NPV > 0 表示項目可以創造價值，值得投資。</li>
+            <li><strong>內部報酬率（IRR）：</strong> 令 NPV = 0 嘅折現率。IRR 高於資金成本（折現率）時，項目有超額回報。</li>
+            <li><strong>折現率（Discount Rate）：</strong> 反映資金嘅時間價值同風險水平，通常等於公司嘅加權平均資本成本（WACC）。</li>
+            <li><strong>靜態回收期（Payback Period）：</strong> 唔考慮時間價值下，收回初始投資所需嘅時間。</li>
+        </ul>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>商業投資評估：</strong> 評估開新店、買新機器、開發新產品嘅可行性。</li>
+            <li><strong>創業決策：</strong> 評估初創企業嘅盈利能力同回報潛力。</li>
+            <li><strong>房地產投資：</strong> 評估買樓收租或發展項目嘅長期回報。</li>
+            <li><strong>資本預算（Capital Budgeting）：</strong> 比較不同投資項目，決定資源分配。</li>
+            <li><strong>收購合併：</strong> 評估被收購公司嘅現金流價值。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>輸入基本資料：</strong>
+                <ul>
+                    <li>💰 預期折現率 / 資金成本（Discount Rate %）</li>
+                    <li>💸 期初投資金額（Year 0 Outflow）</li>
+                    <li>📊 未來各期淨現金流入（每期輸入一個金額）</li>
+                </ul>
+            </li>
+            <li><strong>調整現金流：</strong> 點擊「+ 增加一期」加入更多年份，點擊 ✕ 刪除。</li>
+            <li><strong>計算：</strong> 點擊「即時計算」按鈕（輸入會自動更新）。</li>
+            <li><strong>檢視結果：</strong>
+                <ul>
+                    <li>💚 項目可行性評估（值得投資 / 建議放棄）</li>
+                    <li>📊 淨現值（NPV）— 超額價值</li>
+                    <li>📊 內部報酬率（IRR）— 年化實際回報</li>
+                    <li>📊 靜態回收期（Payback Period）</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站 NPV IRR 計算機</th>
+                    <th>Excel 手動計算</th>
+                    <th>Bloomberg / 專業軟件</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>需購買軟件</td>
+                    <td>極高（年費）</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>✅ 本地處理</td>
+                    <td>⚠️ 數據儲存於系統</td>
+                </tr>
+                <tr>
+                    <td><strong>計算速度</strong></td>
+                    <td>⚡ 即時</td>
+                    <td>🐢 需設定公式</td>
+                    <td>⚡ 即時</td>
+                </tr>
+                <tr>
+                    <td><strong>IRR 迭代計算</strong></td>
+                    <td>✅ 牛頓迭代法</td>
+                    <td>⚠️ 需手動設定</td>
+                    <td>✅ 自動</td>
+                </tr>
+                <tr>
+                    <td><strong>靜態回收期</strong></td>
+                    <td>✅ 自動計算</td>
+                    <td>⚠️ 需手動設定</td>
+                    <td>✅ 自動</td>
+                </tr>
+                <tr>
+                    <td><strong>無需安裝</strong></td>
+                    <td>✅ 瀏覽器即用</td>
+                    <td>❌ 需安裝軟件</td>
+                    <td>❌ 需專用終端</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>中等</td>
+                    <td>高</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「有個朋友之前想開間咖啡店，計咗條數話 3 年賺 $100 萬，覺得好吸引。我幫佢用呢個工具計完，先知 <strong>NPV 原來係負數</strong>——即係將筆錢放喺銀行可能仲好賺。佢好彩冇開到間舖，如果開咗，表面賺錢但實際蝕錢。NPV 同 IRR 就係 <strong>判斷一個生意值唔值得做嘅『真相』</strong>。一個 5 年賺 50% 嘅項目，IRR 可能只係 8.4%，其實好普通。呢個工具俾你嘅，就係 <strong>用 10 秒鐘睇清楚投資項目嘅『真實回報』</strong>—等你唔再被表面數字呃到。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">📈 想評估投資項目可行性？即時計算 NPV 與 IRR！</h3>
+            <p style="margin:0; font-size:0.9rem;">輸入現金流即時計算 NPV、IRR 與回收期，完全免費且保護私隱。</p>
+            <a href="../tools/npv-irr-calculator.html?lang=hk" class="cta-btn-link" id="ctaBtnZh">👉 立即免費試用 NPV IRR 計算機</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>NPV IRR Calculator Guide: Net Present Value & Internal Rate of Return — Investment Feasibility</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Are you an investor, business owner, or financial analyst evaluating whether an investment project is worth pursuing? Or comparing two business scenarios—one makes $500,000 in 3 years, another $800,000 in 5 years—which is better? <strong>Net Present Value (NPV) and Internal Rate of Return (IRR)</strong> are exactly for answering these questions. Our free NPV IRR calculator lets you enter <strong>initial investment and cash flows</strong> to instantly calculate <strong>NPV, IRR, project feasibility, and payback period</strong>. All processing happens in your browser—your data never leaves your device, ensuring 100% privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>Net Present Value (NPV) and Internal Rate of Return (IRR)</strong> are the two most core metrics in corporate finance and investment decisions. Key concepts include:</p>
+        <ul>
+            <li><strong>Net Present Value (NPV):</strong> The difference between the present value of future cash flows (discounted at the discount rate) and the initial investment. NPV > 0 means the project creates value and is worth pursuing.</li>
+            <li><strong>Internal Rate of Return (IRR):</strong> The discount rate that makes NPV = 0. When IRR exceeds the cost of capital (discount rate), the project generates excess returns.</li>
+            <li><strong>Discount Rate:</strong> Reflects the time value of money and risk level—typically equal to a company's WACC.</li>
+            <li><strong>Payback Period:</strong> The time required to recover the initial investment without considering the time value of money.</li>
+        </ul>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Business Investment Evaluation:</strong> Assess the feasibility of opening new stores, buying new equipment, or developing new products.</li>
+            <li><strong>Startup Decisions:</strong> Evaluate the profitability and return potential of new ventures.</li>
+            <li><strong>Real Estate Investment:</strong> Assess long-term returns from rental properties or development projects.</li>
+            <li><strong>Capital Budgeting:</strong> Compare different investment projects for resource allocation.</li>
+            <li><strong>Mergers & Acquisitions:</strong> Evaluate the cash flow value of target companies.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Enter Basic Information:</strong>
+                <ul>
+                    <li>💰 Discount Rate / Cost of Capital (%)</li>
+                    <li>💸 Initial Investment (Year 0 Outflow)</li>
+                    <li>📊 Future Cash Inflows (enter per period)</li>
+                </ul>
+            </li>
+            <li><strong>Adjust Cash Flows:</strong> Click "+ Add Year" to add more periods, click ✕ to delete.</li>
+            <li><strong>Calculate:</strong> Click the "Calculate Now" button (inputs auto-update).</li>
+            <li><strong>View Results:</strong>
+                <ul>
+                    <li>💚 Project Feasibility (Viable / Not Recommended)</li>
+                    <li>📊 Net Present Value (NPV) — Excess value</li>
+                    <li>📊 Internal Rate of Return (IRR) — Annualized actual return</li>
+                    <li>📊 Payback Period</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>NPV IRR Tool (Us)</th>
+                    <th>Excel Manual</th>
+                    <th>Bloomberg / Professional</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Software Purchase</td>
+                    <td>Very High (Annual)</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>✅ Local</td>
+                    <td>⚠️ System-stored</td>
+                </tr>
+                <tr>
+                    <td><strong>Speed</strong></td>
+                    <td>⚡ Instant</td>
+                    <td>🐢 Formula setup</td>
+                    <td>⚡ Instant</td>
+                </tr>
+                <tr>
+                    <td><strong>IRR Iteration</strong></td>
+                    <td>✅ Newton-Raphson</td>
+                    <td>⚠️ Manual setup</td>
+                    <td>✅ Auto</td>
+                </tr>
+                <tr>
+                    <td><strong>Payback Period</strong></td>
+                    <td>✅ Auto-calculated</td>
+                    <td>⚠️ Manual setup</td>
+                    <td>✅ Auto</td>
+                </tr>
+                <tr>
+                    <td><strong>No Installation</strong></td>
+                    <td>✅ Browser</td>
+                    <td>❌ Software</td>
+                    <td>❌ Terminal Required</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Medium</td>
+                    <td>High</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"A friend of mine wanted to open a coffee shop, projecting $1 million in profit over 3 years—it sounded great. I helped them run the numbers through this tool and found that <strong>the NPV was actually negative</strong>—meaning putting the money in the bank might have been better. Good thing they didn't open it—on paper it made money, but in reality it would have lost value. NPV and IRR are the <strong>'truth' behind whether a business is worth doing</strong>. A 5-year 50% return project might only have an 8.4% IRR—actually quite ordinary. This tool gives you exactly that <strong>ability to see an investment's 'true return' in 10 seconds</strong>—so you're no longer fooled by surface numbers."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">📈 Want to Evaluate Investment Feasibility? Calculate NPV & IRR Instantly!</h3>
+            <p style="margin:0; font-size:0.9rem;">Enter cash flows for instant NPV, IRR, and payback period—completely free with privacy protection.</p>
+            <a href="../tools/npv-irr-calculator.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free NPV IRR Calculator Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtnZh = document.getElementById('ctaBtnZh');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtnZh.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtnZh.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

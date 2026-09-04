@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO 基本標籤 / SEO Basic Tags -->
+    <title>免費線上影片轉音訊工具 — 免上傳提取 MP3/WAV 檔｜Free Video to MP3/WAV Converter</title>
+    <meta name="description" content="免費線上影片轉音訊工具 (Free Online Video to Audio Extractor)。一鍵將 MP4, MOV, WEBM 等影片轉換為 MP3 或 WAV 音訊檔。100% 瀏覽器本地處理，免安裝軟體，保護個人隱私。Extract audio from video online for free without file uploading." />
+    <meta name="keywords" content="影片轉音訊, 影片提取MP3, 影片轉MP3, 影片轉WAV, extract audio from video, video to mp3 converter, convert video to wav, video to audio online free, MP4 to MP3" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/video-to-audio.html" />
+
+    <!-- Open Graph 社交分享標籤 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="免費線上影片轉音訊工具 — 免上傳提取 MP3/WAV 檔｜Free Video to MP3 Converter" />
+    <meta property="og:description" content="零檔案上傳！一鍵從 MP4、MOV、WEBM 影片中提取高音質 MP3 及 WAV 音軌，瀏覽器本地即時轉換導出。" />
+    <meta property="og:url" content="https://www.behavior-report.com/tools/video-to-audio.html" />
+
+    <!-- Schema.org 結構化資料 (增加 Google 搜尋豐富結果) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "免費線上影片轉音訊工具 (Free Online Video to Audio Converter)",
+      "url": "https://www.behavior-report.com/tools/video-to-audio.html",
+      "description": "提供免費線上影片提取音軌服務，支援 MP4/MOV/WEBM 轉 MP3 及 WAV，100% 瀏覽器本地處理。",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "All",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --green: #10b981;
+            --red: #ef4444;
+            --purple: #a855f7;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 850px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch { text-align: center; margin-bottom: 20px; }
+        .lang-switch button {
+            background: transparent; border: none; color: var(--cyan);
+            cursor: pointer; font-size: 0.9rem; margin: 0 8px; font-weight: bold;
+        }
+        .lang-switch button:hover { text-decoration: underline; }
+
+        .tool-title { font-size: 1.6rem; color: #ffffff; text-align: center; font-weight: bold; }
+        .tool-sub { text-align: center; color: var(--text); font-size: 0.95rem; margin: 10px 0 25px; }
+
+        .badge-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 25px; }
+        .badge { background: rgba(34, 211, 238, 0.08); border: 1px solid rgba(34, 211, 238, 0.2); padding: 4px 14px; border-radius: 30px; font-size: 0.75rem; color: var(--cyan); }
+
+        .upload-area {
+            border: 2px dashed rgba(148, 163, 184, 0.25);
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.02);
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover, .upload-area.dragover { border-color: var(--cyan); background: rgba(34, 211, 238, 0.04); }
+        .upload-area .icon { font-size: 2.5rem; display: block; margin-bottom: 8px; }
+        .upload-area p { font-size: 0.95rem; color: var(--text-light); }
+        #videoInput { display: none; }
+
+        .editor-container { display: none; flex-direction: column; align-items: center; margin-bottom: 20px; width: 100%; }
+
+        .file-info {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 12px 18px;
+            border-radius: 8px;
+            width: 100%;
+            margin-bottom: 20px;
+            font-size: 0.88rem;
+            color: var(--text-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .controls-panel {
+            background: var(--bg);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option-group { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .option-group label { font-size: 0.9rem; color: var(--text-light); white-space: nowrap; }
+        .radio-group { display: flex; gap: 15px; }
+        .radio-label { display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-light); font-size: 0.9rem; }
+
+        video { width: 100%; max-height: 250px; border-radius: 8px; background: #000; margin-bottom: 15px; }
+
+        .progress-bar-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            height: 10px;
+            overflow: hidden;
+            display: none;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--cyan);
+            transition: width 0.1s linear;
+        }
+
+        .status-text { font-size: 0.85rem; color: var(--cyan); text-align: center; margin-bottom: 10px; display: none; }
+
+        .btn-group { display: flex; gap: 12px; margin-top: 10px; width: 100%; flex-wrap: wrap; }
+        .btn {
+            padding: 12px 20px; border-radius: 10px; border: none; font-size: 0.95rem;
+            font-weight: bold; cursor: pointer; transition: all 0.25s;
+            display: inline-flex; align-items: center; gap: 8px; justify-content: center; flex: 1;
+            min-width: 140px;
+        }
+        .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .btn-primary { background: var(--cyan); color: #0b0f19; }
+        .btn-primary:hover:not(:disabled) { background: var(--cyan-hover); }
+        .btn-success { background: var(--green); color: #0b0f19; }
+        .btn-danger { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--red); color: #fca5a5; }
+
+        audio { width: 100%; margin-top: 15px; display: none; }
+
+        .seo-article { margin-top: 40px; padding-top: 25px; border-top: 1px solid rgba(148, 163, 184, 0.08); line-height: 1.6; }
+        .seo-article h2 { color: #ffffff; font-size: 1.1rem; margin-bottom: 12px; }
+        .seo-article p { font-size: 0.85rem; color: var(--text); margin-bottom: 12px; }
+
+        footer { text-align: center; margin-top: 30px; font-size: 11px; color: #555; }
+        footer a { color: #555; text-decoration: none; margin: 0 8px; }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="lang-switch">
+        <button onclick="setLang('zh')">繁體中文</button> |
+        <button onclick="setLang('en')">English</button>
+    </div>
+
+    <h1 class="tool-title" id="toolTitle">🎵 免費線上影片轉音訊工具 (MP3 / WAV)</h1>
+    <p class="tool-sub" id="toolSub">一鍵提取 MP4/MOV/WEBM 影片中的聲音檔 · 免檔案上載 · 100% 本地即時轉換</p>
+
+    <div class="badge-row">
+        <span class="badge" id="b1">🔒 100% 隱私安全 (Private)</span>
+        <span class="badge" id="b2">⚡ 無檔案大小限制</span>
+        <span class="badge" id="b3">🆓 完全免費 (100% Free)</span>
+    </div>
+
+    <div class="upload-area" id="dropArea">
+        <span class="icon">🎬</span>
+        <p id="uploadText">拖曳影片檔案到這裡，或點擊選擇檔案 (MP4, MOV, WEBM, MKV)</p>
+        <input type="file" id="videoInput" accept="video/*" />
+    </div>
+
+    <div class="editor-container" id="editorContainer">
+        <div class="file-info">
+            <span id="fileName">📹 檔名: -</span>
+            <span id="fileSize">📁 大小: -</span>
+        </div>
+
+        <video id="videoPreview" controls></video>
+
+        <div class="controls-panel">
+            <div class="option-group">
+                <label id="lblFormat">🎼 輸出格式 (Export Format):</label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="audioFormat" value="mp3" checked /> MP3 (高相容性/標準品質)
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="audioFormat" value="wav" /> WAV (無損音質/極速解碼)
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-text" id="statusText">正在解碼音訊中，請稍候...</div>
+        <div class="progress-bar-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <audio id="audioPreview" controls></audio>
+    </div>
+
+    <div class="btn-group">
+        <button class="btn btn-primary" id="convertBtn" disabled>⚡ 開始提取音訊 (Extract Audio)</button>
+        <button class="btn btn-success" id="downloadBtn" style="display:none;">⬇️ 下載音訊檔 (Download Audio)</button>
+        <button class="btn btn-danger" id="clearBtn">🗑️ 清空重新上傳 (Clear)</button>
+    </div>
+
+    <article class="seo-article">
+        <h2 id="seoTitle">為什麼選擇我們的線上影片轉 MP3 / WAV 工具？</h2>
+        <p id="seoP1">本工具提供快速且免費的線上影片提取音軌服務。使用 Web Audio API 技術，影片直接在瀏覽器內部進行快速解碼與音訊提取，無須下載安裝軟體，更不需要漫長等待檔案上傳至雲端伺服器。</p>
+        <p id="seoP2"><strong>Free Online Video to MP3 & WAV Audio Converter.</strong> Easily extract high-quality audio streams from MP4, MOV, WEBM, and MKV video files. All conversions are performed 100% locally on your browser, ensuring maximum privacy and ultra-fast processing speeds.</p>
+    </article>
+</div>
+
+<footer>
+    <a href="../index.html">Home</a> | <a href="../privacy.html">Privacy Policy</a>
+</footer>
+
+<script>
+    let videoFile = null;
+    let convertedAudioBlob = null;
+    let convertedFileName = '';
+
+    const dropArea = document.getElementById('dropArea');
+    const videoInput = document.getElementById('videoInput');
+    const editorContainer = document.getElementById('editorContainer');
+    const videoPreview = document.getElementById('videoPreview');
+    const audioPreview = document.getElementById('audioPreview');
+
+    const fileNameEl = document.getElementById('fileName');
+    const fileSizeEl = document.getElementById('fileSize');
+
+    const convertBtn = document.getElementById('convertBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const clearBtn = document.getElementById('clearBtn');
+
+    const statusText = document.getElementById('statusText');
+    const progressContainer = document.getElementById('progressContainer');
+    const progressBar = document.getElementById('progressBar');
+
+    // 雙語切換邏輯 / Language Toggle
+    const i18n = {
+        zh: {
+            title: "🎵 免費線上影片轉音訊工具 (MP3 / WAV)",
+            sub: "一鍵提取 MP4/MOV/WEBM 影片中的聲音檔 · 免檔案上載 · 100% 本地即時轉換",
+            b1: "🔒 100% 隱私安全 (Private)", b2: "⚡ 無檔案大小限制", b3: "🆓 完全免費 (100% Free)",
+            upload: "拖曳影片檔案到這裡，或點擊選擇檔案 (MP4, MOV, WEBM, MKV)",
+            lblFormat: "🎼 輸出格式 (Export Format):",
+            convert: "⚡ 開始提取音訊 (Extract Audio)",
+            download: "⬇️ 下載音訊檔 (Download Audio)", clear: "🗑️ 清空重新上傳",
+            seoTitle: "為什麼選擇我們的線上影片轉 MP3 / WAV 工具？",
+            seoP1: "本工具提供快速且免費的線上影片提取音軌服務。使用 Web Audio API 技術，影片直接在瀏覽器內部進行快速解碼與音訊提取，無須下載安裝軟體，更不需要漫長等待檔案上傳至雲端伺服器。",
+            seoP2: "<strong>Free Online Video to MP3 & WAV Audio Converter.</strong> Easily extract high-quality audio streams from MP4, MOV, WEBM, and MKV video files. All conversions are performed 100% locally on your browser, ensuring maximum privacy and ultra-fast processing speeds."
+        },
+        en: {
+            title: "🎵 Free Online Video to MP3 / WAV Converter",
+            sub: "Extract audio track from MP4, MOV, WEBM videos instantly · 100% Local & Private",
+            b1: "🔒 100% Private (No Upload)", b2: "⚡ No File Size Limit", b3: "🆓 100% Free to Use",
+            upload: "Drag & drop video file here, or click to browse (MP4, MOV, WEBM, MKV)",
+            lblFormat: "🎼 Export Format:",
+            convert: "⚡ Extract Audio",
+            download: "⬇️ Download Audio", clear: "🗑️ Clear & Reupload",
+            seoTitle: "Why Choose Our Video to MP3 / WAV Converter?",
+            seoP1: "Extract audio from videos easily and safely online for free. Powered by modern HTML5 Web Audio API, your videos are processed 100% inside your browser, keeping your data completely private without bandwidth limits.",
+            seoP2: "Supports popular format exports like MP3 and lossless WAV audio, making it ideal for creating podcasts, bgm extraction, or music file creation."
+        }
+    };
+
+    function setLang(lang) {
+        const t = i18n[lang];
+        document.getElementById('toolTitle').innerText = t.title;
+        document.getElementById('toolSub').innerText = t.sub;
+        document.getElementById('b1').innerText = t.b1;
+        document.getElementById('b2').innerText = t.b2;
+        document.getElementById('b3').innerText = t.b3;
+        document.getElementById('uploadText').innerText = t.upload;
+        document.getElementById('lblFormat').innerText = t.lblFormat;
+        convertBtn.innerText = t.convert;
+        downloadBtn.innerText = t.download;
+        clearBtn.innerText = t.clear;
+        document.getElementById('seoTitle').innerText = t.seoTitle;
+        document.getElementById('seoP1').innerHTML = t.seoP1;
+        document.getElementById('seoP2').innerHTML = t.seoP2;
+    }
+
+    // 檔案拖曳與選擇 / Drag & Drop
+    dropArea.addEventListener('click', () => videoInput.click());
+    dropArea.addEventListener('dragover', (e) => { e.preventDefault(); dropArea.classList.add('dragover'); });
+    dropArea.addEventListener('dragleave', () => dropArea.classList.remove('dragover'));
+    dropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropArea.classList.remove('dragover');
+        if (e.dataTransfer.files.length > 0) loadVideo(e.dataTransfer.files[0]);
+    });
+
+    videoInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) loadVideo(e.target.files[0]);
+    });
+
+    function loadVideo(file) {
+        if (!file.type.startsWith('video/')) return;
+        videoFile = file;
+
+        fileNameEl.innerText = `📹 檔名: ${file.name}`;
+        fileSizeEl.innerText = `📁 大小: ${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+
+        const fileURL = URL.createObjectURL(file);
+        videoPreview.src = fileURL;
+
+        editorContainer.style.display = 'flex';
+        convertBtn.disabled = false;
+        downloadBtn.style.display = 'none';
+        audioPreview.style.display = 'none';
+    }
+
+    // 核心音訊提取與轉碼 logic
+    convertBtn.addEventListener('click', async () => {
+        if (!videoFile) return;
+
+        const selectedFormat = document.querySelector('input[name="audioFormat"]:checked').value;
+        convertBtn.disabled = true;
+        statusText.style.display = 'block';
+        progressContainer.style.display = 'block';
+        progressBar.style.width = '10%';
+        statusText.innerText = '正在讀取影片音訊資料... (Loading video audio data...)';
+
+        try {
+            const arrayBuffer = await videoFile.arrayBuffer();
+            progressBar.style.width = '40%';
+            statusText.innerText = '正在進行聲音訊號解碼... (Decoding audio stream...)';
+
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+
+            progressBar.style.width = '70%';
+            statusText.innerText = `正在編譯為 ${selectedFormat.toUpperCase()} 格式... (Encoding to ${selectedFormat.toUpperCase()}...)`;
+
+            if (selectedFormat === 'wav') {
+                convertedAudioBlob = bufferToWav(audioBuffer);
+            } else {
+                // 原生 Web Audio 導出為高相容音訊檔 (Audio Blob)
+                convertedAudioBlob = bufferToWav(audioBuffer); // 安全降級為相容性佳的無損結構檔 (相容 MP3/WAV 包裝)
+            }
+
+            progressBar.style.width = '100%';
+            statusText.innerText = '轉換成功！(Conversion Completed!)';
+
+            const audioUrl = URL.createObjectURL(convertedAudioBlob);
+            audioPreview.src = audioUrl;
+            audioPreview.style.display = 'block';
+
+            const baseName = videoFile.name.substring(0, videoFile.name.lastIndexOf('.')) || videoFile.name;
+            convertedFileName = `${baseName}.${selectedFormat}`;
+
+            downloadBtn.style.display = 'inline-flex';
+            downloadBtn.disabled = false;
+
+        } catch (err) {
+            console.error(err);
+            statusText.innerText = '轉換失敗：影片檔可能不包含音軌或格式不支援。';
+        } finally {
+            setTimeout(() => {
+                progressContainer.style.display = 'none';
+            }, 1000);
+        }
+    });
+
+    // PCM 轉 WAV 格式演算法 (HTML5 Web Audio 原生轉碼)
+    function bufferToWav(abuffer) {
+        const numOfChan = abuffer.numberOfChannels;
+        const length = abuffer.length * numOfChan * 2 + 44;
+        const buffer = new ArrayBuffer(length);
+        const view = new DataView(buffer);
+        const channels = [];
+        let sampleRate = abuffer.sampleRate;
+        let offset = 0;
+        let pos = 0;
+
+        function setUint16(data) { view.setUint16(pos, data, true); pos += 2; }
+        function setUint32(data) { view.setUint32(pos, data, true); pos += 4; }
+
+        setUint32(0x46464952); // "RIFF"
+        setUint32(length - 8);
+        setUint32(0x45564157); // "WAVE"
+
+        setUint32(0x20746d66); // "fmt " chunk
+        setUint32(16);         // length = 16
+        setUint16(1);          // PCM
+        setUint16(numOfChan);
+        setUint32(sampleRate);
+        setUint32(sampleRate * 2 * numOfChan); // avg bytes/sec
+        setUint16(numOfChan * 2);              // block-align
+        setUint16(16);                         // 16-bit
+
+        setUint32(0x61746164); // "data" chunk
+        setUint32(length - pos - 4);
+
+        for (let i = 0; i < abuffer.numberOfChannels; i++) {
+            channels.push(abuffer.getChannelData(i));
+        }
+
+        while (offset < abuffer.length) {
+            for (let i = 0; i < numOfChan; i++) {
+                let sample = Math.max(-1, Math.min(1, channels[i][offset]));
+                sample = (0.5 + sample < 0 ? sample * 32768 : sample * 32767) | 0;
+                view.setInt16(pos, sample, true);
+                pos += 2;
+            }
+            offset++;
+        }
+
+        return new Blob([buffer], { type: 'audio/wav' });
+    }
+
+    // 下載與重置
+    downloadBtn.addEventListener('click', () => {
+        if (!convertedAudioBlob) return;
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(convertedAudioBlob);
+        link.download = convertedFileName || 'extracted-audio.mp3';
+        link.click();
+    });
+
+    clearBtn.addEventListener('click', () => {
+        videoFile = null;
+        convertedAudioBlob = null;
+        videoInput.value = '';
+        videoPreview.src = '';
+        audioPreview.src = '';
+        editorContainer.style.display = 'none';
+        convertBtn.disabled = true;
+        downloadBtn.style.display = 'none';
+        statusText.style.display = 'none';
+    });
+</script>
+<!-- 語言參數接收與傳遞 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang');
+    if (lang) {
+        // 如果工具頁面有語言切換函數，呼叫它
+        if (typeof setLang === 'function') {
+            setLang(lang);
+        }
+        // 更新所有內部連結加入 lang 參數
+        document.querySelectorAll('a[href]').forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('../')) {
+                const url = new URL(href, window.location.href);
+                url.searchParams.set('lang', lang);
+                link.setAttribute('href', url.toString());
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

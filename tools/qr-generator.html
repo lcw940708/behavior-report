@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code 生成器 — 自訂顏色、Logo、下載｜Free QR Code Generator｜ABRG 免費工具</title>
+    <meta name="description" content="免費 QR Code 生成器，支援自訂顏色、尺寸、加入 Logo，純前端處理。Free QR Code generator, customizable colors, size, logo support, 100% client-side, privacy safe." />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/qr-generator.html" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+    </script>
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --text-white: #ffffff;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --success: #10b981;
+            --red: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 780px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .lang-switch a {
+            color: var(--cyan);
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .lang-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: var(--text-white);
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .tool-title .emoji {
+            font-size: 1.8rem;
+        }
+
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 10px 0 25px;
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        /* ===== Form ===== */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .form-group label .optional {
+            color: #64748b;
+            font-weight: 400;
+            font-size: 0.75rem;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group input[type="color"] {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.08);
+        }
+
+        .form-group input[type="color"] {
+            height: 44px;
+            padding: 4px;
+            cursor: pointer;
+            width: 60px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+
+        .color-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .color-row input[type="color"] {
+            width: 50px;
+            flex-shrink: 0;
+        }
+
+        .color-row .color-hex {
+            font-size: 0.85rem;
+            color: #64748b;
+            font-family: monospace;
+        }
+
+        /* ===== QR Code 顯示區 ===== */
+        .qr-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            margin: 20px 0;
+            background: var(--bg);
+            border-radius: 12px;
+            border: 2px dashed rgba(148, 163, 184, 0.1);
+            min-height: 250px;
+            transition: all 0.3s;
+        }
+
+        .qr-display.has-qr {
+            border-color: rgba(34, 211, 238, 0.2);
+            border-style: solid;
+        }
+
+        #qrcode {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #qrcode img,
+        #qrcode canvas {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .qr-display .placeholder {
+            color: #64748b;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+
+        .qr-display .placeholder .icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* ===== Logo 上傳 ===== */
+        .logo-upload-area {
+            border: 1px dashed rgba(148, 163, 184, 0.2);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .logo-upload-area:hover {
+            border-color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .logo-upload-area .preview {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .logo-upload-area .preview img {
+            max-height: 40px;
+            border-radius: 4px;
+        }
+
+        .logo-upload-area .preview .file-name {
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        .logo-upload-area .preview .remove-logo {
+            background: none;
+            border: none;
+            color: var(--red);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0 6px;
+        }
+
+        .logo-upload-area .preview .remove-logo:hover {
+            color: #f87171;
+        }
+
+        #logoInput {
+            display: none;
+        }
+
+        /* ===== 按鈕 ===== */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+
+        .btn-primary:hover {
+            background: var(--cyan-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: #0b0f19;
+        }
+
+        .btn-success:hover {
+            background: #34d399;
+            transform: translateY(-1px);
+        }
+
+        .btn-success:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--red);
+            color: #fca5a5;
+        }
+
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.25);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        /* ===== 推介區 ===== */
+        .story-suggest {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+
+        .story-suggest .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .story-suggest .items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .story-suggest .items a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #555;
+        }
+
+        footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+
+        footer a:hover {
+            color: #888;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 18px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row-3 {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .btn {
+                flex: none;
+                width: 100%;
+            }
+
+            .color-row {
+                flex-wrap: wrap;
+            }
+
+            .qr-display {
+                min-height: 180px;
+                padding: 20px 10px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .form-row-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="lang-switch">
+            <a onclick="switchLang('hk')">🇭🇰 港版</a> |
+            <a onclick="switchLang('tw')">🇹🇼 台版</a> |
+            <a onclick="switchLang('en')">🇬🇧 English</a>
+        </div>
+
+        <h1 class="tool-title" id="toolTitle"><span class="emoji">📱</span> QR Code 生成器</h1>
+        <p class="tool-sub" id="toolSub">輸入內容 · 自訂顏色 · 加入 Logo · 一鍵下載</p>
+
+        <div class="badge-row">
+            <span class="badge" id="badge1">🔒 私隱安全</span>
+            <span class="badge" id="badge2">🎨 自訂顏色</span>
+            <span class="badge" id="badge3">🖼️ 支援 Logo</span>
+            <span class="badge" id="badge4">🆓 完全免費</span>
+        </div>
+
+        <!-- ===== 表單 ===== -->
+        <div class="form-group">
+            <label id="labelContent">📝 內容 <span class="optional">（URL / 文字 / 任何內容）</span></label>
+            <input type="text" id="contentInput" placeholder="例如：https://www.behavior-report.com" value="https://www.behavior-report.com" />
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label id="labelSize">📐 尺寸 <span class="optional">（像素）</span></label>
+                <input type="number" id="sizeInput" value="300" min="100" max="800" step="10" />
+            </div>
+            <div class="form-group">
+                <label id="labelMargin">🔲 邊距 <span class="optional">（格數）</span></label>
+                <input type="number" id="marginInput" value="2" min="0" max="10" step="1" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label id="labelFgColor">🎨 前景色</label>
+                <div class="color-row">
+                    <input type="color" id="fgColorInput" value="#22d3ee" />
+                    <span class="color-hex" id="fgColorHex">#22d3ee</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label id="labelBgColor">⬜ 背景色</label>
+                <div class="color-row">
+                    <input type="color" id="bgColorInput" value="#0b0f19" />
+                    <span class="color-hex" id="bgColorHex">#0b0f19</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label id="labelLogo">🖼️ Logo <span class="optional">（置中，建議 50x50 或以下）</span></label>
+            <div class="logo-upload-area" id="logoArea">
+                <div class="preview" id="logoPreview">
+                    <span style="color:#64748b; font-size:0.85rem;" id="logoUploadText">點擊上傳 Logo（PNG / JPG）</span>
+                </div>
+                <input type="file" id="logoInput" accept="image/png,image/jpeg,image/webp" />
+            </div>
+        </div>
+
+        <!-- ===== QR Code 顯示 ===== -->
+        <div class="qr-display" id="qrDisplay">
+            <div id="qrcode">
+                <div class="placeholder">
+                    <span class="icon">📱</span>
+                    <span id="placeholderText">輸入內容後按「生成」</span><br />
+                    <span style="font-size:0.8rem; color:#475569;" id="placeholderSub">所有處理喺你嘅瀏覽器完成</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== 按鈕 ===== -->
+        <div class="btn-group">
+            <button class="btn btn-primary" id="generateBtn">✨ <span id="generateText">生成 QR Code</span></button>
+            <button class="btn btn-success" id="downloadBtn" disabled>⬇️ <span id="downloadText">下載 PNG</span></button>
+            <button class="btn btn-danger" id="clearBtn">🗑️ <span id="clearText">清空</span></button>
+        </div>
+
+        <!-- ===== 推介區 ===== -->
+        <div class="story-suggest">
+            <div class="label" id="storyLabel">📖 你可能會中意嘅連載或測驗</div>
+            <div class="items">
+                <a href="../story_01.html">《你睡著以後》</a>
+                <a href="../story_02.html">《貓狗人格》</a>
+                <a href="../quiz-01.html">隱私天平</a>
+                <a href="../index.html">🏠 返回主頁</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+    </footer>
+
+    <script>
+        // =============================================================
+        // 語言文字
+        // =============================================================
+        const texts = {
+            hk: {
+                title: '📱 QR Code 生成器',
+                sub: '輸入內容 · 自訂顏色 · 加入 Logo · 一鍵下載',
+                badge1: '🔒 私隱安全',
+                badge2: '🎨 自訂顏色',
+                badge3: '🖼️ 支援 Logo',
+                badge4: '🆓 完全免費',
+                storyLabel: '📖 你可能會中意嘅連載或測驗',
+                labelContent: '📝 內容 (URL / 文字 / 任何內容)',
+                labelSize: '📐 尺寸 (像素)',
+                labelMargin: '🔲 邊距 (格數)',
+                labelFgColor: '🎨 前景色',
+                labelBgColor: '⬜ 背景色',
+                labelLogo: '🖼️ Logo (置中，建議 50x50 或以下)',
+                logoUpload: '點擊上傳 Logo（PNG / JPG）',
+                placeholder: '輸入內容後按「生成」',
+                placeholderSub: '所有處理喺你嘅瀏覽器完成',
+                generate: '生成 QR Code',
+                download: '下載 PNG',
+                clear: '清空',
+                enterContent: '請輸入內容',
+                logoLoaded: '✅ Logo 已上傳',
+                generateFailed: '生成失敗，請檢查內容是否有效',
+                qrPlaceholder: '輸入內容後按「生成」'
+            },
+            tw: {
+                title: '📱 QR Code 生成器',
+                sub: '輸入內容 · 自訂顏色 · 加入 Logo · 一鍵下載',
+                badge1: '🔒 私隱安全',
+                badge2: '🎨 自訂顏色',
+                badge3: '🖼️ 支援 Logo',
+                badge4: '🆓 完全免費',
+                storyLabel: '📖 你可能會喜歡的連載或測驗',
+                labelContent: '📝 內容 (URL / 文字 / 任何內容)',
+                labelSize: '📐 尺寸 (像素)',
+                labelMargin: '🔲 邊距 (格數)',
+                labelFgColor: '🎨 前景色',
+                labelBgColor: '⬜ 背景色',
+                labelLogo: '🖼️ Logo (置中，建議 50x50 或以下)',
+                logoUpload: '點擊上傳 Logo（PNG / JPG）',
+                placeholder: '輸入內容後按「生成」',
+                placeholderSub: '所有處理在你的瀏覽器完成',
+                generate: '生成 QR Code',
+                download: '下載 PNG',
+                clear: '清空',
+                enterContent: '請輸入內容',
+                logoLoaded: '✅ Logo 已上傳',
+                generateFailed: '生成失敗，請檢查內容是否有效',
+                qrPlaceholder: '輸入內容後按「生成」'
+            },
+            en: {
+                title: '📱 QR Code Generator',
+                sub: 'Enter content · Custom colors · Add Logo · One-click download',
+                badge1: '🔒 Privacy Safe',
+                badge2: '🎨 Custom Colors',
+                badge3: '🖼️ Logo Support',
+                badge4: '🆓 Free',
+                storyLabel: '📖 You might also like',
+                labelContent: '📝 Content (URL / Text / Anything)',
+                labelSize: '📐 Size (pixels)',
+                labelMargin: '🔲 Margin (blocks)',
+                labelFgColor: '🎨 Foreground Color',
+                labelBgColor: '⬜ Background Color',
+                labelLogo: '🖼️ Logo (Centered, recommended 50x50 or smaller)',
+                logoUpload: 'Click to upload Logo (PNG / JPG)',
+                placeholder: 'Enter content and click "Generate"',
+                placeholderSub: 'All processing is done in your browser',
+                generate: 'Generate QR Code',
+                download: 'Download PNG',
+                clear: 'Clear',
+                enterContent: 'Please enter content',
+                logoLoaded: '✅ Logo uploaded',
+                generateFailed: 'Generation failed, please check your content',
+                qrPlaceholder: 'Enter content and click "Generate"'
+            }
+        };
+
+        let lang = 'hk';
+
+        // =============================================================
+        // 語言切換
+        // =============================================================
+        function switchLang(l) {
+            lang = l;
+            const t = texts[l];
+
+            document.getElementById('toolTitle').innerHTML = t.title;
+            document.getElementById('toolSub').innerText = t.sub;
+            document.getElementById('badge1').innerText = t.badge1;
+            document.getElementById('badge2').innerText = t.badge2;
+            document.getElementById('badge3').innerText = t.badge3;
+            document.getElementById('badge4').innerText = t.badge4;
+            document.getElementById('storyLabel').innerText = t.storyLabel;
+            document.getElementById('labelContent').innerHTML = t.labelContent;
+            document.getElementById('labelSize').innerHTML = t.labelSize;
+            document.getElementById('labelMargin').innerHTML = t.labelMargin;
+            document.getElementById('labelFgColor').innerHTML = t.labelFgColor;
+            document.getElementById('labelBgColor').innerHTML = t.labelBgColor;
+            document.getElementById('labelLogo').innerHTML = t.labelLogo;
+            document.getElementById('logoUploadText').innerText = t.logoUpload;
+            document.getElementById('placeholderText').innerText = t.placeholder;
+            document.getElementById('placeholderSub').innerText = t.placeholderSub;
+            document.getElementById('generateText').innerText = t.generate;
+            document.getElementById('downloadText').innerText = t.download;
+            document.getElementById('clearText').innerText = t.clear;
+
+            document.querySelectorAll('.story-suggest .items a').forEach(a => {
+                try {
+                    const url = new URL(a.href);
+                    url.searchParams.set('lang', l);
+                    a.href = url.toString();
+                } catch (e) {}
+            });
+
+            // Re-generate QR if exists
+            if (currentQR) {
+                generateQR();
+            }
+        }
+
+        // =============================================================
+        // 偵測語言（URL 參數優先）
+        // =============================================================
+        function detectLanguage() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('lang') === 'en') return 'en';
+            if (params.get('lang') === 'tw') return 'tw';
+            if (params.get('lang') === 'hk') return 'hk';
+            const userLang = navigator.language || navigator.userLanguage;
+            if (userLang.startsWith('en')) return 'en';
+            if (userLang.includes('zh')) {
+                if (userLang.includes('TW') || userLang.includes('tw')) return 'tw';
+                return 'hk';
+            }
+            return 'hk';
+        }
+
+        const detectedLang = detectLanguage();
+        switchLang(detectedLang);
+
+        // =============================================================
+        // 工具核心
+        // =============================================================
+        const contentInput = document.getElementById('contentInput');
+        const sizeInput = document.getElementById('sizeInput');
+        const marginInput = document.getElementById('marginInput');
+        const fgColorInput = document.getElementById('fgColorInput');
+        const bgColorInput = document.getElementById('bgColorInput');
+        const fgColorHex = document.getElementById('fgColorHex');
+        const bgColorHex = document.getElementById('bgColorHex');
+        const logoInput = document.getElementById('logoInput');
+        const logoArea = document.getElementById('logoArea');
+        const logoPreview = document.getElementById('logoPreview');
+        const generateBtn = document.getElementById('generateBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const qrContainer = document.getElementById('qrcode');
+        const qrDisplay = document.getElementById('qrDisplay');
+
+        let currentQR = null;
+        let logoDataURL = null;
+        let currentQRCanvas = null;
+
+        // 顏色同步
+        fgColorInput.addEventListener('input', function() {
+            fgColorHex.textContent = this.value;
+        });
+        bgColorInput.addEventListener('input', function() {
+            bgColorHex.textContent = this.value;
+        });
+
+        // Logo 上傳
+        logoArea.addEventListener('click', function() {
+            logoInput.click();
+        });
+
+        logoInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                logoDataURL = ev.target.result;
+                renderLogoPreview(logoDataURL);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        function renderLogoPreview(dataURL) {
+            const t = texts[lang];
+            logoPreview.innerHTML = `
+                <img src="${dataURL}" alt="Logo" />
+                <span class="file-name">${t.logoLoaded}</span>
+                <button class="remove-logo" id="removeLogoBtn">✕</button>
+            `;
+            document.getElementById('removeLogoBtn').addEventListener('click', function(e) {
+                e.stopPropagation();
+                removeLogo();
+            });
+        }
+
+        function removeLogo() {
+            logoDataURL = null;
+            logoInput.value = '';
+            const t = texts[lang];
+            logoPreview.innerHTML = `
+                <span style="color:#64748b; font-size:0.85rem;">${t.logoUpload}</span>
+            `;
+            if (currentQR) {
+                generateQR();
+            }
+        }
+
+        // 生成 QR Code
+        function generateQR() {
+            const content = contentInput.value.trim();
+            if (!content) {
+                const t = texts[lang];
+                alert(t.enterContent);
+                return;
+            }
+
+            const size = parseInt(sizeInput.value) || 300;
+            const margin = parseInt(marginInput.value) || 2;
+            const fgColor = fgColorInput.value;
+            const bgColor = bgColorInput.value;
+
+            qrContainer.innerHTML = '';
+
+            try {
+                currentQR = new QRCode(qrContainer, {
+                    text: content,
+                    width: size,
+                    height: size,
+                    colorDark: fgColor,
+                    colorLight: bgColor,
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+
+                const canvas = qrContainer.querySelector('canvas');
+                if (!canvas) {
+                    const img = qrContainer.querySelector('img');
+                    if (img) {
+                        const tempCanvas = document.createElement('canvas');
+                        tempCanvas.width = img.width;
+                        tempCanvas.height = img.height;
+                        const ctx = tempCanvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0);
+                        if (logoDataURL) {
+                            addLogoToCanvas(tempCanvas, logoDataURL);
+                        }
+                        currentQRCanvas = tempCanvas;
+                        qrContainer.innerHTML = '';
+                        qrContainer.appendChild(tempCanvas);
+                    }
+                } else {
+                    if (logoDataURL) {
+                        addLogoToCanvas(canvas, logoDataURL);
+                    }
+                    currentQRCanvas = canvas;
+                }
+
+                qrDisplay.classList.add('has-qr');
+                downloadBtn.disabled = false;
+
+            } catch (err) {
+                console.error('QR 生成失敗:', err);
+                const t = texts[lang];
+                alert(t.generateFailed);
+            }
+        }
+
+        function addLogoToCanvas(canvas, logoURL) {
+            return new Promise((resolve) => {
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                img.onload = function() {
+                    const logoSize = canvas.width * 0.2;
+                    const x = (canvas.width - logoSize) / 2;
+                    const y = (canvas.height - logoSize) / 2;
+
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(canvas.width / 2, canvas.height / 2, logoSize / 2 + 4, 0, Math.PI * 2);
+                    ctx.fillStyle = '#0b0f19';
+                    ctx.fill();
+                    ctx.restore();
+
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(canvas.width / 2, canvas.height / 2, logoSize / 2, 0, Math.PI * 2);
+                    ctx.clip();
+                    ctx.drawImage(img, x, y, logoSize, logoSize);
+                    ctx.restore();
+
+                    resolve();
+                };
+                img.onerror = function() {
+                    console.warn('Logo 載入失敗，跳過');
+                    resolve();
+                };
+                img.src = logoURL;
+            });
+        }
+
+        function downloadQR() {
+            const canvas = currentQRCanvas || qrContainer.querySelector('canvas');
+            if (!canvas) {
+                alert('請先生成 QR Code');
+                return;
+            }
+
+            const link = document.createElement('a');
+            link.download = 'qrcode.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        function clearAll() {
+            const t = texts[lang];
+            qrContainer.innerHTML = `
+                <div class="placeholder">
+                    <span class="icon">📱</span>
+                    ${t.qrPlaceholder}<br />
+                    <span style="font-size:0.8rem; color:#475569;">${t.placeholderSub}</span>
+                </div>
+            `;
+            qrDisplay.classList.remove('has-qr');
+            downloadBtn.disabled = true;
+            currentQR = null;
+            currentQRCanvas = null;
+        }
+
+        generateBtn.addEventListener('click', generateQR);
+        downloadBtn.addEventListener('click', downloadQR);
+        clearBtn.addEventListener('click', clearAll);
+
+        contentInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                generateQR();
+            }
+        });
+
+        setTimeout(generateQR, 300);
+    </script>
+
+</body>
+</html>

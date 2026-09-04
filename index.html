@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <link rel="canonical" href="https://www.behavior-report.com/" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABRG 大數據行為觀察中心</title>
+    <style>
+        :root { 
+            --bg-color: #0b0f19; 
+            --card-bg: #151d30; 
+            --text-color: #94a3b8; 
+            --accent-cyan: #22d3ee; 
+            --accent-red: #ef4444; 
+            --accent-green: #22c55e;
+            --border-color: rgba(148, 163, 184, 0.15);
+        }
+        * { box-sizing: border-box; }
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
+        .container { max-width: 1080px; width: 100%; }
+
+        /* 右上角頂部導覽列 */
+        .top-bar { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 20px; 
+        }
+        .lang-switch a { color: var(--accent-cyan); text-decoration: none; margin: 0 5px; font-size: 0.9rem; }
+        .lang-switch a:hover { text-decoration: underline; }
+
+        .blog-top-btn {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+            padding: 6px 14px;
+            border: 1px solid var(--accent-cyan);
+            border-radius: 20px;
+            transition: all 0.2s;
+            background: rgba(34, 211, 238, 0.08);
+        }
+        .blog-top-btn:hover {
+            background: var(--accent-cyan);
+            color: #0b0f19;
+        }
+
+        .hero { text-align: center; padding: 10px 20px 20px; border-bottom: 1px solid rgba(148, 163, 184, 0.1); margin-bottom: 30px; }
+        .hero h1 { font-size: 2.2rem; color: #ffffff; font-weight: bold; margin-bottom: 10px; }
+        .hero h1 span { color: var(--accent-red); }
+        .hero p { font-size: 1.05rem; color: var(--text-color); max-width: 650px; margin: 0 auto; line-height: 1.6; }
+
+        .section-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .section-nav a {
+            background: rgba(34, 211, 238, 0.08);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 8px 18px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .section-nav a:hover {
+            background: var(--accent-cyan);
+            color: #0b0f19;
+        }
+
+        .section-title { 
+            font-size: 1.4rem; 
+            color: #ffffff; 
+            font-weight: bold; 
+            margin: 45px 0 20px; 
+            padding-bottom: 10px; 
+            border-bottom: 1px solid rgba(148, 163, 184, 0.15); 
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .section-title .badge { 
+            background: var(--accent-red); 
+            color: #fff; 
+            font-size: 0.75rem; 
+            padding: 3px 10px; 
+            border-radius: 20px; 
+            font-weight: normal;
+        }
+        .section-title .badge.tool-badge {
+            background: var(--accent-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+        .section-title .sub-text {
+            font-size: 0.85rem; 
+            font-weight: normal; 
+            color: var(--text-color); 
+            margin-left: auto;
+        }
+
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+
+        .card { 
+            background: rgba(36, 50, 79, 0.3); 
+            border: 1px solid var(--border-color); 
+            border-radius: 12px; 
+            padding: 20px; 
+            transition: all 0.25s ease; 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card:hover { 
+            border-color: var(--accent-cyan); 
+            background: rgba(34, 211, 238, 0.05); 
+            transform: translateY(-2px);
+        }
+        .card .card-title { color: #ffffff; font-size: 1.1rem; font-weight: bold; margin-bottom: 8px; }
+        .card .card-title .icon { margin-right: 8px; }
+        .card .card-desc { font-size: 0.9rem; color: var(--text-color); margin-bottom: 16px; line-height: 1.5; flex-grow: 1; }
+        .card .card-link { color: var(--accent-cyan); text-decoration: none; font-size: 0.9rem; font-weight: bold; }
+        .card .card-link:hover { text-decoration: underline; }
+
+        .more-link-container {
+            text-align: center;
+            margin-top: 25px;
+        }
+        .more-link-btn {
+            display: inline-block;
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+            padding: 10px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+        .more-link-btn:hover {
+            background: var(--accent-cyan);
+            color: #0b0f19;
+            transform: translateY(-2px);
+        }
+
+        .tool-category-title {
+            font-size: 1rem;
+            color: var(--accent-cyan);
+            margin: 25px 0 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+        }
+        .tool-card {
+            background: rgba(21, 29, 48, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+        .tool-card:hover {
+            border-color: var(--accent-cyan);
+            background: rgba(34, 211, 238, 0.08);
+            color: var(--accent-cyan);
+            transform: translateY(-1px);
+        }
+
+        .footer { 
+            margin-top: 60px; 
+            padding-top: 25px; 
+            border-top: 1px solid rgba(148, 163, 184, 0.1); 
+            text-align: center; 
+            font-size: 0.85rem; 
+            color: #555; 
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.7rem; }
+            .section-title { font-size: 1.2rem; }
+            .section-title .sub-text { width: 100%; margin-left: 0; margin-top: 4px; }
+            .tool-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+
+    <!-- 頂部列：左邊切換語言，右邊放置 Blog 入口 -->
+    <div class="top-bar">
+        <div class="lang-switch">
+            <a href="#" id="lang-hk">🇭🇰 港版</a> | <a href="#" id="lang-tw">🇹🇼 台版</a>
+        </div>
+        <a href="blog.html" id="blog-btn" class="blog-top-btn">📝 文章 Blog</a>
+    </div>
+
+    <div class="hero">
+        <h1>🕵️ 大數據<span>行為觀察</span>中心</h1>
+        <p id="hero-desc">港台打工仔嘅深夜避難所。用測驗解剖日常內耗，用連載故事陪你捱過每一晚，用實用工具幫你提高效率。</p>
+    </div>
+    <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.25); border-radius: 12px; padding: 18px 24px; margin-bottom: 30px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="background: #ef4444; color: #fff; font-size: 0.75rem; font-weight: bold; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; animation: pulse 2s infinite;">Live</span>
+            <div>
+                <div style="color: #ffffff; font-weight: bold; font-size: 1.05rem; margin-bottom: 2px;">⚡ 即時 AI 新聞快報</div>
+                <div style="color: #94a3b8; font-size: 0.875rem;">過濾雜音，AI 極速提煉香港與全球熱門新聞摘要</div>
+            </div>
+        </div>
+        <a href="news.html" style="background: #ef4444; color: #ffffff; padding: 8px 18px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 0.9rem; transition: all 0.2s; white-space: nowrap;">閱讀最新新聞 →</a>
+    </div>
+
+    <div class="section-nav">
+        <a href="#tools-section">🛠️ 免費線上工具</a>
+        <a href="#quiz-section">🔮 行為盲測</a>
+        <a href="#story-section">📖 都市連載</a>
+    </div>
+
+    <!-- ===== 板塊 1：實用工具庫 ===== -->
+    <div id="tools-section">
+        <div class="section-title">
+            🛠️ 實用線上工具箱 <span class="badge tool-badge" id="tools-count">100 款工具</span>
+            <span class="sub-text" id="tools-sub">免費、即開即用、免安裝任何軟體</span>
+        </div>
+
+        <div class="tool-category-title">⚡ 測試與互動工具</div>
+        <div class="tool-grid">
+            <a href="tools/reaction-time-test.html" class="tool-card"><span>⚡</span> 反應速度測試</a>
+            <a href="tools/click-speed-test.html" class="tool-card"><span>🖱️</span> 點擊速度測試</a>
+            <a href="tools/spacebar-counter.html" class="tool-card"><span>⌨️</span> 空白鍵連打測試</a>
+            <a href="tools/typing-test.html" class="tool-card"><span>⌨️</span> 英文打字測試</a>
+            <a href="tools/chinese-typing-test.html" class="tool-card"><span>⌨️</span> 中文打字測試</a>
+            <a href="tools/coin-flip.html" class="tool-card"><span>🪙</span> 線上擲硬幣 / 抽籤 Coin Flip & Picker</a>
+            <a href="tools/random-number-generator.html" class="tool-card"><span>🎲</span> 隨機數字生成器 Random Number Generator</a>
+            <a href="tools/quote-generator.html" class="tool-card"><span>💡</span> 靈感名言隨機顯示器 Random Quote Generator</a>
+        </div>
+
+        <div class="tool-category-title">💰 金融計算工具</div>
+        <div class="tool-grid">
+            <a href="tools/loan-calculator.html" class="tool-card"><span>🏦</span> 貸款計算機</a>
+            <a href="tools/mortgage-calculator.html" class="tool-card"><span>🏠</span> 房貸按揭計算 Mortgage</a>
+            <a href="tools/monthly-flat-rate-to-apr.html" class="tool-card"><span>📊</span> 月平息轉 APR 換算器</a>
+<a href="tools/credit-card-installment-true-cost.html" class="tool-card"><span>💳</span> 信用卡分期真實成本</a>
+<a href="tools/loan-term-sensitivity-analyzer.html" class="tool-card"><span>📈</span> 貸款期數靈敏度分析</a>
+<a href="tools/loan-affordability-dsr-calculator.html" class="tool-card"><span>📋</span> 貸款負擔能力 DSR</a>
+<a href="tools/personal-loan-rate-comparator.html" class="tool-card"><span>📊</span> 私人貸款利率比較</a>
+            <a href="tools/auto-loan-calculator.html" class="tool-card"><span>🚗</span> 汽車貸款 Auto Loan</a>
+            <a href="tools/auto-lease-vs-buy-calculator.html" class="tool-card"><span>⚖️</span> 租車 vs 買車 Lease vs Buy</a>
+            <a href="tools/rent-vs-buy-calculator.html" class="tool-card"><span>🏠</span> 租屋 vs 買房 Rent vs Buy</a>
+            <a href="tools/apr-calculator.html" class="tool-card"><span>📈</span> 實際年利率 APR</a>
+            <a href="tools/effective-interest-calculator.html" class="tool-card"><span>📈</span> 實質有效利率 EAR/APY</a>
+            <a href="tools/debt-consolidation-calculator.html" class="tool-card"><span>💳</span> 債務整合計算</a>
+            <a href="tools/loan-eligibility-calculator.html" class="tool-card"><span>📋</span> 貸款資格評估</a>
+            <a href="tools/extra-payment-calculator.html" class="tool-card"><span>💰</span> 提前還款計算</a>
+            <a href="tools/roi-calculator.html" class="tool-card"><span>📊</span> ROI 投資報酬率</a>
+            <a href="tools/npv-irr-calculator.html" class="tool-card"><span>📊</span> 淨現值與內部報酬率 NPV/IRR</a>
+            <a href="tools/wacc-calculator.html" class="tool-card"><span>📈</span> WACC 資本成本</a>
+            <a href="tools/bond-calculator.html" class="tool-card"><span>📈</span> 債券定價與 YTM</a>
+            <a href="tools/leverage-calculator.html" class="tool-card"><span>⚡</span> 槓桿與保證金 Leverage</a>
+            <a href="tools/compound-interest-calculator.html" class="tool-card"><span>📈</span> 複利計算 Compound</a>
+            <a href="tools/rule-of-72-calculator.html" class="tool-card"><span>⏳</span> 72 法則計算器 Rule of 72</a>
+            <a href="tools/payroll-calculator.html" class="tool-card"><span>💵</span> 薪資計算 Payroll</a>
+            <a href="tools/inflation-calculator.html" class="tool-card"><span>💸</span> 通脹計算 Inflation</a>
+            <a href="tools/tip-split-calculator.html" class="tool-card"><span>🍽️</span> 小費與帳單分攤 Tip & Split</a>
+            <a href="tools/retirement-planner.html" class="tool-card"><span>🌴</span> 退休規劃 Retirement Planner</a>
+        </div>
+
+        <div class="tool-category-title">📄 文件與文字處理</div>
+        <div class="tool-grid">
+            <a href="tools/ai-resignation.html?lang=hk" class="tool-card"><span>🤖</span> AI 文件/辭職信生成器</a>
+            <a href="tools/word-counter.html?lang=hk" class="tool-card"><span>📊</span> 字數統計工具</a>
+            <a href="tools/duplicate-checker.html" class="tool-card"><span>🔍</span> 文字重複檢測</a>
+            <a href="tools/diff.html" class="tool-card"><span>🔍</span> 文字差異比較</a>
+            <a href="tools/pdf-merge.html" class="tool-card"><span>📄</span> PDF 合併</a>
+            <a href="tools/pdf-split.html" class="tool-card"><span>✂️</span> PDF 拆分</a>
+            <a href="tools/pdf-to-word.html" class="tool-card"><span>📄</span> PDF 轉 Word</a>
+            <a href="tools/pdf-to-excel.html" class="tool-card"><span>📊</span> PDF 轉 Excel</a>
+            <a href="tools/case-converter.html" class="tool-card"><span>🔤</span> 文字大小寫轉換 Case Converter</a>
+            <a href="tools/line-sorter.html" class="tool-card"><span>🔢</span> 文字排序 Line Sorter</a>
+            <a href="tools/tts-converter.html" class="tool-card"><span>🔊</span> 文字轉語音 TTS</a>
+            <a href="tools/markdown-editor.html" class="tool-card"><span>📝</span> Markdown 編輯器</a>
+        </div>
+
+        <div class="tool-category-title">🖼️ 圖片處理與工具</div>
+        <div class="tool-grid">
+            <a href="tools/png-to-jpg.html" class="tool-card"><span>🛠️</span> 圖片格式轉換 (PNG/JPG)</a>
+            <a href="tools/image-converter.html" class="tool-card"><span>🖼️</span> 圖像格式批次轉換器 Batch Image Converter</a>
+            <a href="tools/images-to-pdf.html" class="tool-card"><span>🖼️</span> 圖片轉 PDF</a>
+            <a href="tools/remove-bg.html" class="tool-card"><span>🖼️</span> 圖片去背</a>
+            <a href="tools/composer.html" class="tool-card"><span>🖼️</span> 圖片合成</a>
+            <a href="tools/crop-image.html" class="tool-card"><span>✂️</span> 圖片裁剪</a>
+            <a href="tools/resize-image.html" class="tool-card"><span>📐</span> 圖片縮放</a>
+            <a href="tools/image-flip.html" class="tool-card"><span>↔️</span> 圖片鏡像翻轉 Image Flip</a>
+            <a href="tools/image-rotate.html" class="tool-card"><span>🔄</span> 圖片旋轉 Image Rotate</a>
+            <a href="tools/image-watermark.html" class="tool-card"><span>💧</span> Image Watermark / 圖片加水印</a>
+            <a href="tools/watermark-remover.html" class="tool-card"><span>✨</span> 浮水印移除 Watermark Remover</a>
+            <a href="tools/image-filter.html" class="tool-card"><span>🎨</span> Image Filter / 圖片濾鏡</a>
+            <a href="tools/image-art-style.html" class="tool-card"><span>🎨</span> 圖片風格化 Art Style</a>
+            <a href="tools/image-stitch.html" class="tool-card"><span>🧩</span> Image Stitch / 圖片拼接</a>
+            <a href="tools/image-grid-splitter.html" class="tool-card"><span>🔲</span> Image Grid Splitter / 九宮格切割</a>
+            <a href="tools/image-rounded-corners.html" class="tool-card"><span>⭕</span> Rounded Corners / 圖片圓角</a>
+            <a href="tools/add-border.html" class="tool-card"><span>🖼️</span> 圖片邊框添加器 Add Border</a>
+            <a href="tools/image-to-text.html" class="tool-card"><span>📝</span> 圖片轉文字 OCR</a>
+            <a href="tools/qr-generator.html" class="tool-card"><span>📱</span> QR Code 生成器</a>
+            <a href="tools/qr-decoder.html" class="tool-card"><span>📷</span> QR Code 解碼器</a>
+            <a href="tools/alt-generator.html" class="tool-card"><span>🤖</span> Alt 標籤產生器 Alt Generator</a>
+            <a href="tools/video-to-gif.html" class="tool-card"><span>🎬</span> Video to GIF / 影片轉GIF</a>
+            <a href="tools/gif-to-video.html" class="tool-card"><span>🎞️</span> GIF to Video / GIF轉影片</a>
+            <a href="tools/video-compressor.html" class="tool-card"><span>📦</span> Video Compressor / 影片壓縮</a>
+            <a href="tools/video-converter.html" class="tool-card"><span>🔄</span> Video Converter / 影片格式轉換</a>
+            <a href="tools/video-trimmer.html" class="tool-card"><span>✂️</span> Video Trimmer / 影片時間裁切</a>
+            <a href="tools/video-cropper.html" class="tool-card"><span>✂️</span> 影片畫面裁切 Video Cropper</a>
+            <a href="tools/video-merger.html" class="tool-card"><span>🎬</span> 影片合併工具 Video Merger</a>
+            <a href="tools/video-rotate.html" class="tool-card"><span>🔄</span> 影片旋轉翻轉 Video Rotate & Flip</a>
+            <a href="tools/video-speed.html" class="tool-card"><span>⚡</span> 影片變速 Video Speed</a>
+            <a href="tools/video-reverse.html" class="tool-card"><span>◀️</span> 影片倒放 Video Reverse</a>
+            <a href="tools/video-to-audio.html" class="tool-card"><span>🎵</span> 影片轉音訊 Video to MP3</a>
+            <a href="tools/mute-video.html" class="tool-card"><span>🔇</span> 影片靜音 Mute Video</a>
+            <a href="tools/screen-recorder.html" class="tool-card"><span>📹</span> 螢幕錄影 Screen Recorder</a>
+            <a href="tools/thumbnail-maker.html" class="tool-card"><span>🖼️</span> 影片縮圖 Thumbnail Maker</a>
+        </div>
+
+        <div class="tool-category-title">🧮 計算、工程與實用生活</div>
+        <div class="tool-grid">
+            <a href="tools/hashtag-generator.html" class="tool-card"><span>🏷️</span> 社交媒體標籤生成器 Social Hashtag Generator</a>
+            <a href="tools/youtube-duration-calculator.html" class="tool-card"><span>⏱️</span> YouTube 播放清單長度計算器 YouTube Playlist Duration Calculator</a>
+            <a href="tools/percent-calculator.html" class="tool-card"><span>🧮</span> 百分比計算機</a>
+            <a href="tools/notepad.html" class="tool-card"><span>📝</span> 線上快速備忘錄 Quick Scratchpad</a>
+            <a href="tools/age-calculator.html" class="tool-card"><span>🎂</span> 年齡計算機</a>
+            <a href="tools/bmi-calculator.html" class="tool-card"><span>⚖️</span> BMI 計算機</a>
+            <a href="tools/bmr-tdee-calculator.html" class="tool-card"><span>🔥</span> BMR/TDEE 健康計算機</a>
+            <a href="tools/currency-converter.html" class="tool-card"><span>💱</span> 匯率換算</a>
+            <a href="tools/unit-converter.html" class="tool-card"><span>📏</span> 單位換算器</a>
+            <a href="tools/password-generator.html" class="tool-card"><span>🔐</span> 密碼生成器</a>
+            <a href="tools/json-formatter.html" class="tool-card"><span>🔧</span> JSON 格式化</a>
+            <a href="tools/html-escape.html" class="tool-card"><span>🔣</span> HTML 轉義</a>
+            <a href="tools/uuid-generator.html" class="tool-card"><span>🆔</span> UUID 生成器</a>
+            <a href="tools/meta-generator.html" class="tool-card"><span>📋</span> Meta 標籤產生器</a>
+            <a href="tools/regex-tester.html" class="tool-card"><span>🔍</span> Regex 正則測試</a>
+            <a href="tools/url-encoder.html" class="tool-card"><span>🔗</span> URL 編解碼器</a>
+            <a href="tools/yaml-json-converter.html" class="tool-card"><span>🔀</span> YAML ↔ JSON</a>
+            <a href="tools/timestamp-converter.html" class="tool-card"><span>⏱️</span> 時間戳轉換</a>
+            <a href="tools/base64-converter.html" class="tool-card"><span>🔢</span> Base64 編解碼</a>
+            <a href="tools/color-converter.html" class="tool-card"><span>🎨</span> 顏色碼轉換</a>
+            <a href="tools/color-picker.html" class="tool-card"><span>🎨</span> 顏色選取器</a>
+            <a href="tools/weather.html" class="tool-card"><span>🌤️</span> 港台天氣查詢</a>
+            <a href="tools/invoice-lottery.html" class="tool-card"><span>🇹🇼</span> 發票中獎查詢</a>
+            <a href="tools/holiday-calendar.html" class="tool-card"><span>📅</span> 港台假期查詢</a>
+            <a href="tools/countdown-timer.html" class="tool-card"><span>⏱️</span> 倒數計時器</a>
+            <a href="tools/pomodoro.html" class="tool-card"><span>🍅</span> 番茄鐘專注計時器 Pomodoro Timer</a>
+            <a href="tools/egg-timer.html" class="tool-card"><span>🥚</span> 煮蛋計時器 Egg Boiling Timer</a>
+            <a href="tools/timezone-converter.html" class="tool-card"><span>🌍</span> 全球時區轉換</a>
+        </div>
+    </div>
+
+    <!-- ===== 板塊 2：精選行為盲測 ===== -->
+    <div id="quiz-section">
+        <div class="section-title">
+            🔮 精選行為盲測 <span class="badge" id="quiz-badge">精選 6 題</span>
+            <span class="sub-text" id="quiz-sub">揀一個嚟玩，睇 animation 窺探隱藏人格</span>
+        </div>
+        <div class="card-grid" id="quiz-grid"></div>
+        <div class="more-link-container">
+            <a href="quizzes.html" id="all-quizzes-btn" class="more-link-btn">🔮 查看全部測驗 →</a>
+        </div>
+    </div>
+
+    <!-- ===== 板塊 3：精選都市連載 ===== -->
+    <div id="story-section">
+        <div class="section-title">
+            📖 精選都市連載 <span class="badge" id="story-badge">精選 6 個</span>
+            <span class="sub-text" id="story-sub">每星期更新，追住你嘅共鳴</span>
+        </div>
+        <div class="card-grid" id="story-grid"></div>
+        <div class="more-link-container">
+            <a href="stories.html" id="all-stories-btn" class="more-link-btn">📖 查看全部故事 →</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="index.html">主頁</a> |
+        <a href="blog.html">文章 Blog</a> |
+        <a href="about.html">關於我</a> |
+        <a href="contact.html">聯絡我們</a> |
+        <a href="privacy.html">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let lang = urlParams.get('lang') || 'hk';
+    if (lang !== 'hk' && lang !== 'tw') lang = 'hk';
+
+    document.getElementById('lang-hk').href = `?lang=hk`;
+    document.getElementById('lang-tw').href = `?lang=tw`;
+    document.getElementById('blog-btn').href = `blog.html?lang=${lang}`;
+    document.getElementById('all-quizzes-btn').href = `quizzes.html?lang=${lang}`;
+    document.getElementById('all-stories-btn').href = `stories.html?lang=${lang}`;
+
+    const heroDesc = document.getElementById('hero-desc');
+    const quizSub = document.getElementById('quiz-sub');
+    const storySub = document.getElementById('story-sub');
+    const toolsSub = document.getElementById('tools-sub');
+
+    if (lang === 'tw') {
+        heroDesc.innerText = '港台打工仔的深夜避難所。用測驗解剖日常內耗，用連載故事陪你撐過每一晚，用實用工具幫你提高效率。';
+        quizSub.innerText = '挑一個來玩，看看你的隱藏人格';
+        storySub.innerText = '每週更新，抓住你的共鳴';
+        toolsSub.innerText = '免費、即開即用、免安裝任何軟體';
+        document.getElementById('all-quizzes-btn').innerText = '🔮 查看全部測驗 →';
+        document.getElementById('all-stories-btn').innerText = '📖 查看全部故事 →';
+    } else {
+        heroDesc.innerText = '港台打工仔嘅深夜避難所。用測驗解剖日常內耗，用連載故事陪你捱過每一晚，用實用工具幫你提高效率。';
+        quizSub.innerText = '揀一個嚟玩，睇吓你嘅隱藏人格';
+        storySub.innerText = '每星期更新，追住你嘅共鳴';
+        toolsSub.innerText = '免費、即開即用、免安裝任何軟體';
+        document.getElementById('all-quizzes-btn').innerText = '🔮 查看全部測驗 →';
+        document.getElementById('all-stories-btn').innerText = '📖 查看全部故事 →';
+    }
+
+    const allStories = [
+        { id: '01', title: '你睡著以後' },
+        { id: '02', title: '貓狗人格' },
+        { id: '03', title: '份工食人' },
+        { id: '04', title: '星座黑化' },
+        { id: '05', title: '已讀不回' },
+        { id: '06', title: '隔離位嗰個人' },
+        { id: '07', title: '兩條路' },
+        { id: '08', title: '第三者' },
+        { id: '09', title: '佢全身都係花' },
+        { id: '10', title: '後樓梯嘅人' },
+        { id: '11', title: '過年' },
+        { id: '12', title: '抄襲' },
+        { id: '13', title: '租屋血淚' },
+        { id: '14', title: '見義勇為' },
+        { id: '15', title: '容貌焦慮' },
+        { id: '16', title: '工具人' },
+        { id: '17', title: '社交媒體成癮' },        
+    ];
+
+    const allQuizzes = [
+        { id: '01', title: '隱私天平' },
+        { id: '02', title: '動物人格' },
+        { id: '03', title: '奴性臨界點' },
+        { id: '04', title: '星座黑化' },
+        { id: '05', title: '依附特徵' },
+        { id: '06', title: '職場磁場' },
+        { id: '07', title: '生存法則' },
+        { id: '08', title: '關係蠶食' },
+        { id: '09', title: '圖騰標籤' },
+        { id: '10', title: '煙民防線' },
+        { id: '11', title: '過年防線' },
+        { id: '12', title: '抄襲界線' },
+        { id: '13', title: '迫遷防線' },
+        { id: '14', title: '正義防線' },
+        { id: '15', title: '容貌防線' },
+        { id: '16', title: '工具防線' },
+        { id: '17', title: '成癮防線' },       
+    ];
+
+    const featuredStories = allStories.slice(0, 6);
+    const featuredQuizzes = allQuizzes.slice(0, 6);
+
+    const storyGrid = document.getElementById('story-grid');
+    storyGrid.innerHTML = '';
+    featuredStories.forEach(s => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <div class="card-title"><span class="icon">📖</span>${s.title}</div>
+            <div class="card-desc">第一話 · 點擊閱讀</div>
+            <a href="story_${s.id}.html?lang=${lang}" class="card-link">閱讀第一話 →</a>
+        `;
+        storyGrid.appendChild(card);
+    });
+
+    const quizGrid = document.getElementById('quiz-grid');
+    quizGrid.innerHTML = '';
+    featuredQuizzes.forEach(q => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <div class="card-title"><span class="icon">🔮</span>${q.title}</div>
+            <div class="card-desc">點擊開始測試</div>
+            <a href="quiz-${q.id}.html?lang=${lang}" class="card-link">立即測試 →</a>
+        `;
+        quizGrid.appendChild(card);
+    });
+});
+</script>
+</body>
+</html>

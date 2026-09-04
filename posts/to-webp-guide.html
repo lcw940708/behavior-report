@@ -1,0 +1,513 @@
+<!-- ============================================================
+posts/to-webp-guide.html
+圖片轉 WebP 教學文 — 完整 HTML
+============================================================ -->
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【圖片轉 WebP 教學】PNG/JPG/GIF 轉 WebP 壓縮圖片教學｜Free Image to WebP Guide</title>
+    <meta name="description" content="免費圖片轉 WebP 教學！將 PNG、JPG 或動畫 GIF 轉換為 WebP 格式，體積細 30% 以上。支援靜態及動畫轉換，純前端處理保護私隱。Free online image to WebP converter guide.">
+    <meta name="keywords" content="圖片轉 WebP, WebP 轉換, PNG 轉 WebP, JPG 轉 WebP, GIF 轉 WebP, 圖片壓縮, 網站加速, 免費圖片轉檔, Image to WebP, WebP Converter, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/to-webp-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【圖片轉 WebP 教學】PNG/JPG/GIF 轉 WebP 壓縮圖片 — Free Image to WebP Guide">
+    <meta property="og:description" content="將 PNG、JPG 或動畫 GIF 轉換為 WebP，體積細 30% 以上，網站加速必備。100% 純前端運算。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/to-webp-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Image to WebP Guide – Convert PNG/JPG/GIF to WebP">
+    <meta name="twitter:description" content="Learn how to convert images to WebP format for 30%+ smaller file sizes. Supports static and animated GIF conversion.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "圖片轉 WebP 教學：PNG/JPG/GIF 轉 WebP 壓縮圖片",
+      "description": "介紹如何將 PNG、JPG 或動畫 GIF 轉換為 WebP 格式，體積細 30% 以上，適用於網站加速、電商圖片與社交媒體分享。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>圖片轉 WebP 教學：PNG/JPG/GIF 轉 WebP 壓縮圖片</h1>
+
+        <h2>1. 導言</h2>
+        <p>你試過 Upload 一張高清相上網，結果等 Load 等到火滾未？或者你整緊個網站，但啲圖片太大搞到載入好慢？其實好多時問題唔係你張相影得衰，而係你仲用緊舊時代嘅圖片格式——PNG 同 JPG 已經 outdated 喇。Google 十年前就推出咗 <strong>WebP</strong> 格式，比 PNG 細 30% 以上，畫質仲要差唔多。呢篇文會話你知點樣將 PNG、JPG、甚至動畫 GIF 轉做 WebP，幫你慳位、慳 bandwidth、慳時間。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>WebP</strong> 係 Google 喺 2010 年推出嘅圖片格式，專門為網絡傳輸而設計。佢支援有損同無損壓縮，仲支援透明通道（Alpha）同動畫——即係一個格式可以取代 PNG、JPG 同 GIF 三個格式。</p>
+        <p>WebP 嘅核心技術係基於 VP8 影片編碼嘅幀內壓縮，比起傳統 JPEG 嘅 DCT 壓縮更加高效。簡單講：<strong>同樣畫質，WebP 細 30-50%；同樣 size，WebP 靚好多</strong>。</p>
+        <p>我哋嘅工具採用純前端技術：靜態圖片用 Canvas 輸出 WebP，動畫 GIF 就用 magic-webp 函式庫轉換。所有檔案喺你嘅瀏覽器內處理，唔會 Upload 去任何 Server，私隱 100% 安全。</p>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>網站加速：</strong>將網站圖片轉做 WebP，PageSpeed 分數即時提升，Core Web Vitals 更好。</li>
+            <li><strong>電商產品圖：</strong>產品圖片細 30%，顧客 Load 得快，跳出率自然低。</li>
+            <li><strong>社交媒體分享：</strong>將高質相片轉 WebP 再分享，快過人又唔失真。</li>
+            <li><strong>Email Marketing：</strong>電郵入面嘅圖片轉 WebP，減少被 Gmail 擋嘅機會，載入更快。</li>
+            <li><strong>動畫 GIF 取代：</strong>將又大又慢嘅 GIF 轉做 WebP 動畫，size 細 50% 以上，仲支援更靚嘅顏色。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>揀模式：</strong>「靜態圖片」適用於 PNG/JPG，「動畫 GIF」適用於 GIF 檔案。</li>
+            <li><strong>上傳圖片：</strong>拖曳或點擊上傳圖片。</li>
+            <li><strong>調校品質：</strong>拖動滑桿或點擊預設值（高壓縮 60 / 平衡 75 / 高畫質 90 / 無損 100）。</li>
+            <li><strong>轉換：</strong>點擊「轉換為 WebP」，或者直接㩒 <kbd>Enter</kbd>。</li>
+            <li><strong>下載：</strong>點擊「下載 WebP」儲存檔案。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站前端工具</th>
+                    <th>Photoshop / 軟件</th>
+                    <th>其他線上轉換網站</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>付費軟件</td>
+                    <td>免費但有廣告/限制</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>✅ 本地處理</td>
+                    <td>❌ 需上傳伺服器</td>
+                </tr>
+                <tr>
+                    <td><strong>動畫 GIF 支援</strong></td>
+                    <td>✅ 支援</td>
+                    <td>✅ 支援</td>
+                    <td>❌ 通常不支援</td>
+                </tr>
+                <tr>
+                    <td><strong>批量處理</strong></td>
+                    <td>❌ 單張（未來可加）</td>
+                    <td>✅ 支援</td>
+                    <td>❌ 通常不支援</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>高（需安裝學習）</td>
+                    <td>中等</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「以前我整網站，啲 product shot 全部用 PNG，結果成個頁面 20MB，Load 到天荒地老。後來將全部嘢轉做 WebP，成個 site 由 20MB 變 6MB，<strong>PageSpeed 由 45 分跳到 92 分</strong>。你以為自己張相好靚？但用戶等唔切就會走。WebP 唔係完美，但喺『用戶等唔等得切』呢個問題面前，你冇得揀。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ 想將圖片轉 WebP 慳位加速？</h3>
+            <p style="margin:0; font-size:0.9rem;">支援 PNG/JPG 同動畫 GIF，純前端處理，私隱安全，完全免費。</p>
+            <a href="../tools/to-webp.html" class="cta-btn-link" id="ctaBtn">👉 立即免費試用圖片轉 WebP 工具</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Image to WebP Guide: Convert PNG/JPG/GIF to WebP for Smaller Images</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Ever uploaded a high-res photo only to wait forever for it to load? Or built a website with images so heavy it crawls? The problem isn't your photography—it's your image format. PNG and JPG are outdated. Google introduced <strong>WebP</strong> a decade ago: <strong>30%+ smaller than PNG</strong> with comparable quality. This guide shows you how to convert PNG, JPG, and even animated GIFs to WebP—saving space, bandwidth, and time.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>WebP</strong> is an image format developed by Google in 2010, designed specifically for web delivery. It supports both lossy and lossless compression, transparency (alpha channel), and animation—meaning one format can replace PNG, JPG, and GIF.</p>
+        <p>WebP's core technology uses intra-frame compression based on the VP8 video codec, which is more efficient than JPEG's DCT compression. Simply put: <strong>same quality, WebP is 30-50% smaller; same size, WebP looks better</strong>.</p>
+        <p>Our tool uses pure client-side technology: static images use Canvas to output WebP, and animated GIFs use the magic-webp library. All files are processed in your browser—never uploaded to any server. 100% privacy-safe.</p>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Website Speed Optimization:</strong> Convert site images to WebP and instantly boost PageSpeed scores and Core Web Vitals.</li>
+            <li><strong>E-Commerce Product Images:</strong> 30% smaller product images = faster loading = lower bounce rates.</li>
+            <li><strong>Social Media Sharing:</strong> Convert high-quality photos to WebP for faster sharing without quality loss.</li>
+            <li><strong>Email Marketing:</strong> WebP images in emails load faster and are less likely to be blocked by Gmail.</li>
+            <li><strong>Animated GIF Replacement:</strong> Convert bulky GIFs to WebP animation—50%+ smaller with better color support.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Select Mode:</strong> "Static Image" for PNG/JPG, "Animated GIF" for GIF files.</li>
+            <li><strong>Upload:</strong> Drag and drop or click to upload your image.</li>
+            <li><strong>Adjust Quality:</strong> Drag the slider or click presets (High Compression 60 / Balance 75 / High Quality 90 / Lossless 100).</li>
+            <li><strong>Convert:</strong> Click "Convert to WebP" or press <kbd>Enter</kbd>.</li>
+            <li><strong>Download:</strong> Click "Download WebP" to save your file.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Client-Side Tool (Us)</th>
+                    <th>Photoshop / Software</th>
+                    <th>Other Online Converters</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Paid Software</td>
+                    <td>Freemium / Ads</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local Processing</td>
+                    <td>✅ Local Processing</td>
+                    <td>❌ Server Upload Required</td>
+                </tr>
+                <tr>
+                    <td><strong>Animated GIF Support</strong></td>
+                    <td>✅ Supported</td>
+                    <td>✅ Supported</td>
+                    <td>❌ Usually Not</td>
+                </tr>
+                <tr>
+                    <td><strong>Batch Processing</strong></td>
+                    <td>❌ Single (Future-ready)</td>
+                    <td>✅ Supported</td>
+                    <td>❌ Usually Not</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>High (Install & Learn)</td>
+                    <td>Medium</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"When I was building a website, all my product shots were PNGs. The whole page was 20MB—loading took forever. After converting everything to WebP, <strong>the site went from 20MB to 6MB, and PageSpeed jumped from 45 to 92</strong>. You might think your images look great, but users won't wait. WebP isn't perfect, but when it comes to 'will users wait or bounce?'—you don't have a choice."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ Want to Convert Images to WebP for Speed?</h3>
+            <p style="margin:0; font-size:0.9rem;">Supports PNG/JPG and animated GIFs. 100% client-side, privacy-safe, and completely free.</p>
+            <a href="../tools/to-webp.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Image to WebP Converter Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯（跟 text-diff-guide.html 一致）
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtn = document.getElementById('ctaBtn');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtn.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtn.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+// 頁面載入時執行
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    // 語言按鈕切換
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

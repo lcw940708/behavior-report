@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO & AdSense 元數據 -->
+    <title>【PDF 合併教學】將多個 PDF 合併成一個檔案｜Free PDF Merge Guide</title>
+    <meta name="description" content="免費且安全的線上 PDF 合併工具！將多個 PDF 檔案合併成一個文件，支援拖曳排序頁面、預覽結果，純前端運算保護文件私隱。適用於合約整合、報告製作與文件整理。Free online PDF merge guide.">
+    <meta name="keywords" content="PDF 合併, PDF 合併工具, 合併 PDF 檔案, 免費 PDF 工具, PDF Merger, Merge PDF Files, Combine PDF, Free PDF Tool, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/pdf-merge-guide.html">
+
+    <!-- Hreflang 國際化標籤 -->
+    <link rel="alternate" hreflang="zh-Hant" href="https://www.behavior-report.com/posts/pdf-merge-guide.html?lang=hk" />
+    <link rel="alternate" hreflang="en" href="https://www.behavior-report.com/posts/pdf-merge-guide.html?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://www.behavior-report.com/posts/pdf-merge-guide.html" />
+
+    <!-- Open Graph (社交媒體優化) -->
+    <meta property="og:title" content="【PDF 合併教學】將多個 PDF 合併成一個檔案 — PDF Merge Guide">
+    <meta property="og:description" content="100% 純前端運算！教你免費將多個 PDF 合併成一個文件，拖曳排序頁面，保護文件私隱。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/pdf-merge-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free PDF Merge Guide – Combine Multiple PDFs into One File">
+    <meta name="twitter:description" content="Learn how to merge multiple PDF files into one document with drag-and-drop page sorting for free.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "PDF 合併教學：將多個 PDF 合併成一個檔案",
+      "description": "介紹如何使用純前端技術嘅 PDF 合併工具，適用於合約整合、報告製作與文件整理等場景。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn active" id="btn-zh" onclick="setLang('zh')">🇭🇰 繁體中文</button>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇬🇧 English</button>
+    </div>
+
+    <!-- 中文內容區塊 -->
+    <div id="content-zh">
+        <h1>PDF 合併教學：將多個 PDF 合併成一個檔案</h1>
+
+        <h2>1. 導言</h2>
+        <p>你有冇試過要將多個 PDF 檔案合併成一個？例如要將多份合約、發票、報告整合成一個文件，方便傳送同歸檔。但市面上好多合併工具一係要收費，一係要將檔案上傳到雲端伺服器，私隱風險高。我哋嘅免費線上 PDF 合併工具專為解決呢啲問題而設：支援上傳多個 PDF、拖曳排序頁面、合併前預覽結果，而且 100% 純前端運算，檔案唔會離開你嘅瀏覽器。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p>PDF 合併（PDF Merge）係指將兩個或以上嘅 PDF 檔案結合成一個單一文件。呢個功能喺日常工作中非常常用：例如將多份簽署好嘅合約合成一份、將多個季度報告整合成年度報告、或將多張 Invoice 合成一張方便傳送。</p>
+        <p>傳統合併方法通常使用 Adobe Acrobat Pro 等付費軟件，或者將檔案上傳到第三方網站處理。前者成本高，後者有數據外洩風險。我哋嘅工具採用 PDF-lib 技術，所有合併操作喺你嘅瀏覽器內完成，檔案由頭到尾都唔會離開你嘅裝置。</p>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>合約整合：</strong>將多份簽署好嘅合約、附錄、補充協議合併成一份完整文件，方便發送俾客戶或存檔。</li>
+            <li><strong>報告製作：</strong>將多個季度報告、部門報告合併成一份年度報告，統一排版同頁碼。</li>
+            <li><strong>文件整理：</strong>將多張 Invoice、收據、證明文件合併成一個 PDF，方便會計記錄或報銷。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>上傳 PDF 檔案：</strong>點擊或拖曳上傳多個 PDF 檔案，每個檔案嘅頁面會自動拆開顯示。</li>
+            <li><strong>調整頁面順序：</strong>拉動頁面旁邊嘅 ⋮ 圖示上／下移動，調整頁面排列順序。</li>
+            <li><strong>刪除唔要嘅頁面：</strong>點擊頁面旁邊嘅 ✕ 按鈕，刪除唔需要嘅頁面。</li>
+            <li><strong>預覽合併結果：</strong>點擊「預覽合併結果」喺新視窗檢查合併後嘅 PDF。</li>
+            <li><strong>下載合併 PDF：</strong>確認無誤後點擊「下載合併 PDF」，即可儲存合併後嘅檔案。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站前端工具</th>
+                    <th>Adobe Acrobat Pro</th>
+                    <th>其他線上工具</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>昂貴訂閱（~$20/月）</td>
+                    <td>免費但有廣告或限制</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>100% 本地處理</td>
+                    <td>需上傳雲端</td>
+                    <td>低（需上傳伺服器）</td>
+                </tr>
+                <tr>
+                    <td><strong>拖曳排序</strong></td>
+                    <td>✅ 支援</td>
+                    <td>✅ 支援</td>
+                    <td>❌ 通常不支援</td>
+                </tr>
+                <tr>
+                    <td><strong>頁面刪除</strong></td>
+                    <td>✅ 支援</td>
+                    <td>✅ 支援</td>
+                    <td>❌ 通常不支援</td>
+                </tr>
+                <tr>
+                    <td><strong>預覽結果</strong></td>
+                    <td>✅ 支援</td>
+                    <td>✅ 支援</td>
+                    <td>❌ 通常不支援</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「之前有次要將 10 份簽好咗嘅合約 send 俾客戶，如果逐份傳送，客戶要下載 10 次，好唔方便。我試過用其他免費合併工具，但一係有檔案大小限制，一係要將文件上傳到佢哋嘅伺服器，私隱好冇保障。後來用咗呢個 PDF 合併工具，將 10 個 PDF 一拖入去，再調整一下頁面順序，10 秒就合併好一個檔案。對於成日要處理文件嘅人嚟講，呢個工具真係幫到手。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ 需要將多個 PDF 合併成一個檔案？</h3>
+            <p style="margin:0; font-size:0.9rem;">免費、安全、無需註冊，即刻試用 PDF 合併工具！</p>
+            <a href="../tools/pdf-merge.html?lang=hk" class="cta-btn-link tool-link">👉 立即免費試用 PDF 合併工具</a>
+        </div>
+    </div>
+
+    <!-- English Content Section -->
+    <div id="content-en" style="display: none;">
+        <h1>Free PDF Merge Guide: Combine Multiple PDFs into One File</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Have you ever needed to combine multiple PDF files into one? For example, merging contracts, invoices, or reports into a single document for easier sending and archiving. Many free merge tools either charge fees or require uploading files to cloud servers—creating privacy risks. Our free online PDF merge tool solves these problems: supports multiple PDF uploads, drag-and-drop page sorting, preview before merging, and 100% client-side processing. Your files never leave your browser.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p>PDF merging involves combining two or more PDF files into a single document. This is a common task in daily work: merging signed contracts, consolidating quarterly reports into annual reports, or combining multiple invoices for accounting purposes.</p>
+        <p>Traditional methods use paid software like Adobe Acrobat Pro or upload files to third-party websites—the former is expensive, the latter poses privacy risks. Our tool leverages PDF-lib technology—all merging happens locally in your browser, and your files never leave your device.</p>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Contract Consolidation:</strong> Combine signed contracts, appendices, and supplemental agreements into a single document for clients or archiving.</li>
+            <li><strong>Report Compilation:</strong> Merge quarterly or departmental reports into a single annual report with unified formatting.</li>
+            <li><strong>Document Organization:</strong> Combine multiple invoices, receipts, and supporting documents into one PDF for accounting or reimbursement.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Upload PDF Files:</strong> Click or drag-and-drop multiple PDF files—pages from each file are automatically displayed.</li>
+            <li><strong>Reorder Pages:</strong> Drag the ⋮ handle up/down to adjust page order.</li>
+            <li><strong>Remove Unwanted Pages:</strong> Click the ✕ button to delete pages you don't need.</li>
+            <li><strong>Preview Result:</strong> Click "Preview Merged PDF" to check the merged file in a new window.</li>
+            <li><strong>Download Merged PDF:</strong> Click "Download Merged PDF" to save the final document.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Client-Side Tool (Us)</th>
+                    <th>Adobe Acrobat Pro</th>
+                    <th>Other Online Tools</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>~$20/month</td>
+                    <td>Freemium / Ads</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>100% Local Processing</td>
+                    <td>Cloud Upload Required</td>
+                    <td>Low (Server Upload)</td>
+                </tr>
+                <tr>
+                    <td><strong>Drag & Drop Sorting</strong></td>
+                    <td>✅ Supported</td>
+                    <td>✅ Supported</td>
+                    <td>❌ Usually Not</td>
+                </tr>
+                <tr>
+                    <td><strong>Page Deletion</strong></td>
+                    <td>✅ Supported</td>
+                    <td>✅ Supported</td>
+                    <td>❌ Usually Not</td>
+                </tr>
+                <tr>
+                    <td><strong>Preview Result</strong></td>
+                    <td>✅ Supported</td>
+                    <td>✅ Supported</td>
+                    <td>❌ Usually Not</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"I once had to send 10 signed contracts to a client. Sending them individually meant the client had to download 10 separate files—very inconvenient. I tried other free merge tools, but they either had file size limits or required uploading files to their servers. Then I used this PDF merge tool—dragged in all 10 PDFs, adjusted the order, and had a merged file in 10 seconds. For anyone who handles documents regularly, this tool is a lifesaver."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ Need to Merge Multiple PDFs into One File?</h3>
+            <p style="margin:0; font-size:0.9rem;">Free, secure, and no registration required—try the PDF merge tool now.</p>
+            <a href="../tools/pdf-merge.html?lang=en" class="cta-btn-link tool-link">👉 Try the Free PDF Merge Tool Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" class="footer-home">主頁</a> |
+        <a href="../blog.html" class="footer-blog">文章 Blog</a> |
+        <a href="../about.html" class="footer-about">關於我</a> |
+        <a href="../privacy.html" class="footer-privacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+    function setLang(lang, updateUrl = true) {
+        const zhContent = document.getElementById('content-zh');
+        const enContent = document.getElementById('content-en');
+        const btnZh = document.getElementById('btn-zh');
+        const btnEn = document.getElementById('btn-en');
+        const backLink = document.getElementById('backLink');
+        const toolLinks = document.querySelectorAll('.tool-link');
+        const footerHome = document.querySelector('.footer-home');
+        const footerBlog = document.querySelector('.footer-blog');
+        const footerAbout = document.querySelector('.footer-about');
+        const footerPrivacy = document.querySelector('.footer-privacy');
+
+        if (lang === 'en') {
+            zhContent.style.display = 'none';
+            enContent.style.display = 'block';
+            btnZh.classList.remove('active');
+            btnEn.classList.add('active');
+            backLink.textContent = "← Back to Articles";
+            document.documentElement.lang = "en";
+
+            // 更新工具連結附帶參數，確保跳轉至英文介面
+            toolLinks.forEach(link => {
+                link.href = "../tools/pdf-merge.html?lang=en";
+            });
+
+            footerHome.textContent = "Home";
+            footerBlog.textContent = "Blog";
+            footerAbout.textContent = "About";
+            footerPrivacy.textContent = "Privacy Policy";
+        } else {
+            zhContent.style.display = 'block';
+            enContent.style.display = 'none';
+            btnZh.classList.add('active');
+            btnEn.classList.remove('active');
+            backLink.textContent = "← 返回文章列表";
+            document.documentElement.lang = "zh-Hant-HK";
+
+            // 更新工具連結附帶參數，確保跳轉至中文介面
+            toolLinks.forEach(link => {
+                link.href = "../tools/pdf-merge.html?lang=hk";
+            });
+
+            footerHome.textContent = "主頁";
+            footerBlog.textContent = "文章 Blog";
+            footerAbout.textContent = "關於我";
+            footerPrivacy.textContent = "隱私權政策";
+        }
+
+        if (updateUrl) {
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', lang === 'en' ? 'en' : 'hk');
+            window.history.pushState({}, '', newUrl);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const langParam = urlParams.get('lang');
+        if (langParam === 'en') {
+            setLang('en', false);
+        } else {
+            setLang('zh', false);
+        }
+    });
+</script>
+
+</body>
+</html>

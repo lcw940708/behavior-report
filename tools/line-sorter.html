@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO 基本標籤 / Bilingual SEO -->
+    <title>免費線上文字排序工具 — 按字母/長度/隨機排列文字行｜Online Line Sorter Tool</title>
+    <meta name="description" content="免費線上文字與列表排序工具 (Free Online Text & Line Sorter Tool)。支援按字母順序 (A-Z / Z-A)、文字長度、隨機亂數打亂或反轉行數順序，輕鬆處理清單與資料排版。" />
+    <meta name="keywords" content="文字排序工具, 按字母排序, 隨機排列文字, text sorter, line alphabetizer, sort text by length, randomize lines, list sorter online, free text tools" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/line-sorter.html" />
+
+    <!-- Open Graph 社交分享標籤 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="免費線上文字排序工具 — 極速按字母、長度或隨機重排｜Line Sorter" />
+    <meta property="og:description" content="一鍵將文字清單按 A-Z、Z-A、字數長短或隨機打亂重排！純前端運算，100% 隱私安全。" />
+    <meta property="og:url" content="https://www.behavior-report.com/tools/line-sorter.html" />
+
+    <!-- Schema.org 結構化資料 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "線上文字排序工具 (Online Line Sorter Tool)",
+      "url": "https://www.behavior-report.com/tools/line-sorter.html",
+      "description": "提供按字母順序、字數長度、隨機打亂等功能的免費線上文字清單排序工具。",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "All",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch { text-align: center; margin-bottom: 20px; }
+        .lang-switch button {
+            background: transparent; border: none; color: var(--cyan);
+            cursor: pointer; font-size: 0.9rem; margin: 0 8px; font-weight: bold;
+        }
+        .lang-switch button:hover { text-decoration: underline; }
+
+        .tool-title { font-size: 1.6rem; color: #ffffff; text-align: center; font-weight: bold; }
+        .tool-sub { text-align: center; color: var(--text); font-size: 0.95rem; margin: 10px 0 25px; }
+
+        textarea {
+            width: 100%;
+            height: 240px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            resize: vertical;
+            outline: none;
+            font-family: monospace, inherit;
+        }
+
+        textarea:focus { border-color: var(--cyan); }
+
+        .stats-bar {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            background: rgba(255, 255, 255, 0.02);
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .btn-action {
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--cyan);
+            border: 1px solid rgba(34, 211, 238, 0.25);
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.88rem;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .btn-action:hover {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+
+        .btn-util {
+            background: var(--bg);
+            color: var(--text-light);
+            border: 1px solid var(--border);
+        }
+
+        .btn-util:hover {
+            background: var(--border);
+            color: #ffffff;
+        }
+
+        .seo-article { margin-top: 40px; padding-top: 25px; border-top: 1px solid rgba(148, 163, 184, 0.08); line-height: 1.6; }
+        .seo-article h2 { color: #ffffff; font-size: 1.1rem; margin-bottom: 12px; }
+        .seo-article p { font-size: 0.85rem; color: var(--text); margin-bottom: 12px; }
+
+        footer { text-align: center; margin-top: 30px; font-size: 11px; color: #555; }
+        footer a { color: #555; text-decoration: none; margin: 0 8px; }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="lang-switch">
+        <button onclick="setLang('zh')">繁體中文</button> |
+        <button onclick="setLang('en')">English</button>
+    </div>
+
+    <h1 class="tool-title" id="toolTitle">🔢 線上文字排序工具 (Online Line Sorter)</h1>
+    <p class="tool-sub" id="toolSub">一鍵按字母順序、字數長度或隨機打亂重排清單 · 純前端隱私安全</p>
+
+    <div class="stats-bar">
+        <span><strong id="lblLines">總行數 (Lines):</strong> <span id="lineCount">0</span></span>
+        <span><strong id="lblChars">總字數 (Characters):</strong> <span id="charCount">0</span></span>
+    </div>
+
+    <textarea id="textContent" placeholder="請在此貼上或輸入您要排序的文字（每行一個項目）..." oninput="updateStats()"></textarea>
+
+    <div class="btn-grid">
+        <button class="btn-action" onclick="sortAlphabetical(true)" id="btnAZ">🔤 字母排序 (A-Z)</button>
+        <button class="btn-action" onclick="sortAlphabetical(false)" id="btnZA">🔤 逆序排列 (Z-A)</button>
+        <button class="btn-action" onclick="sortByLength(true)" id="btnLenAsc">📏 按長度 (由短到長)</button>
+        <button class="btn-action" onclick="sortByLength(false)" id="btnLenDesc">📏 按長度 (由長到短)</button>
+        <button class="btn-action" onclick="shuffleLines()" id="btnRandom">🎲 隨機打亂 (Random)</button>
+        <button class="btn-action" onclick="reverseLines()" id="btnReverse">🔄 反轉行順序 (Reverse)</button>
+        <button class="btn-action btn-util" onclick="copyText(this)" id="btnCopy">📋 複製內容</button>
+        <button class="btn-action btn-util" onclick="clearText()" id="btnClear">🗑️ 清空文字</button>
+    </div>
+
+    <article class="seo-article">
+        <h2 id="seoTitle">專業英文與文字清單線上排序工具</h2>
+        <p id="seoP1">本工具提供強大的文字行排序功能。無論是整理名單、關鍵字列表、程式碼陣列，還是處理大量文字資料，都能快速實現按字母 A-Z 順序、長短順序或隨機抽樣重排。</p>
+        <p id="seoP2"><strong>Free Online Text & Line Sorter Tool.</strong> Easily alphabetize list items, sort text by sentence length, or randomize lines with a single click. Ideal for content creators, developers, and data analysts.</p>
+    </article>
+</div>
+
+<footer>
+    <a href="../index.html">Home</a> | <a href="../privacy.html">Privacy Policy</a>
+</footer>
+
+<script>
+    const textContent = document.getElementById('textContent');
+    const charCount = document.getElementById('charCount');
+    const lineCount = document.getElementById('lineCount');
+
+    const i18n = {
+        zh: {
+            title: "🔢 線上文字排序工具 (Online Line Sorter)",
+            sub: "一鍵按字母順序、字數長度或隨機打亂重排清單 · 純前端隱私安全",
+            lblLines: "總行數 (Lines):", lblChars: "總字數 (Characters):",
+            placeholder: "請在此貼上或輸入您要排序的文字（每行一個項目）...",
+            btnAZ: "🔤 字母排序 (A-Z)", btnZA: "🔤 逆序排列 (Z-A)",
+            btnLenAsc: "📏 按長度 (由短到長)", btnLenDesc: "📏 按長度 (由長到短)",
+            btnRandom: "🎲 隨機打亂 (Random)", btnReverse: "🔄 反轉行順序 (Reverse)",
+            btnCopy: "📋 複製內容", btnClear: "🗑️ 清空文字", copied: "已複製！",
+            seoTitle: "專業英文與文字清單線上排序工具",
+            seoP1: "本工具提供強大的文字行排序功能。無論是整理名單、關鍵字列表、程式碼陣列，還是處理大量文字資料，都能快速實現按字母 A-Z 順序、長短順序或隨機抽樣重排。",
+            seoP2: "<strong>Free Online Text & Line Sorter Tool.</strong> Easily alphabetize list items, sort text by sentence length, or randomize lines with a single click. Ideal for content creators, developers, and data analysts."
+        },
+        en: {
+            title: "🔢 Online Line Sorter Tool",
+            sub: "Sort text lines alphabetically, by length, or randomize instantly",
+            lblLines: "Lines:", lblChars: "Characters:",
+            placeholder: "Paste or type your text list here (one item per line)...",
+            btnAZ: "🔤 Sort A to Z", btnZA: "🔤 Sort Z to A",
+            btnLenAsc: "📏 Length (Shortest First)", btnLenDesc: "📏 Length (Longest First)",
+            btnRandom: "🎲 Randomize / Shuffle", btnReverse: "🔄 Reverse Lines",
+            btnCopy: "📋 Copy Text", btnClear: "🗑️ Clear", copied: "Copied!",
+            seoTitle: "Free Text Alphabetizer & Line Sorting Tool",
+            seoP1: "Our online Line Sorter enables writers, researchers, and developers to clean up text data. Alphabetize lists, order lines by length, or shuffle items randomly without uploading data to servers.",
+            seoP2: "<strong>Free Online Text & Line Sorter Tool.</strong> Easily alphabetize list items, sort text by sentence length, or randomize lines with a single click. Ideal for content creators, developers, and data analysts."
+        }
+    };
+
+    let currentLang = 'zh';
+
+    function setLang(lang) {
+        currentLang = lang;
+        const t = i18n[lang];
+        document.getElementById('toolTitle').innerText = t.title;
+        document.getElementById('toolSub').innerText = t.sub;
+        document.getElementById('lblLines').innerText = t.lblLines;
+        document.getElementById('lblChars').innerText = t.lblChars;
+        textContent.placeholder = t.placeholder;
+        document.getElementById('btnAZ').innerText = t.btnAZ;
+        document.getElementById('btnZA').innerText = t.btnZA;
+        document.getElementById('btnLenAsc').innerText = t.btnLenAsc;
+        document.getElementById('btnLenDesc').innerText = t.btnLenDesc;
+        document.getElementById('btnRandom').innerText = t.btnRandom;
+        document.getElementById('btnReverse').innerText = t.btnReverse;
+        document.getElementById('btnCopy').innerText = t.btnCopy;
+        document.getElementById('btnClear').innerText = t.btnClear;
+        document.getElementById('seoTitle').innerText = t.seoTitle;
+        document.getElementById('seoP1').innerHTML = t.seoP1;
+        document.getElementById('seoP2').innerHTML = t.seoP2;
+    }
+
+    function getLines() {
+        return textContent.value.split('\n');
+    }
+
+    function setLines(lines) {
+        textContent.value = lines.join('\n');
+        updateStats();
+    }
+
+    function updateStats() {
+        const val = textContent.value;
+        charCount.innerText = val.length;
+        lineCount.innerText = val === '' ? 0 : val.split('\n').length;
+    }
+
+    function sortAlphabetical(ascending = true) {
+        const lines = getLines();
+        lines.sort((a, b) => ascending ? a.localeCompare(b, undefined, {sensitivity: 'base', numeric: true}) : b.localeCompare(a, undefined, {sensitivity: 'base', numeric: true}));
+        setLines(lines);
+    }
+
+    function sortByLength(ascending = true) {
+        const lines = getLines();
+        lines.sort((a, b) => ascending ? a.length - b.length : b.length - a.length);
+        setLines(lines);
+    }
+
+    function shuffleLines() {
+        const lines = getLines();
+        for (let i = lines.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [lines[i], lines[j]] = [lines[j], lines[i]];
+        }
+        setLines(lines);
+    }
+
+    function reverseLines() {
+        const lines = getLines();
+        lines.reverse();
+        setLines(lines);
+    }
+
+    function copyText(btn) {
+        if (!textContent.value) return;
+        textContent.select();
+        navigator.clipboard.writeText(textContent.value);
+        const originalText = btn.innerText;
+        btn.innerText = i18n[currentLang].copied;
+        setTimeout(() => { btn.innerText = originalText; }, 1500);
+    }
+
+    function clearText() {
+        textContent.value = '';
+        updateStats();
+    }
+</script>
+<!-- 語言參數接收與傳遞 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang');
+    if (lang) {
+        if (typeof setLang === 'function') {
+            setLang(lang);
+        }
+        document.querySelectorAll('a[href]').forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('../')) {
+                const url = new URL(href, window.location.href);
+                url.searchParams.set('lang', lang);
+                link.setAttribute('href', url.toString());
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

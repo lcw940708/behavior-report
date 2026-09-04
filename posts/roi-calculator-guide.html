@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【投資報酬率 ROI 計算器教學】精算 ROI 百分比、年化回報與回本期｜Free ROI Calculator Guide</title>
+    <meta name="description" content="ROI 計算器完整教學！輸入投資成本與收益，即時精算 ROI 百分比、淨利潤、年化報酬率 (CAGR) 與預估回本時間。Free online ROI calculator guide.">
+    <meta name="keywords" content="ROI計算器, 投資報酬率, 年化回報率, 回本期計算, 淨利潤, 投資收益, ROI calculator, return on investment, annualized ROI, CAGR, payback period, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/roi-calculator-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【投資報酬率 ROI 計算器教學】精算 ROI 百分比、年化回報與回本期｜Free ROI Calculator Guide">
+    <meta property="og:description" content="輸入投資成本與收益，即時精算 ROI 百分比、淨利潤、年化報酬率 (CAGR) 與預估回本時間。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/roi-calculator-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free ROI Calculator Guide – Calculate ROI %, Annualized Returns & Payback Period">
+    <meta name="twitter:description" content="Calculate return on investment, net profit, CAGR, and payback period instantly.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "投資報酬率 ROI 計算器教學：精算 ROI 百分比、年化回報與回本期",
+      "description": "介紹如何使用 ROI 計算器精算投資報酬率、年化回報率與回本時間，適用於投資決策、商業分析與財務規劃。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>投資報酬率 ROI 計算器教學：精算 ROI 百分比、年化回報與回本期</h1>
+
+        <h2>1. 導言</h2>
+        <p>你投資咗一筆錢，但係唔知到底賺咗幾多？或者你想比較兩個投資項目，但係一個 3 年賺 30%，另一個 5 年賺 50%，邊個先係更賺？<strong>ROI（投資報酬率）</strong> 就係為咗解答呢個問題而存在。我哋嘅免費 ROI 計算器可以幫你精算 <strong>投資報酬率百分比、淨利潤、年化報酬率（CAGR）</strong> 同 <strong>預估回本時間（Payback Period）</strong>，一次過了解投資項目嘅全方位表現。所有運算喺瀏覽器入面完成，數據唔會離開你嘅裝置，私隱 100% 安全。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>ROI（Return on Investment，投資報酬率）</strong> 係衡量投資獲利能力最核心嘅指標。主要概念包括：</p>
+        <ul>
+            <li><strong>投資報酬率（ROI）：</strong> (淨利潤 ÷ 總投資成本) × 100%，反映投資嘅整體回報水平。</li>
+            <li><strong>淨利潤（Net Profit）：</strong> 最終收益減去總投資成本（包括追加成本）。</li>
+            <li><strong>年化報酬率（Annualized ROI / CAGR）：</strong> 將 ROI 轉換為每年嘅平均回報率，方便比較不同年期嘅投資項目。</li>
+            <li><strong>回本時間（Payback Period）：</strong> 需要幾耐先可以收回初始投資成本。</li>
+        </ul>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>股票投資：</strong> 計算買賣股票嘅回報率，評估投資表現。</li>
+            <li><strong>創業投資：</strong> 評估生意項目嘅盈利能力同回本時間。</li>
+            <li><strong>物業投資：</strong> 計算買樓收租或炒樓嘅投資回報率。</li>
+            <li><strong>基金投資：</strong> 比較不同基金嘅年化回報率。</li>
+            <li><strong>商業決策：</strong> 評估不同業務項目嘅投資效益，決定資源分配。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>輸入基本資料：</strong>
+                <ul>
+                    <li>💰 初始投資成本（Initial Investment Cost）</li>
+                    <li>📈 最終收益 / 總回收金額（Total Return / Revenue）</li>
+                    <li>⏱️ 投資時間跨度（年）（Investment Horizon - Years）</li>
+                    <li>💳 追加成本 / 營運費用（Extra Expense - Optional）</li>
+                </ul>
+            </li>
+            <li><strong>計算：</strong> 點擊「精算投資報酬率」按鈕。</li>
+            <li><strong>檢視結果：</strong>
+                <ul>
+                    <li>💚 投資報酬率（ROI）</li>
+                    <li>📊 淨利潤（Net Profit）</li>
+                    <li>📊 年化報酬率（Annualized ROI / CAGR）</li>
+                    <li>📊 預估回本時間（Payback Period）</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站 ROI 計算器</th>
+                    <th>Excel 手動計算</th>
+                    <th>Bloomberg / 專業軟件</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>需購買軟件</td>
+                    <td>極高（年費）</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>✅ 本地處理</td>
+                    <td>⚠️ 數據儲存於系統</td>
+                </tr>
+                <tr>
+                    <td><strong>計算速度</strong></td>
+                    <td>⚡ 即時</td>
+                    <td>🐢 需設定公式</td>
+                    <td>⚡ 即時</td>
+                </tr>
+                <tr>
+                    <td><strong>年化回報率</strong></td>
+                    <td>✅ 自動計算</td>
+                    <td>⚠️ 需手動設定</td>
+                    <td>✅ 自動</td>
+                </tr>
+                <tr>
+                    <td><strong>回本時間</strong></td>
+                    <td>✅ 自動計算</td>
+                    <td>⚠️ 需手動設定</td>
+                    <td>✅ 自動</td>
+                </tr>
+                <tr>
+                    <td><strong>無需安裝</strong></td>
+                    <td>✅ 瀏覽器即用</td>
+                    <td>❌ 需安裝軟件</td>
+                    <td>❌ 需專用終端</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>中等</td>
+                    <td>高</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「你以為 ROI 只係一個『計賺幾多』嘅功能？<strong>錯 </strong>。ROI 係一個 <strong>量化『決策質量』</strong> 嘅工具。一筆投資賺 $10,000 聽落唔錯，但如果投入咗 $100,000，ROI 只有 10%，其實同定期存款差唔多。如果投入咗 $10,000，ROI 就係 100%——<strong>完全唔同嘅故事</strong>。年化回報率更加係 <strong>揭穿『時間魔術』</strong> 嘅關鍵——5 年賺 50% 聽落好勁，但年化回報率只係 8.4%，其實好普通。呢個工具俾你嘅，就係 <strong>用 10 秒鐘睇清楚投資嘅『真實回報』</strong> —等你唔再被表面數字呃到。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">📊 想評估投資回報率？即時計算 ROI！</h3>
+            <p style="margin:0; font-size:0.9rem;">輸入投資成本與收益，即時計算 ROI、年化回報與回本時間，完全免費且保護私隱。</p>
+            <a href="../tools/roi-calculator.html?lang=hk" class="cta-btn-link" id="ctaBtnZh">👉 立即免費試用 ROI 計算器</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>ROI Calculator Guide: Calculate ROI %, Annualized Returns & Payback Period</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Invested money but don't know how much you actually earned? Or comparing two investments—one returns 30% in 3 years, another 50% in 5 years—which is better? <strong>ROI (Return on Investment)</strong> is exactly for answering these questions. Our free ROI calculator helps you calculate <strong>ROI percentage, net profit, annualized return (CAGR), and estimated payback period</strong>—giving you a complete picture of any investment's performance. All processing happens in your browser—your data never leaves your device, ensuring 100% privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>ROI (Return on Investment)</strong> is the most core metric for measuring investment profitability. Key concepts include:</p>
+        <ul>
+            <li><strong>ROI:</strong> (Net Profit ÷ Total Investment Cost) × 100%—reflects the overall return level of an investment.</li>
+            <li><strong>Net Profit:</strong> Final return minus total investment cost (including extra expenses).</li>
+            <li><strong>Annualized ROI (CAGR):</strong> Converts ROI into an average annual return rate—essential for comparing investments with different time horizons.</li>
+            <li><strong>Payback Period:</strong> How long it takes to recover the initial investment cost.</li>
+        </ul>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Stock Investment:</strong> Calculate returns from buying and selling stocks to evaluate performance.</li>
+            <li><strong>Startup/Business Investment:</strong> Assess profitability and payback time of business projects.</li>
+            <li><strong>Real Estate Investment:</strong> Calculate ROI on rental properties or property flipping.</li>
+            <li><strong>Fund Investment:</strong> Compare annualized returns across different funds.</li>
+            <li><strong>Business Decisions:</strong> Evaluate ROI of different projects to allocate resources effectively.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Enter Basic Information:</strong>
+                <ul>
+                    <li>💰 Initial Investment Cost</li>
+                    <li>📈 Total Return / Revenue</li>
+                    <li>⏱️ Investment Horizon (Years)</li>
+                    <li>💳 Extra Expenses (Optional)</li>
+                </ul>
+            </li>
+            <li><strong>Calculate:</strong> Click the "Calculate ROI" button.</li>
+            <li><strong>View Results:</strong>
+                <ul>
+                    <li>💚 Return on Investment (ROI)</li>
+                    <li>📊 Net Profit</li>
+                    <li>📊 Annualized ROI (CAGR)</li>
+                    <li>📊 Estimated Payback Period</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>ROI Tool (Us)</th>
+                    <th>Excel Manual</th>
+                    <th>Bloomberg / Professional</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Software Purchase</td>
+                    <td>Very High (Annual)</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>✅ Local</td>
+                    <td>⚠️ System-stored</td>
+                </tr>
+                <tr>
+                    <td><strong>Speed</strong></td>
+                    <td>⚡ Instant</td>
+                    <td>🐢 Formula setup</td>
+                    <td>⚡ Instant</td>
+                </tr>
+                <tr>
+                    <td><strong>Annualized ROI</strong></td>
+                    <td>✅ Auto</td>
+                    <td>⚠️ Manual setup</td>
+                    <td>✅ Auto</td>
+                </tr>
+                <tr>
+                    <td><strong>Payback Period</strong></td>
+                    <td>✅ Auto</td>
+                    <td>⚠️ Manual setup</td>
+                    <td>✅ Auto</td>
+                </tr>
+                <tr>
+                    <td><strong>No Installation</strong></td>
+                    <td>✅ Browser</td>
+                    <td>❌ Software</td>
+                    <td>❌ Terminal Required</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Medium</td>
+                    <td>High</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"You think ROI is just a 'calculate profit' feature? <strong>Wrong</strong>. ROI is a tool for <strong>quantifying 'decision quality'</strong>. Earning $10,000 on an investment sounds good—but if you invested $100,000, that's only a 10% ROI, similar to a savings account. If you invested $10,000, that's 100%—<strong>a completely different story</strong>. Annualized return is the <strong>key to exposing 'time magic'</strong>—50% over 5 years sounds impressive, but the annualized return is only 8.4%, actually pretty ordinary. This tool gives you exactly that <strong>ability to see an investment's 'true return' in 10 seconds</strong>—so you're no longer fooled by surface numbers."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">📊 Want to Evaluate Investment Returns? Calculate ROI Instantly!</h3>
+            <p style="margin:0; font-size:0.9rem;">Enter investment cost and returns for instant ROI, annualized return, and payback period—completely free with privacy protection.</p>
+            <a href="../tools/roi-calculator.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free ROI Calculator Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtnZh = document.getElementById('ctaBtnZh');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtnZh.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtnZh.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

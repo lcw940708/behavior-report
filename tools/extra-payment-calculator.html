@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO 基本標籤 / Bilingual SEO -->
+    <title>線上房貸提前還款計算器 — 計算額外還款節省利息與提前還清時間｜Mortgage Extra Payment Calculator</title>
+    <meta name="description" content="免費線上房貸提前還款計算器 (Free Online Mortgage Extra Payment Calculator)。比較按時供款與額外還款的利息差異，精算可節省的總利息與提前還清房貸的時間。" />
+    <meta name="keywords" content="提前還款計算器, 額外還款, 房貸縮短供款期, 節省利息, extra payment calculator, mortgage early payoff, pay off mortgage early, early payoff savings, principal extra payment" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/extra-payment-calculator.html" />
+
+    <!-- Open Graph 社交分享標籤 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="免費線上房貸提前還款計算器 — 即時精算節省利息與縮短供款期｜Extra Payment Calculator" />
+    <meta property="og:description" content="輸入每月或一次性額外還款金額，一鍵算出能為您節省多少利息開支，以及提早多少年還清貸款！" />
+    <meta property="og:url" content="https://www.behavior-report.com/tools/extra-payment-calculator.html" />
+
+    <!-- Schema.org 結構化資料 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "線上房貸提前還款計算器 (Mortgage Extra Payment Calculator)",
+      "url": "https://www.behavior-report.com/tools/extra-payment-calculator.html",
+      "description": "提供比較按時還款與額外還款的利息節省額及提前還清時間的免費線上工具。",
+      "applicationCategory": "FinancialApplication",
+      "operatingSystem": "All",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --green: #10b981;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch { text-align: center; margin-bottom: 20px; }
+        .lang-switch button {
+            background: transparent; border: none; color: var(--cyan);
+            cursor: pointer; font-size: 0.9rem; margin: 0 8px; font-weight: bold;
+        }
+        .lang-switch button:hover { text-decoration: underline; }
+
+        .tool-title { font-size: 1.6rem; color: #ffffff; text-align: center; font-weight: bold; }
+        .tool-sub { text-align: center; color: var(--text); font-size: 0.95rem; margin: 10px 0 25px; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: #ffffff;
+            padding: 12px;
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        input[type="number"]:focus { border-color: var(--cyan); }
+
+        .btn-calc {
+            width: 100%;
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--cyan);
+            border: 1px solid rgba(34, 211, 238, 0.25);
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .btn-calc:hover {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+
+        .results-panel {
+            display: none;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .res-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .res-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .res-card.highlight {
+            border-color: rgba(16, 185, 129, 0.4);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .res-card h4 { font-size: 0.85rem; color: var(--text-light); margin-bottom: 8px; }
+        .res-card .val { font-size: 1.3rem; color: var(--cyan); font-weight: bold; }
+        .res-card.highlight .val { color: var(--green); }
+
+        .seo-article { margin-top: 40px; padding-top: 25px; border-top: 1px solid rgba(148, 163, 184, 0.08); line-height: 1.6; }
+        .seo-article h2 { color: #ffffff; font-size: 1.1rem; margin-bottom: 12px; }
+        .seo-article p { font-size: 0.85rem; color: var(--text); margin-bottom: 12px; }
+
+        footer { text-align: center; margin-top: 30px; font-size: 11px; color: #555; }
+        footer a { color: #555; text-decoration: none; margin: 0 8px; }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="lang-switch">
+        <button onclick="setLang('zh')">繁體中文</button> |
+        <button onclick="setLang('en')">English</button>
+    </div>
+
+    <h1 class="tool-title" id="toolTitle">💰 線上房貸提前還款計算器 (Extra Payment Calculator)</h1>
+    <p class="tool-sub" id="toolSub">精算每月額外還款可節省的總利息與提早還清時間</p>
+
+    <div class="form-grid">
+        <div class="form-group">
+            <label id="lblLoanBalance">剩餘貸款本金 (Loan Balance)</label>
+            <input type="number" id="loanBalance" placeholder="例如: 4000000" value="4000000">
+        </div>
+        <div class="form-group">
+            <label id="lblInterestRate">年利率 % (Interest Rate)</label>
+            <input type="number" id="interestRate" step="0.01" placeholder="例如: 3.5" value="3.5">
+        </div>
+        <div class="form-group">
+            <label id="lblRemainingTerm">剩餘年期 (Remaining Years)</label>
+            <input type="number" id="remainingTerm" placeholder="例如: 25" value="25">
+        </div>
+        <div class="form-group">
+            <label id="lblExtraMonthly">每月額外還款額 (Extra Monthly Payment)</label>
+            <input type="number" id="extraMonthly" placeholder="例如: 2000" value="2000">
+        </div>
+    </div>
+
+    <button class="btn-calc" onclick="calculateExtraPayment()" id="btnCalc">⚡ 計算節省利息 (Calculate Savings)</button>
+
+    <div class="results-panel" id="resultsPanel">
+        <h3 style="color: #fff; font-size: 1.1rem; margin-bottom: 10px;" id="resTitle">📊 提前還款效益分析 (Early Payoff Comparison)</h3>
+        <div class="res-cards">
+            <div class="res-card highlight">
+                <h4 id="headSavedInterest">總共節省利息 (Total Interest Saved)</h4>
+                <div class="val" id="valSavedInterest">$0</div>
+            </div>
+            <div class="res-card highlight">
+                <h4 id="headTimeSaved">提早還清時間 (Time Saved)</h4>
+                <div class="val" id="valTimeSaved">0 年 0 個月</div>
+            </div>
+            <div class="res-card">
+                <h4 id="headNewTerm">新還款總年期 (New Payoff Time)</h4>
+                <div class="val" id="valNewTerm">0 年</div>
+            </div>
+            <div class="res-card">
+                <h4 id="headOrigInterest">原計劃總利息 (Original Interest)</h4>
+                <div class="val" id="valOrigInterest">$0</div>
+            </div>
+        </div>
+    </div>
+
+    <article class="seo-article">
+        <h2 id="seoTitle">提早還房貸值得嗎？額外還款如何幫助節省利息？</h2>
+        <p id="seoP1">在房屋貸款中，利息是以剩餘本金計算的。每月額外償還本金（Extra Principal Payment）能直接削減貸款餘額，從而減少未來的利息累積。透過本計算器，您可以明確看到每月多還幾千元，就能縮短數年的供款期並節省數十萬元的利息支出。</p>
+        <p id="seoP2"><strong>How Extra Mortgage Payments Save You Money.</strong> Making extra principal payments directly reduces your remaining mortgage balance, lowering the overall interest charged over the loan life. Use this free tool to discover how much money and time you can save by paying off your mortgage early.</p>
+    </article>
+</div>
+
+<footer>
+    <a href="../index.html">Home</a> | <a href="../privacy.html">Privacy Policy</a>
+</footer>
+
+<script>
+    const i18n = {
+        zh: {
+            title: "💰 線上房貸提前還款計算器 (Extra Payment Calculator)",
+            sub: "精算每月額外還款可節省的總利息與提早還清時間",
+            lblLoanBalance: "剩餘貸款本金 (Loan Balance)", lblInterestRate: "年利率 % (Interest Rate)",
+            lblRemainingTerm: "剩餘年期 (Remaining Years)", lblExtraMonthly: "每月額外還款額 (Extra Monthly)",
+            btnCalc: "⚡ 計算節省利息 (Calculate Savings)", resTitle: "📊 提前還款效益分析 (Early Payoff Comparison)",
+            headSavedInterest: "總共節省利息 (Total Interest Saved)", headTimeSaved: "提早還清時間 (Time Saved)",
+            headNewTerm: "新還款總年期 (New Payoff Time)", headOrigInterest: "原計劃總利息 (Original Interest)",
+            seoTitle: "提早還房貸值得嗎？額外還款如何幫助節省利息？",
+            seoP1: "在房屋貸款中，利息是以剩餘本金計算的。每月額外償還本金（Extra Principal Payment）能直接削減貸款餘額，從而減少未來的利息累積。透過本計算器，您可以明確看到每月多還幾千元，就能縮短數年的供款期並節省數十萬元的利息支出。",
+            seoP2: "<strong>How Extra Mortgage Payments Save You Money.</strong> Making extra principal payments directly reduces your remaining mortgage balance, lowering the overall interest charged over the loan life. Use this free tool to discover how much money and time you can save by paying off your mortgage early."
+        },
+        en: {
+            title: "💰 Mortgage Extra Payment Calculator",
+            sub: "Calculate interest savings and time shaved off your mortgage",
+            lblLoanBalance: "Loan Balance", lblInterestRate: "Interest Rate (%)",
+            lblRemainingTerm: "Remaining Term (Years)", lblExtraMonthly: "Extra Monthly Payment",
+            btnCalc: "⚡ Calculate Savings", resTitle: "📊 Early Payoff Savings Analysis",
+            headSavedInterest: "Total Interest Saved", headTimeSaved: "Time Saved",
+            headNewTerm: "New Payoff Time", headOrigInterest: "Original Total Interest",
+            seoTitle: "How Extra Mortgage Payments Save You Money",
+            seoP1: "Making extra payments on your home loan goes straight toward your principal balance, significantly cutting down interest costs and accelerating your payoff timeline.",
+            seoP2: "<strong>How Extra Mortgage Payments Save You Money.</strong> Making extra principal payments directly reduces your remaining mortgage balance, lowering the overall interest charged over the loan life. Use this free tool to discover how much money and time you can save by paying off your mortgage early."
+        }
+    };
+
+    let currentLang = 'zh';
+
+    function setLang(lang) {
+        currentLang = lang;
+        const t = i18n[lang];
+        document.getElementById('toolTitle').innerText = t.title;
+        document.getElementById('toolSub').innerText = t.sub;
+        document.getElementById('lblLoanBalance').innerText = t.lblLoanBalance;
+        document.getElementById('lblInterestRate').innerText = t.lblInterestRate;
+        document.getElementById('lblRemainingTerm').innerText = t.lblRemainingTerm;
+        document.getElementById('lblExtraMonthly').innerText = t.lblExtraMonthly;
+        document.getElementById('btnCalc').innerText = t.btnCalc;
+        document.getElementById('resTitle').innerText = t.resTitle;
+        document.getElementById('headSavedInterest').innerText = t.headSavedInterest;
+        document.getElementById('headTimeSaved').innerText = t.headTimeSaved;
+        document.getElementById('headNewTerm').innerText = t.headNewTerm;
+        document.getElementById('headOrigInterest').innerText = t.headOrigInterest;
+        document.getElementById('seoTitle').innerText = t.seoTitle;
+        document.getElementById('seoP1').innerHTML = t.seoP1;
+        document.getElementById('seoP2').innerHTML = t.seoP2;
+    }
+
+    function formatCurrency(val) {
+        return '$' + Math.round(val).toLocaleString();
+    }
+
+    function calculateExtraPayment() {
+        const balance = parseFloat(document.getElementById('loanBalance').value);
+        const annualRate = parseFloat(document.getElementById('interestRate').value);
+        const years = parseFloat(document.getElementById('remainingTerm').value);
+        const extraMonthly = parseFloat(document.getElementById('extraMonthly').value) || 0;
+
+        if (!balance || annualRate < 0 || !years) {
+            alert('請完整輸入有效的金額與利率！Please fill in valid numbers.');
+            return;
+        }
+
+        const monthlyRate = (annualRate / 100) / 12;
+        const totalMonths = years * 12;
+
+        // 計算標準每月供款
+        let baseMonthly = 0;
+        if (monthlyRate === 0) {
+            baseMonthly = balance / totalMonths;
+        } else {
+            baseMonthly = (balance * monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) / (Math.pow(1 + monthlyRate, totalMonths) - 1);
+        }
+
+        // 1. 原計劃利息總額
+        const origTotalPaid = baseMonthly * totalMonths;
+        const origTotalInterest = origTotalPaid - balance;
+
+        // 2. 計算包含額外供款的新時程
+        let newBalance = balance;
+        let newTotalInterest = 0;
+        let monthsCount = 0;
+        const totalMonthlyPayment = baseMonthly + extraMonthly;
+
+        while (newBalance > 0 && monthsCount < totalMonths) {
+            monthsCount++;
+            const interestForMonth = newBalance * monthlyRate;
+            newTotalInterest += interestForMonth;
+
+            const principalForMonth = totalMonthlyPayment - interestForMonth;
+            newBalance -= principalForMonth;
+
+            if (newBalance < 0) {
+                newBalance = 0;
+            }
+        }
+
+        const savedInterest = origTotalInterest - newTotalInterest;
+        const savedMonths = totalMonths - monthsCount;
+        const savedYearsPart = Math.floor(savedMonths / 12);
+        const savedMonthsPart = savedMonths % 12;
+
+        const newYearsPart = Math.floor(monthsCount / 12);
+        const newMonthsPart = monthsCount % 12;
+
+        // 顯示結果
+        document.getElementById('valSavedInterest').innerText = formatCurrency(savedInterest > 0 ? savedInterest : 0);
+        
+        if (currentLang === 'zh') {
+            document.getElementById('valTimeSaved').innerText = `${savedYearsPart} 年 ${savedMonthsPart} 個月`;
+            document.getElementById('valNewTerm').innerText = `${newYearsPart} 年 ${newMonthsPart} 個月`;
+        } else {
+            document.getElementById('valTimeSaved').innerText = `${savedYearsPart} yrs ${savedMonthsPart} mos`;
+            document.getElementById('valNewTerm').innerText = `${newYearsPart} yrs ${newMonthsPart} mos`;
+        }
+
+        document.getElementById('valOrigInterest').innerText = formatCurrency(origTotalInterest);
+
+        document.getElementById('resultsPanel').style.display = 'block';
+    }
+</script>
+<!-- 語言參數接收與傳遞 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang');
+    if (lang) {
+        if (typeof setLang === 'function') {
+            setLang(lang);
+        }
+        document.querySelectorAll('a[href]').forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('../')) {
+                const url = new URL(href, window.location.href);
+                url.searchParams.set('lang', lang);
+                link.setAttribute('href', url.toString());
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

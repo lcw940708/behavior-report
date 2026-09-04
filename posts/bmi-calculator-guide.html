@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【免費 BMI 計算機教學】即時計算體重指數與健康評估｜Free BMI Calculator Guide</title>
+    <meta name="description" content="免費且安全的線上 BMI 計算機！輸入身高體重即時計算體重指數，提供健康評估與建議，支援公制與英制單位，純前端運算保護數據私隱。適用於健康管理、健身追蹤與體重控制。Free online BMI calculator guide.">
+    <meta name="keywords" content="BMI計算機, 體重指數, 健康評估, 體重管理, 免費健康工具, BMI Calculator, Body Mass Index, Health Assessment, Weight Management, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/bmi-calculator-guide.html">
+
+    <!-- Hreflang 國際化標籤 -->
+    <link rel="alternate" hreflang="zh-Hant" href="https://www.behavior-report.com/posts/bmi-calculator-guide.html?lang=hk" />
+    <link rel="alternate" hreflang="en" href="https://www.behavior-report.com/posts/bmi-calculator-guide.html?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://www.behavior-report.com/posts/bmi-calculator-guide.html" />
+
+    <!-- Open Graph (社交媒體優化) -->
+    <meta property="og:title" content="【免費 BMI 計算機教學】即時計算體重指數與健康評估 — BMI Calculator Guide">
+    <meta property="og:description" content="100% 純前端運算！教你免費計算 BMI 體重指數，了解自己嘅健康狀況。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/bmi-calculator-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free BMI Calculator Guide – Instant Health Assessment">
+    <meta name="twitter:description" content="Learn how to calculate your BMI and assess your health status with our free, privacy-first online tool.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "免費 BMI 計算機教學：即時計算體重指數與健康評估",
+      "description": "介紹如何使用純前端技術嘅 BMI 計算機，適用於健康管理、健身追蹤與體重控制等場景。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn active" id="btn-zh" onclick="setLang('zh')">🇭🇰 繁體中文</button>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇬🇧 English</button>
+    </div>
+
+    <!-- 中文內容區塊 -->
+    <div id="content-zh">
+        <h1>免費 BMI 計算機教學：即時計算體重指數與健康評估</h1>
+
+        <h2>1. 導言</h2>
+        <p>無論你係想了解自己嘅身體狀況、進行體重管理，定係制定健身計劃，BMI（身體質量指數）都係一個最基本嘅健康參考指標。但市面上好多 BMI 計算工具一係要下載 APP，一係要輸入大量個人資料，仲有廣告干擾。我哋嘅免費線上 BMI 計算機專為快速、簡單、私隱而設：輸入身高體重即可即時計算，支援公制同英制單位，而且 100% 純前端運算，所有數據唔會離開你嘅瀏覽器。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p>BMI（Body Mass Index，身體質量指數）係一種國際通用嘅體重評估指標，計算公式係：<strong>體重（公斤）÷ 身高（米）²</strong>。呢個指標最初由比利時統計學家 Adolphe Quetelet 喺 19 世紀提出，後來被世界衛生組織（WHO）採用作為評估體重是否健康嘅參考標準。</p>
+        <p>BMI 嘅好處係簡單、容易計算、成本低，適合大規模人口統計。但佢嘅局限性亦要注意：BMI 無法區分肌肉同脂肪，所以運動員或肌肉量高嘅人可能會被歸類為「過重」。因此，BMI 應視為一個參考指標，而非絕對嘅健康診斷標準。</p>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>個人健康管理：</strong>定期監測自己嘅 BMI 變化，了解體重趨勢，及早發現潛在健康風險。</li>
+            <li><strong>健身與體重控制：</strong>制定減肥或增肌目標時，以 BMI 作為參考指標之一，配合其他數據（如體脂率）進行全面評估。</li>
+            <li><strong>醫療與保險評估：</strong>醫生或保險公司會參考 BMI 作為初步健康風險評估嘅依據。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>選擇單位：</strong>點擊「公制 (cm/kg)」或「英制 (ft/in/lbs)」切換到適合你嘅單位系統。</li>
+            <li><strong>輸入身高：</strong>公制輸入厘米（cm），英制輸入英尺（ft）同英寸（in）。</li>
+            <li><strong>輸入體重：</strong>公制輸入公斤（kg），英制輸入磅（lbs）。</li>
+            <li><strong>即時查看結果：</strong>系統會自動計算 BMI 數值，並顯示健康評估（過輕、正常、過重、肥胖等）同建議。</li>
+            <li><strong>參考 BMI 量表：</strong>下方嘅彩色量表可以幫助你了解自己嘅 BMI 落喺邊個範圍。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站前端工具</th>
+                    <th>手機 APP</th>
+                    <th>手動計算</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>免費但有廣告 / 付費版</td>
+                    <td>免費（需計數機）</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>100% 本地處理</td>
+                    <td>視乎 APP 權限</td>
+                    <td>本地</td>
+                </tr>
+                <tr>
+                    <td><strong>單位支援</strong></td>
+                    <td>公制 + 英制</td>
+                    <td>通常兩種都有</td>
+                    <td>兩種都得</td>
+                </tr>
+                <tr>
+                    <td><strong>健康評估</strong></td>
+                    <td>✅ 自動提供</td>
+                    <td>✅ 通常有</td>
+                    <td>❌ 需自己對照</td>
+                </tr>
+                <tr>
+                    <td><strong>視覺化量表</strong></td>
+                    <td>✅ 彩色刻度顯示</td>
+                    <td>✅ 通常有</td>
+                    <td>❌ 冇</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「我以前成日覺得自己體重正常，但後來用 BMI 計完先發現原來已經到咗『過重』邊緣。雖然一開始有啲意外，但呢個結果提醒我要開始注意飲食同運動。幾個月之後再 check，BMI 回落返正常範圍，成個人都覺得健康咗。呢個工具雖然簡單，但對於想 keep 住自己健康嘅人嚟講，係一個好好嘅提醒。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ 想了解自己嘅體重狀況？</h3>
+            <p style="margin:0; font-size:0.9rem;">即刻用免費 BMI 計算機 check 吓，幾秒就知自己嘅健康狀況！</p>
+            <a href="../tools/bmi-calculator.html?lang=hk" class="cta-btn-link tool-link">👉 立即免費試用 BMI 計算機</a>
+        </div>
+    </div>
+
+    <!-- English Content Section -->
+    <div id="content-en" style="display: none;">
+        <h1>Free BMI Calculator Guide: Instant Body Mass Index & Health Assessment</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Whether you want to understand your body condition, manage your weight, or plan a fitness routine, BMI (Body Mass Index) is one of the most basic health reference indicators. Our free online BMI calculator is designed for speed, simplicity, and privacy—enter your height and weight for instant results, supports both metric and imperial units, with 100% client-side processing that keeps your data in your browser.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p>BMI (Body Mass Index) is an internationally recognized weight assessment indicator. The formula is: <strong>Weight (kg) ÷ Height (m)²</strong>. First introduced by Belgian statistician Adolphe Quetelet in the 19th century, BMI was later adopted by the World Health Organization (WHO) as a reference standard for assessing healthy weight.</p>
+        <p>The advantage of BMI is its simplicity—easy to calculate and cost-effective for large-scale population studies. However, it has limitations: BMI cannot distinguish between muscle and fat, so athletes or individuals with high muscle mass may be classified as "overweight." Therefore, BMI should be viewed as a reference indicator rather than an absolute diagnostic tool.</p>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Personal Health Management:</strong> Regularly monitor BMI changes to track weight trends and identify potential health risks early.</li>
+            <li><strong>Fitness & Weight Control:</strong> Use BMI as one of several reference indicators when setting weight loss or muscle gain goals.</li>
+            <li><strong>Medical & Insurance Assessment:</strong> Doctors and insurance companies often reference BMI as an initial health risk assessment tool.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Select Unit System:</strong> Click "Metric (cm/kg)" or "Imperial (ft/in/lbs)" to switch units.</li>
+            <li><strong>Enter Height:</strong> Enter centimeters (cm) for metric, or feet (ft) and inches (in) for imperial.</li>
+            <li><strong>Enter Weight:</strong> Enter kilograms (kg) for metric, or pounds (lbs) for imperial.</li>
+            <li><strong>View Results Instantly:</strong> BMI is calculated automatically with health assessments and recommendations.</li>
+            <li><strong>Check the BMI Scale:</strong> The color-coded scale below helps you visualize your BMI range.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Client-Side Tool (Us)</th>
+                    <th>Mobile Apps</th>
+                    <th>Manual Calculation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Freemium / Paid</td>
+                    <td>Free (need a calculator)</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>100% Local Processing</td>
+                    <td>Depends on App Permissions</td>
+                    <td>Local</td>
+                </tr>
+                <tr>
+                    <td><strong>Unit Support</strong></td>
+                    <td>Metric + Imperial</td>
+                    <td>Usually Both</td>
+                    <td>Both</td>
+                </tr>
+                <tr>
+                    <td><strong>Health Assessment</strong></td>
+                    <td>✅ Auto Provided</td>
+                    <td>✅ Usually</td>
+                    <td>❌ Need to Check Reference</td>
+                </tr>
+                <tr>
+                    <td><strong>Visual Scale</strong></td>
+                    <td>✅ Color-coded Display</td>
+                    <td>✅ Usually</td>
+                    <td>❌ No</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"I used to think my weight was normal, but after calculating my BMI, I was surprised to find I was on the 'overweight' borderline. At first, it was unexpected, but it motivated me to pay more attention to my diet and exercise. A few months later, my BMI was back in the normal range, and I felt healthier overall. This tool is simple, but it's a great reminder for anyone who wants to stay on top of their health."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ Want to Check Your Body Mass Index?</h3>
+            <p style="margin:0; font-size:0.9rem;">Get instant results with our free online BMI calculator in just a few seconds.</p>
+            <a href="../tools/bmi-calculator.html?lang=en" class="cta-btn-link tool-link">👉 Try the Free BMI Calculator Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" class="footer-home">主頁</a> |
+        <a href="../blog.html" class="footer-blog">文章 Blog</a> |
+        <a href="../about.html" class="footer-about">關於我</a> |
+        <a href="../privacy.html" class="footer-privacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+    function setLang(lang, updateUrl = true) {
+        const zhContent = document.getElementById('content-zh');
+        const enContent = document.getElementById('content-en');
+        const btnZh = document.getElementById('btn-zh');
+        const btnEn = document.getElementById('btn-en');
+        const backLink = document.getElementById('backLink');
+        const toolLinks = document.querySelectorAll('.tool-link');
+        const footerHome = document.querySelector('.footer-home');
+        const footerBlog = document.querySelector('.footer-blog');
+        const footerAbout = document.querySelector('.footer-about');
+        const footerPrivacy = document.querySelector('.footer-privacy');
+
+        if (lang === 'en') {
+            zhContent.style.display = 'none';
+            enContent.style.display = 'block';
+            btnZh.classList.remove('active');
+            btnEn.classList.add('active');
+            backLink.textContent = "← Back to Articles";
+            document.documentElement.lang = "en";
+
+            // 動態更新工具連結跳轉至 bmi-calculator.html?lang=en
+            toolLinks.forEach(link => {
+                link.href = "../tools/bmi-calculator.html?lang=en";
+            });
+
+            footerHome.textContent = "Home";
+            footerBlog.textContent = "Blog";
+            footerAbout.textContent = "About";
+            footerPrivacy.textContent = "Privacy Policy";
+        } else {
+            zhContent.style.display = 'block';
+            enContent.style.display = 'none';
+            btnZh.classList.add('active');
+            btnEn.classList.remove('active');
+            backLink.textContent = "← 返回文章列表";
+            document.documentElement.lang = "zh-Hant-HK";
+
+            // 動態更新工具連結跳轉至 bmi-calculator.html?lang=hk
+            toolLinks.forEach(link => {
+                link.href = "../tools/bmi-calculator.html?lang=hk";
+            });
+
+            footerHome.textContent = "主頁";
+            footerBlog.textContent = "文章 Blog";
+            footerAbout.textContent = "關於我";
+            footerPrivacy.textContent = "隱私權政策";
+        }
+
+        if (updateUrl) {
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', lang === 'en' ? 'en' : 'hk');
+            window.history.pushState({}, '', newUrl);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const langParam = urlParams.get('lang');
+        if (langParam === 'en') {
+            setLang('en', false);
+        } else {
+            setLang('zh', false);
+        }
+    });
+</script>
+
+</body>
+</html>

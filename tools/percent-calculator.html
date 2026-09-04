@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>免費百分比計算機 — 即時計算 %、變化率、比例｜Free Percentage Calculator｜ABRG 免費工具</title>
+    <meta name="description" content="免費線上百分比計算機，支援「A 嘅 B%」、「A 佔 B 嘅幾%」、「百分比變化」，即時計算，純前端。Free percentage calculator, 3 modes, instant results, 100% client-side." />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/percent-calculator.html" />
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --cyan: #22d3ee;
+            --green: #10b981;
+            --border: #24324f;
+            --red: #ef4444;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 720px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+        .lang-switch {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .lang-switch a {
+            color: var(--cyan);
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .lang-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 10px 0 25px;
+        }
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 24px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+            padding: 4px;
+            border: 1px solid rgba(148, 163, 184, 0.06);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 10px 12px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: #64748b;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .tab-btn:hover {
+            color: #cbd5e1;
+        }
+        .tab-btn.active {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+        .tab-panel {
+            display: none;
+        }
+        .tab-panel.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            margin-bottom: 4px;
+        }
+        .form-group .input-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .form-group .input-row input {
+            flex: 1;
+            min-width: 80px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(148, 163, 184, 0.15);
+            background: var(--bg);
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        .form-group .input-row input:focus {
+            outline: none;
+            border-color: var(--cyan);
+        }
+        .form-group .input-row .label-text {
+            color: #64748b;
+            font-size: 0.9rem;
+            padding: 0 4px;
+        }
+
+        .result-box {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(34, 211, 238, 0.03);
+            border-radius: 10px;
+            border: 1px solid rgba(34, 211, 238, 0.06);
+            text-align: center;
+        }
+        .result-box .number {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        .result-box .number .unit {
+            font-size: 1.2rem;
+            color: var(--cyan);
+            margin-left: 4px;
+        }
+        .result-box .description {
+            color: var(--text);
+            font-size: 0.9rem;
+            margin-top: 6px;
+        }
+        .result-box .formula {
+            color: #64748b;
+            font-size: 0.8rem;
+            margin-top: 8px;
+            font-family: monospace;
+        }
+        .result-box .error-text {
+            color: var(--red);
+            font-size: 0.9rem;
+        }
+
+        .other-tools {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .other-tools a {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #fca5a5;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .other-tools a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .story-suggest {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+        .story-suggest .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .story-suggest .items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .story-suggest .items a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 11px;
+            color: #555;
+        }
+        footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        footer a:hover {
+            color: #888;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 18px;
+            }
+            .tabs {
+                flex-wrap: wrap;
+            }
+            .tab-btn {
+                flex: 1 1 45%;
+                font-size: 0.75rem;
+                padding: 8px 6px;
+            }
+            .form-group .input-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .form-group .input-row input {
+                min-width: 0;
+            }
+            .result-box .number {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="lang-switch">
+            <a onclick="switchLang('hk')">🇭🇰 港版</a> |
+            <a onclick="switchLang('tw')">🇹🇼 台版</a> |
+            <a onclick="switchLang('en')">🇬🇧 English</a>
+        </div>
+
+        <h1 class="tool-title" id="toolTitle">🧮 百分比計算機</h1>
+        <p class="tool-sub" id="toolSub">三種計算模式，即時出結果</p>
+        <div class="badge-row">
+            <span class="badge" id="badge1">⚡ 即時計算</span>
+            <span class="badge" id="badge2">🆓 完全免費</span>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="tab1" id="tab1Btn">A 嘅 B%</button>
+            <button class="tab-btn" data-tab="tab2" id="tab2Btn">A 佔 B 嘅 %</button>
+            <button class="tab-btn" data-tab="tab3" id="tab3Btn">百分比變化</button>
+        </div>
+
+        <!-- Panel 1: A 嘅 B% -->
+        <div class="tab-panel active" id="tab1">
+            <div class="form-group">
+                <label id="p1LabelA">數值 A</label>
+                <div class="input-row">
+                    <input type="number" id="p1_a" value="100" step="any" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label id="p1LabelB">百分比 B%</label>
+                <div class="input-row">
+                    <input type="number" id="p1_b" value="15" step="any" min="0" />
+                    <span class="label-text">%</span>
+                </div>
+            </div>
+            <div class="result-box" id="p1_result">
+                <div class="number" id="p1_number">15</div>
+                <div class="description" id="p1_desc">15 嘅 100%</div>
+                <div class="formula" id="p1_formula">15 × 100% = 15</div>
+            </div>
+        </div>
+
+        <!-- Panel 2: A 佔 B 嘅 % -->
+        <div class="tab-panel" id="tab2">
+            <div class="form-group">
+                <label id="p2LabelA">數值 A</label>
+                <div class="input-row">
+                    <input type="number" id="p2_a" value="30" step="any" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label id="p2LabelB">數值 B（總數）</label>
+                <div class="input-row">
+                    <input type="number" id="p2_b" value="200" step="any" />
+                </div>
+            </div>
+            <div class="result-box" id="p2_result">
+                <div class="number" id="p2_number">15%</div>
+                <div class="description" id="p2_desc">30 佔 200 嘅 15%</div>
+                <div class="formula" id="p2_formula">(30 ÷ 200) × 100% = 15%</div>
+            </div>
+        </div>
+
+        <!-- Panel 3: 百分比變化 -->
+        <div class="tab-panel" id="tab3">
+            <div class="form-group">
+                <label id="p3LabelOld">初始值</label>
+                <div class="input-row">
+                    <input type="number" id="p3_old" value="100" step="any" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label id="p3LabelNew">最終值</label>
+                <div class="input-row">
+                    <input type="number" id="p3_new" value="120" step="any" />
+                </div>
+            </div>
+            <div class="result-box" id="p3_result">
+                <div class="number" id="p3_number">+20%</div>
+                <div class="description" id="p3_desc">增加了 20%</div>
+                <div class="formula" id="p3_formula">((120 - 100) ÷ 100) × 100% = 20%</div>
+            </div>
+        </div>
+
+        <div class="story-suggest">
+            <div class="label" id="storyLabel">📖 你可能會中意嘅連載或測驗</div>
+            <div class="items">
+                <a href="../story_01.html">《你睡著以後》</a>
+                <a href="../story_02.html">《貓狗人格》</a>
+                <a href="../quiz-01.html">隱私天平</a>
+                <a href="../index.html">🏠 返回主頁</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+    </footer>
+
+    <script>
+        // =============================================================
+        // 語言文字
+        // =============================================================
+        const texts = {
+            hk: {
+                title: '🧮 百分比計算機',
+                sub: '三種計算模式，即時出結果',
+                badge1: '⚡ 即時計算',
+                badge2: '🆓 完全免費',
+                storyLabel: '📖 你可能會中意嘅連載或測驗',
+                tab1: 'A 嘅 B%',
+                tab2: 'A 佔 B 嘅 %',
+                tab3: '百分比變化',
+                p1LabelA: '數值 A',
+                p1LabelB: '百分比 B%',
+                p2LabelA: '數值 A',
+                p2LabelB: '數值 B（總數）',
+                p3LabelOld: '初始值',
+                p3LabelNew: '最終值',
+                p1Desc: (a, b, result) => `${b}% 嘅 ${a}`,
+                p1Formula: (a, b, result) => `${a} × ${b}% = ${result}`,
+                p2Desc: (a, b, result) => `${a} 佔 ${b} 嘅 ${result}%`,
+                p2Formula: (a, b, result) => `(${a} ÷ ${b}) × 100% = ${result}%`,
+                p3DescInc: (pct) => `增加了 ${pct}%`,
+                p3DescDec: (pct) => `減少了 ${pct}%`,
+                p3Formula: (oldVal, newVal, pct, sign) => `((${newVal} - ${oldVal}) ÷ ${oldVal}) × 100% = ${sign}${pct}%`,
+                errorDivZero: '分母不能為 0',
+                errorOldZero: '初始值不能為 0',
+                errorInput: '請輸入有效數字',
+                invalid: '—',
+            },
+            tw: {
+                title: '🧮 百分比計算機',
+                sub: '三種計算模式，即時出結果',
+                badge1: '⚡ 即時計算',
+                badge2: '🆓 完全免費',
+                storyLabel: '📖 你可能會喜歡的連載或測驗',
+                tab1: 'A 的 B%',
+                tab2: 'A 佔 B 的 %',
+                tab3: '百分比變化',
+                p1LabelA: '數值 A',
+                p1LabelB: '百分比 B%',
+                p2LabelA: '數值 A',
+                p2LabelB: '數值 B（總數）',
+                p3LabelOld: '初始值',
+                p3LabelNew: '最終值',
+                p1Desc: (a, b, result) => `${b}% 的 ${a}`,
+                p1Formula: (a, b, result) => `${a} × ${b}% = ${result}`,
+                p2Desc: (a, b, result) => `${a} 佔 ${b} 的 ${result}%`,
+                p2Formula: (a, b, result) => `(${a} ÷ ${b}) × 100% = ${result}%`,
+                p3DescInc: (pct) => `增加了 ${pct}%`,
+                p3DescDec: (pct) => `減少了 ${pct}%`,
+                p3Formula: (oldVal, newVal, pct, sign) => `((${newVal} - ${oldVal}) ÷ ${oldVal}) × 100% = ${sign}${pct}%`,
+                errorDivZero: '分母不能為 0',
+                errorOldZero: '初始值不能為 0',
+                errorInput: '請輸入有效數字',
+                invalid: '—',
+            },
+            en: {
+                title: '🧮 Percentage Calculator',
+                sub: '3 modes, instant results',
+                badge1: '⚡ Instant Calculate',
+                badge2: '🆓 Free',
+                storyLabel: '📖 You might also like',
+                tab1: 'What is B% of A?',
+                tab2: 'A is what % of B?',
+                tab3: 'Percentage Change',
+                p1LabelA: 'Value A',
+                p1LabelB: 'Percentage B%',
+                p2LabelA: 'Value A',
+                p2LabelB: 'Value B (Total)',
+                p3LabelOld: 'Initial Value',
+                p3LabelNew: 'Final Value',
+                p1Desc: (a, b, result) => `${b}% of ${a}`,
+                p1Formula: (a, b, result) => `${a} × ${b}% = ${result}`,
+                p2Desc: (a, b, result) => `${a} is ${result}% of ${b}`,
+                p2Formula: (a, b, result) => `(${a} ÷ ${b}) × 100% = ${result}%`,
+                p3DescInc: (pct) => `Increased by ${pct}%`,
+                p3DescDec: (pct) => `Decreased by ${pct}%`,
+                p3Formula: (oldVal, newVal, pct, sign) => `((${newVal} - ${oldVal}) ÷ ${oldVal}) × 100% = ${sign}${pct}%`,
+                errorDivZero: 'Denominator cannot be 0',
+                errorOldZero: 'Initial value cannot be 0',
+                errorInput: 'Please enter valid numbers',
+                invalid: '—',
+            }
+        };
+
+        let lang = 'hk';
+
+        // =============================================================
+        // 語言切換
+        // =============================================================
+        function switchLang(l) {
+            lang = l;
+            const t = texts[l];
+
+            document.getElementById('toolTitle').innerHTML = t.title;
+            document.getElementById('toolSub').innerText = t.sub;
+            document.getElementById('badge1').innerText = t.badge1;
+            document.getElementById('badge2').innerText = t.badge2;
+            document.getElementById('storyLabel').innerText = t.storyLabel;
+            document.getElementById('tab1Btn').innerText = t.tab1;
+            document.getElementById('tab2Btn').innerText = t.tab2;
+            document.getElementById('tab3Btn').innerText = t.tab3;
+            document.getElementById('p1LabelA').innerText = t.p1LabelA;
+            document.getElementById('p1LabelB').innerText = t.p1LabelB;
+            document.getElementById('p2LabelA').innerText = t.p2LabelA;
+            document.getElementById('p2LabelB').innerText = t.p2LabelB;
+            document.getElementById('p3LabelOld').innerText = t.p3LabelOld;
+            document.getElementById('p3LabelNew').innerText = t.p3LabelNew;
+
+            document.querySelectorAll('.story-suggest .items a').forEach(a => {
+                try {
+                    const url = new URL(a.href);
+                    url.searchParams.set('lang', l);
+                    a.href = url.toString();
+                } catch (e) {}
+            });
+
+            calculateAll();
+        }
+
+        // =============================================================
+        // 偵測語言（URL 參數優先）
+        // =============================================================
+        function detectLanguage() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('lang') === 'en') return 'en';
+            if (params.get('lang') === 'tw') return 'tw';
+            if (params.get('lang') === 'hk') return 'hk';
+            const userLang = navigator.language || navigator.userLanguage;
+            if (userLang.startsWith('en')) return 'en';
+            if (userLang.includes('zh')) {
+                if (userLang.includes('TW') || userLang.includes('tw')) return 'tw';
+                return 'hk';
+            }
+            return 'hk';
+        }
+
+        const detectedLang = detectLanguage();
+        switchLang(detectedLang);
+
+        // =============================================================
+        // Tab 切換
+        // =============================================================
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
+                document.getElementById(this.dataset.tab).classList.add('active');
+                calculateAll();
+            });
+        });
+
+        // =============================================================
+        // 計算函數
+        // =============================================================
+        function formatNum(n) {
+            return parseFloat(n.toFixed(10)).toString();
+        }
+
+        function calculateP1() {
+            const t = texts[lang];
+            const a = parseFloat(document.getElementById('p1_a').value);
+            const b = parseFloat(document.getElementById('p1_b').value);
+            const elNum = document.getElementById('p1_number');
+            const elDesc = document.getElementById('p1_desc');
+            const elFormula = document.getElementById('p1_formula');
+
+            if (isNaN(a) || isNaN(b)) {
+                elNum.textContent = t.invalid;
+                elDesc.textContent = t.errorInput;
+                elFormula.textContent = '';
+                return;
+            }
+
+            const result = a * (b / 100);
+            const resultStr = formatNum(result);
+            elNum.textContent = resultStr;
+            elDesc.textContent = t.p1Desc(a, b, resultStr);
+            elFormula.textContent = t.p1Formula(a, b, resultStr);
+        }
+
+        function calculateP2() {
+            const t = texts[lang];
+            const a = parseFloat(document.getElementById('p2_a').value);
+            const b = parseFloat(document.getElementById('p2_b').value);
+            const elNum = document.getElementById('p2_number');
+            const elDesc = document.getElementById('p2_desc');
+            const elFormula = document.getElementById('p2_formula');
+
+            if (isNaN(a) || isNaN(b)) {
+                elNum.textContent = t.invalid;
+                elDesc.textContent = t.errorInput;
+                elFormula.textContent = '';
+                return;
+            }
+            if (b === 0) {
+                elNum.textContent = t.invalid;
+                elDesc.textContent = t.errorDivZero;
+                elFormula.textContent = '';
+                return;
+            }
+
+            const result = (a / b) * 100;
+            const resultStr = formatNum(result);
+            elNum.textContent = resultStr + '%';
+            elDesc.textContent = t.p2Desc(a, b, resultStr);
+            elFormula.textContent = t.p2Formula(a, b, resultStr);
+        }
+
+        function calculateP3() {
+            const t = texts[lang];
+            const oldVal = parseFloat(document.getElementById('p3_old').value);
+            const newVal = parseFloat(document.getElementById('p3_new').value);
+            const elNum = document.getElementById('p3_number');
+            const elDesc = document.getElementById('p3_desc');
+            const elFormula = document.getElementById('p3_formula');
+
+            if (isNaN(oldVal) || isNaN(newVal)) {
+                elNum.textContent = t.invalid;
+                elDesc.textContent = t.errorInput;
+                elFormula.textContent = '';
+                return;
+            }
+            if (oldVal === 0) {
+                elNum.textContent = t.invalid;
+                elDesc.textContent = t.errorOldZero;
+                elFormula.textContent = '';
+                return;
+            }
+
+            const diff = newVal - oldVal;
+            const pct = (diff / oldVal) * 100;
+            const sign = pct >= 0 ? '+' : '';
+            const pctStr = formatNum(Math.abs(pct));
+            elNum.textContent = sign + pctStr + '%';
+            elDesc.textContent = pct >= 0 ? t.p3DescInc(pctStr) : t.p3DescDec(pctStr);
+            elFormula.textContent = t.p3Formula(oldVal, newVal, pctStr, sign);
+        }
+
+        function calculateAll() {
+            calculateP1();
+            calculateP2();
+            calculateP3();
+        }
+
+        document.querySelectorAll('#tab1 input, #tab2 input, #tab3 input').forEach(input => {
+            input.addEventListener('input', calculateAll);
+        });
+
+        calculateAll();
+    </script>
+</body>
+</html>

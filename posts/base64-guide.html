@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【Base64 編解碼教學】文字圖片轉 Base64 格式｜Free Base64 Converter Guide</title>
+    <meta name="description" content="免費且安全的 Base64 編解碼工具！文字與 Base64 互轉，支援圖片轉 Base64，純前端運算保護數據私隱。適用於 API 數據傳輸、圖片內嵌、開發者調試。Free online Base64 converter guide.">
+    <meta name="keywords" content="Base64編碼, Base64解碼, 圖片轉Base64, Base64轉圖片, 免費Base64工具, Base64 Encoder, Base64 Decoder, Image to Base64, Free Base64 Tool, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/base64-guide.html">
+
+    <!-- Open Graph (社交媒體優化) -->
+    <meta property="og:title" content="【Base64 編解碼教學】文字圖片轉 Base64 格式 — Base64 Converter Guide">
+    <meta property="og:description" content="100% 純前端運算！教你免費進行文字與 Base64 互轉，支援圖片轉 Base64。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/base64-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Base64 Converter Guide – Encode/Decode Text & Images">
+    <meta name="twitter:description" content="Learn how to encode and decode Base64 for text and images with our free, privacy-first online tool.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Base64 編解碼教學：文字圖片轉 Base64 格式",
+      "description": "介紹如何使用純前端技術嘅 Base64 編解碼器，適用於 API 數據傳輸、圖片內嵌與開發者調試。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- 中文內容區塊 -->
+    <div id="content-zh">
+        <h1>Base64 編解碼教學：文字圖片轉 Base64 格式</h1>
+
+        <h2>1. 導言</h2>
+        <p>無論你係要將圖片嵌入 HTML/CSS 減少 HTTP 請求、喺 API 傳輸中處理二進制數據、定係開發者調試時需要將文字編碼為安全格式，Base64 都係非常常用嘅編碼方式。但市面上好多 Base64 工具一係要下載軟件，一係要將數據上傳到伺服器，私隱風險高。我哋嘅免費 Base64 編解碼器專為解決呢啲問題而設：文字與 Base64 雙向轉換，仲支援圖片轉 Base64，而且 100% 純前端運算，數據唔會離開你嘅瀏覽器。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p>Base64 係一種將二進制數據轉換為 ASCII 文字嘅編碼方式，常用於在文字協議（如 HTTP、Email）中傳輸圖片或檔案數據。佢將 3 個位元組（24 bits）轉換為 4 個可打印 ASCII 字符，因此編碼後嘅數據大小會增加約 33%。</p>
+        <p>常見應用場景包括：將圖片嵌入 HTML 的 <code>&lt;img src="data:image/png;base64,..."&gt;</code>、在 JSON API 中傳送檔案、以及在 Email 中嵌入圖片。我哋嘅工具採用瀏覽器原生嘅 <code>btoa()</code> 和 <code>atob()</code> 函數，所有編解碼喺你嘅瀏覽器內完成，數據由頭到尾都唔會離開你嘅裝置。</p>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>圖片嵌入 HTML/CSS：</strong>將細小圖片轉為 Base64 直接嵌入網頁，減少 HTTP 請求數目。</li>
+            <li><strong>API 數據傳輸：</strong>在 JSON API 中傳送圖片或檔案，避免二進制數據傳輸問題。</li>
+            <li><strong>開發者調試：</strong>快速將文字編碼或解碼，方便測試 API 請求與回應。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>選擇模式：</strong>點擊「文字 ↔ Base64」或「圖片 ↔ Base64」切換模式。</li>
+            <li><strong>輸入數據：</strong>輸入文字或上傳圖片。</li>
+            <li><strong>編碼或解碼：</strong>點擊「編碼」或「解碼」按鈕（文字模式）；或點擊「圖片 → Base64」或貼上 Base64 後點擊「Base64 → 圖片」。</li>
+            <li><strong>複製或下載：</strong>結果會顯示在下方，可一鍵複製或下載。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站前端工具</th>
+                    <th>線上 Base64 工具</th>
+                    <th>手動編碼</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>免費但有廣告或限制</td>
+                    <td>免費（需編程知識）</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>100% 本地處理</td>
+                    <td>低（需上傳伺服器）</td>
+                    <td>本地處理</td>
+                </tr>
+                <tr>
+                    <td><strong>圖片支援</strong></td>
+                    <td>✅ 原生支援</td>
+                    <td>✅ 通常支援</td>
+                    <td>❌ 需額外工具</td>
+                </tr>
+                <tr>
+                    <td><strong>雙向轉換</strong></td>
+                    <td>✅ 編碼+解碼</td>
+                    <td>✅ 通常支援</td>
+                    <td>✅ 可手動</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>中等</td>
+                    <td>高（需編程）</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「之前做網頁開發嘅時候，成日要將細 icon 轉做 Base64 嵌入 CSS，減少 HTTP 請求。以前要用其他工具將圖片轉完再複製，好麻煩。後來用咗呢個 Base64 工具，直接上傳圖片就即刻出到 Base64 字串，仲可以一鍵複製。對於成日要處理前端優化嘅開發者嚟講，呢個工具真係好實用。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ 需要快速將文字或圖片轉換為 Base64？</h3>
+            <p style="margin:0; font-size:0.9rem;">雙向轉換、支援圖片、一鍵複製，完全免費且保護私隱。</p>
+            <a href="../tools/base64-converter.html" class="cta-btn-link" id="ctaBtn">👉 立即免費試用 Base64 編解碼器</a>
+        </div>
+    </div>
+
+    <!-- English Content Section -->
+    <div id="content-en" style="display: none;">
+        <h1>Free Base64 Converter Guide: Encode/Decode Text & Images</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Whether you need to embed images in HTML/CSS to reduce HTTP requests, handle binary data in API transfers, or debug Base64-encoded data, Base64 conversion is an essential tool. Many Base64 tools require software installation or upload data to servers—creating privacy risks. Our free Base64 converter solves these problems: bidirectional text conversion, image support, and 100% client-side processing.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p>Base64 is an encoding method that converts binary data into ASCII text, commonly used for transmitting images or files over text-based protocols like HTTP and Email. It converts 3 bytes (24 bits) into 4 printable ASCII characters, increasing data size by about 33%.</p>
+        <p>Common use cases include embedding images in HTML with <code>&lt;img src="data:image/png;base64,..."&gt;</code>, sending files in JSON APIs, and embedding images in emails. Our tool uses native <code>btoa()</code> and <code>atob()</code> functions—all processing happens locally in your browser, and your data never leaves your device.</p>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Embed Images in HTML/CSS:</strong> Convert small images to Base64 for direct embedding to reduce HTTP requests.</li>
+            <li><strong>API Data Transfer:</strong> Send images or files in JSON APIs to avoid binary data transmission issues.</li>
+            <li><strong>Developer Debugging:</strong> Quickly encode or decode text for API request and response testing.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Select Mode:</strong> Choose "Text ↔ Base64" or "Image ↔ Base64".</li>
+            <li><strong>Input Data:</strong> Enter text or upload an image.</li>
+            <li><strong>Encode or Decode:</strong> Click "Encode" or "Decode" (Text mode); or "Image → Base64" / paste Base64 then click "Base64 → Image".</li>
+            <li><strong>Copy or Download:</strong> Results display below for one-click copy or download.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Client-Side Tool (Us)</th>
+                    <th>Other Online Tools</th>
+                    <th>Manual Coding</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Freemium / Ads</td>
+                    <td>Free (Coding Required)</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>100% Local Processing</td>
+                    <td>Low (Server Upload)</td>
+                    <td>Local</td>
+                </tr>
+                <tr>
+                    <td><strong>Image Support</strong></td>
+                    <td>✅ Native</td>
+                    <td>✅ Usually</td>
+                    <td>❌ Need Extra Tool</td>
+                </tr>
+                <tr>
+                    <td><strong>Bidirectional</strong></td>
+                    <td>✅ Encode + Decode</td>
+                    <td>✅ Usually</td>
+                    <td>✅ Manual</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Medium</td>
+                    <td>High</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"When I was doing web development, I used to convert small icons to Base64 for CSS embedding to reduce HTTP requests. Other tools required multiple steps to convert and copy. Now I use this Base64 converter—upload the image and get the Base64 string instantly with one-click copy. For developers working on frontend optimization, this tool is incredibly useful."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ Need to Convert Text or Images to Base64?</h3>
+            <p style="margin:0; font-size:0.9rem;">Bidirectional conversion, image support, one-click copy—completely free with privacy protection.</p>
+            <a href="../tools/base64-converter.html?lang=en" class="cta-btn-link" id="ctaBtn">👉 Try the Free Base64 Converter Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html">主頁</a> |
+        <a href="../blog.html">文章 Blog</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtn = document.getElementById('ctaBtn');
+    const brandLink = document.getElementById('brandLink');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtn.href = `../tools/base64-converter.html?lang=en`;
+        brandLink.href = `../index.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtn.href = `../tools/base64-converter.html?lang=${targetLang}`;
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+// 頁面載入時執行
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    // 語言按鈕切換
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

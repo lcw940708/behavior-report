@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO 基本標籤 / Bilingual SEO -->
+    <title>線上複利計算器 — 精算投資與儲蓄的本利滾存未來價值｜Compound Interest Calculator</title>
+    <meta name="description" content="免費線上複利計算器 (Free Online Compound Interest Calculator)。輸入初始本金、定期追加投入、預期年利率與年期，即時精算複利滾雪球效應下的總資產成長與投資回報。" />
+    <meta name="keywords" content="複利計算器, 複利效應, 滾雪球效應, 投資回報計算, 儲蓄規劃, compound interest calculator, future value calculator, investment growth, compound savings calculator, wealth accumulation" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/compound-interest-calculator.html" />
+
+    <!-- Open Graph 社交分享標籤 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="免費線上複利計算器 — 體驗複利滾雪球的資產暴增威力｜Compound Interest Calculator" />
+    <meta property="og:description" content="精算初始本金與每月定期定額投入的複利累積效益，輕鬆規劃您的長期理財與退休儲蓄目標！" />
+    <meta property="og:url" content="https://www.behavior-report.com/tools/compound-interest-calculator.html" />
+
+    <!-- Schema.org 結構化資料 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "線上複利計算器 (Compound Interest Calculator)",
+      "url": "https://www.behavior-report.com/tools/compound-interest-calculator.html",
+      "description": "提供初始本金、定期定額與不同複利頻率下總資產未來價值估算的的免費線上金融工具。",
+      "applicationCategory": "FinancialApplication",
+      "operatingSystem": "All",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --green: #10b981;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch { text-align: center; margin-bottom: 20px; }
+        .lang-switch button {
+            background: transparent; border: none; color: var(--cyan);
+            cursor: pointer; font-size: 0.9rem; margin: 0 8px; font-weight: bold;
+        }
+        .lang-switch button:hover { text-decoration: underline; }
+
+        .tool-title { font-size: 1.6rem; color: #ffffff; text-align: center; font-weight: bold; }
+        .tool-sub { text-align: center; color: var(--text); font-size: 0.95rem; margin: 10px 0 25px; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: bold;
+        }
+
+        input[type="number"], select {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: #ffffff;
+            padding: 12px;
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        input[type="number"]:focus, select:focus { border-color: var(--cyan); }
+
+        .btn-calc {
+            width: 100%;
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--cyan);
+            border: 1px solid rgba(34, 211, 238, 0.25);
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .btn-calc:hover {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+
+        .results-panel {
+            display: none;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .res-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .res-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .res-card.highlight {
+            border-color: rgba(16, 185, 129, 0.4);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .res-card h4 { font-size: 0.85rem; color: var(--text-light); margin-bottom: 8px; }
+        .res-card .val { font-size: 1.3rem; color: var(--cyan); font-weight: bold; }
+        .res-card.highlight .val { color: var(--green); font-size: 1.6rem; }
+
+        .seo-article { margin-top: 40px; padding-top: 25px; border-top: 1px solid rgba(148, 163, 184, 0.08); line-height: 1.6; }
+        .seo-article h2 { color: #ffffff; font-size: 1.1rem; margin-bottom: 12px; }
+        .seo-article p { font-size: 0.85rem; color: var(--text); margin-bottom: 12px; }
+
+        footer { text-align: center; margin-top: 30px; font-size: 11px; color: #555; }
+        footer a { color: #555; text-decoration: none; margin: 0 8px; }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="lang-switch">
+        <button onclick="setLang('zh')">繁體中文</button> |
+        <button onclick="setLang('en')">English</button>
+    </div>
+
+    <h1 class="tool-title" id="toolTitle">📈 線上複利計算器 (Compound Interest Calculator)</h1>
+    <p class="tool-sub" id="toolSub">精算本金與定期投入在複利效應下的未來資產成長與投資回報</p>
+
+    <div class="form-grid">
+        <div class="form-group">
+            <label id="lblPrincipal">初始投資本金 ($) (Initial Investment)</label>
+            <input type="number" id="principal" placeholder="例如: 50000" value="50000">
+        </div>
+        <div class="form-group">
+            <label id="lblContribution">定期追加投入 ($) (Regular Addition)</label>
+            <input type="number" id="contribution" placeholder="例如: 3000" value="3000">
+        </div>
+        <div class="form-group">
+            <label id="lblContribFreq">追加頻率 (Contribution Frequency)</label>
+            <select id="contribFreq">
+                <option value="12" selected>每月 (Monthly)</option>
+                <option value="1">每年 (Annually)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label id="lblRate">預期年化回報率 % (Annual Return Rate)</label>
+            <input type="number" id="returnRate" step="0.1" placeholder="例如: 7.0" value="7.0">
+        </div>
+        <div class="form-group">
+            <label id="lblYears">投資/儲蓄年期 (Years to Grow)</label>
+            <input type="number" id="years" placeholder="例如: 20" value="20">
+        </div>
+        <div class="form-group">
+            <label id="lblCompoundFreq">複利頻率 (Compound Frequency)</label>
+            <select id="compoundFreq">
+                <option value="12" selected>按月複利 (Compounded Monthly)</option>
+                <option value="4">按季複利 (Compounded Quarterly)</option>
+                <option value="1">按年複利 (Compounded Annually)</option>
+            </select>
+        </div>
+    </div>
+
+    <button class="btn-calc" onclick="calculateCompound()" id="btnCalc">🚀 計算資產未來價值 (Calculate Future Value)</button>
+
+    <div class="results-panel" id="resultsPanel">
+        <h3 style="color: #fff; font-size: 1.1rem; margin-bottom: 10px;" id="resTitle">📊 複利滾存計算結果 (Investment Results)</h3>
+        <div class="res-cards">
+            <div class="res-card highlight">
+                <h4 id="headFutureValue">預估最終總資產 (Future Value)</h4>
+                <div class="val" id="valFutureValue">$0</div>
+            </div>
+            <div class="res-card">
+                <h4 id="headTotalInterest">滾存總利息/投資收益 (Total Earnings)</h4>
+                <div class="val" id="valTotalInterest">$0</div>
+            </div>
+            <div class="res-card">
+                <h4 id="headTotalPrincipal">累積總投入本金 (Total Principal Deposited)</h4>
+                <div class="val" id="valTotalPrincipal">$0</div>
+            </div>
+        </div>
+    </div>
+
+    <article class="seo-article">
+        <h2 id="seoTitle">什麼是愛因斯坦口中的「世界第八大奇蹟」？—— 複利效應</h2>
+        <p id="seoP1">愛因斯坦曾說：「複利 (Compound Interest) 是世界第八大奇蹟。知之者賺，不知者賠。」複利的威力在於「利滾利」，將每期產生的利息或投資回報加入本金中，在下一個週期繼續產生新的收益。隨著時間推移，資產成長曲線將呈現爆發性的指數級增長。</p>
+        <p id="seoP2"><strong>The Power of Compound Interest & Time.</strong> Compound interest accelerates your wealth growth by calculating interest on both the initial principal and the accumulated interest from previous periods. Start early and harness the snowball effect for your retirement planning.</p>
+    </article>
+</div>
+
+<footer>
+    <a href="../index.html">Home</a> | <a href="../privacy.html">Privacy Policy</a>
+</footer>
+
+<script>
+    const i18n = {
+        zh: {
+            title: "📈 線上複利計算器 (Compound Interest Calculator)",
+            sub: "精算本金與定期投入在複利效應下的未來資產成長與投資回報",
+            lblPrincipal: "初始投資本金 ($) (Initial Investment)",
+            lblContribution: "定期追加投入 ($) (Regular Addition)",
+            lblContribFreq: "追加頻率 (Contribution Frequency)",
+            lblRate: "預期年化回報率 % (Annual Return Rate)",
+            lblYears: "投資/儲蓄年期 (Years to Grow)",
+            lblCompoundFreq: "複利頻率 (Compound Frequency)",
+            btnCalc: "🚀 計算資產未來價值 (Calculate Future Value)",
+            resTitle: "📊 複利滾存計算結果 (Investment Results)",
+            headFutureValue: "預估最終總資產 (Future Value)",
+            headTotalInterest: "滾存總利息/投資收益 (Total Earnings)",
+            headTotalPrincipal: "累積總投入本金 (Total Principal Deposited)",
+            optMonthly: "每月 (Monthly)",
+            optAnnually: "每年 (Annually)",
+            optCompMonthly: "按月複利 (Compounded Monthly)",
+            optCompQuarterly: "按季複利 (Compounded Quarterly)",
+            optCompAnnually: "按年複利 (Compounded Annually)",
+            seoTitle: "什麼是愛因斯坦口中的「世界第八大奇蹟」？—— 複利效應",
+            seoP1: "愛因斯坦曾說：「複利 (Compound Interest) 是世界第八大奇蹟。知之者賺，不知者賠。」複利的威力在於「利滾利」，將每期產生的利息或投資回報加入本金中，在下一個週期繼續產生新的收益。隨著時間推移，資產成長曲線將呈現爆發性的指數級增長。",
+            seoP2: "<strong>The Power of Compound Interest & Time.</strong> Compound interest accelerates your wealth growth by calculating interest on both the initial principal and the accumulated interest from previous periods. Start early and harness the snowball effect for your retirement planning."
+        },
+        en: {
+            title: "📈 Compound Interest Calculator",
+            sub: "Calculate future investment growth and savings with compound interest",
+            lblPrincipal: "Initial Investment ($)",
+            lblContribution: "Additional Contribution ($)",
+            lblContribFreq: "Contribution Frequency",
+            lblRate: "Estimated Annual Rate of Return (%)",
+            lblYears: "Investment Period (Years)",
+            lblCompoundFreq: "Compound Frequency",
+            btnCalc: "🚀 Calculate Future Value",
+            resTitle: "📊 Investment Projection Results",
+            headFutureValue: "Future Investment Value",
+            headTotalInterest: "Total Interest / Investment Returns",
+            headTotalPrincipal: "Total Principal Deposited",
+            optMonthly: "Monthly",
+            optAnnually: "Annually",
+            optCompMonthly: "Compounded Monthly",
+            optCompQuarterly: "Compounded Quarterly",
+            optCompAnnually: "Compounded Annually",
+            seoTitle: "The Power of Compound Interest",
+            seoP1: "Compound interest generates earnings on your previous earnings in addition to your initial investment, causing your balance to grow exponentially over long periods.",
+            seoP2: "<strong>The Power of Compound Interest & Time.</strong> Compound interest accelerates your wealth growth by calculating interest on both the initial principal and the accumulated interest from previous periods. Start early and harness the snowball effect for your retirement planning."
+        }
+    };
+
+    function setLang(lang) {
+        const t = i18n[lang];
+        document.getElementById('toolTitle').innerText = t.title;
+        document.getElementById('toolSub').innerText = t.sub;
+        document.getElementById('lblPrincipal').innerText = t.lblPrincipal;
+        document.getElementById('lblContribution').innerText = t.lblContribution;
+        document.getElementById('lblContribFreq').innerText = t.lblContribFreq;
+        document.getElementById('lblRate').innerText = t.lblRate;
+        document.getElementById('lblYears').innerText = t.lblYears;
+        document.getElementById('lblCompoundFreq').innerText = t.lblCompoundFreq;
+        document.getElementById('btnCalc').innerText = t.btnCalc;
+        document.getElementById('resTitle').innerText = t.resTitle;
+        document.getElementById('headFutureValue').innerText = t.headFutureValue;
+        document.getElementById('headTotalInterest').innerText = t.headTotalInterest;
+        document.getElementById('headTotalPrincipal').innerText = t.headTotalPrincipal;
+        document.getElementById('seoTitle').innerText = t.seoTitle;
+        document.getElementById('seoP1').innerHTML = t.seoP1;
+        document.getElementById('seoP2').innerHTML = t.seoP2;
+
+        const contribSelect = document.getElementById('contribFreq');
+        contribSelect.options[0].text = t.optMonthly;
+        contribSelect.options[1].text = t.optAnnually;
+
+        const compSelect = document.getElementById('compoundFreq');
+        compSelect.options[0].text = t.optCompMonthly;
+        compSelect.options[1].text = t.optCompQuarterly;
+        compSelect.options[2].text = t.optCompAnnually;
+    }
+
+    function formatCurrency(val) {
+        return '$' + Math.round(val).toLocaleString();
+    }
+
+    function calculateCompound() {
+        const P = parseFloat(document.getElementById('principal').value) || 0;
+        const PMT = parseFloat(document.getElementById('contribution').value) || 0;
+        const pmtFreq = parseInt(document.getElementById('contribFreq').value);
+        const r = (parseFloat(document.getElementById('returnRate').value) || 0) / 100;
+        const t = parseFloat(document.getElementById('years').value);
+        const n = parseInt(document.getElementById('compoundFreq').value);
+
+        if (P < 0 || PMT < 0 || r < 0 || !t || t <= 0) {
+            alert('請輸入有效的投資參數！Please enter valid investment parameters.');
+            return;
+        }
+
+        // 1. 本金複利未來價值: P * (1 + r/n)^(n*t)
+        const futureValueP = P * Math.pow(1 + (r / n), n * t);
+
+        // 2. 定期追加投入的未來價值精算 (按月度逐期複利計息)
+        let futureValuePMT = 0;
+        const totalMonths = t * 12;
+        const monthlyRate = r / 12;
+
+        if (pmtFreq === 12) {
+            // 每月投入
+            if (monthlyRate === 0) {
+                futureValuePMT = PMT * totalMonths;
+            } else {
+                for (let m = 1; m <= totalMonths; m++) {
+                    futureValuePMT += PMT * Math.pow(1 + (r / n), (n * (totalMonths - m) / 12));
+                }
+            }
+        } else {
+            // 每年投入
+            if (r === 0) {
+                futureValuePMT = PMT * t;
+            } else {
+                for (let y = 1; y <= t; y++) {
+                    futureValuePMT += PMT * Math.pow(1 + (r / n), n * (t - y));
+                }
+            }
+        }
+
+        const totalFutureValue = futureValueP + futureValuePMT;
+        const totalPrincipalDeposited = P + (PMT * (pmtFreq === 12 ? totalMonths : t));
+        const totalEarnings = totalFutureValue - totalPrincipalDeposited;
+
+        document.getElementById('valFutureValue').innerText = formatCurrency(totalFutureValue);
+        document.getElementById('valTotalInterest').innerText = formatCurrency(totalEarnings > 0 ? totalEarnings : 0);
+        document.getElementById('valTotalPrincipal').innerText = formatCurrency(totalPrincipalDeposited);
+
+        document.getElementById('resultsPanel').style.display = 'block';
+    }
+</script>
+<!-- 語言參數接收與傳遞 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang');
+    if (lang) {
+        if (typeof setLang === 'function') {
+            setLang(lang);
+        }
+        document.querySelectorAll('a[href]').forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('../')) {
+                const url = new URL(href, window.location.href);
+                url.searchParams.set('lang', lang);
+                link.setAttribute('href', url.toString());
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

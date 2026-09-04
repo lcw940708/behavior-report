@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>時間戳轉換器 — Unix Timestamp Converter 中英雙語｜ABRG 免費工具</title>
+    <meta name="description" content="Free Unix Timestamp Converter, Epoch Time Converter, Timestamp to Date, Date to Timestamp. Supports English & Chinese." />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/timestamp-converter.html" />
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --green: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 720px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .tool-title .emoji {
+            font-size: 1.8rem;
+        }
+
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 6px 0 20px;
+        }
+
+        /* ===== 語言切換 ===== */
+        .lang-switch {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .lang-switch .lang-btn {
+            padding: 6px 18px;
+            border-radius: 6px;
+            border: 2px solid var(--border);
+            background: transparent;
+            color: var(--text);
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .lang-switch .lang-btn.active {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.08);
+        }
+
+        .lang-switch .lang-btn:hover:not(.active) {
+            border-color: var(--text-light);
+            color: var(--text-light);
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        /* ===== 當前時間戳 ===== */
+        .current-section {
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 14px 18px;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .current-section .label {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .current-section .value {
+            font-size: 1rem;
+            color: var(--cyan);
+            font-family: monospace;
+            font-weight: bold;
+            word-break: break-all;
+        }
+
+        .current-section .copy-btn {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.15);
+            color: var(--cyan);
+            padding: 4px 14px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .current-section .copy-btn:hover {
+            background: rgba(34, 211, 238, 0.15);
+        }
+
+        /* ===== 輸入輸出 ===== */
+        .converter-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .converter-box {
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .converter-box .box-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .converter-box .box-input {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-family: monospace;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .converter-box .box-input:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.08);
+        }
+
+        .converter-box .box-input::placeholder {
+            color: #475569;
+        }
+
+        .converter-box .box-output {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(148, 163, 184, 0.06);
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-family: monospace;
+            min-height: 42px;
+            word-break: break-all;
+        }
+
+        .converter-box .box-output.placeholder {
+            color: #475569;
+        }
+
+        .converter-box .btn-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .btn-small {
+            padding: 6px 16px;
+            border-radius: 6px;
+            border: none;
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-small.primary {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+        .btn-small.primary:hover {
+            background: var(--cyan-hover);
+        }
+
+        .btn-small.outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        .btn-small.outline:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        .btn-small.success {
+            background: var(--green);
+            color: #0b0f19;
+        }
+        .btn-small.success:hover {
+            background: #34d399;
+        }
+
+        .arrow-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #475569;
+            padding: 0 4px;
+        }
+
+        /* ===== Story suggest ===== */
+        .story-suggest {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+        .story-suggest .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .story-suggest .items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .story-suggest .items a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .other-tools {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .other-tools a {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #fca5a5;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .other-tools a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #555;
+        }
+        footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        footer a:hover {
+            color: #888;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 18px;
+            }
+            .converter-grid {
+                grid-template-columns: 1fr;
+            }
+            .arrow-icon {
+                transform: rotate(90deg);
+                padding: 4px 0;
+            }
+            .current-section {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 6px;
+            }
+            .current-section .value {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 class="tool-title"><span class="emoji">⏱️</span> <span id="titleText">時間戳轉換器</span></h1>
+        <p class="tool-sub" id="subText">Unix 時間戳 ↔ 日期時間 即時互轉</p>
+
+        <!-- ===== 語言切換 ===== -->
+        <div class="lang-switch">
+            <button class="lang-btn" data-lang="hk">🇭🇰 中文</button>
+            <button class="lang-btn" data-lang="tw">🇹🇼 中文</button>
+            <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+        </div>
+
+        <div class="badge-row">
+            <span class="badge" id="badge1">⚡ 即時轉換</span>
+            <span class="badge" id="badge2">🔄 雙向支援</span>
+            <span class="badge" id="badge3">🆓 完全免費</span>
+        </div>
+
+        <!-- ===== 當前時間戳 ===== -->
+        <div class="current-section">
+            <span class="label" id="currentLabel">🕐 當前時間戳</span>
+            <span class="value" id="currentTimestamp">--</span>
+            <button class="copy-btn" id="copyCurrentBtn">📋 <span id="copyCurrentText">複製</span></button>
+        </div>
+
+        <!-- ===== 轉換器 ===== -->
+        <div class="converter-grid">
+            <!-- 左：Timestamp → Date -->
+            <div class="converter-box">
+                <div class="box-label" id="labelTimestamp">Unix 時間戳</div>
+                <input class="box-input" id="timestampInput" type="text" placeholder="e.g. 1724147200" />
+                <div class="btn-row">
+                    <button class="btn-small primary" id="tsToDateBtn">→ <span id="tsToDateText">轉換為日期</span></button>
+                    <button class="btn-small outline" id="nowBtn"><span id="nowText">現在</span></button>
+                </div>
+            </div>
+
+            <div class="arrow-icon">➜</div>
+
+            <!-- 右：Date → Timestamp -->
+            <div class="converter-box">
+                <div class="box-label" id="labelDatetime">日期時間</div>
+                <input class="box-input" id="datetimeInput" type="datetime-local" />
+                <div class="btn-row">
+                    <button class="btn-small primary" id="dateToTsBtn">→ <span id="dateToTsText">轉換為時間戳</span></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== 結果區 ===== -->
+        <div style="margin-top:16px; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div>
+                <div style="font-size:0.7rem; color:#64748b; margin-bottom:4px;" id="resultTimestampLabel">📋 時間戳結果</div>
+                <div class="box-output" id="timestampResult">--</div>
+            </div>
+            <div>
+                <div style="font-size:0.7rem; color:#64748b; margin-bottom:4px;" id="resultDatetimeLabel">📋 日期時間結果</div>
+                <div class="box-output" id="datetimeResult">--</div>
+            </div>
+        </div>
+
+        <!-- ===== Story suggest ===== -->
+        <div class="story-suggest">
+            <div class="label" id="storyLabel">📖 你可能會中意嘅連載或測驗</div>
+            <div class="items">
+                <a href="../story_01.html">《你睡著以後》</a>
+                <a href="../story_02.html">《貓狗人格》</a>
+                <a href="../quiz-01.html">隱私天平</a>
+                <a href="../index.html">🏠 返回主頁</a>
+            </div>
+            <div class="other-tools">
+                <span style="font-size:0.75rem;color:#64748b;align-self:center;" id="otherToolsLabel">🔧 其他工具：</span>
+                <a href="json-formatter.html">JSON 格式化</a>
+                <a href="url-encoder.html">URL 編解碼</a>
+                <a href="diff.html">文字比較</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // =============================================================
+            // 語言文字
+            // =============================================================
+            const texts = {
+                zh: {
+                    title: '時間戳轉換器',
+                    sub: 'Unix 時間戳 ↔ 日期時間 即時互轉',
+                    currentLabel: '🕐 當前時間戳',
+                    copyCurrent: '複製',
+                    labelTimestamp: 'Unix 時間戳',
+                    labelDatetime: '日期時間',
+                    tsToDate: '轉換為日期',
+                    dateToTs: '轉換為時間戳',
+                    now: '現在',
+                    resultTimestamp: '📋 時間戳結果',
+                    resultDatetime: '📋 日期時間結果',
+                    badge1: '⚡ 即時轉換',
+                    badge2: '🔄 雙向支援',
+                    badge3: '🆓 完全免費',
+                    storyLabel: '📖 你可能會中意嘅連載或測驗',
+                    otherTools: '🔧 其他工具：',
+                    copied: '✅ 已複製',
+                    placeholderTs: '請輸入 Unix 時間戳',
+                    placeholderDt: '請選擇日期時間',
+                    invalidTs: '❌ 無效嘅時間戳',
+                    invalidDt: '❌ 無效嘅日期時間',
+                },
+                en: {
+                    title: 'Timestamp Converter',
+                    sub: 'Unix Timestamp ↔ Date Time Converter',
+                    currentLabel: '🕐 Current Timestamp',
+                    copyCurrent: 'Copy',
+                    labelTimestamp: 'Unix Timestamp',
+                    labelDatetime: 'Date Time',
+                    tsToDate: 'Convert to Date',
+                    dateToTs: 'Convert to Timestamp',
+                    now: 'Now',
+                    resultTimestamp: '📋 Timestamp Result',
+                    resultDatetime: '📋 Date Time Result',
+                    badge1: '⚡ Instant Convert',
+                    badge2: '🔄 Bidirectional',
+                    badge3: '🆓 Free',
+                    storyLabel: '📖 You might also like',
+                    otherTools: '🔧 Other Tools:',
+                    copied: '✅ Copied',
+                    placeholderTs: 'Enter Unix timestamp',
+                    placeholderDt: 'Select date & time',
+                    invalidTs: '❌ Invalid timestamp',
+                    invalidDt: '❌ Invalid date time',
+                }
+            };
+
+            let currentLang = 'zh';
+
+            // =============================================================
+            // DOM refs
+            // =============================================================
+            const langBtns = document.querySelectorAll('.lang-btn');
+            const titleText = document.getElementById('titleText');
+            const subText = document.getElementById('subText');
+            const currentLabel = document.getElementById('currentLabel');
+            const copyCurrentText = document.getElementById('copyCurrentText');
+            const labelTimestamp = document.getElementById('labelTimestamp');
+            const labelDatetime = document.getElementById('labelDatetime');
+            const tsToDateText = document.getElementById('tsToDateText');
+            const dateToTsText = document.getElementById('dateToTsText');
+            const nowText = document.getElementById('nowText');
+            const resultTimestampLabel = document.getElementById('resultTimestampLabel');
+            const resultDatetimeLabel = document.getElementById('resultDatetimeLabel');
+            const badge1 = document.getElementById('badge1');
+            const badge2 = document.getElementById('badge2');
+            const badge3 = document.getElementById('badge3');
+            const storyLabel = document.getElementById('storyLabel');
+            const otherToolsLabel = document.getElementById('otherToolsLabel');
+
+            const timestampInput = document.getElementById('timestampInput');
+            const datetimeInput = document.getElementById('datetimeInput');
+            const timestampResult = document.getElementById('timestampResult');
+            const datetimeResult = document.getElementById('datetimeResult');
+            const currentTimestamp = document.getElementById('currentTimestamp');
+            const copyCurrentBtn = document.getElementById('copyCurrentBtn');
+            const tsToDateBtn = document.getElementById('tsToDateBtn');
+            const dateToTsBtn = document.getElementById('dateToTsBtn');
+            const nowBtn = document.getElementById('nowBtn');
+
+            // =============================================================
+            // 語言切換
+            // =============================================================
+            function switchLang(lang) {
+                currentLang = lang;
+                const t = lang === 'en' ? texts.en : texts.zh;
+
+                titleText.textContent = t.title;
+                subText.textContent = t.sub;
+                currentLabel.textContent = t.currentLabel;
+                copyCurrentText.textContent = t.copyCurrent;
+                labelTimestamp.textContent = t.labelTimestamp;
+                labelDatetime.textContent = t.labelDatetime;
+                tsToDateText.textContent = t.tsToDate;
+                dateToTsText.textContent = t.dateToTs;
+                nowText.textContent = t.now;
+                resultTimestampLabel.textContent = t.resultTimestamp;
+                resultDatetimeLabel.textContent = t.resultDatetime;
+                badge1.textContent = t.badge1;
+                badge2.textContent = t.badge2;
+                badge3.textContent = t.badge3;
+                storyLabel.textContent = t.storyLabel;
+                otherToolsLabel.textContent = t.otherTools;
+
+                timestampInput.placeholder = t.placeholderTs;
+                datetimeInput.placeholder = t.placeholderDt;
+
+                // update story links
+                document.querySelectorAll('.story-suggest .items a').forEach(a => {
+                    try {
+                        const url = new URL(a.href);
+                        url.searchParams.set('lang', lang === 'en' ? 'en' : 'hk');
+                        a.href = url.toString();
+                    } catch (e) {}
+                });
+
+                langBtns.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.lang === lang || (lang === 'zh' && btn.dataset.lang === 'hk')) {
+                        btn.classList.add('active');
+                    }
+                });
+            }
+
+            langBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lang = this.dataset.lang;
+                    if (lang === 'hk' || lang === 'tw') {
+                        switchLang('zh');
+                    } else {
+                        switchLang('en');
+                    }
+                });
+            });
+
+            // =============================================================
+            // 核心功能
+            // =============================================================
+            function updateCurrentTimestamp() {
+                const now = Math.floor(Date.now() / 1000);
+                currentTimestamp.textContent = now;
+            }
+
+            function copyCurrentTimestamp() {
+                const text = currentTimestamp.textContent;
+                if (!text || text === '--') return;
+                navigator.clipboard.writeText(text).then(() => {
+                    const t = currentLang === 'en' ? texts.en : texts.zh;
+                    const original = copyCurrentText.textContent;
+                    copyCurrentText.textContent = t.copied;
+                    setTimeout(() => {
+                        copyCurrentText.textContent = original;
+                    }, 2000);
+                });
+            }
+
+            function tsToDate() {
+                const input = timestampInput.value.trim();
+                if (!input) {
+                    const t = currentLang === 'en' ? texts.en : texts.zh;
+                    datetimeResult.textContent = '--';
+                    datetimeResult.className = 'box-output placeholder';
+                    return;
+                }
+
+                const ts = parseInt(input);
+                if (isNaN(ts) || ts < 0) {
+                    const t = currentLang === 'en' ? texts.en : texts.zh;
+                    datetimeResult.textContent = t.invalidTs;
+                    datetimeResult.className = 'box-output';
+                    return;
+                }
+
+                const date = new Date(ts * 1000);
+                const formatted = date.toLocaleString('zh-HK', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: false
+                });
+                datetimeResult.textContent = formatted;
+                datetimeResult.className = 'box-output';
+
+                const iso = date.toISOString().slice(0, 16);
+                datetimeInput.value = iso;
+            }
+
+            function dateToTs() {
+                const input = datetimeInput.value;
+                if (!input) {
+                    const t = currentLang === 'en' ? texts.en : texts.zh;
+                    timestampResult.textContent = '--';
+                    timestampResult.className = 'box-output placeholder';
+                    return;
+                }
+
+                const date = new Date(input);
+                if (isNaN(date.getTime())) {
+                    const t = currentLang === 'en' ? texts.en : texts.zh;
+                    timestampResult.textContent = t.invalidDt;
+                    timestampResult.className = 'box-output';
+                    return;
+                }
+
+                const ts = Math.floor(date.getTime() / 1000);
+                timestampResult.textContent = ts;
+                timestampResult.className = 'box-output';
+
+                timestampInput.value = ts;
+            }
+
+            function setNow() {
+                const now = Math.floor(Date.now() / 1000);
+                timestampInput.value = now;
+                tsToDate();
+            }
+
+            // =============================================================
+            // Event Listeners
+            // =============================================================
+            copyCurrentBtn.addEventListener('click', copyCurrentTimestamp);
+
+            tsToDateBtn.addEventListener('click', tsToDate);
+
+            dateToTsBtn.addEventListener('click', dateToTs);
+
+            nowBtn.addEventListener('click', setNow);
+
+            timestampInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    tsToDate();
+                }
+            });
+
+            datetimeInput.addEventListener('change', dateToTs);
+
+            // =============================================================
+            // 自動偵測語言（URL 參數優先）
+            // =============================================================
+            function detectLanguage() {
+                const params = new URLSearchParams(window.location.search);
+                if (params.get('lang') === 'en') return 'en';
+                if (params.get('lang') === 'zh') return 'zh';
+
+                const userLang = navigator.language || navigator.userLanguage;
+                if (userLang.startsWith('en')) {
+                    return 'en';
+                }
+                return 'zh';
+            }
+
+            // =============================================================
+            // 初始化
+            // =============================================================
+            const detectedLang = detectLanguage();
+            switchLang(detectedLang);
+
+            updateCurrentTimestamp();
+            setNow();
+
+            setInterval(() => {
+                updateCurrentTimestamp();
+            }, 1000);
+
+        });
+    </script>
+
+</body>
+
+</html>

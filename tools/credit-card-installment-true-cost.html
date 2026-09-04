@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="seo-title">信用卡分期真實成本計算器 | Credit Card Installment True Cost Calculator - ABRG</title>
+    <meta id="seo-desc" name="description" content="免費線上信用卡分期真實成本計算器。輸入簽賬金額、分期期數及每月手續費率，即時揭開實際年利率（APR）、總手續費開支與每月真實供款。">
+    <meta id="seo-keywords" name="keywords" content="信用卡分期計算機, 信用卡分期APR, 簽賬分期手續費, Credit Card Installment Calculator, True Cost of Installment, APR Calculator">
+    <link rel="canonical" href="https://www.behavior-report.com/tools/credit-card-installment-true-cost.html" />
+    
+    <style>
+        :root { 
+            --bg-color: #0b0f19; 
+            --card-bg: #151d30; 
+            --input-bg: #1e293b;
+            --text-color: #94a3b8; 
+            --heading-color: #ffffff;
+            --accent-cyan: #22d3ee; 
+            --accent-red: #ef4444;
+            --accent-green: #22c55e;
+            --border-color: rgba(148, 163, 184, 0.15);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
+        .container { max-width: 800px; width: 100%; }
+
+        .top-bar { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 20px; 
+        }
+        .back-link {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+        
+        .lang-switch button {
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+            padding: 4px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .lang-switch button:hover {
+            background: var(--accent-cyan);
+            color: #0b0f19;
+        }
+
+        .hero { text-align: center; margin-bottom: 25px; }
+        .hero h1 { font-size: 1.8rem; color: var(--heading-color); margin-bottom: 8px; }
+        .hero p { font-size: 0.95rem; color: var(--text-color); }
+
+        .calculator-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .grid-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 600px) {
+            .grid-form { grid-template-columns: 1fr; }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .form-group label {
+            font-size: 0.85rem;
+            color: var(--heading-color);
+            font-weight: bold;
+        }
+        .form-group input {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus {
+            border-color: var(--accent-cyan);
+        }
+
+        .results-box {
+            background: rgba(11, 15, 25, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        @media (max-width: 500px) {
+            .results-box { grid-template-columns: 1fr; }
+        }
+
+        .result-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .result-item.highlight {
+            grid-column: 1 / -1;
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid var(--accent-cyan);
+            padding: 12px 16px;
+            border-radius: 8px;
+        }
+        .result-label {
+            font-size: 0.8rem;
+            color: var(--text-color);
+        }
+        .result-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--heading-color);
+        }
+        .result-value.accent {
+            font-size: 1.6rem;
+            color: var(--accent-cyan);
+        }
+        .result-value.sub-accent {
+            color: var(--accent-green);
+        }
+
+        .info-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+        .info-section h2 {
+            color: var(--heading-color);
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+        .info-section p { margin-bottom: 12px; }
+        .info-section ul { margin-left: 20px; margin-bottom: 12px; }
+        .info-section li { margin-bottom: 6px; }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; }
+        .footer a:hover { color: #aaa; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="top-bar">
+        <a href="../index.html" class="back-link" id="btn-back">← 返回主頁</a>
+        <div class="lang-switch">
+            <button id="btn-lang" onclick="toggleLanguage()">English</button>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h1 id="txt-title">信用卡分期真實成本計算器</h1>
+        <p id="txt-subtitle">揭開「每月超低手續費」迷思，即時計算信用卡簽賬分期的實際年利率 (APR)</p>
+    </div>
+
+    <div class="calculator-card">
+        <div class="grid-form">
+            <div class="form-group">
+                <label id="lbl-amount" for="amount">簽賬金額 ($)</label>
+                <input type="number" id="amount" value="30000" min="0" step="1000" oninput="calculate()">
+            </div>
+            <div class="form-group">
+                <label id="lbl-fee-rate" for="feeRate">每月手續費率 Monthly Fee Rate (%)</label>
+                <input type="number" id="feeRate" value="0.22" min="0" step="0.01" oninput="calculate()">
+            </div>
+            <div class="form-group">
+                <label id="lbl-tenure" for="tenure">分期期數 (月 Months)</label>
+                <input type="number" id="tenure" value="12" min="1" max="60" step="1" oninput="calculate()">
+            </div>
+            <div class="form-group">
+                <label id="lbl-upfront-fee" for="upfrontFee">一次性首期行政費/手續費 ($)</label>
+                <input type="number" id="upfrontFee" value="0" min="0" step="50" oninput="calculate()">
+            </div>
+        </div>
+
+        <div class="results-box">
+            <div class="result-item highlight">
+                <span class="result-label" id="lbl-res-apr">真實實際年利率 (APR)</span>
+                <span class="result-value accent" id="res-apr">0.00%</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label" id="lbl-res-monthly">每月供款金額 (含手續費)</span>
+                <span class="result-value sub-accent" id="res-monthly">$0</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label" id="lbl-res-monthly-fee">每月手續費金額</span>
+                <span class="result-value" id="res-monthly-fee">$0</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label" id="lbl-res-total-fee">總手續費/利息支出</span>
+                <span class="result-value" id="res-total-fee">$0</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label" id="lbl-res-total">總還款金額</span>
+                <span class="result-value" id="res-total">$0</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-section">
+        <h2 id="txt-info-title">信用卡分期的「0 利息」陷阱？</h2>
+        <p id="txt-info-p1"><strong>「0% 利息，每月手續費僅 0.2%」真的划算嗎？</strong><br>銀行常標榜「免息分期」，僅收取極低的「每月手續費率」。然而，由於你每個月都在償還本金，你所欠銀行的實際金額是在逐月遞減的；但手續費卻依然按照「原始簽賬總額」固定計算！這意味著實質的年利率（APR）會遠高於你的直覺估計。</p>
+        <p id="txt-info-p2"><strong>快速估算迷思：</strong><br>若每月手續費為 0.22%，很多人會誤以為年利率是 0.22% × 12 = 2.64%。但精確計算後，其實際年利率（APR）通常高達 <strong>5.0% - 5.2%</strong> 左右，約為手續費率總合的 1.9 倍以上！</p>
+        <p id="txt-info-p3"><strong>為何需要參考 APR？</strong><br>實際年利率（APR）是根據國際財務標準（內部回報率 IRR）折算出的年化借貸成本，它涵蓋了本金遞減效應及所有一次性行政費用，是評估信用卡分期是否划算唯一的標準。</p>
+    </div>
+
+    <div class="footer">
+        &copy; 2026 ABRG 大數據行為觀察中心 | <a href="../index.html" id="footer-home">主頁</a>
+    </div>
+
+</div>
+
+<script>
+    let currentLang = 'zh';
+
+    function detectLanguage() {
+        const params = new URLSearchParams(window.location.search);
+        const langParam = params.get('lang');
+        if (langParam === 'en') return 'en';
+        if (langParam === 'hk' || langParam === 'zh' || langParam === 'tw') return 'zh';
+        
+        const userLang = navigator.language || navigator.userLanguage;
+        if (userLang && userLang.startsWith('en')) return 'en';
+        return 'zh';
+    }
+
+    const translations = {
+        zh: {
+            pageTitle: "信用卡分期真實成本計算器 | Credit Card Installment True Cost Calculator - ABRG",
+            metaDesc: "免費線上信用卡分期真實成本計算器。輸入簽賬金額、分期期數及每月手續費率，即時揭開實際年利率（APR）、總手續費開支與每月真實供款。",
+            metaKeywords: "信用卡分期計算機, 信用卡分期APR, 簽賬分期手續費, Credit Card Installment Calculator, True Cost of Installment, APR Calculator",
+            btnBack: "← 返回主頁",
+            btnLang: "English",
+            title: "信用卡分期真實成本計算器",
+            subtitle: "揭開「每月超低手續費」迷思，即時計算信用卡簽賬分期的實際年利率 (APR)",
+            lblAmount: "簽賬金額 ($)",
+            lblFeeRate: "每月手續費率 Monthly Fee Rate (%)",
+            lblTenure: "分期期數 (月 Months)",
+            lblUpfrontFee: "一次性首期行政費/手續費 ($)",
+            lblResApr: "真實實際年利率 (APR)",
+            lblResMonthly: "每月供款金額 (含手續費)",
+            lblResMonthlyFee: "每月手續費金額",
+            lblResTotalFee: "總手續費/利息支出",
+            lblResTotal: "總還款金額",
+            infoTitle: "信用卡分期的「0 利息」陷阱？",
+            infoP1: "<strong>「0% 利息，每月手續費僅 0.2%」真的划算嗎？</strong><br>銀行常標榜「免息分期」，僅收取極低的「每月手續費率」。然而，由於你每個月都在償還本金，你所欠銀行的實際金額是在逐月遞減的；但手續費卻依然按照「原始簽賬總額」固定計算！這意味著實質的年利率（APR）會遠高於你的直覺估計。",
+            infoP2: "<strong>快速估算迷思：</strong><br>若每月手續費為 0.22%，很多人會誤以為年利率是 0.22% × 12 = 2.64%。但精確計算後，其實際年利率（APR）通常高達 <strong>5.0% - 5.2%</strong> 左右，約為手續費率總合的 1.9 倍以上！",
+            infoP3: "<strong>為何需要參考 APR？</strong><br>實際年利率（APR）是根據國際財務標準（內部回報率 IRR）折算出的年化借貸成本，它涵蓋了本金遞減效應及所有一次性行政費用，是評估信用卡分期是否划算唯一的標準。",
+            footerHome: "主頁"
+        },
+        en: {
+            pageTitle: "Credit Card Installment True Cost Calculator | APR - ABRG",
+            metaDesc: "Free online Credit Card Installment True Cost Calculator. Calculate exact APR, monthly fees, and total interest cost from quoted monthly fee rates.",
+            metaKeywords: "Credit card installment calculator, True cost of installment, Credit card APR, Monthly fee to APR, Card financing cost",
+            btnBack: "← Back to Home",
+            btnLang: "繁體中文",
+            title: "Credit Card Installment True Cost Calculator",
+            subtitle: "Expose quoted monthly fee myths and compute the true Annual Percentage Rate (APR)",
+            lblAmount: "Transaction Amount ($)",
+            lblFeeRate: "Monthly Fee Rate (%)",
+            lblTenure: "Installment Term (Months)",
+            lblUpfrontFee: "Upfront Handling/Admin Fee ($)",
+            lblResApr: "True Annual Percentage Rate (APR)",
+            lblResMonthly: "Monthly Repayment (Incl. Fee)",
+            lblResMonthlyFee: "Monthly Fee Amount",
+            lblResTotalFee: "Total Fees & Interest",
+            lblResTotal: "Total Repayment Amount",
+            infoTitle: "The '0% Interest' Illusion of Credit Card Installments",
+            infoP1: "<strong>Is '0% Interest with only 0.2% monthly fee' really cheap?</strong><br>Banks frequently advertise 'interest-free' plans with seemingly tiny monthly fee rates. However, as you repay principal monthly, your outstanding balance decreases while the fee remains fixed on the initial transaction amount. Consequently, the true effective interest rate is far higher than expected.",
+            infoP2: "<strong>The Multiplication Fallacy:</strong><br>If a monthly fee is 0.22%, many assume the annual cost is 0.22% × 12 = 2.64%. In reality, the true APR is roughly <strong>5.0% – 5.2%</strong>, nearly double the flat rate total due to principal amortization.",
+            infoP3: "<strong>Why APR Matters:</strong><br>Annual Percentage Rate (APR) incorporates timing of cash flows via Internal Rate of Return (IRR) alongside upfront charges, offering an apples-to-apples metric to compare financing options.",
+            footerHome: "Home"
+        }
+    };
+
+    function setLang(lang) {
+        currentLang = (lang === 'en') ? 'en' : 'zh';
+        const t = translations[currentLang];
+
+        document.getElementById('seo-title').innerText = t.pageTitle;
+        document.getElementById('seo-desc').setAttribute('content', t.metaDesc);
+        document.getElementById('seo-keywords').setAttribute('content', t.metaKeywords);
+
+        document.getElementById('btn-back').innerText = t.btnBack;
+        document.getElementById('btn-back').href = `../index.html?lang=${currentLang === 'en' ? 'en' : 'hk'}`;
+        document.getElementById('btn-lang').innerText = t.btnLang;
+        document.getElementById('txt-title').innerText = t.title;
+        document.getElementById('txt-subtitle').innerText = t.subtitle;
+
+        document.getElementById('lbl-amount').innerText = t.lblAmount;
+        document.getElementById('lbl-fee-rate').innerText = t.lblFeeRate;
+        document.getElementById('lbl-tenure').innerText = t.lblTenure;
+        document.getElementById('lbl-upfront-fee').innerText = t.lblUpfrontFee;
+
+        document.getElementById('lbl-res-apr').innerText = t.lblResApr;
+        document.getElementById('lbl-res-monthly').innerText = t.lblResMonthly;
+        document.getElementById('lbl-res-monthly-fee').innerText = t.lblResMonthlyFee;
+        document.getElementById('lbl-res-total-fee').innerText = t.lblResTotalFee;
+        document.getElementById('lbl-res-total').innerText = t.lblResTotal;
+
+        document.getElementById('txt-info-title').innerText = t.infoTitle;
+        document.getElementById('txt-info-p1').innerHTML = t.infoP1;
+        document.getElementById('txt-info-p2').innerHTML = t.infoP2;
+        document.getElementById('txt-info-p3').innerHTML = t.infoP3;
+
+        document.getElementById('footer-home').innerText = t.footerHome;
+        document.getElementById('footer-home').href = `../index.html?lang=${currentLang === 'en' ? 'en' : 'hk'}`;
+
+        document.documentElement.lang = currentLang === 'zh' ? 'zh-Hant-HK' : 'en';
+        calculate();
+    }
+
+    function toggleLanguage() {
+        const nextLang = (currentLang === 'zh') ? 'en' : 'hk';
+        const newUrl = new URL(window.location);
+        newUrl.searchParams.set('lang', nextLang);
+        window.history.pushState({}, '', newUrl);
+        setLang(nextLang === 'en' ? 'en' : 'zh');
+    }
+
+    // 利用 Newton-Raphson 求解月內部回報率 (IRR)
+    function calculateMonthlyRate(netAmount, monthlyPayment, tenure) {
+        let r = 0.01; 
+        for (let i = 0; i < 100; i++) {
+            let f = netAmount;
+            let fPrime = 0;
+            for (let t = 1; t <= tenure; t++) {
+                let discount = Math.pow(1 + r, -t);
+                f -= monthlyPayment * discount;
+                fPrime += t * monthlyPayment * Math.pow(1 + r, -(t + 1));
+            }
+            if (Math.abs(f) < 1e-7) break;
+            if (fPrime === 0) break;
+            r = r - f / fPrime;
+        }
+        return r;
+    }
+
+    function calculate() {
+        const amount = parseFloat(document.getElementById('amount').value) || 0;
+        const feeRate = (parseFloat(document.getElementById('feeRate').value) || 0) / 100;
+        const tenure = parseInt(document.getElementById('tenure').value) || 0;
+        const upfrontFee = parseFloat(document.getElementById('upfrontFee').value) || 0;
+
+        if (amount <= 0 || tenure <= 0) {
+            document.getElementById('res-apr').innerText = '0.00%';
+            document.getElementById('res-monthly').innerText = '$0';
+            document.getElementById('res-monthly-fee').innerText = '$0';
+            document.getElementById('res-total-fee').innerText = '$0';
+            document.getElementById('res-total').innerText = '$0';
+            return;
+        }
+
+        const monthlyPrincipal = amount / tenure;
+        const monthlyFee = amount * feeRate;
+        const monthlyPayment = monthlyPrincipal + monthlyFee;
+
+        const totalMonthlyFee = monthlyFee * tenure;
+        const totalFees = totalMonthlyFee + upfrontFee;
+        const totalRepayment = amount + totalFees;
+
+        const netAmount = amount - upfrontFee; // 扣除一次性首期行政費
+
+        let apr = 0;
+        if (netAmount > 0 && monthlyPayment > 0) {
+            const monthlyRate = calculateMonthlyRate(netAmount, monthlyPayment, tenure);
+            // 複利化計算國際標準 APR
+            apr = (Math.pow(1 + monthlyRate, 12) - 1) * 100;
+        }
+
+        document.getElementById('res-apr').innerText = apr.toFixed(2) + '%';
+        document.getElementById('res-monthly').innerText = '$' + monthlyPayment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById('res-monthly-fee').innerText = '$' + monthlyFee.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById('res-total-fee').innerText = '$' + totalFees.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById('res-total').innerText = '$' + totalRepayment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const detectedLang = detectLanguage();
+        setLang(detectedLang);
+    });
+</script>
+</body>
+</html>

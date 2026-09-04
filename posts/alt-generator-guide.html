@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【AI 圖片 Alt 標籤產生器教學】自動生成中英文 Alt 文字｜提升 SEO 排名｜Free AI Alt Text Generator Guide</title>
+    <meta name="description" content="AI 圖片 Alt 標籤產生器完整教學！採用 TensorFlow.js 瀏覽器端機器學習，自動辨識圖片內容並生成中英文 Alt 替代文字，提升 SEO 搜尋排名與無障礙體驗。100% 本地處理保護私隱。Free AI image alt text generator guide.">
+    <meta name="keywords" content="圖片 Alt 標籤產生器, 自動生成 Alt 屬性, AI 圖片描述, SEO 圖片優化, 無障礙網頁, image alt text generator, AI alt text maker, automatic image captioning, accessibility alt generator, SEO alt tag, TensorFlow.js, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/alt-generator-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【AI 圖片 Alt 標籤產生器教學】自動生成中英文 Alt 文字 — 提升 SEO 排名｜Free AI Alt Text Generator Guide">
+    <meta property="og:description" content="採用 TensorFlow.js 瀏覽器端機器學習，自動辨識圖片內容並生成中英文 Alt 替代文字。100% 本地處理保護私隱。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/alt-generator-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free AI Alt Text Generator Guide – Boost SEO with AI-Generated Image Alt Tags">
+    <meta name="twitter:description" content="Automatically generate Chinese and English Alt text for images using TensorFlow.js. 100% client-side privacy.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "AI 圖片 Alt 標籤產生器教學：自動生成中英文 Alt 文字 — 提升 SEO 排名",
+      "description": "介紹如何使用 AI 圖片 Alt 標籤產生器自動生成中英文 Alt 替代文字，提升網站 SEO 圖片搜尋排名與無障礙體驗。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>AI 圖片 Alt 標籤產生器教學：自動生成中英文 Alt 文字 — 提升 SEO 排名</h1>
+
+        <h2>1. 導言</h2>
+        <p>你寫網站文章嗰陣，每次上傳圖片都要諗 <strong>Alt 替代文字（Alt Text）</strong> 諗到頭痛？或者你根本唔知 Alt 文字係咩，但係 Google Search Console 成日話你嘅圖片「缺少 Alt 屬性」？<strong>Alt 標籤</strong> 係圖片搜尋 SEO 嘅核心元素，亦係無障礙網頁（Accessibility）嘅基本要求。我哋嘅免費 AI 圖片 Alt 標籤產生器採用 <strong>TensorFlow.js + COCO-SSD</strong> 機器學習模型，喺瀏覽器入面自動辨識圖片內容，即時生成 <strong>中英文 Alt 替代文字</strong>。所有運算喺你嘅裝置入面完成，圖片唔會離開你嘅瀏覽器，私隱 100% 安全。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>Alt 標籤（Alternative Text / Alt Attribute）</strong> 係 HTML 圖片標籤入面嘅一個屬性，用嚟描述圖片嘅內容。佢有幾個重要功能：</p>
+        <ul>
+            <li><strong>SEO 圖片搜尋排名：</strong> Google 同 Bing 等搜尋引擎依靠 Alt 文字理解圖片內容，影響圖片搜尋結果嘅排名。</li>
+            <li><strong>無障礙網頁（WCAG）：</strong> 視障使用者依靠屏幕閱讀器（Screen Reader）讀出 Alt 文字，理解圖片內容。</li>
+            <li><strong>圖片載入失敗時嘅替代顯示：</strong> 當圖片無法載入時，Alt 文字會顯示俾用戶睇。</li>
+        </ul>
+        <p>我哋嘅工具採用 <strong>COCO-SSD</strong> 模型——一個由 Google 開發嘅開源物件偵測模型，可以辨識超過 80 種常見物體。所有 AI 運算 100% 喺瀏覽器入面進行，圖片絕不會上傳到任何伺服器。</p>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>網站內容創作者：</strong> 為 Blog 文章、產品頁面嘅圖片快速生成 Alt 文字。</li>
+            <li><strong>電子商務：</strong> 為大量產品圖片自動生成描述性 Alt 標籤，提升商品搜尋曝光。</li>
+            <li><strong>SEO 優化專家：</strong> 快速為網站圖片補齊 Alt 屬性，改善整體 SEO 表現。</li>
+            <li><strong>無障礙網頁設計：</strong> 確保網站符合 WCAG 無障礙標準，服務視障用戶。</li>
+            <li><strong>內容管理系統（CMS）：</strong> 批量處理圖片上傳時嘅 Alt 文字生成。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>等待 AI 模型載入：</strong> 首次使用時需要下載 TensorFlow.js 模型（約 10-15 秒），之後會自動快取。</li>
+            <li><strong>上傳圖片：</strong> 點擊或拖曳圖片到上傳區域。支援 PNG、JPG、WEBP 等格式。</li>
+            <li><strong>AI 自動辨識：</strong> 工具會自動分析圖片內容，偵測入面嘅物體。</li>
+            <li><strong>獲取 Alt 文字：</strong>
+                <ul>
+                    <li>🇨🇳 中文 Alt 標籤 — 自動生成繁體中文描述。</li>
+                    <li>🇬🇧 英文 Alt 標籤 — 自動生成英文描述。</li>
+                    <li>💻 HTML 語法範例 — 直接複製貼上到網站代碼。</li>
+                </ul>
+            </li>
+            <li><strong>複製使用：</strong> 點擊「複製」按鈕，將 Alt 文字貼上到你的網站或 CMS。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站 AI 工具</th>
+                    <th>手動撰寫</th>
+                    <th>雲端 AI 服務</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>時間成本</td>
+                    <td>通常需付費</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>✅ 無需上傳</td>
+                    <td>❌ 需上傳伺服器</td>
+                </tr>
+                <tr>
+                    <td><strong>處理速度</strong></td>
+                    <td>⚡ 即時（< 1 秒）</td>
+                    <td>🐢 需時思考</td>
+                    <td>⚠️ 取決於網絡</td>
+                </tr>
+                <tr>
+                    <td><strong>中英文雙語</strong></td>
+                    <td>✅ 自動生成</td>
+                    <td>⚠️ 需雙語能力</td>
+                    <td>✅ 通常支援</td>
+                </tr>
+                <tr>
+                    <td><strong>無需安裝</strong></td>
+                    <td>✅ 瀏覽器即用</td>
+                    <td>✅ 無需安裝</td>
+                    <td>✅ 瀏覽器即用</td>
+                </tr>
+                <tr>
+                    <td><strong>辨識準確度</strong></td>
+                    <td>✅ 80+ 類常見物件</td>
+                    <td>✅ 人類準確度</td>
+                    <td>✅ 高度準確</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>需 SEO 知識</td>
+                    <td>低</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「初初整網站嗰陣，完全唔知 Alt 文字係咩。後來 Google Search Console 彈咗一大堆『圖片缺少 Alt 屬性』嘅 warning，我先開始逐張圖補返。補咗 50 張之後，我發現呢個過程 <strong>重複、沉悶、但又極度重要</strong>。Alt 文字唔只係『畀 Google 睇』嘅技術嘢——佢係你網站嘅 <strong>視覺內容翻譯機</strong>，將一張相片嘅內容翻譯成搜尋引擎同屏幕閱讀器都睇得明嘅語言。AI 生成 Alt 文字唔係懶，而係 <strong>用科技將『唔記得寫』變成『自動寫好』</strong>。呢個工具俾你嘅，就係呢種 <strong>用 1 秒鐘做晒你本來要用 1 分鐘先做到嘅嘢</strong> 嘅能力。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">🤖 想自動生成圖片 Alt 文字？AI 一鍵搞定！</h3>
+            <p style="margin:0; font-size:0.9rem;">上傳圖片即自動生成中英文 Alt 標籤，提升 SEO 排名與無障礙體驗，完全免費且保護私隱。</p>
+            <a href="../tools/alt-generator.html?lang=hk" class="cta-btn-link" id="ctaBtn">👉 立即免費試用 AI Alt 標籤產生器</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>AI Alt Text Generator Guide: Auto-Generate Chinese & English Alt Text — Boost SEO Rankings</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Every time you upload an image to your website, do you struggle to write <strong>Alt text</strong>? Or do you not even know what Alt text is, but Google Search Console keeps telling you your images are "missing alt attributes"? <strong>Alt tags</strong> are essential for image search SEO and web accessibility. Our free AI Alt text generator uses <strong>TensorFlow.js + COCO-SSD</strong> machine learning models to automatically identify image content and generate <strong>bilingual Chinese and English Alt text</strong>—all directly in your browser. Your images never leave your device, ensuring 100% privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>Alt text (Alternative Text)</strong> is an HTML image attribute that describes the content of an image. It serves several important functions:</p>
+        <ul>
+            <li><strong>SEO Image Search Rankings:</strong> Google and Bing rely on Alt text to understand image content, affecting image search results.</li>
+            <li><strong>Web Accessibility (WCAG):</strong> Visually impaired users rely on screen readers to read Alt text and understand image content.</li>
+            <li><strong>Fallback Display:</strong> When images fail to load, Alt text is displayed to users.</li>
+        </ul>
+        <p>Our tool uses the <strong>COCO-SSD</strong> model—an open-source object detection model developed by Google that can identify over 80 common objects. All AI processing runs 100% in your browser—images never leave your device.</p>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Content Creators:</strong> Quickly generate Alt text for blog posts and product pages.</li>
+            <li><strong>E-commerce:</strong> Automatically generate descriptive Alt tags for large product catalogs to boost search visibility.</li>
+            <li><strong>SEO Specialists:</strong> Quickly fill missing Alt attributes across websites to improve overall SEO performance.</li>
+            <li><strong>Accessibility Design:</strong> Ensure websites meet WCAG accessibility standards for visually impaired users.</li>
+            <li><strong>CMS Content Management:</strong> Batch generate Alt text during image uploads.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Wait for AI Model to Load:</strong> First-time use requires downloading the TensorFlow.js model (about 10-15 seconds), then it's cached.</li>
+            <li><strong>Upload Image:</strong> Click or drag your image to the upload area. Supports PNG, JPG, WEBP, and more.</li>
+            <li><strong>AI Auto-Analysis:</strong> The tool automatically analyzes the image and detects objects.</li>
+            <li><strong>Get Alt Text:</strong>
+                <ul>
+                    <li>🇨🇳 Chinese Alt Tag — Automatically generates Traditional Chinese descriptions.</li>
+                    <li>🇬🇧 English Alt Tag — Automatically generates English descriptions.</li>
+                    <li>💻 HTML Snippet — Copy and paste directly into your website code.</li>
+                </ul>
+            </li>
+            <li><strong>Copy & Use:</strong> Click the "Copy" button to paste Alt text into your website or CMS.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>AI Tool (Us)</th>
+                    <th>Manual Writing</th>
+                    <th>Cloud AI Service</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Time Cost</td>
+                    <td>Usually Paid</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>✅ No Upload</td>
+                    <td>❌ Server Upload</td>
+                </tr>
+                <tr>
+                    <td><strong>Speed</strong></td>
+                    <td>⚡ Instant (< 1 sec)</td>
+                    <td>🐢 Time-consuming</td>
+                    <td>⚠️ Network-dependent</td>
+                </tr>
+                <tr>
+                    <td><strong>Bilingual Support</strong></td>
+                    <td>✅ Auto-generated</td>
+                    <td>⚠️ Need bilingual skills</td>
+                    <td>✅ Usually</td>
+                </tr>
+                <tr>
+                    <td><strong>No Installation</strong></td>
+                    <td>✅ Browser</td>
+                    <td>✅ No installation</td>
+                    <td>✅ Browser</td>
+                </tr>
+                <tr>
+                    <td><strong>Accuracy</strong></td>
+                    <td>✅ 80+ object classes</td>
+                    <td>✅ Human-level</td>
+                    <td>✅ High</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Need SEO knowledge</td>
+                    <td>Low</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"When I first started building websites, I had no idea what Alt text was. Then Google Search Console threw up a bunch of 'missing alt attributes' warnings, and I started filling them in one by one. After 50 images, I realized this process was <strong>repetitive, tedious, but absolutely critical</strong>. Alt text isn't just a 'for Google' technical thing—it's your website's <strong>visual content translator</strong>, turning photo content into a language that search engines and screen readers can understand. Using AI to generate Alt text isn't lazy—it's <strong>using technology to turn 'forgot to write' into 'automatically written'</strong>. This tool gives you exactly that <strong>ability to do in 1 second what used to take 1 minute</strong>."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">🤖 Want to Auto-Generate Alt Text? AI Does It Instantly!</h3>
+            <p style="margin:0; font-size:0.9rem;">Upload an image and get bilingual Chinese/English Alt text automatically—boost SEO and accessibility, completely free with privacy protection.</p>
+            <a href="../tools/alt-generator.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free AI Alt Text Generator Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtn = document.getElementById('ctaBtn');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtn.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtn.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

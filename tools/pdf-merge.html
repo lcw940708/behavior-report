@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PDF 頁面合併 — 拖曳排序、合併 PDF｜Free PDF Merger｜ABRG 免費工具</title>
+    <meta name="description" content="免費線上 PDF 合併工具，上傳多個 PDF，拖曳排序頁面，合併成一個文件。Free PDF merger, drag & drop pages, merge multiple PDFs into one, 100% client-side, privacy safe." />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/pdf-merge.html" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js">
+    </script>
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --cyan: #22d3ee;
+            --red: #ef4444;
+            --yellow: #fbbf24;
+            --border: #24324f;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 780px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+        .lang-switch {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .lang-switch a {
+            color: var(--cyan);
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .lang-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 10px 0 25px;
+        }
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        .upload-area {
+            border: 2px dashed rgba(148, 163, 184, 0.25);
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.02);
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .upload-area:hover {
+            border-color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+        .upload-area.dragover {
+            border-color: var(--cyan);
+            background: rgba(34, 211, 238, 0.08);
+        }
+        .upload-area .icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .upload-area p {
+            font-size: 1rem;
+            color: #cbd5e1;
+        }
+        .upload-area .hint {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        #fileInput {
+            display: none;
+        }
+
+        .drag-hint {
+            display: none;
+            text-align: center;
+            padding: 12px;
+            margin-top: 16px;
+            background: rgba(34, 211, 238, 0.04);
+            border: 1px dashed rgba(34, 211, 238, 0.15);
+            border-radius: 8px;
+            color: var(--cyan);
+            font-size: 0.85rem;
+        }
+        .drag-hint.show {
+            display: block;
+        }
+        .drag-hint .icon {
+            font-size: 1.2rem;
+            vertical-align: middle;
+        }
+
+        .page-list {
+            margin-top: 20px;
+            display: none;
+        }
+        .page-list.show {
+            display: block;
+        }
+
+        .page-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 14px;
+            margin: 4px 0;
+            gap: 12px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(148, 163, 184, 0.06);
+            transition: all 0.2s;
+            cursor: grab;
+        }
+        .page-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(148, 163, 184, 0.12);
+        }
+        .page-item.sortable-ghost {
+            opacity: 0.3;
+            background: rgba(34, 211, 238, 0.05);
+            border-color: var(--cyan);
+        }
+        .page-item.sortable-chosen {
+            background: rgba(34, 211, 238, 0.08);
+            border-color: var(--cyan);
+        }
+        .page-item .drag-handle {
+            color: #475569;
+            font-size: 1.1rem;
+            cursor: grab;
+            flex-shrink: 0;
+            user-select: none;
+        }
+        .page-item .drag-handle:hover {
+            color: var(--cyan);
+        }
+        .page-item .page-order {
+            color: var(--cyan);
+            font-size: 0.8rem;
+            font-weight: bold;
+            min-width: 28px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .page-item .page-label {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            flex: 1;
+            word-break: break-all;
+        }
+        .page-item .remove-page {
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+        .page-item .remove-page:hover {
+            color: var(--red);
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+        .btn {
+            padding: 12px 28px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            justify-content: center;
+        }
+        .btn-primary {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+        .btn-primary:hover {
+            background: #67e8f9;
+            transform: translateY(-1px);
+        }
+        .btn-primary:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--red);
+            color: #fca5a5;
+        }
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.25);
+        }
+        .btn-preview {
+            background: rgba(251, 191, 36, 0.15);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            color: var(--yellow);
+        }
+        .btn-preview:hover {
+            background: rgba(251, 191, 36, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .loading {
+            color: var(--cyan);
+            text-align: center;
+            padding: 20px;
+            display: none;
+            font-size: 1rem;
+        }
+        .loading.show {
+            display: block;
+        }
+        .loading .spinner {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error {
+            color: #ef4444;
+            text-align: center;
+            padding: 15px;
+            display: none;
+            background: rgba(239, 68, 68, 0.08);
+            border-radius: 10px;
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            margin-top: 15px;
+        }
+        .error.show {
+            display: block;
+        }
+
+        .result-box {
+            margin-top: 25px;
+            display: none;
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(34, 211, 238, 0.15);
+            text-align: center;
+        }
+        .result-box.show {
+            display: block;
+        }
+        .result-box .success-icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .result-box .message {
+            color: #cbd5e1;
+            font-size: 1rem;
+        }
+        .result-box .file-size {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+        .btn-download {
+            background: var(--cyan);
+            color: #0b0f19;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-download:hover {
+            background: #67e8f9;
+            transform: translateY(-1px);
+        }
+
+        .info-bar {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-top: 10px;
+            text-align: center;
+            padding: 8px;
+            background: rgba(34, 211, 238, 0.03);
+            border-radius: 8px;
+            border: 1px solid rgba(34, 211, 238, 0.05);
+        }
+        .info-bar .highlight {
+            color: var(--cyan);
+            font-weight: bold;
+        }
+
+        .other-tools {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .other-tools a {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #fca5a5;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .other-tools a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .story-suggest {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+        .story-suggest .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .story-suggest .items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .story-suggest .items a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 11px;
+            color: #555;
+        }
+        footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        footer a:hover {
+            color: #888;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 18px;
+            }
+            .btn {
+                flex: none;
+                width: 100%;
+            }
+            .page-item {
+                flex-wrap: wrap;
+                gap: 6px;
+                padding: 8px 10px;
+            }
+            .page-item .page-label {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="lang-switch">
+            <a onclick="switchLang('hk')">🇭🇰 港版</a> |
+            <a onclick="switchLang('tw')">🇹🇼 台版</a> |
+            <a onclick="switchLang('en')">🇬🇧 English</a>
+        </div>
+
+        <h1 class="tool-title" id="toolTitle">📄 PDF 頁面合併工具</h1>
+        <p class="tool-sub" id="toolSub">上傳多個 PDF · 拖曳排序 · 合併成一個文件</p>
+        <div class="badge-row">
+            <span class="badge" id="badge1">🔒 私隱安全</span>
+            <span class="badge" id="badge2">🖱️ 拖曳排序</span>
+            <span class="badge" id="badge3">👁️ 預覽結果</span>
+            <span class="badge" id="badge4">🆓 完全免費</span>
+        </div>
+
+        <div class="upload-area" id="dropArea">
+            <span class="icon">📤</span>
+            <p id="uploadText">拖曳 PDF 檔案到這裡，或點擊揀選</p>
+            <span class="hint" id="uploadHint">支援多個 PDF，每個檔案會自動拆成逐頁顯示</span>
+            <input type="file" id="fileInput" accept=".pdf" multiple />
+        </div>
+
+        <div class="drag-hint" id="dragHint">
+            <span class="icon">🖱️</span> <span id="dragHintText">拉動 <strong>⋮</strong> 圖示上／下調整頁面順序 &nbsp;·&nbsp; 點擊 <strong>✕</strong> 刪除唔要嘅頁面</span>
+        </div>
+
+        <div class="page-list" id="pageList">
+            <div id="pageItems"></div>
+            <div class="info-bar"><span id="totalPrefix">共 </span><span class="highlight" id="pageCount">0</span> <span id="totalSuffix">頁</span></div>
+            <div class="btn-group">
+                <button class="btn btn-preview" id="previewBtn">👁️ <span id="previewText">預覽合併結果</span></button>
+                <button class="btn btn-primary" id="mergeBtn">📥 <span id="mergeText">下載合併 PDF</span></button>
+                <button class="btn btn-danger" id="clearBtn">🗑️ <span id="clearText">清空全部</span></button>
+            </div>
+        </div>
+
+        <div class="loading" id="loading"><span class="spinner">⟳</span> <span id="loadingText">正在處理中，請稍候...</span></div>
+        <div class="error" id="error">❌ <span id="errorText">處理失敗，請再試一次</span></div>
+
+        <div class="result-box" id="resultBox">
+            <span class="success-icon">✅</span>
+            <div class="message" id="resultMessage">合併完成！</div>
+            <div class="file-size" id="resultSize"></div>
+            <div style="margin-top: 16px;">
+                <button class="btn-download" id="downloadBtn">⬇️ <span id="downloadText">下載合併後 PDF</span></button>
+            </div>
+        </div>
+
+        <div class="story-suggest">
+            <div class="label" id="storyLabel">📖 你可能會中意嘅連載或測驗</div>
+            <div class="items">
+                <a href="../story_01.html">《你睡著以後》</a>
+                <a href="../story_02.html">《貓狗人格》</a>
+                <a href="../quiz-01.html">隱私天平</a>
+                <a href="../index.html">🏠 返回主頁</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+    </footer>
+
+    <script>
+        // =============================================================
+        // 語言文字
+        // =============================================================
+        const texts = {
+            hk: {
+                title: '📄 PDF 頁面合併工具',
+                sub: '上傳多個 PDF · 拖曳排序 · 合併成一個文件',
+                badge1: '🔒 私隱安全',
+                badge2: '🖱️ 拖曳排序',
+                badge3: '👁️ 預覽結果',
+                badge4: '🆓 完全免費',
+                storyLabel: '📖 你可能會中意嘅連載或測驗',
+                upload: '拖曳 PDF 檔案到這裡，或點擊揀選',
+                hint: '支援多個 PDF，每個檔案會自動拆成逐頁顯示',
+                dragHint: '拉動 ⋮ 圖示上／下調整頁面順序 · 點擊 ✕ 刪除唔要嘅頁面',
+                totalPrefix: '共 ',
+                totalSuffix: ' 頁',
+                preview: '👁️ 預覽合併結果',
+                merge: '📥 下載合併 PDF',
+                clear: '🗑️ 清空全部',
+                loading: '正在處理中，請稍候...',
+                error: '處理失敗，請再試一次',
+                result: '合併完成！',
+                download: '⬇️ 下載合併後 PDF',
+                fileSize: '檔案大小：',
+                bytes: 'bytes',
+                atLeast: '請至少上傳 2 頁進行合併',
+                atLeastPreview: '請至少上傳 2 頁進行預覽',
+                mergeFailed: '合併失敗，請再試一次',
+                previewFailed: '預覽失敗，請再試一次'
+            },
+            tw: {
+                title: '📄 PDF 頁面合併工具',
+                sub: '上傳多個 PDF · 拖曳排序 · 合併成一個文件',
+                badge1: '🔒 私隱安全',
+                badge2: '🖱️ 拖曳排序',
+                badge3: '👁️ 預覽結果',
+                badge4: '🆓 完全免費',
+                storyLabel: '📖 你可能會喜歡的連載或測驗',
+                upload: '拖曳 PDF 檔案到這裡，或點擊選擇',
+                hint: '支援多個 PDF，每個檔案會自動拆成逐頁顯示',
+                dragHint: '拉動 ⋮ 圖示上／下調整頁面順序 · 點擊 ✕ 刪除不要的頁面',
+                totalPrefix: '共 ',
+                totalSuffix: ' 頁',
+                preview: '👁️ 預覽合併結果',
+                merge: '📥 下載合併 PDF',
+                clear: '🗑️ 清空全部',
+                loading: '正在處理中，請稍候...',
+                error: '處理失敗，請再試一次',
+                result: '合併完成！',
+                download: '⬇️ 下載合併後 PDF',
+                fileSize: '檔案大小：',
+                bytes: 'bytes',
+                atLeast: '請至少上傳 2 頁進行合併',
+                atLeastPreview: '請至少上傳 2 頁進行預覽',
+                mergeFailed: '合併失敗，請再試一次',
+                previewFailed: '預覽失敗，請再試一次'
+            },
+            en: {
+                title: '📄 PDF Page Merger',
+                sub: 'Upload multiple PDFs · Drag & drop to sort · Merge into one file',
+                badge1: '🔒 Privacy Safe',
+                badge2: '🖱️ Drag & Drop',
+                badge3: '👁️ Preview Result',
+                badge4: '🆓 Free',
+                storyLabel: '📖 You might also like',
+                upload: 'Drag & drop your PDFs here, or click to select',
+                hint: 'Supports multiple PDFs, each file will be split into individual pages',
+                dragHint: 'Drag ⋮ up/down to reorder pages · Click ✕ to remove unwanted pages',
+                totalPrefix: 'Total ',
+                totalSuffix: ' pages',
+                preview: '👁️ Preview Merged PDF',
+                merge: '📥 Download Merged PDF',
+                clear: '🗑️ Clear All',
+                loading: 'Processing, please wait...',
+                error: 'Failed, please try again',
+                result: 'Merge complete!',
+                download: '⬇️ Download Merged PDF',
+                fileSize: 'File size：',
+                bytes: 'bytes',
+                atLeast: 'Please upload at least 2 pages to merge',
+                atLeastPreview: 'Please upload at least 2 pages to preview',
+                mergeFailed: 'Merge failed, please try again',
+                previewFailed: 'Preview failed, please try again'
+            }
+        };
+
+        let lang = 'hk';
+
+        // =============================================================
+        // 語言切換
+        // =============================================================
+        function switchLang(l) {
+            lang = l;
+            const t = texts[l];
+
+            document.getElementById('toolTitle').innerHTML = t.title;
+            document.getElementById('toolSub').innerText = t.sub;
+            document.getElementById('badge1').innerText = t.badge1;
+            document.getElementById('badge2').innerText = t.badge2;
+            document.getElementById('badge3').innerText = t.badge3;
+            document.getElementById('badge4').innerText = t.badge4;
+            document.getElementById('storyLabel').innerText = t.storyLabel;
+            document.getElementById('uploadText').innerText = t.upload;
+            document.getElementById('uploadHint').innerText = t.hint;
+            document.getElementById('dragHintText').innerHTML = t.dragHint;
+            document.getElementById('totalPrefix').innerText = t.totalPrefix;
+            document.getElementById('totalSuffix').innerText = t.totalSuffix;
+            document.getElementById('previewText').innerText = t.preview.replace('👁️ ', '');
+            document.getElementById('previewBtn').innerHTML = '👁️ ' + t.preview.replace('👁️ ', '');
+            document.getElementById('mergeText').innerText = t.merge.replace('📥 ', '');
+            document.getElementById('mergeBtn').innerHTML = '📥 ' + t.merge.replace('📥 ', '');
+            document.getElementById('clearText').innerText = t.clear.replace('🗑️ ', '');
+            document.getElementById('clearBtn').innerHTML = '🗑️ ' + t.clear.replace('🗑️ ', '');
+            document.getElementById('loadingText').innerText = t.loading;
+            document.getElementById('errorText').innerText = t.error;
+            document.getElementById('resultMessage').innerText = t.result;
+            document.getElementById('downloadText').innerText = t.download.replace('⬇️ ', '');
+            document.getElementById('downloadBtn').innerHTML = '⬇️ ' + t.download.replace('⬇️ ', '');
+
+            document.querySelectorAll('.story-suggest .items a').forEach(a => {
+                try {
+                    const url = new URL(a.href);
+                    url.searchParams.set('lang', l);
+                    a.href = url.toString();
+                } catch (e) {}
+            });
+        }
+
+        // =============================================================
+        // 偵測語言（URL 參數優先）
+        // =============================================================
+        function detectLanguage() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('lang') === 'en') return 'en';
+            if (params.get('lang') === 'tw') return 'tw';
+            if (params.get('lang') === 'hk') return 'hk';
+            const userLang = navigator.language || navigator.userLanguage;
+            if (userLang.startsWith('en')) return 'en';
+            if (userLang.includes('zh')) {
+                if (userLang.includes('TW') || userLang.includes('tw')) return 'tw';
+                return 'hk';
+            }
+            return 'hk';
+        }
+
+        const detectedLang = detectLanguage();
+        switchLang(detectedLang);
+
+        // =============================================================
+        // 工具核心
+        // =============================================================
+        const fileInput = document.getElementById('fileInput');
+        const dropArea = document.getElementById('dropArea');
+        const pageList = document.getElementById('pageList');
+        const pageItems = document.getElementById('pageItems');
+        const previewBtn = document.getElementById('previewBtn');
+        const mergeBtn = document.getElementById('mergeBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const loading = document.getElementById('loading');
+        const error = document.getElementById('error');
+        const resultBox = document.getElementById('resultBox');
+        const resultSize = document.getElementById('resultSize');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const pageCount = document.getElementById('pageCount');
+        const dragHint = document.getElementById('dragHint');
+
+        let allPages = [];
+        let mergedPdfData = null;
+        let sortableInstance = null;
+
+        function renderPageList() {
+            const t = texts[lang];
+            if (allPages.length === 0) {
+                pageList.classList.remove('show');
+                dragHint.classList.remove('show');
+                return;
+            }
+            pageList.classList.add('show');
+            dragHint.classList.add('show');
+
+            if (sortableInstance) {
+                sortableInstance.destroy();
+                sortableInstance = null;
+            }
+
+            pageCount.innerText = allPages.length;
+
+            let html = '';
+            allPages.forEach((page, index) => {
+                html += `
+                    <div class="page-item" data-index="${index}">
+                        <span class="drag-handle">⋮</span>
+                        <span class="page-order">${index + 1}</span>
+                        <span class="page-label">${page.fileName} · ${t.page} ${page.pageIndex + 1}</span>
+                        <button class="remove-page" data-index="${index}">✕</button>
+                    </div>
+                `;
+            });
+            pageItems.innerHTML = html;
+
+            document.querySelectorAll('.remove-page').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const idx = parseInt(this.dataset.index);
+                    allPages.splice(idx, 1);
+                    renderPageList();
+                    resetResult();
+                });
+            });
+
+            const container = pageItems;
+            sortableInstance = new Sortable(container, {
+                animation: 150,
+                handle: '.drag-handle',
+                ghostClass: 'sortable-ghost',
+                chosenClass: 'sortable-chosen',
+                onEnd: function() {
+                    const items = container.querySelectorAll('.page-item');
+                    const newPages = [];
+                    items.forEach(el => {
+                        const idx = parseInt(el.dataset.index);
+                        if (allPages[idx]) {
+                            newPages.push(allPages[idx]);
+                        }
+                    });
+                    allPages = newPages;
+                    renderPageList();
+                    resetResult();
+                }
+            });
+        }
+
+        function resetResult() {
+            resultBox.classList.remove('show');
+            mergedPdfData = null;
+        }
+
+        function formatSize(bytes) {
+            const t = texts[lang];
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        async function handleFiles(newFiles) {
+            const pdfFiles = Array.from(newFiles).filter(f =>
+                f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf')
+            );
+            if (pdfFiles.length === 0) {
+                alert('請上傳 PDF 檔案');
+                return;
+            }
+
+            for (const file of pdfFiles) {
+                try {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
+                    const pageCount = pdf.getPageCount();
+
+                    for (let i = 0; i < pageCount; i++) {
+                        allPages.push({
+                            fileName: file.name,
+                            fileSize: file.size,
+                            arrayBuffer: arrayBuffer,
+                            pageIndex: i
+                        });
+                    }
+                } catch (e) {
+                    console.error('讀取 PDF 失敗:', file.name, e);
+                    alert(`無法讀取 ${file.name}，可能係損壞嘅 PDF 檔案。`);
+                }
+            }
+
+            renderPageList();
+            resetResult();
+        }
+
+        dropArea.addEventListener('click', () => fileInput.click());
+        dropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropArea.classList.add('dragover');
+        });
+        dropArea.addEventListener('dragleave', () => dropArea.classList.remove('dragover'));
+        dropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropArea.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) handleFiles(e.dataTransfer.files);
+        });
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFiles(e.target.files);
+                fileInput.value = '';
+            }
+        });
+
+        clearBtn.addEventListener('click', () => {
+            allPages = [];
+            if (sortableInstance) {
+                sortableInstance.destroy();
+                sortableInstance = null;
+            }
+            renderPageList();
+            resetResult();
+        });
+
+        async function performMerge(shouldDownload = true) {
+            const t = texts[lang];
+            if (allPages.length < 2) {
+                alert(t.atLeast);
+                return null;
+            }
+
+            try {
+                const { PDFDocument } = PDFLib;
+                const mergedPdf = await PDFDocument.create();
+
+                for (const item of allPages) {
+                    const pdf = await PDFDocument.load(item.arrayBuffer);
+                    const [copiedPage] = await mergedPdf.copyPages(pdf, [item.pageIndex]);
+                    mergedPdf.addPage(copiedPage);
+                }
+
+                const mergedBytes = await mergedPdf.save();
+
+                if (shouldDownload) {
+                    mergedPdfData = mergedBytes;
+                    const sizeInMB = (mergedBytes.length / (1024 * 1024)).toFixed(2);
+                    resultSize.innerText =
+                        `${t.fileSize}${sizeInMB} MB（${mergedBytes.length.toLocaleString()} ${t.bytes}）· ${allPages.length} ${t.totalSuffix.trim()}`;
+                    resultBox.classList.add('show');
+                }
+
+                return mergedBytes;
+
+            } catch (err) {
+                throw new Error(err.message || t.mergeFailed);
+            }
+        }
+
+        previewBtn.addEventListener('click', async () => {
+            const t = texts[lang];
+            if (allPages.length < 2) {
+                alert(t.atLeastPreview);
+                return;
+            }
+
+            previewBtn.disabled = true;
+            loading.classList.add('show');
+            error.classList.remove('show');
+
+            try {
+                const mergedBytes = await performMerge(false);
+                const blob = new Blob([mergedBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                window.open(url, '_blank');
+                setTimeout(() => URL.revokeObjectURL(url), 10000);
+            } catch (err) {
+                error.innerText = '❌ ' + (err.message || t.previewFailed);
+                error.classList.add('show');
+            }
+
+            loading.classList.remove('show');
+            previewBtn.disabled = false;
+        });
+
+        mergeBtn.addEventListener('click', async () => {
+            const t = texts[lang];
+            if (allPages.length < 2) {
+                alert(t.atLeast);
+                return;
+            }
+
+            mergeBtn.disabled = true;
+            loading.classList.add('show');
+            error.classList.remove('show');
+            resultBox.classList.remove('show');
+
+            try {
+                await performMerge(true);
+            } catch (err) {
+                error.innerText = '❌ ' + (err.message || t.mergeFailed);
+                error.classList.add('show');
+            }
+
+            loading.classList.remove('show');
+            mergeBtn.disabled = false;
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            if (!mergedPdfData) return;
+            const blob = new Blob([mergedPdfData], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'merged.pdf';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        renderPageList();
+    </script>
+</body>
+</html>

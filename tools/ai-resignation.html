@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI 文件生成器 — 求職信、辭職信、警告信、感謝信，AI 幫你寫｜Free AI Document Generator｜ABRG 免費工具</title>
+    <meta name="description" content="免費 AI 文件生成器，支援辭職信、求職信、推薦信、警告信、表揚信、感謝信。Free AI document generator, resignation letter, cover letter, recommendation, warning, praise, thanks letter, 100% client-side." />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/ai-document-generator.html" />
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --cyan: #22d3ee;
+            --red: #ef4444;
+            --border: #24324f;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 720px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+        .lang-switch {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .lang-switch a {
+            color: var(--cyan);
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .lang-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 10px 0 25px;
+        }
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(148, 163, 184, 0.15);
+            background: var(--bg);
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--cyan);
+        }
+        .form-group select option {
+            background: var(--bg);
+        }
+
+        .dynamic-fields {
+            transition: all 0.3s ease;
+        }
+        .dynamic-fields .form-group {
+            animation: fadeIn 0.25s ease;
+        }
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn-generate {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: none;
+            background: var(--cyan);
+            color: #0b0f19;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s;
+            margin-top: 5px;
+        }
+        .btn-generate:hover {
+            background: #67e8f9;
+            transform: translateY(-1px);
+        }
+        .btn-generate:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            color: var(--cyan);
+            text-align: center;
+            padding: 20px;
+            display: none;
+            font-size: 1rem;
+        }
+        .loading.show {
+            display: block;
+        }
+        .loading .spinner {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error {
+            color: #ef4444;
+            text-align: center;
+            padding: 15px;
+            display: none;
+            background: rgba(239, 68, 68, 0.08);
+            border-radius: 10px;
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            margin-top: 15px;
+        }
+        .error.show {
+            display: block;
+        }
+
+        .result-box {
+            margin-top: 25px;
+            display: none;
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(34, 211, 238, 0.15);
+        }
+        .result-box.show {
+            display: block;
+        }
+        .result-box .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        .result-box .content {
+            font-size: 0.95rem;
+            line-height: 1.9;
+            color: #cbd5e1;
+            white-space: pre-wrap;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .result-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+        }
+        .btn-copy,
+        .btn-download {
+            padding: 10px 24px;
+            border-radius: 8px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            background: transparent;
+            color: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            flex: 1;
+            min-width: 100px;
+        }
+        .btn-copy:hover,
+        .btn-download:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.05);
+        }
+        .btn-download {
+            background: rgba(34, 211, 238, 0.05);
+            border-color: rgba(34, 211, 238, 0.15);
+        }
+
+        .other-tools {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .other-tools a {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #fca5a5;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .other-tools a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .story-suggest {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+        .story-suggest .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .story-suggest .items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .story-suggest .items a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .disclaimer {
+            margin-top: 20px;
+            padding: 12px 16px;
+            background: rgba(239, 68, 68, 0.04);
+            border: 1px solid rgba(239, 68, 68, 0.08);
+            border-radius: 8px;
+            font-size: 0.75rem;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 11px;
+            color: #555;
+        }
+        footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        footer a:hover {
+            color: #888;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 18px;
+            }
+            .result-actions {
+                flex-direction: column;
+            }
+            .btn-copy,
+            .btn-download {
+                flex: none;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="lang-switch">
+            <a onclick="switchLang('hk')">🇭🇰 港版</a> |
+            <a onclick="switchLang('tw')">🇹🇼 台版</a> |
+            <a onclick="switchLang('en')">🇬🇧 English</a>
+        </div>
+
+        <h1 class="tool-title" id="toolTitle">📄 AI 萬能文件生成器</h1>
+        <p class="tool-sub" id="toolSub">揀文件類型，輸入資料，AI 幫你一鍵生成</p>
+        <div class="badge-row">
+            <span class="badge" id="badge1">🤖 AI 生成</span>
+            <span class="badge" id="badge2">📄 多種文件</span>
+            <span class="badge" id="badge3">🆓 完全免費</span>
+        </div>
+
+        <div class="form-group">
+            <label id="labelDocType">📂 文件類型</label>
+            <select id="docType">
+                <option value="resignation" id="optResignation">辭職信</option>
+                <option value="cover-letter" id="optCoverLetter">求職信</option>
+                <option value="recommendation" id="optRecommendation">推薦信</option>
+                <option value="warning" id="optWarning">警告信</option>
+                <option value="praise" id="optPraise">表揚信</option>
+                <option value="thanks" id="optThanks">感謝信</option>
+                <option value="complaint" id="optComplaint">投訴信</option>
+                <option value="apology" id="optApology">道歉信</option>
+            </select>
+        </div>
+
+        <div class="dynamic-fields" id="dynamicFields"></div>
+
+        <div class="form-group">
+            <label id="labelTone">🎭 語氣</label>
+            <select id="tone">
+                <option value="formal" id="optFormal">正式（專業得體）</option>
+                <option value="casual" id="optCasual">輕鬆（自然親切）</option>
+                <option value="dark" id="optDark">暗黑（諷刺幽默）</option>
+            </select>
+        </div>
+
+        <button class="btn-generate" id="generateBtn">✍️ 生成文件</button>
+
+        <div class="loading" id="loading"><span class="spinner">⟳</span> <span id="loadingText">AI 正在生成...</span></div>
+        <div class="error" id="error">❌ 生成失敗，請再試一次</div>
+
+        <div class="result-box" id="resultBox">
+            <div class="label" id="resultLabel">📄 你嘅文件</div>
+            <div class="content" id="resultContent"></div>
+            <div class="result-actions">
+                <button class="btn-copy" id="copyBtn">📋 複製內容</button>
+                <button class="btn-download" id="downloadBtn">⬇️ 下載 .txt</button>
+            </div>
+        </div>
+
+        <div class="disclaimer" id="disclaimer">
+            ⚠️ 本工具僅供參考，內容由 AI 生成，不代表本網站立場。使用者需自行判斷內容是否適合使用。
+        </div>
+
+        <div class="story-suggest">
+            <div class="label" id="storyLabel">📖 你可能會中意嘅連載或測驗</div>
+            <div class="items">
+                <a href="../story_01.html">《你睡著以後》</a>
+                <a href="../story_02.html">《貓狗人格》</a>
+                <a href="../quiz-01.html">隱私天平</a>
+                <a href="../index.html">🏠 返回主頁</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+    </footer>
+
+    <script>
+        // =============================================================
+        // 語言文字
+        // =============================================================
+        const texts = {
+            hk: {
+                title: '📄 AI 萬能文件生成器',
+                sub: '揀文件類型，輸入資料，AI 幫你一鍵生成',
+                badge1: '🤖 AI 生成',
+                badge2: '📄 多種文件',
+                badge3: '🆓 完全免費',
+                storyLabel: '📖 你可能會中意嘅連載或測驗',
+                docType: '📂 文件類型',
+                optResignation: '辭職信',
+                optCoverLetter: '求職信',
+                optRecommendation: '推薦信',
+                optWarning: '警告信',
+                optPraise: '表揚信',
+                optThanks: '感謝信',
+                optComplaint: '投訴信',
+                optApology: '道歉信',
+                tone: '🎭 語氣',
+                optFormal: '正式（專業得體）',
+                optCasual: '輕鬆（自然親切）',
+                optDark: '暗黑（諷刺幽默）',
+                generate: '✍️ 生成文件',
+                loading: 'AI 正在生成...',
+                error: '❌ 生成失敗，請再試一次',
+                resultLabel: '📄 你嘅文件',
+                copy: '📋 複製內容',
+                download: '⬇️ 下載 .txt',
+                disclaimer: '⚠️ 本工具僅供參考，內容由 AI 生成，不代表本網站立場。使用者需自行判斷內容是否適合使用。',
+                copied: '✅ 已複製！',
+                networkError: '❌ 網絡連線失敗，請檢查網絡後再試'
+            },
+            tw: {
+                title: '📄 AI 萬用文件生成器',
+                sub: '選擇文件類型，輸入資料，AI 幫你一鍵生成',
+                badge1: '🤖 AI 生成',
+                badge2: '📄 多種文件',
+                badge3: '🆓 完全免費',
+                storyLabel: '📖 你可能會喜歡的連載或測驗',
+                docType: '📂 文件類型',
+                optResignation: '辭職信',
+                optCoverLetter: '求職信',
+                optRecommendation: '推薦信',
+                optWarning: '警告信',
+                optPraise: '表揚信',
+                optThanks: '感謝信',
+                optComplaint: '投訴信',
+                optApology: '道歉信',
+                tone: '🎭 語氣',
+                optFormal: '正式（專業得體）',
+                optCasual: '輕鬆（自然親切）',
+                optDark: '暗黑（諷刺幽默）',
+                generate: '✍️ 生成文件',
+                loading: 'AI 正在生成...',
+                error: '❌ 生成失敗，請再試一次',
+                resultLabel: '📄 你的文件',
+                copy: '📋 複製內容',
+                download: '⬇️ 下載 .txt',
+                disclaimer: '⚠️ 本工具僅供參考，內容由 AI 生成，不代表本網站立場。使用者需自行判斷內容是否適合使用。',
+                copied: '✅ 已複製！',
+                networkError: '❌ 網路連線失敗，請檢查網路後再試'
+            },
+            en: {
+                title: '📄 AI Document Generator',
+                sub: 'Select document type, enter details, AI generates instantly',
+                badge1: '🤖 AI Powered',
+                badge2: '📄 Multiple Types',
+                badge3: '🆓 Free',
+                storyLabel: '📖 You might also like',
+                docType: '📂 Document Type',
+                optResignation: 'Resignation Letter',
+                optCoverLetter: 'Cover Letter',
+                optRecommendation: 'Recommendation Letter',
+                optWarning: 'Warning Letter',
+                optPraise: 'Praise Letter',
+                optThanks: 'Thank You Letter',
+                optComplaint: 'Complaint Letter',
+                optApology: 'Apology Letter',
+                tone: '🎭 Tone',
+                optFormal: 'Formal (Professional)',
+                optCasual: 'Casual (Friendly)',
+                optDark: 'Dark (Sarcastic & Humorous)',
+                generate: '✍️ Generate Document',
+                loading: 'AI is generating...',
+                error: '❌ Generation failed, please try again',
+                resultLabel: '📄 Your Document',
+                copy: '📋 Copy Content',
+                download: '⬇️ Download .txt',
+                disclaimer: '⚠️ This tool is for reference only. Content is AI-generated and does not represent the views of this site. Users should judge the suitability of the content.',
+                copied: '✅ Copied!',
+                networkError: '❌ Network connection failed, please check your connection and try again'
+            }
+        };
+
+        let lang = 'hk';
+
+        // =============================================================
+        // 語言切換
+        // =============================================================
+        function switchLang(l) {
+            lang = l;
+            const t = texts[l];
+
+            document.getElementById('toolTitle').innerHTML = t.title;
+            document.getElementById('toolSub').innerText = t.sub;
+            document.getElementById('badge1').innerText = t.badge1;
+            document.getElementById('badge2').innerText = t.badge2;
+            document.getElementById('badge3').innerText = t.badge3;
+            document.getElementById('storyLabel').innerText = t.storyLabel;
+            document.getElementById('labelDocType').innerText = t.docType;
+            document.getElementById('optResignation').innerText = t.optResignation;
+            document.getElementById('optCoverLetter').innerText = t.optCoverLetter;
+            document.getElementById('optRecommendation').innerText = t.optRecommendation;
+            document.getElementById('optWarning').innerText = t.optWarning;
+            document.getElementById('optPraise').innerText = t.optPraise;
+            document.getElementById('optThanks').innerText = t.optThanks;
+            document.getElementById('optComplaint').innerText = t.optComplaint;
+            document.getElementById('optApology').innerText = t.optApology;
+            document.getElementById('labelTone').innerText = t.tone;
+            document.getElementById('optFormal').innerText = t.optFormal;
+            document.getElementById('optCasual').innerText = t.optCasual;
+            document.getElementById('optDark').innerText = t.optDark;
+            document.getElementById('generateBtn').innerHTML = t.generate;
+            document.getElementById('loadingText').innerText = t.loading;
+            document.getElementById('error').innerHTML = '❌ ' + t.error;
+            document.getElementById('resultLabel').innerText = t.resultLabel;
+            document.getElementById('copyBtn').innerHTML = t.copy;
+            document.getElementById('downloadBtn').innerHTML = t.download;
+            document.getElementById('disclaimer').innerText = t.disclaimer;
+
+            document.querySelectorAll('.story-suggest .items a').forEach(a => {
+                try {
+                    const url = new URL(a.href);
+                    url.searchParams.set('lang', l);
+                    a.href = url.toString();
+                } catch (e) {}
+            });
+
+            renderFields(document.getElementById('docType').value, l);
+        }
+
+        // =============================================================
+        // 偵測語言（URL 參數優先）
+        // =============================================================
+        function detectLanguage() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('lang') === 'en') return 'en';
+            if (params.get('lang') === 'tw') return 'tw';
+            if (params.get('lang') === 'hk') return 'hk';
+            const userLang = navigator.language || navigator.userLanguage;
+            if (userLang.startsWith('en')) return 'en';
+            if (userLang.includes('zh')) {
+                if (userLang.includes('TW') || userLang.includes('tw')) return 'tw';
+                return 'hk';
+            }
+            return 'hk';
+        }
+
+        // =============================================================
+        // 文件類型配置
+        // =============================================================
+        const docConfigs = {
+            'resignation': {
+                label: { hk: '✍️ 辭職信', tw: '✍️ 辭職信', en: '✍️ Resignation Letter' },
+                fields: [
+                    { id: 'company', label_hk: '🏢 公司名稱', label_tw: '🏢 公司名稱', label_en: '🏢 Company Name',
+                        placeholder_hk: '例如：香港某大公司', placeholder_tw: '例如：台灣某大公司',
+                        placeholder_en: 'e.g. ABC Corporation' },
+                    { id: 'lastDay', label_hk: '📅 最後工作日', label_tw: '📅 最後上班日', label_en: '📅 Last Working Day',
+                        placeholder_hk: '例如：2026年9月1日', placeholder_tw: '例如：2026年9月1日',
+                        placeholder_en: 'e.g. September 1, 2026' },
+                    { id: 'reason', label_hk: '📝 辭職原因（可選）', label_tw: '📝 辭職原因（可選）', label_en: '📝 Reason (Optional)',
+                        placeholder_hk: '例如：想專注自己嘅事業', placeholder_tw: '例如：想專注自己的事業',
+                        placeholder_en: 'e.g. Pursuing personal projects' }
+                ],
+                prompt: (data, lang) => {
+                    const l = lang === 'en' ? 'Hong Kong English' : (lang === 'tw' ? '台灣' : '香港');
+                    const name = data.company || '[Company Name]';
+                    const lastDay = data.lastDay || '[Date]';
+                    const reason = data.reason || 'personal reasons';
+                    if (lang === 'en') {
+                        return `Write a resignation letter in English. Company: ${name}, Last working day: ${lastDay}, Reason: ${reason}. Use formal business letter format.`;
+                    }
+                    return `請用${l}繁體中文幫我寫一封辭職信。公司名稱：${name}，最後工作日：${lastDay}，辭職原因：${reason}。請用正式嘅書信格式。`;
+                }
+            },
+            'cover-letter': {
+                label: { hk: '📨 求職信', tw: '📨 求職信', en: '📨 Cover Letter' },
+                fields: [
+                    { id: 'company', label_hk: '🏢 應徵公司', label_tw: '🏢 應徵公司', label_en: '🏢 Company',
+                        placeholder_hk: '例如：ABC 科技公司', placeholder_tw: '例如：ABC 科技公司',
+                        placeholder_en: 'e.g. ABC Tech' },
+                    { id: 'position', label_hk: '💼 應徵職位', label_tw: '💼 應徵職位', label_en: '💼 Position',
+                        placeholder_hk: '例如：市場部經理', placeholder_tw: '例如：市場部經理',
+                        placeholder_en: 'e.g. Marketing Manager' },
+                    { id: 'skills', label_hk: '🔧 技能／經驗', label_tw: '🔧 技能／經驗', label_en: '🔧 Skills / Experience',
+                        placeholder_hk: '例如：5年市場營銷經驗，擅長數據分析', placeholder_tw: '例如：5年市場行銷經驗，擅長數據分析',
+                        placeholder_en: 'e.g. 5 years in marketing, data analytics' }
+                ],
+                prompt: (data, lang) => {
+                    const l = lang === 'en' ? 'English' : (lang === 'tw' ? '台灣' : '香港');
+                    const company = data.company || '[Company Name]';
+                    const position = data.position || '[Position]';
+                    const skills = data.skills || '[Skills]';
+                    if (lang === 'en') {
+                        return `Write a cover letter in English. Company: ${company}, Position: ${position}, Skills/Experience: ${skills}. Use formal and persuasive tone.`;
+                    }
+                    return `請用${l}繁體中文幫我寫一封求職信。應徵公司：${company}，職位：${position}，技能/經驗：${skills}。請用正式、有說服力嘅語氣。`;
+                }
+            },
+            'recommendation': {
+                label: { hk: '⭐ 推薦信', tw: '⭐ 推薦信', en: '⭐ Recommendation Letter' },
+                fields: [
+                    { id: 'name', label_hk: '👤 被推薦人', label_tw: '👤 被推薦人', label_en: '👤 Candidate Name',
+                        placeholder_hk: '例如：陳大明', placeholder_tw: '例如：陳大明', placeholder_en: 'e.g. David Chen' },
+                    { id: 'position', label_hk: '💼 推薦職位', label_tw: '💼 推薦職位', label_en: '💼 Position',
+                        placeholder_hk: '例如：軟件工程師', placeholder_tw: '例如：軟體工程師',
+                        placeholder_en: 'e.g. Software Engineer' },
+                    { id: 'relation', label_hk: '🤝 與被推薦人嘅關係', label_tw: '🤝 與被推薦人的關係', label_en: '🤝 Relationship',
+                        placeholder_hk: '例如：前上司，共事3年', placeholder_tw: '例如：前主管，共事3年',
+                        placeholder_en: 'e.g. Former manager, 3 years' },
+                    { id: 'achievement', label_hk: '🏆 主要成就（可選）', label_tw: '🏆 主要成就（可選）', label_en: '🏆 Achievements',
+                        placeholder_hk: '例如：主導公司年度專案，成功提升業績20%', placeholder_tw: '例如：主導公司年度專案，成功提升業績20%',
+                        placeholder_en: 'e.g. Led project, increased revenue 20%' }
+                ],
+                prompt: (data, lang) => {
+                    const l = lang === 'en' ? 'English' : (lang === 'tw' ? '台灣' : '香港');
+                    const name = data.name || '[Name]';
+                    const position = data.position || '[Position]';
+                    const relation = data.relation || '[Relationship]';
+                    const achievement = data.achievement || '[Achievement]';
+                    if (lang === 'en') {
+                        return `Write a recommendation letter in English. Candidate: ${name}, Position: ${position}, Relationship: ${relation}, Achievements: ${achievement}. Use formal and sincere tone.`;
+                    }
+                    return `請用${l}繁體中文幫我寫一封推薦信。被推薦人：${name}，推薦職位：${position}，推薦人與被推薦人嘅關係：${relation}，主要成就：${achievement}。請用正式、誠懇嘅語氣。`;
+                }
+            },
+            'warning': {
+                label: { hk: '⚠️ 警告信', tw: '⚠️ 警告信', en: '⚠️ Warning Letter' },
+                fields: [
+                    { id: 'employee', label_hk: '👤 員工姓名', label_tw: '👤 員工姓名', label_en: '👤 Employee Name',
+                        placeholder_hk: '例如：張小明', placeholder_tw: '例如：張小明', placeholder_en: 'e.g. John Zhang' },
+                    { id: 'mistake', label_hk: '📋 犯錯內容', label_tw: '📋 犯錯內容', label_en: '📋 Incident Description',
+                        placeholder_hk: '例如：連續三次遲到，每次超過30分鐘', placeholder_tw: '例如：連續三次遲到，每次超過30分鐘',
+                        placeholder_en: 'e.g. Late 3 times, over 30 minutes' },
+                    { id: 'consequence', label_hk: '📌 後果／改善要求', label_tw: '📌 後果／改善要求', label_en: '📌 Consequences',
+                        placeholder_hk: '例如：如再犯將考慮終止合約', placeholder_tw: '例如：如再犯將考慮終止合約',
+                        placeholder_en: 'e.g. Further action if repeated' }
+                ],
+                prompt: (data, lang) => {
+                    const l = lang === 'en' ? 'English' : (lang === 'tw' ? '台灣' : '香港');
+                    const employee = data.employee || '[Employee Name]';
+                    const mistake = data.mistake || '[Incident]';
+                    const consequence = data.consequence || '[Consequence]';
+                    if (lang === 'en') {
+                        return `Write a warning letter in English. Employee: ${employee}, Incident: ${mistake}, Consequences: ${consequence}. Use formal and professional tone.`;
+                    }
+                    return `請用${l}繁體中文幫我寫一封警告信。員工姓名：${employee}，犯錯內容：${mistake}，後果/改善要求：${consequence}。請用正式、嚴肅但公平嘅語氣。`;
+                }
+            },
+            'praise': {
+                label: { hk: '🌟 表揚信', tw: '🌟 表揚信', en: '🌟 Praise Letter' },
+                fields: [
+                    { id: 'employee', label_hk: '👤 員工姓名', label_tw: '👤 員工姓名', label_en: '👤 Employee Name',
+                        placeholder_hk: '例如：李小美', placeholder_tw: '例如：李小美', placeholder_en: 'e.g. Jenny Li' },
+                    { id: 'achievement', label_hk: '🏆 表揚成就', label_tw: '🏆 表揚成就', label_en: '🏆 Achievement',
+                        placeholder_hk: '例如：成功完成年度重點項目，獲客戶高度讚賞', placeholder_tw: '例如：成功完成年度重點項目，獲客戶高度讚賞',
+                        placeholder_en: 'e.g. Successfully completed key project' },
+                    { id: 'thanks', label_hk: '💬 感謝語（可選）', label_tw: '💬 感謝語（可選）', label_en: '💬 Appreciation',
+                        placeholder_hk: '例如：感謝佢嘅付出同努力', placeholder_tw: '例如：感謝他的付出與努力',
+                        placeholder_en: 'e.g. Thank you for your hard work' }
+                ],
+                prompt: (data, lang) => {
+                    const l = lang === 'en' ? 'English' : (lang === 'tw' ? '台灣' : '香港');
+                    const employee = data.employee || '[Employee Name]';
+                    const achievement = data.achievement || '[Achievement]';
+                    const thanks = data.thanks || '[Appreciation]';
+                    if (lang === 'en') {
+                        return `Write a praise letter in English. Employee: ${employee}, Achievement: ${achievement}, Appreciation: ${thanks}. Use warm and encouraging tone.`;
+                    }
+                    return `請用${l}繁體中文幫我寫一封表揚信。員工姓名：${employee}，表揚成就：${achievement}，感謝語：${thanks}。請用正式、溫暖、鼓勵嘅語氣。`;
+                }
+            },
+            'thanks': {
+                label: { hk: '💌 感謝信', tw: '💌 感謝信', en: '💌 Thank You Letter' },
+                fields: [
+                    { id: 'recipient', label_hk: '👤 感謝對象', label_tw: '👤 感謝對象', label_en: '👤 Recipient',
+                        placeholder_hk: '例如：王老師', placeholder_tw: '例如：王老師', placeholder_en: 'e.g. Mr. Wang' },
+                    { id: 'reason', label_hk: '📝 感謝原因', label_tw: '📝 感謝原因', label_en: '📝 Reason',
+                        placeholder_hk: '例如：喺我離職前一直支持同指導我', placeholder_tw: '例如：在我離職前一直支持與指導我',
+                        placeholder_en: 'e.g. For your support and guidance' }
+                ],
+                prompt: (data, lang) => {
+                    const l = lang === 'en' ? 'English' : (lang === 'tw' ? '台灣' : '香港');
+                    const recipient = data.recipient || '[Recipient]';
+                    const reason = data.reason || '[Reason]';
+                    if (lang === 'en') {
+                        return `Write a thank you letter in English. Recipient: ${recipient}, Reason: ${reason}. Use sincere and warm tone.`;
+                    }
+                    return `請用${l}繁體中文幫我寫一封感謝信。感謝對象：${recipient}，感謝原因：${reason}。請用真誠、溫暖嘅語氣。`;
+                }
+            },
+            'complaint': {
+                label: { hk: '📢 投訴信', tw: '📢 投訴信', en: '📢 Complaint Letter' },
+                fields: [
+                    { id: 'target', label_hk: '🎯 投訴對象', label_tw: '🎯 投訴對象', label_en: '🎯 Target',
+                        placeholder_hk: '例如：XX 電訊公司', placeholder_tw: '例如：XX 電信公司',
+                        placeholder_en: 'e.g. ABC Telecom' },
+                    { id: 'event', label_hk: '📋 事件經過', label_tw: '📋 事件經過', label_en: '📋 Incident',
+                        placeholder_hk: '例如：合約到期後仍被自動續約收費', placeholder_tw: '例如：合約到期後仍被自動續約收費',
+                        placeholder_en: 'e.g. Auto-renewal after contract ended' },
+                    { id: 'expectation', label_hk: '✅ 期望結果', label_tw: '✅ 期望結果', label_en: '✅ Expectation',
+                        placeholder_hk: '例如：全數退款及終止合約', placeholder_tw: '例如：全額退款及終止合約',
+                        placeholder_en: 'e.g. Full refund and contract termination' }
+                ],
+                prompt: (data, lang) => {
+                    const l = lang === 'en' ? 'English' : (lang === 'tw' ? '台灣' : '香港');
+                    const target = data.target || '[Target]';
+                    const event = data.event || '[Event]';
+                    const expectation = data.expectation || '[Expectation]';
+                    if (lang === 'en') {
+                        return `Write a complaint letter in English. Target: ${target}, Incident: ${event}, Expectation: ${expectation}. Use formal and polite tone.`;
+                    }
+                    return `請用${l}繁體中文幫我寫一封投訴信。投訴對象：${target}，事件經過：${event}，期望結果：${expectation}。請用正式、理性、有禮貌嘅語氣。`;
+                }
+            },
+            'apology': {
+                label: { hk: '🙏 道歉信', tw: '🙏 道歉信', en: '🙏 Apology Letter' },
+                fields: [
+                    { id: 'recipient', label_hk: '👤 道歉對象', label_tw: '👤 道歉對象', label_en: '👤 Recipient',
+                        placeholder_hk: '例如：客戶張先生', placeholder_tw: '例如：客戶張先生',
+                        placeholder_en: 'e.g. Client Mr. Zhang' },
+                    { id: 'event', label_hk: '📋 事件經過', label_tw: '📋 事件經過', label_en: '📋 Incident',
+                        placeholder_hk: '例如：延遲交貨，影響客戶營運', placeholder_tw: '例如：延遲交貨，影響客戶營運',
+                        placeholder_en: 'e.g. Delayed delivery' },
+                    { id: 'remedy', label_hk: '🛠️ 補救措施', label_tw: '🛠️ 補救措施', label_en: '🛠️ Remedy',
+                        placeholder_hk: '例如：全額退款及提供折扣優惠', placeholder_tw: '例如：全額退款及提供折扣優惠',
+                        placeholder_en: 'e.g. Full refund and discount' }
+                ],
+                prompt: (data, lang) => {
+                    const l = lang === 'en' ? 'English' : (lang === 'tw' ? '台灣' : '香港');
+                    const recipient = data.recipient || '[Recipient]';
+                    const event = data.event || '[Event]';
+                    const remedy = data.remedy || '[Remedy]';
+                    if (lang === 'en') {
+                        return `Write an apology letter in English. Recipient: ${recipient}, Incident: ${event}, Remedy: ${remedy}. Use sincere and accountable tone.`;
+                    }
+                    return `請用${l}繁體中文幫我寫一封道歉信。道歉對象：${recipient}，事件經過：${event}，補救措施：${remedy}。請用真誠、負責任嘅語氣。`;
+                }
+            }
+        };
+
+        // =============================================================
+        // 動態生成輸入欄位
+        // =============================================================
+        const dynamicFields = document.getElementById('dynamicFields');
+
+        function renderFields(docType, lang) {
+            const config = docConfigs[docType];
+            if (!config) return;
+
+            let html = '';
+            config.fields.forEach(f => {
+                const label = lang === 'en' ? f.label_en : (lang === 'tw' ? f.label_tw : f.label_hk);
+                const placeholder = lang === 'en' ? f.placeholder_en : (lang === 'tw' ? f.placeholder_tw : f
+                    .placeholder_hk);
+                html += `
+                    <div class="form-group">
+                        <label>${label}</label>
+                        <input type="text" id="${f.id}" placeholder="${placeholder}" />
+                    </div>
+                `;
+            });
+            dynamicFields.innerHTML = html;
+        }
+
+        // =============================================================
+        // 監聽文件類型切換
+        // =============================================================
+        document.getElementById('docType').addEventListener('change', function() {
+            renderFields(this.value, lang);
+        });
+
+        // =============================================================
+        // 初始化
+        // =============================================================
+        const detectedLang = detectLanguage();
+        switchLang(detectedLang);
+
+        // =============================================================
+        // 工具核心
+        // =============================================================
+        const workerUrl = 'https://little-rice-42fa.lcw940708.workers.dev';
+
+        const generateBtn = document.getElementById('generateBtn');
+        const loading = document.getElementById('loading');
+        const error = document.getElementById('error');
+        const resultBox = document.getElementById('resultBox');
+        const resultContent = document.getElementById('resultContent');
+        const copyBtn = document.getElementById('copyBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        generateBtn.addEventListener('click', async () => {
+            const docType = document.getElementById('docType').value;
+            const config = docConfigs[docType];
+            const tone = document.getElementById('tone').value;
+            const t = texts[lang];
+
+            const data = {};
+            config.fields.forEach(f => {
+                const el = document.getElementById(f.id);
+                if (el) data[f.id] = el.value.trim();
+            });
+
+            const userPrompt = config.prompt(data, lang);
+
+            generateBtn.disabled = true;
+            loading.classList.add('show');
+            error.classList.remove('show');
+            resultBox.classList.remove('show');
+
+            try {
+                const response = await fetch(workerUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        prompt: userPrompt,
+                        tone: tone,
+                        lang: lang
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    resultContent.innerText = result.content;
+                    resultBox.classList.add('show');
+                } else {
+                    error.innerText = '❌ ' + (result.error || t.error);
+                    error.classList.add('show');
+                }
+            } catch (err) {
+                error.innerText = t.networkError;
+                error.classList.add('show');
+            }
+
+            loading.classList.remove('show');
+            generateBtn.disabled = false;
+        });
+
+        copyBtn.addEventListener('click', () => {
+            const t = texts[lang];
+            const content = resultContent.innerText;
+            navigator.clipboard.writeText(content).then(() => {
+                const original = copyBtn.innerHTML;
+                copyBtn.innerHTML = t.copied;
+                setTimeout(() => { copyBtn.innerHTML = original; }, 2000);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = content;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                const original = copyBtn.innerHTML;
+                copyBtn.innerHTML = t.copied;
+                setTimeout(() => { copyBtn.innerHTML = original; }, 2000);
+            });
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            const content = resultContent.innerText;
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const names = {
+                'resignation': 'Resignation_Letter',
+                'cover-letter': 'Cover_Letter',
+                'recommendation': 'Recommendation_Letter',
+                'warning': 'Warning_Letter',
+                'praise': 'Praise_Letter',
+                'thanks': 'Thank_You_Letter',
+                'complaint': 'Complaint_Letter',
+                'apology': 'Apology_Letter'
+            };
+            const docType = document.getElementById('docType').value;
+            a.download = `${names[docType] || 'document'}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') generateBtn.click();
+            });
+        });
+    </script>
+</body>
+</html>

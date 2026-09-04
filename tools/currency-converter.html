@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>匯率換算器 — 港幣台幣美元即時匯率｜Currency Converter HKD TWD USD｜ABRG 免費工具</title>
+    <meta name="description" content="免費即時匯率換算器，支援港幣 HKD、台幣 TWD、美元 USD 等 170+ 種貨幣。Free currency converter, real-time exchange rates, supports HKD, TWD, USD and 170+ currencies." />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/currency-converter.html" />
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --green: #10b981;
+            --yellow: #fbbf24;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 720px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .tool-title .emoji {
+            font-size: 1.8rem;
+        }
+
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 6px 0 20px;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .lang-switch .lang-btn {
+            padding: 6px 18px;
+            border-radius: 6px;
+            border: 2px solid var(--border);
+            background: transparent;
+            color: var(--text);
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .lang-switch .lang-btn.active {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.08);
+        }
+
+        .lang-switch .lang-btn:hover:not(.active) {
+            border-color: var(--text-light);
+            color: var(--text-light);
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        .rate-section {
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 14px 18px;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .rate-section .label {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .rate-section .value {
+            font-size: 1rem;
+            color: var(--cyan);
+            font-weight: bold;
+        }
+
+        .rate-section .update-time {
+            font-size: 0.7rem;
+            color: #475569;
+        }
+
+        .converter-box {
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 16px;
+            border: 1px solid var(--border);
+            margin-bottom: 12px;
+        }
+
+        .converter-box .row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .converter-box .row .field {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .converter-box .row .field label {
+            display: block;
+            font-size: 0.7rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .converter-box .row .field input,
+        .converter-box .row .field select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text-light);
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .converter-box .row .field input:focus,
+        .converter-box .row .field select:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.08);
+        }
+
+        .converter-box .row .field input {
+            font-family: monospace;
+        }
+
+        .converter-box .row .field select option {
+            background: var(--card);
+            color: var(--text-light);
+        }
+
+        .swap-btn {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.15);
+            color: var(--cyan);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .swap-btn:hover {
+            background: rgba(34, 211, 238, 0.15);
+        }
+
+        .result-display {
+            text-align: center;
+            padding: 12px;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            border-radius: 8px;
+            border: 1px solid rgba(148, 163, 184, 0.06);
+            background: rgba(255, 255, 255, 0.02);
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .result-display .amount {
+            color: var(--cyan);
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .result-display .currency {
+            color: var(--text-light);
+            font-weight: bold;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-primary {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background: var(--cyan-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        .btn-outline:hover:not(:disabled) {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        .other-rates {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: var(--bg);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 6px 16px;
+        }
+
+        .other-rates .rate-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.04);
+        }
+
+        .other-rates .rate-item .code {
+            color: #64748b;
+        }
+
+        .other-rates .rate-item .value {
+            color: var(--cyan);
+            font-family: monospace;
+        }
+
+        .story-suggest {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+        .story-suggest .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .story-suggest .items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .story-suggest .items a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .other-tools {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .other-tools a {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #fca5a5;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .other-tools a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #555;
+        }
+        footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        footer a:hover {
+            color: #888;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 18px;
+            }
+            .converter-box .row {
+                flex-direction: column;
+            }
+            .converter-box .row .field {
+                min-width: 100%;
+            }
+            .swap-btn {
+                align-self: center;
+            }
+            .other-rates {
+                grid-template-columns: 1fr 1fr;
+            }
+            .btn {
+                flex: none;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 class="tool-title"><span class="emoji">💱</span> <span id="titleText">匯率換算器</span></h1>
+        <p class="tool-sub" id="subText">即時匯率 · 支援 170+ 貨幣</p>
+
+        <div class="lang-switch">
+            <button class="lang-btn" data-lang="hk">🇭🇰 中文</button>
+            <button class="lang-btn" data-lang="tw">🇹🇼 中文</button>
+            <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+        </div>
+
+        <div class="badge-row">
+            <span class="badge" id="badge1">⚡ 即時匯率</span>
+            <span class="badge" id="badge2">🔄 170+ 貨幣</span>
+            <span class="badge" id="badge3">🆓 完全免費</span>
+        </div>
+
+        <div class="rate-section">
+            <span class="label" id="rateLabel">📊 當前匯率</span>
+            <span class="value" id="rateDisplay">--</span>
+            <span class="update-time" id="updateTime">更新中...</span>
+        </div>
+
+        <div class="converter-box">
+            <div class="row">
+                <div class="field">
+                    <label id="amountLabel">金額</label>
+                    <input type="number" id="amountInput" value="100" min="0" step="1" />
+                </div>
+            </div>
+            <div class="row" style="margin-top:10px;">
+                <div class="field">
+                    <label id="fromLabel">從</label>
+                    <select id="fromCurrency">
+                        <option value="HKD">🇭🇰 HKD - 港幣</option>
+                        <option value="TWD">🇹🇼 TWD - 台幣</option>
+                        <option value="USD">🇺🇸 USD - 美元</option>
+                        <option value="CNY">🇨🇳 CNY - 人民幣</option>
+                        <option value="EUR">🇪🇺 EUR - 歐元</option>
+                        <option value="JPY">🇯🇵 JPY - 日圓</option>
+                        <option value="GBP">🇬🇧 GBP - 英鎊</option>
+                        <option value="AUD">🇦🇺 AUD - 澳元</option>
+                        <option value="CAD">🇨🇦 CAD - 加元</option>
+                        <option value="SGD">🇸🇬 SGD - 新加坡元</option>
+                        <option value="KRW">🇰🇷 KRW - 韓元</option>
+                        <option value="MYR">🇲🇾 MYR - 馬來西亞令吉</option>
+                        <option value="THB">🇹🇭 THB - 泰銖</option>
+                        <option value="VND">🇻🇳 VND - 越南盾</option>
+                        <option value="PHP">🇵🇭 PHP - 菲律賓披索</option>
+                        <option value="IDR">🇮🇩 IDR - 印尼盾</option>
+                    </select>
+                </div>
+
+                <button class="swap-btn" id="swapBtn">⇄</button>
+
+                <div class="field">
+                    <label id="toLabel">到</label>
+                    <select id="toCurrency">
+                        <option value="TWD">🇹🇼 TWD - 台幣</option>
+                        <option value="HKD">🇭🇰 HKD - 港幣</option>
+                        <option value="USD">🇺🇸 USD - 美元</option>
+                        <option value="CNY">🇨🇳 CNY - 人民幣</option>
+                        <option value="EUR">🇪🇺 EUR - 歐元</option>
+                        <option value="JPY">🇯🇵 JPY - 日圓</option>
+                        <option value="GBP">🇬🇧 GBP - 英鎊</option>
+                        <option value="AUD">🇦🇺 AUD - 澳元</option>
+                        <option value="CAD">🇨🇦 CAD - 加元</option>
+                        <option value="SGD">🇸🇬 SGD - 新加坡元</option>
+                        <option value="KRW">🇰🇷 KRW - 韓元</option>
+                        <option value="MYR">🇲🇾 MYR - 馬來西亞令吉</option>
+                        <option value="THB">🇹🇭 THB - 泰銖</option>
+                        <option value="VND">🇻🇳 VND - 越南盾</option>
+                        <option value="PHP">🇵🇭 PHP - 菲律賓披索</option>
+                        <option value="IDR">🇮🇩 IDR - 印尼盾</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-primary" id="convertBtn">💱 <span id="convertText">轉換</span></button>
+                <button class="btn btn-outline" id="clearBtn">🗑️ <span id="clearText">清空</span></button>
+            </div>
+        </div>
+
+        <div class="result-display" id="resultDisplay">
+            <span class="amount" id="resultAmount">--</span>
+            <span class="currency" id="resultCurrency">--</span>
+        </div>
+
+        <div class="other-rates" id="otherRates">
+            <div class="rate-item"><span class="code">USD</span><span class="value">--</span></div>
+            <div class="rate-item"><span class="code">CNY</span><span class="value">--</span></div>
+            <div class="rate-item"><span class="code">EUR</span><span class="value">--</span></div>
+            <div class="rate-item"><span class="code">JPY</span><span class="value">--</span></div>
+            <div class="rate-item"><span class="code">GBP</span><span class="value">--</span></div>
+            <div class="rate-item"><span class="code">AUD</span><span class="value">--</span></div>
+        </div>
+
+        <div class="story-suggest">
+            <div class="label" id="storyLabel">📖 你可能會中意嘅連載或測驗</div>
+            <div class="items">
+                <a href="../story_01.html">《你睡著以後》</a>
+                <a href="../story_02.html">《貓狗人格》</a>
+                <a href="../quiz-01.html">隱私天平</a>
+                <a href="../index.html">🏠 返回主頁</a>
+            </div>
+            <div class="other-tools">
+                <span style="font-size:0.75rem;color:#64748b;align-self:center;" id="otherToolsLabel">🔧 其他工具：</span>
+                <a href="timestamp-converter.html">⏱️ 時間戳轉換</a>
+                <a href="base64-converter.html">🔢 Base64 編解碼</a>
+                <a href="diff.html">🔍 文字比較</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const texts = {
+                zh: {
+                    title: '匯率換算器',
+                    sub: '即時匯率 · 支援 170+ 貨幣',
+                    rateLabel: '📊 當前匯率',
+                    amountLabel: '金額',
+                    fromLabel: '從',
+                    toLabel: '到',
+                    convert: '轉換',
+                    clear: '清空',
+                    badge1: '⚡ 即時匯率',
+                    badge2: '🔄 170+ 貨幣',
+                    badge3: '🆓 完全免費',
+                    storyLabel: '📖 你可能會中意嘅連載或測驗',
+                    otherTools: '🔧 其他工具：',
+                    loading: '更新中...',
+                },
+                en: {
+                    title: 'Currency Converter',
+                    sub: 'Real-time · 170+ Currencies',
+                    rateLabel: '📊 Current Rate',
+                    amountLabel: 'Amount',
+                    fromLabel: 'From',
+                    toLabel: 'To',
+                    convert: 'Convert',
+                    clear: 'Clear',
+                    badge1: '⚡ Real-time',
+                    badge2: '🔄 170+ Currencies',
+                    badge3: '🆓 Free',
+                    storyLabel: '📖 You might also like',
+                    otherTools: '🔧 Other Tools:',
+                    loading: 'Updating...',
+                }
+            };
+
+            let currentLang = 'zh';
+            let exchangeRates = null;
+
+            const langBtns = document.querySelectorAll('.lang-btn');
+            const titleText = document.getElementById('titleText');
+            const subText = document.getElementById('subText');
+            const rateLabel = document.getElementById('rateLabel');
+            const amountLabel = document.getElementById('amountLabel');
+            const fromLabel = document.getElementById('fromLabel');
+            const toLabel = document.getElementById('toLabel');
+            const convertText = document.getElementById('convertText');
+            const clearText = document.getElementById('clearText');
+            const badge1 = document.getElementById('badge1');
+            const badge2 = document.getElementById('badge2');
+            const badge3 = document.getElementById('badge3');
+            const storyLabel = document.getElementById('storyLabel');
+            const otherToolsLabel = document.getElementById('otherToolsLabel');
+            const updateTime = document.getElementById('updateTime');
+
+            const amountInput = document.getElementById('amountInput');
+            const fromCurrency = document.getElementById('fromCurrency');
+            const toCurrency = document.getElementById('toCurrency');
+            const swapBtn = document.getElementById('swapBtn');
+            const convertBtn = document.getElementById('convertBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const resultAmount = document.getElementById('resultAmount');
+            const resultCurrency = document.getElementById('resultCurrency');
+            const rateDisplay = document.getElementById('rateDisplay');
+
+            function switchLang(lang) {
+                currentLang = lang;
+                const t = lang === 'en' ? texts.en : texts.zh;
+
+                titleText.textContent = t.title;
+                subText.textContent = t.sub;
+                rateLabel.textContent = t.rateLabel;
+                amountLabel.textContent = t.amountLabel;
+                fromLabel.textContent = t.fromLabel;
+                toLabel.textContent = t.toLabel;
+                convertText.textContent = t.convert;
+                clearText.textContent = t.clear;
+                badge1.textContent = t.badge1;
+                badge2.textContent = t.badge2;
+                badge3.textContent = t.badge3;
+                storyLabel.textContent = t.storyLabel;
+                otherToolsLabel.textContent = t.otherTools;
+
+                updateSelectOptions();
+
+                langBtns.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.lang === lang || (lang === 'zh' && btn.dataset.lang === 'hk')) {
+                        btn.classList.add('active');
+                    }
+                });
+
+                updateRateDisplay();
+            }
+
+            const currencyOptions = {
+                zh: [
+                    { value: 'HKD', label: '🇭🇰 HKD - 港幣' },
+                    { value: 'TWD', label: '🇹🇼 TWD - 台幣' },
+                    { value: 'USD', label: '🇺🇸 USD - 美元' },
+                    { value: 'CNY', label: '🇨🇳 CNY - 人民幣' },
+                    { value: 'EUR', label: '🇪🇺 EUR - 歐元' },
+                    { value: 'JPY', label: '🇯🇵 JPY - 日圓' },
+                    { value: 'GBP', label: '🇬🇧 GBP - 英鎊' },
+                    { value: 'AUD', label: '🇦🇺 AUD - 澳元' },
+                    { value: 'CAD', label: '🇨🇦 CAD - 加元' },
+                    { value: 'SGD', label: '🇸🇬 SGD - 新加坡元' },
+                    { value: 'KRW', label: '🇰🇷 KRW - 韓元' },
+                    { value: 'MYR', label: '🇲🇾 MYR - 馬來西亞令吉' },
+                    { value: 'THB', label: '🇹🇭 THB - 泰銖' },
+                    { value: 'VND', label: '🇻🇳 VND - 越南盾' },
+                    { value: 'PHP', label: '🇵🇭 PHP - 菲律賓披索' },
+                    { value: 'IDR', label: '🇮🇩 IDR - 印尼盾' },
+                ],
+                en: [
+                    { value: 'HKD', label: '🇭🇰 HKD - Hong Kong Dollar' },
+                    { value: 'TWD', label: '🇹🇼 TWD - Taiwan Dollar' },
+                    { value: 'USD', label: '🇺🇸 USD - US Dollar' },
+                    { value: 'CNY', label: '🇨🇳 CNY - Chinese Yuan' },
+                    { value: 'EUR', label: '🇪🇺 EUR - Euro' },
+                    { value: 'JPY', label: '🇯🇵 JPY - Japanese Yen' },
+                    { value: 'GBP', label: '🇬🇧 GBP - British Pound' },
+                    { value: 'AUD', label: '🇦🇺 AUD - Australian Dollar' },
+                    { value: 'CAD', label: '🇨🇦 CAD - Canadian Dollar' },
+                    { value: 'SGD', label: '🇸🇬 SGD - Singapore Dollar' },
+                    { value: 'KRW', label: '🇰🇷 KRW - Korean Won' },
+                    { value: 'MYR', label: '🇲🇾 MYR - Malaysian Ringgit' },
+                    { value: 'THB', label: '🇹🇭 THB - Thai Baht' },
+                    { value: 'VND', label: '🇻🇳 VND - Vietnamese Dong' },
+                    { value: 'PHP', label: '🇵🇭 PHP - Philippine Peso' },
+                    { value: 'IDR', label: '🇮🇩 IDR - Indonesian Rupiah' },
+                ]
+            };
+
+            function updateSelectOptions() {
+                const opts = currentLang === 'en' ? currencyOptions.en : currencyOptions.zh;
+                const fromVal = fromCurrency.value;
+                const toVal = toCurrency.value;
+
+                fromCurrency.innerHTML = opts.map(o =>
+                    `<option value="${o.value}" ${o.value === fromVal ? 'selected' : ''}>${o.label}</option>`
+                ).join('');
+
+                toCurrency.innerHTML = opts.map(o =>
+                    `<option value="${o.value}" ${o.value === toVal ? 'selected' : ''}>${o.label}</option>`
+                ).join('');
+            }
+
+            function detectLanguage() {
+                const params = new URLSearchParams(window.location.search);
+                if (params.get('lang') === 'en') return 'en';
+                if (params.get('lang') === 'zh') return 'zh';
+                const userLang = navigator.language || navigator.userLanguage;
+                if (userLang.startsWith('en')) return 'en';
+                return 'zh';
+            }
+
+            async function fetchRates() {
+                try {
+                    // 使用開放穩定 API
+                    const url = 'https://open.er-api.com/v6/latest/HKD';
+                    const response = await fetch(url);
+
+                    if (!response.ok) throw new Error('API 請求失敗');
+
+                    const data = await response.json();
+                    if (data && data.rates) {
+                        exchangeRates = data.rates;
+                        updateRateDisplay();
+                        convertCurrency();
+
+                        const now = new Date();
+                        const t = currentLang === 'en' ? texts.en : texts.zh;
+                        updateTime.textContent = t.loading.replace('...', '') + ' ' + now.toLocaleTimeString();
+                    } else {
+                        throw new Error('數據無效');
+                    }
+
+                } catch (err) {
+                    console.error('獲取匯率失敗:', err);
+                    updateTime.textContent = '⚠️ ' + (currentLang === 'en' ? 'Failed to load rates' : '無法載入匯率');
+                }
+            }
+
+            function updateRateDisplay() {
+                if (!exchangeRates) return;
+
+                const from = fromCurrency.value;
+                const to = toCurrency.value;
+
+                if (!exchangeRates[from] || !exchangeRates[to]) return;
+
+                if (from === to) {
+                    rateDisplay.textContent = '1.0000';
+                } else {
+                    const rate = exchangeRates[to] / exchangeRates[from];
+                    rateDisplay.textContent = rate.toFixed(4);
+                }
+
+                const otherRates = document.querySelectorAll('.other-rates .rate-item');
+                const displayCurrencies = ['USD', 'CNY', 'EUR', 'JPY', 'GBP', 'AUD'];
+                otherRates.forEach((item, index) => {
+                    if (index < displayCurrencies.length) {
+                        const code = displayCurrencies[index];
+                        if (exchangeRates[code] && exchangeRates[from]) {
+                            const value = exchangeRates[code] / exchangeRates[from];
+                            item.querySelector('.code').textContent = code;
+                            item.querySelector('.value').textContent = value.toFixed(4);
+                        }
+                    }
+                });
+            }
+
+            function convertCurrency() {
+                if (!exchangeRates) {
+                    resultAmount.textContent = '--';
+                    resultCurrency.textContent = '--';
+                    return;
+                }
+
+                const amount = parseFloat(amountInput.value);
+                if (isNaN(amount) || amount <= 0) {
+                    resultAmount.textContent = '--';
+                    resultCurrency.textContent = '--';
+                    return;
+                }
+
+                const from = fromCurrency.value;
+                const to = toCurrency.value;
+
+                if (!exchangeRates[from] || !exchangeRates[to]) {
+                    resultAmount.textContent = '--';
+                    resultCurrency.textContent = '--';
+                    return;
+                }
+
+                if (from === to) {
+                    resultAmount.textContent = amount.toFixed(2);
+                    resultCurrency.textContent = to;
+                    return;
+                }
+
+                const rate = exchangeRates[to] / exchangeRates[from];
+                const result = amount * rate;
+
+                resultAmount.textContent = result.toFixed(2);
+                resultCurrency.textContent = to;
+            }
+
+            function swapCurrencies() {
+                const fromVal = fromCurrency.value;
+                const toVal = toCurrency.value;
+                fromCurrency.value = toVal;
+                toCurrency.value = fromVal;
+                convertCurrency();
+                updateRateDisplay();
+            }
+
+            function clearAll() {
+                amountInput.value = '';
+                resultAmount.textContent = '--';
+                resultCurrency.textContent = '--';
+            }
+
+            langBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lang = this.dataset.lang;
+                    if (lang === 'hk' || lang === 'tw') {
+                        switchLang('zh');
+                    } else {
+                        switchLang('en');
+                    }
+                });
+            });
+
+            fromCurrency.addEventListener('change', () => {
+                convertCurrency();
+                updateRateDisplay();
+            });
+
+            toCurrency.addEventListener('change', () => {
+                convertCurrency();
+                updateRateDisplay();
+            });
+
+            amountInput.addEventListener('input', convertCurrency);
+            swapBtn.addEventListener('click', swapCurrencies);
+            convertBtn.addEventListener('click', convertCurrency);
+            clearBtn.addEventListener('click', clearAll);
+
+            const detectedLang = detectLanguage();
+            switchLang(detectedLang);
+            fetchRates();
+
+            setInterval(fetchRates, 5 * 60 * 1000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【免費線上圖片裁剪工具】精準裁切、自由比例與社交媒體尺寸教學｜Free Online Image Crop Tool Guide</title>
+    <meta name="description" content="免費且安全的線上圖片裁剪工具！支援自由拖曳裁切、預設社交媒體比例（1:1, 16:9, 9:16），純前端運算保護圖片私隱。適用於電商產品圖、社交媒體貼文與證件照裁切。Free online image crop tool guide."[cite: 24]>
+    <meta name="keywords" content="圖片裁剪, 圖片裁切, 線上裁切圖片, Instagram 圖片尺寸, 產品圖裁剪, Image Crop, Crop Photo Online, Free Image Cropper, ABRG"[cite: 24]>
+    <link rel="canonical" href="https://www.behavior-report.com/posts/image-crop-guide.html"[cite: 24]>
+
+    <!-- Open Graph (社交媒體優化) -->
+    <meta property="og:title" content="【免費線上圖片裁剪工具】精準裁切、自由比例與社交媒體尺寸教學 — Image Crop Guide"[cite: 24]>
+    <meta property="og:description" content="100% 純前端運算！教你免費精確裁剪圖片，支援 1:1、16:9、9:16 等多種比例。"[cite: 24]>
+    <meta property="og:type" content="article"[cite: 24]>
+    <meta property="og:url" content="https://www.behavior-report.com/posts/image-crop-guide.html"[cite: 24]>
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心"[cite: 24]>
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image"[cite: 24]>
+    <meta name="twitter:title" content="Free Online Image Crop Tool – Crop Photos for Social Media & E-commerce"[cite: 24]>
+    <meta name="twitter:description" content="Learn how to crop images precisely with preset aspect ratios like 1:1, 16:9, and 9:16 for free."[cite: 24]>
+
+    <!-- JSON-LD 結構化數據 (SEO 高價值評分必備) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "免費線上圖片裁剪工具完整教學：精準裁切、自由比例與社交媒體尺寸設定",
+      "description": "介紹如何使用純前端技術嘅圖片裁剪工具，適用於電商產品圖、社交媒體貼文與證件照等場景。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn active" data-lang="zh">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- 中文內容區塊 -->
+    <div id="content-zh">
+        <h1>免費線上圖片裁剪工具完整教學：精準裁切、自由比例與社交媒體尺寸設定</h1>
+
+        <h2>1. 導言</h2>
+        <p>無論你係電商賣家要處理產品圖、社交媒體小編要製作貼文，定係普通用戶要裁切證件相，圖片裁剪都係最常用嘅功能之一。但市面上好多裁剪工具一係要下載軟件，一係會將你嘅圖片上傳到伺服器，私隱風險高。我哋嘅免費線上圖片裁剪工具專為解決呢啲痛點而設：支援自由拖曳裁切框、多種預設比例（1:1、16:9、9:16、4:3），而且 100% 純前端運算，圖片絕不上傳，保障你嘅私隱。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p>圖片裁剪（Image Cropping）係指從原始圖片中選取一個矩形區域，移除其他部分，從而改變構圖或符合特定尺寸要求。呢個操作看似簡單，但要做到「精準」並唔容易——特別係當你需要將圖片調整為特定比例時（例如 Instagram 嘅 1:1 正方形貼文、YouTube 縮圖嘅 16:9）。</p>
+        <p>傳統方法通常要用 Photoshop 等專業軟件，學習成本高；而一般免費網站往往會將圖片上傳到伺服器處理，有機會被第三方存取或用作其他用途。我哋嘅工具採用 HTML5 Canvas 技術，所有裁剪運算喺你嘅瀏覽器內完成，圖片由頭到尾都唔會離開你嘅裝置。</p>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>社交媒體貼文製作：</strong>將橫向照片裁剪為 1:1 正方形用於 Instagram Feed，或 9:16用於 Reels / TikTok / YouTube Shorts。</li>
+            <li><strong>電商產品圖優化：</strong>將產品照片統一裁剪為相同比例，令網店頁面更整齊專業。</li>
+            <li><strong>證件相／頭像製作：</strong>精確裁切人物主體，去除多餘背景，製作履歷表或社交平台頭像。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>上傳圖片：</strong>點擊或拖曳上傳 JPG、PNG 或 WebP 圖片。</li>
+            <li><strong>選擇裁剪比例：</strong>點擊預設比例按鈕（Free、1:1、16:9、9:16、4:3）快速切換，或自由拖曳裁切框四角調整範圍。</li>
+            <li><strong>調整裁切位置：</strong>拖曳裁切框中央移動整個區域，確保主體位於理想構圖位置。</li>
+            <li><strong>預覽與下載：</strong>確認無誤後點擊「裁剪並預覽」，然後下載裁切後嘅圖片。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站前端工具</th>
+                    <th>Photoshop 等軟件</th>
+                    <th>其他線上工具</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>昂貴訂閱或一次性購買</td>
+                    <td>免費但有廣告或限制</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>100% 本地處理</td>
+                    <td>高（本地軟件）</td>
+                    <td>低（需上傳伺服器）</td>
+                </tr>
+                <tr>
+                    <td><strong>預設比例</strong></td>
+                    <td>支援 1:1, 16:9, 9:16, 4:3</td>
+                    <td>完全自訂</td>
+                    <td>通常只有自由模式</td>
+                </tr>
+                <tr>
+                    <td><strong>學習曲線</strong></td>
+                    <td>極低（拖曳即可）</td>
+                    <td>高（需學習軟件操作）</td>
+                    <td>中等</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「我做電商產品圖嘅時候，最頭痛嘅就係每張相尺寸唔同，放上網店之後格仔排版亂晒。以前要逐張開 Photoshop 改，浪費好多時間。後來用呢個裁剪工具，揀 1:1 比例，每張相一 crop 就統一尺寸，仲可以拖曳調整構圖，10 秒搞掂一張。對於成日要處理大量產品圖嘅賣家嚟講，呢個工具真係幫到手。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ 需要快速精準地裁剪圖片？</h3>
+            <p style="margin:0; font-size:0.9rem;">無論你係製作社交媒體貼文、優化產品圖定係整頭像，呢個工具都可以幫你慳時間、保私隱。</p>
+            <a href="../tools/crop-image.html?lang=hk" class="cta-btn-link" id="ctaBtn">👉 立即免費試用圖片裁剪工具</a>
+        </div>
+    </div>
+
+    <!-- English Content Section -->
+    <div id="content-en" style="display: none;">
+        <h1>Free Online Image Crop Tool Guide: Precise Cropping, Aspect Ratios & Social Media Sizes</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Whether you are an e-commerce seller processing product photos, a social media manager creating posts, or a regular user editing ID photos, image cropping is one of the most frequently used tools. Our free online image crop tool solves the common pain points: supports freehand drag-to-crop, preset aspect ratios (1:1, 16:9, 9:16, 4:3), and 100% client-side processing. Your images never leave your browser, ensuring complete privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p>Image cropping involves selecting a rectangular region from the original image and removing everything outside that region. While the concept is simple, achieving precise cropping—especially when targeting specific aspect ratios like 1:1 for Instagram or 16:9 for YouTube thumbnails—requires the right tool.</p>
+        <p>Traditional methods often require expensive software like Photoshop, while many free online tools upload your images to third-party servers, creating privacy risks. Our tool leverages HTML5 Canvas technology, executing all cropping operations entirely within your browser. Your images are never transmitted to any remote server.</p>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Social Media Posts:</strong> Crop landscape photos to 1:1 square for Instagram Feed, or 9:16 for Reels, TikTok, and YouTube Shorts.</li>
+            <li><strong>E-commerce Product Images:</strong> Standardize product photos to the same aspect ratio for a professional, uniform store layout.</li>
+            <li><strong>Profile Photos & ID Photos:</strong> Precisely crop portrait photos for resumes, LinkedIn profiles, or ID card applications.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Upload Image:</strong> Click or drag-and-drop your JPG, PNG, or WebP image.</li>
+            <li><strong>Select Aspect Ratio:</strong> Choose from Free, 1:1, 16:9, 9:16, or 4:3 presets, or drag the crop box handles to custom size.</li>
+            <li><strong>Adjust Crop Position:</strong> Drag the center of the crop box to reposition the selected area.</li>
+            <li><strong>Preview & Download:</strong> Click "Crop & Preview" to review the result, then download your cropped image.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Client-Side Tool (Us)</th>
+                    <th>Photoshop</th>
+                    <th>Other Online Tools</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Expensive Subscription</td>
+                    <td>Freemium / Ads</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>100% Local Processing</td>
+                    <td>High (Local Software)</td>
+                    <td>Low (Server Upload)</td>
+                </tr>
+                <tr>
+                    <td><strong>Aspect Ratios</strong></td>
+                    <td>1:1, 16:9, 9:16, 4:3</td>
+                    <td>Fully Custom</td>
+                    <td>Usually Free Only</td>
+                </tr>
+                <tr>
+                    <td><strong>Learning Curve</strong></td>
+                    <td>Very Low (Drag & Drop)</td>
+                    <td>High</td>
+                    <td>Medium</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"When processing product images for e-commerce, inconsistent photo sizes used to be my biggest headache. I used to open Photoshop for every single image, which was incredibly time-consuming. Now I use this crop tool—select 1:1 ratio, crop each photo in 10 seconds, and my store looks professional and consistent. For anyone handling bulk product images, this tool is a game-changer."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ Need to Crop Images Quickly and Privately?</h3>
+            <p style="margin:0; font-size:0.9rem;">Whether for social media, e-commerce, or personal use, crop your images precisely without uploading to any server.</p>
+            <a href="../tools/crop-image.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Image Crop Tool Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html">主頁</a> |
+        <a href="../blog.html">文章 Blog</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtn = document.getElementById('ctaBtn');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        if (brandLink) brandLink.href = `../index.html?lang=en`;
+        if (ctaBtnEn) ctaBtnEn.href = `../tools/crop-image.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        if (brandLink) brandLink.href = `../index.html?lang=${targetLang}`;
+        if (ctaBtn) ctaBtn.href = `../tools/crop-image.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+// 頁面載入時執行
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'zh';
+    setLang(currentLang === 'en' ? 'en' : 'zh');
+});
+
+// 語言按鈕切換
+document.querySelectorAll('.lang-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        const selectedLang = this.getAttribute('data-lang');
+        const newUrl = new URL(window.location);
+        newUrl.searchParams.set('lang', selectedLang === 'en' ? 'en' : 'hk');
+        window.history.pushState({}, '', newUrl);
+        setLang(selectedLang);
+    });
+});
+</script>
+
+</body>
+</html>

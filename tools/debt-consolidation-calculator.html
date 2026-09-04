@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO 基本標籤 / Bilingual SEO -->
+    <title>線上債務整合計算器 — 比較多筆債務合併前後節省的利息與供款｜Debt Consolidation Calculator</title>
+    <meta name="description" content="免費線上債務整合與結餘轉戶計算器 (Free Online Debt Consolidation Calculator)。比較合併信用卡與私人貸款前後的每月還款額及總利息支出，助您精算卡數整合可節省的金額。" />
+    <meta name="keywords" content="債務整合計算器, 結餘轉戶計算機, 卡數整合, 債務重組, 節省利息, debt consolidation calculator, consolidate credit card debt, debt refinancing, balance transfer calculator, lower monthly payment" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/debt-consolidation-calculator.html" />
+
+    <!-- Open Graph 社交分享標籤 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="免費線上債務整合計算器 — 一鍵精算結餘轉戶節省利息｜Debt Consolidation Calculator" />
+    <meta property="og:description" content="輸入多筆現有負債與整合貸款條件，即時比較合併前後的每月供款差異與總利息節省額！" />
+    <meta property="og:url" content="https://www.behavior-report.com/tools/debt-consolidation-calculator.html" />
+
+    <!-- Schema.org 結構化資料 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "線上債務整合計算器 (Debt Consolidation Calculator)",
+      "url": "https://www.behavior-report.com/tools/debt-consolidation-calculator.html",
+      "description": "提供多筆債務合併前後每月還款額及總利息節省比較的免費線上金融工具。",
+      "applicationCategory": "FinancialApplication",
+      "operatingSystem": "All",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --green: #10b981;
+            --red: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch { text-align: center; margin-bottom: 20px; }
+        .lang-switch button {
+            background: transparent; border: none; color: var(--cyan);
+            cursor: pointer; font-size: 0.9rem; margin: 0 8px; font-weight: bold;
+        }
+        .lang-switch button:hover { text-decoration: underline; }
+
+        .tool-title { font-size: 1.6rem; color: #ffffff; text-align: center; font-weight: bold; }
+        .tool-sub { text-align: center; color: var(--text); font-size: 0.95rem; margin: 10px 0 25px; }
+
+        .section-header {
+            color: #ffffff;
+            font-size: 1.1rem;
+            margin: 20px 0 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .debt-item {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 1fr 1.5fr auto;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        @media (max-width: 600px) {
+            .debt-item {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        input[type="text"], input[type="number"] {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: #ffffff;
+            padding: 10px;
+            border-radius: 6px;
+            outline: none;
+            font-size: 0.88rem;
+            width: 100%;
+        }
+
+        input:focus { border-color: var(--cyan); }
+
+        .btn-add {
+            background: transparent;
+            color: var(--cyan);
+            border: 1px solid var(--cyan);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .btn-remove {
+            background: transparent;
+            color: var(--red);
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0 5px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: bold;
+        }
+
+        .btn-calc {
+            width: 100%;
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--cyan);
+            border: 1px solid rgba(34, 211, 238, 0.25);
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn-calc:hover {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+
+        .results-panel {
+            display: none;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .res-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .res-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .res-card.highlight {
+            border-color: rgba(16, 185, 129, 0.4);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .res-card h4 { font-size: 0.85rem; color: var(--text-light); margin-bottom: 8px; }
+        .res-card .val { font-size: 1.3rem; color: var(--cyan); font-weight: bold; }
+        .res-card.highlight .val { color: var(--green); }
+
+        .seo-article { margin-top: 40px; padding-top: 25px; border-top: 1px solid rgba(148, 163, 184, 0.08); line-height: 1.6; }
+        .seo-article h2 { color: #ffffff; font-size: 1.1rem; margin-bottom: 12px; }
+        .seo-article p { font-size: 0.85rem; color: var(--text); margin-bottom: 12px; }
+
+        footer { text-align: center; margin-top: 30px; font-size: 11px; color: #555; }
+        footer a { color: #555; text-decoration: none; margin: 0 8px; }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="lang-switch">
+        <button onclick="setLang('zh')">繁體中文</button> |
+        <button onclick="setLang('en')">English</button>
+    </div>
+
+    <h1 class="tool-title" id="toolTitle">💳 線上債務整合計算器 (Debt Consolidation Calculator)</h1>
+    <p class="tool-sub" id="toolSub">精算多筆信用卡與貸款合併前後的利息節省與每月供款差異</p>
+
+    <!-- 現有債務列表 -->
+    <div class="section-header">
+        <span id="headExistingDebts">1. 現有債務明細 (Current Debts)</span>
+        <button class="btn-add" onclick="addDebtRow()" id="btnAddDebt">+ 新增債務 (Add Debt)</button>
+    </div>
+    
+    <div id="debtList"></div>
+
+    <!-- 整合貸款條件 -->
+    <div class="section-header" style="margin-top: 30px;">
+        <span id="headNewLoan">2. 擬申請之整合貸款條件 (New Consolidation Loan)</span>
+    </div>
+    
+    <div class="form-grid">
+        <div class="form-group">
+            <label id="lblNewRate">整合後貸款年利率 % (New Rate)</label>
+            <input type="number" id="newRate" step="0.01" placeholder="例如: 6.5" value="6.5">
+        </div>
+        <div class="form-group">
+            <label id="lblNewTerm">整合後貸款年期 (New Term - Years)</label>
+            <input type="number" id="newTerm" placeholder="例如: 5" value="5">
+        </div>
+    </div>
+
+    <button class="btn-calc" onclick="calculateConsolidation()" id="btnCalc">⚡ 比較整合效益 (Compare Savings)</button>
+
+    <div class="results-panel" id="resultsPanel">
+        <h3 style="color: #fff; font-size: 1.1rem; margin-bottom: 10px;" id="resTitle">📊 債務整合效益對比 (Consolidation Results)</h3>
+        <div class="res-cards">
+            <div class="res-card highlight">
+                <h4 id="headSavedInterest">預估總節省利息 (Total Interest Saved)</h4>
+                <div class="val" id="valSavedInterest">$0</div>
+            </div>
+            <div class="res-card highlight">
+                <h4 id="headMonthlySavings">每月少供金額 (Monthly Savings)</h4>
+                <div class="val" id="valMonthlySavings">$0</div>
+            </div>
+            <div class="res-card">
+                <h4 id="headOldMonthly">整合前每月總供款 (Current Monthly Total)</h4>
+                <div class="val" id="valOldMonthly">$0</div>
+            </div>
+            <div class="res-card">
+                <h4 id="headNewMonthly">整合後每月供款 (New Monthly Payment)</h4>
+                <div class="val" id="valNewMonthly">$0</div>
+            </div>
+        </div>
+    </div>
+
+    <article class="seo-article">
+        <h2 id="seoTitle">什麼是債務整合（結餘轉戶）？如何幫助您清還卡數？</h2>
+        <p id="seoP1">債務整合（Debt Consolidation / 結餘轉戶）是指將多筆高利息的債務（如信用卡循環利息、私人貸款）合併為一筆單一貸款。透過較低的年利率與固定還款期，您可以有效降低每月供款負擔、減少總利息開支，並簡化每月還款流程。</p>
+        <p id="seoP2"><strong>Benefits of Debt Consolidation & Refinancing.</strong> Combining multiple credit cards and high-interest loans into a single lower-rate loan simplifies your finances. Calculate how much money you can save on interest and lower your total monthly payments today.</p>
+    </article>
+</div>
+
+<footer>
+    <a href="../index.html">Home</a> | <a href="../privacy.html">Privacy Policy</a>
+</footer>
+
+<script>
+    const i18n = {
+        zh: {
+            title: "💳 線上債務整合計算器 (Debt Consolidation Calculator)",
+            sub: "精算多筆信用卡與貸款合併前後的利息節省與每月供款差異",
+            headExistingDebts: "1. 現有債務明細 (Current Debts)",
+            btnAddDebt: "+ 新增債務 (Add Debt)",
+            headNewLoan: "2. 擬申請之整合貸款條件 (New Consolidation Loan)",
+            lblNewRate: "整合後貸款年利率 % (New Rate)",
+            lblNewTerm: "整合後貸款年期 (New Term - Years)",
+            btnCalc: "⚡ 比較整合效益 (Compare Savings)",
+            resTitle: "📊 債務整合效益對比 (Consolidation Results)",
+            headSavedInterest: "預估總節省利息 (Total Interest Saved)",
+            headMonthlySavings: "每月少供金額 (Monthly Savings)",
+            headOldMonthly: "整合前每月總供款 (Current Monthly)",
+            headNewMonthly: "整合後每月供款 (New Monthly)",
+            phName: "債務名稱 (例如信用卡A)",
+            phBalance: "欠款金額 ($)",
+            phRate: "年利率 (%)",
+            phMonthly: "現時每月供款 ($)",
+            seoTitle: "什麼是債務整合（結餘轉戶）？如何幫助您清還卡數？",
+            seoP1: "債務整合（Debt Consolidation / 結餘轉戶）是指將多筆高利息的債務（如信用卡循環利息、私人貸款）合併為一筆單一貸款。透過較低的年利率與固定還款期，您可以有效降低每月供款負擔、減少總利息開支，並簡化每月還款流程。",
+            seoP2: "<strong>Benefits of Debt Consolidation & Refinancing.</strong> Combining multiple credit cards and high-interest loans into a single lower-rate loan simplifies your finances. Calculate how much money you can save on interest and lower your total monthly payments today."
+        },
+        en: {
+            title: "💳 Debt Consolidation Calculator",
+            sub: "Compare current debts vs a new consolidation loan to see interest savings",
+            headExistingDebts: "1. Current Debts",
+            btnAddDebt: "+ Add Debt",
+            headNewLoan: "2. New Consolidation Loan Terms",
+            lblNewRate: "New Interest Rate (%)",
+            lblNewTerm: "New Loan Term (Years)",
+            btnCalc: "⚡ Compare Savings",
+            resTitle: "📊 Consolidation Savings Summary",
+            headSavedInterest: "Total Interest Saved",
+            headMonthlySavings: "Monthly Savings",
+            headOldMonthly: "Current Total Monthly Payment",
+            headNewMonthly: "New Monthly Payment",
+            phName: "Debt Name (e.g. Card A)",
+            phBalance: "Balance ($)",
+            phRate: "Interest Rate (%)",
+            phMonthly: "Current Payment ($)",
+            seoTitle: "How Debt Consolidation Works",
+            seoP1: "Debt consolidation combines multiple high-interest balances into a single loan with a lower rate and fixed repayment schedule, reducing stress and monthly expenses.",
+            seoP2: "<strong>Benefits of Debt Consolidation & Refinancing.</strong> Combining multiple credit cards and high-interest loans into a single lower-rate loan simplifies your finances. Calculate how much money you can save on interest and lower your total monthly payments today."
+        }
+    };
+
+    let currentLang = 'zh';
+
+    function setLang(lang) {
+        currentLang = lang;
+        const t = i18n[lang];
+        document.getElementById('toolTitle').innerText = t.title;
+        document.getElementById('toolSub').innerText = t.sub;
+        document.getElementById('headExistingDebts').innerText = t.headExistingDebts;
+        document.getElementById('btnAddDebt').innerText = t.btnAddDebt;
+        document.getElementById('headNewLoan').innerText = t.headNewLoan;
+        document.getElementById('lblNewRate').innerText = t.lblNewRate;
+        document.getElementById('lblNewTerm').innerText = t.lblNewTerm;
+        document.getElementById('btnCalc').innerText = t.btnCalc;
+        document.getElementById('resTitle').innerText = t.resTitle;
+        document.getElementById('headSavedInterest').innerText = t.headSavedInterest;
+        document.getElementById('headMonthlySavings').innerText = t.headMonthlySavings;
+        document.getElementById('headOldMonthly').innerText = t.headOldMonthly;
+        document.getElementById('headNewMonthly').innerText = t.headNewMonthly;
+        document.getElementById('seoTitle').innerText = t.seoTitle;
+        document.getElementById('seoP1').innerHTML = t.seoP1;
+        document.getElementById('seoP2').innerHTML = t.seoP2;
+
+        // 更新動態 placeholder
+        document.querySelectorAll('.debt-name').forEach(el => el.placeholder = t.phName);
+        document.querySelectorAll('.debt-balance').forEach(el => el.placeholder = t.phBalance);
+        document.querySelectorAll('.debt-rate').forEach(el => el.placeholder = t.phRate);
+        document.querySelectorAll('.debt-monthly').forEach(el => el.placeholder = t.phMonthly);
+    }
+
+    function addDebtRow(name = '', balance = '', rate = '', monthly = '') {
+        const container = document.getElementById('debtList');
+        const t = i18n[currentLang];
+        const div = document.createElement('div');
+        div.className = 'debt-item';
+        div.innerHTML = `
+            <input type="text" class="debt-name" placeholder="${t.phName}" value="${name}">
+            <input type="number" class="debt-balance" placeholder="${t.phBalance}" value="${balance}">
+            <input type="number" class="debt-rate" step="0.01" placeholder="${t.phRate}" value="${rate}">
+            <input type="number" class="debt-monthly" placeholder="${t.phMonthly}" value="${monthly}">
+            <button class="btn-remove" onclick="this.parentElement.remove()">✕</button>
+        `;
+        container.appendChild(div);
+    }
+
+    function formatCurrency(val) {
+        return '$' + Math.round(val).toLocaleString();
+    }
+
+    function calculateConsolidation() {
+        const balances = document.querySelectorAll('.debt-balance');
+        const rates = document.querySelectorAll('.debt-rate');
+        const monthlies = document.querySelectorAll('.debt-monthly');
+
+        let totalBalance = 0;
+        let currentTotalMonthly = 0;
+        let weightedRateSum = 0;
+
+        for (let i = 0; i < balances.length; i++) {
+            const b = parseFloat(balances[i].value) || 0;
+            const r = parseFloat(rates[i].value) || 0;
+            const m = parseFloat(monthlies[i].value) || 0;
+
+            totalBalance += b;
+            currentTotalMonthly += m;
+            weightedRateSum += (b * r);
+        }
+
+        if (totalBalance <= 0) {
+            alert('請至少輸入一筆有效的現有債務金額！Please enter at least one valid debt balance.');
+            return;
+        }
+
+        const newAnnualRate = parseFloat(document.getElementById('newRate').value);
+        const newYears = parseFloat(document.getElementById('newTerm').value);
+
+        if (isNaN(newAnnualRate) || newAnnualRate < 0 || !newYears) {
+            alert('請輸入有效的整合貸款利率與年期！Please enter valid new loan terms.');
+            return;
+        }
+
+        // 1. 計算新貸款的每月供款
+        const newMonthlyRate = (newAnnualRate / 100) / 12;
+        const newTotalMonths = newYears * 12;
+
+        let newMonthlyPayment = 0;
+        if (newMonthlyRate === 0) {
+            newMonthlyPayment = totalBalance / newTotalMonths;
+        } else {
+            newMonthlyPayment = (totalBalance * newMonthlyRate * Math.pow(1 + newMonthlyRate, newTotalMonths)) / (Math.pow(1 + newMonthlyRate, newTotalMonths) - 1);
+        }
+
+        const newTotalPaid = newMonthlyPayment * newTotalMonths;
+        const newTotalInterest = newTotalPaid - totalBalance;
+
+        // 2. 估算舊債務的剩餘利息（以加權平均利率與目前每月供款反推）
+        const avgRate = (weightedRateSum / totalBalance) / 100 / 12;
+        let oldTotalInterest = 0;
+        
+        if (currentTotalMonthly > 0) {
+            let tempBal = totalBalance;
+            let safetyCounter = 0;
+            while (tempBal > 0 && safetyCounter < 360) {
+                safetyCounter++;
+                const interest = tempBal * avgRate;
+                oldTotalInterest += interest;
+                const principal = currentTotalMonthly - interest;
+                if (principal <= 0) {
+                    // 若月供不足以覆蓋利息，預估設為高額利息
+                    oldTotalInterest = totalBalance * 1.5;
+                    break;
+                }
+                tempBal -= principal;
+            }
+        } else {
+            // 若未輸入現有月供，粗略估算舊利息 (以 3 年期為標準)
+            oldTotalInterest = totalBalance * (avgRate * 12) * 3;
+        }
+
+        const savedInterest = oldTotalInterest - newTotalInterest;
+        const monthlySavings = currentTotalMonthly - newMonthlyPayment;
+
+        document.getElementById('valSavedInterest').innerText = formatCurrency(savedInterest > 0 ? savedInterest : 0);
+        document.getElementById('valMonthlySavings').innerText = formatCurrency(monthlySavings > 0 ? monthlySavings : 0);
+        document.getElementById('valOldMonthly').innerText = formatCurrency(currentTotalMonthly);
+        document.getElementById('valNewMonthly').innerText = formatCurrency(newMonthlyPayment);
+
+        document.getElementById('resultsPanel').style.display = 'block';
+    }
+
+    // 初始化載入兩筆預設債務範例
+    window.onload = function() {
+        addDebtRow('信用卡 A (Credit Card A)', 80000, 30, 3500);
+        addDebtRow('私人貸款 B (Personal Loan B)', 120000, 12, 4200);
+    };
+</script>
+<!-- 語言參數接收與傳遞 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang');
+    if (lang) {
+        if (typeof setLang === 'function') {
+            setLang(lang);
+        }
+        document.querySelectorAll('a[href]').forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('../')) {
+                const url = new URL(href, window.location.href);
+                url.searchParams.set('lang', lang);
+                link.setAttribute('href', url.toString());
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

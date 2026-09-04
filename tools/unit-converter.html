@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>免費單位換算器 — 長度、重量、容量、溫度即時轉換｜Free Unit Converter｜ABRG 免費工具</title>
+    <meta name="description" content="免費線上單位換算器，支援長度、重量、容量、溫度即時轉換，批量輸入，一鍵複製。Free unit converter, length, weight, volume, temperature, instant conversion, batch processing, 100% client-side." />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/unit-converter.html" />
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --cyan: #22d3ee;
+            --green: #10b981;
+            --border: #24324f;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 780px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+        .lang-switch {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .lang-switch a {
+            color: var(--cyan);
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .lang-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 10px 0 25px;
+        }
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        .category-tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+            padding: 4px;
+            border: 1px solid rgba(148, 163, 184, 0.06);
+            flex-wrap: wrap;
+        }
+        .cat-btn {
+            flex: 1;
+            min-width: 60px;
+            padding: 10px 12px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: #64748b;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .cat-btn:hover {
+            color: #cbd5e1;
+        }
+        .cat-btn.active {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+
+        .converter-panel {
+            display: none;
+        }
+        .converter-panel.active {
+            display: block;
+        }
+
+        .converter-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .converter-row input {
+            flex: 1;
+            min-width: 80px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(148, 163, 184, 0.15);
+            background: var(--bg);
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        .converter-row input:focus {
+            outline: none;
+            border-color: var(--cyan);
+        }
+        .converter-row select {
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(148, 163, 184, 0.15);
+            background: var(--bg);
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        .converter-row select:focus {
+            outline: none;
+            border-color: var(--cyan);
+        }
+        .converter-row select option {
+            background: var(--card);
+        }
+        .converter-row .equals {
+            color: #64748b;
+            font-size: 1.2rem;
+            font-weight: bold;
+            min-width: 30px;
+            text-align: center;
+        }
+        .converter-row .result-display {
+            flex: 1;
+            min-width: 80px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            background: rgba(34, 211, 238, 0.04);
+            border: 1px solid rgba(34, 211, 238, 0.06);
+            color: var(--cyan);
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .batch-section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(148, 163, 184, 0.06);
+        }
+        .batch-section .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .batch-section textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(148, 163, 184, 0.15);
+            background: var(--bg);
+            color: #fff;
+            font-size: 0.95rem;
+            resize: vertical;
+            transition: border-color 0.2s;
+            font-family: 'Courier New', monospace;
+            min-height: 80px;
+        }
+        .batch-section textarea:focus {
+            outline: none;
+            border-color: var(--cyan);
+        }
+        .batch-section .batch-result {
+            margin-top: 8px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(148, 163, 184, 0.06);
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: #cbd5e1;
+            max-height: 150px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        .batch-section .batch-result .empty {
+            color: #475569;
+        }
+
+        .btn {
+            padding: 8px 18px;
+            border-radius: 6px;
+            border: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-cyan {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+        .btn-cyan:hover {
+            background: #67e8f9;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            color: #cbd5e1;
+        }
+        .btn-outline:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+        .btn-green {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: var(--green);
+        }
+        .btn-green:hover {
+            background: rgba(16, 185, 129, 0.25);
+        }
+
+        .story-suggest {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+        .story-suggest .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .story-suggest .items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .story-suggest .items a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 11px;
+            color: #555;
+        }
+        footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        footer a:hover {
+            color: #888;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 18px;
+            }
+            .converter-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .converter-row input,
+            .converter-row select,
+            .converter-row .result-display {
+                min-width: 0;
+            }
+            .converter-row .equals {
+                text-align: center;
+            }
+            .cat-btn {
+                font-size: 0.7rem;
+                padding: 8px 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="lang-switch">
+            <a onclick="switchLang('hk')">🇭🇰 港版</a> |
+            <a onclick="switchLang('tw')">🇹🇼 台版</a> |
+            <a onclick="switchLang('en')">🇬🇧 English</a>
+        </div>
+
+        <h1 class="tool-title" id="toolTitle">📏 單位換算器</h1>
+        <p class="tool-sub" id="toolSub">即時轉換長度、重量、容量、溫度，支援批量輸入</p>
+        <div class="badge-row">
+            <span class="badge" id="badge1">🔒 私隱安全</span>
+            <span class="badge" id="badge2">⚡ 即時轉換</span>
+            <span class="badge" id="badge3">📋 批量處理</span>
+            <span class="badge" id="badge4">🆓 完全免費</span>
+        </div>
+
+        <div class="category-tabs">
+            <button class="cat-btn active" data-cat="length" id="tabLength">📐 長度</button>
+            <button class="cat-btn" data-cat="weight" id="tabWeight">⚖️ 重量</button>
+            <button class="cat-btn" data-cat="volume" id="tabVolume">🧪 容量</button>
+            <button class="cat-btn" data-cat="temperature" id="tabTemp">🌡️ 溫度</button>
+        </div>
+
+        <!-- Length -->
+        <div class="converter-panel active" id="panel-length">
+            <div class="converter-row">
+                <input type="number" id="length-input" value="1" step="any" />
+                <select id="length-from">
+                    <option value="meter">米 (m)</option>
+                    <option value="kilometer">公里 (km)</option>
+                    <option value="centimeter">厘米 (cm)</option>
+                    <option value="millimeter">毫米 (mm)</option>
+                    <option value="mile">英里 (mi)</option>
+                    <option value="yard">碼 (yd)</option>
+                    <option value="foot">英尺 (ft)</option>
+                    <option value="inch">英寸 (in)</option>
+                </select>
+                <span class="equals">=</span>
+                <div class="result-display" id="length-result">1 m</div>
+                <select id="length-to">
+                    <option value="meter">米 (m)</option>
+                    <option value="kilometer">公里 (km)</option>
+                    <option value="centimeter">厘米 (cm)</option>
+                    <option value="millimeter">毫米 (mm)</option>
+                    <option value="mile">英里 (mi)</option>
+                    <option value="yard">碼 (yd)</option>
+                    <option value="foot">英尺 (ft)</option>
+                    <option value="inch" selected>英寸 (in)</option>
+                </select>
+            </div>
+            <div class="batch-section">
+                <div class="label" id="batchLabel">📋 批量轉換（每行一個數值）</div>
+                <textarea id="length-batch" placeholder="1&#10;2.5&#10;10"></textarea>
+                <div style="margin-top:6px;display:flex;gap:8px;flex-wrap:wrap;">
+                    <button class="btn btn-cyan" id="length-batch-btn">🔄 轉換</button>
+                    <button class="btn btn-outline" id="length-copy-btn">📋 複製結果</button>
+                    <button class="btn btn-outline" id="length-clear-btn">🗑️ 清空</button>
+                </div>
+                <div class="batch-result" id="length-batch-result"><span class="empty">等待輸入...</span></div>
+            </div>
+        </div>
+
+        <!-- Weight -->
+        <div class="converter-panel" id="panel-weight">
+            <div class="converter-row">
+                <input type="number" id="weight-input" value="1" step="any" />
+                <select id="weight-from">
+                    <option value="kilogram">公斤 (kg)</option>
+                    <option value="gram">克 (g)</option>
+                    <option value="milligram">毫克 (mg)</option>
+                    <option value="tonne">公噸 (t)</option>
+                    <option value="pound">磅 (lb)</option>
+                    <option value="ounce">盎司 (oz)</option>
+                </select>
+                <span class="equals">=</span>
+                <div class="result-display" id="weight-result">1 kg</div>
+                <select id="weight-to">
+                    <option value="kilogram">公斤 (kg)</option>
+                    <option value="gram" selected>克 (g)</option>
+                    <option value="milligram">毫克 (mg)</option>
+                    <option value="tonne">公噸 (t)</option>
+                    <option value="pound">磅 (lb)</option>
+                    <option value="ounce">盎司 (oz)</option>
+                </select>
+            </div>
+            <div class="batch-section">
+                <div class="label">📋 批量轉換（每行一個數值）</div>
+                <textarea id="weight-batch" placeholder="1&#10;2.5&#10;10"></textarea>
+                <div style="margin-top:6px;display:flex;gap:8px;flex-wrap:wrap;">
+                    <button class="btn btn-cyan" id="weight-batch-btn">🔄 轉換</button>
+                    <button class="btn btn-outline" id="weight-copy-btn">📋 複製結果</button>
+                    <button class="btn btn-outline" id="weight-clear-btn">🗑️ 清空</button>
+                </div>
+                <div class="batch-result" id="weight-batch-result"><span class="empty">等待輸入...</span></div>
+            </div>
+        </div>
+
+        <!-- Volume -->
+        <div class="converter-panel" id="panel-volume">
+            <div class="converter-row">
+                <input type="number" id="volume-input" value="1" step="any" />
+                <select id="volume-from">
+                    <option value="liter">公升 (L)</option>
+                    <option value="milliliter">毫升 (mL)</option>
+                    <option value="gallon">加侖 (gal)</option>
+                    <option value="quart">夸脫 (qt)</option>
+                    <option value="pint">品脫 (pt)</option>
+                    <option value="cup">杯 (cup)</option>
+                </select>
+                <span class="equals">=</span>
+                <div class="result-display" id="volume-result">1 L</div>
+                <select id="volume-to">
+                    <option value="liter">公升 (L)</option>
+                    <option value="milliliter" selected>毫升 (mL)</option>
+                    <option value="gallon">加侖 (gal)</option>
+                    <option value="quart">夸脫 (qt)</option>
+                    <option value="pint">品脫 (pt)</option>
+                    <option value="cup">杯 (cup)</option>
+                </select>
+            </div>
+            <div class="batch-section">
+                <div class="label">📋 批量轉換（每行一個數值）</div>
+                <textarea id="volume-batch" placeholder="1&#10;2.5&#10;10"></textarea>
+                <div style="margin-top:6px;display:flex;gap:8px;flex-wrap:wrap;">
+                    <button class="btn btn-cyan" id="volume-batch-btn">🔄 轉換</button>
+                    <button class="btn btn-outline" id="volume-copy-btn">📋 複製結果</button>
+                    <button class="btn btn-outline" id="volume-clear-btn">🗑️ 清空</button>
+                </div>
+                <div class="batch-result" id="volume-batch-result"><span class="empty">等待輸入...</span></div>
+            </div>
+        </div>
+
+        <!-- Temperature -->
+        <div class="converter-panel" id="panel-temperature">
+            <div class="converter-row">
+                <input type="number" id="temp-input" value="0" step="any" />
+                <select id="temp-from">
+                    <option value="celsius" selected>攝氏 (°C)</option>
+                    <option value="fahrenheit">華氏 (°F)</option>
+                    <option value="kelvin">開爾文 (K)</option>
+                </select>
+                <span class="equals">=</span>
+                <div class="result-display" id="temp-result">32 °F</div>
+                <select id="temp-to">
+                    <option value="celsius">攝氏 (°C)</option>
+                    <option value="fahrenheit" selected>華氏 (°F)</option>
+                    <option value="kelvin">開爾文 (K)</option>
+                </select>
+            </div>
+            <div class="batch-section">
+                <div class="label">📋 批量轉換（每行一個數值）</div>
+                <textarea id="temp-batch" placeholder="0&#10;25&#10;100"></textarea>
+                <div style="margin-top:6px;display:flex;gap:8px;flex-wrap:wrap;">
+                    <button class="btn btn-cyan" id="temp-batch-btn">🔄 轉換</button>
+                    <button class="btn btn-outline" id="temp-copy-btn">📋 複製結果</button>
+                    <button class="btn btn-outline" id="temp-clear-btn">🗑️ 清空</button>
+                </div>
+                <div class="batch-result" id="temp-batch-result"><span class="empty">等待輸入...</span></div>
+            </div>
+        </div>
+
+        <div class="story-suggest">
+            <div class="label" id="storyLabel">📖 你可能會中意嘅連載或測驗</div>
+            <div class="items">
+                <a href="../story_01.html">《你睡著以後》</a>
+                <a href="../story_02.html">《貓狗人格》</a>
+                <a href="../quiz-01.html">隱私天平</a>
+                <a href="../index.html">🏠 返回主頁</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+    </footer>
+
+    <script>
+        // =============================================================
+        // 語言文字
+        // =============================================================
+        const texts = {
+            hk: {
+                title: '📏 單位換算器',
+                sub: '即時轉換長度、重量、容量、溫度，支援批量輸入',
+                badge1: '🔒 私隱安全',
+                badge2: '⚡ 即時轉換',
+                badge3: '📋 批量處理',
+                badge4: '🆓 完全免費',
+                storyLabel: '📖 你可能會中意嘅連載或測驗',
+                tabLength: '📐 長度',
+                tabWeight: '⚖️ 重量',
+                tabVolume: '🧪 容量',
+                tabTemp: '🌡️ 溫度',
+                batchLabel: '📋 批量轉換（每行一個數值）',
+                convert: '🔄 轉換',
+                copy: '📋 複製結果',
+                clear: '🗑️ 清空',
+                empty: '等待輸入...',
+                copied: '✅ 已複製！'
+            },
+            tw: {
+                title: '📏 單位換算器',
+                sub: '即時轉換長度、重量、容量、溫度，支援批量輸入',
+                badge1: '🔒 私隱安全',
+                badge2: '⚡ 即時轉換',
+                badge3: '📋 批量處理',
+                badge4: '🆓 完全免費',
+                storyLabel: '📖 你可能會喜歡的連載或測驗',
+                tabLength: '📐 長度',
+                tabWeight: '⚖️ 重量',
+                tabVolume: '🧪 容量',
+                tabTemp: '🌡️ 溫度',
+                batchLabel: '📋 批量轉換（每行一個數值）',
+                convert: '🔄 轉換',
+                copy: '📋 複製結果',
+                clear: '🗑️ 清空',
+                empty: '等待輸入...',
+                copied: '✅ 已複製！'
+            },
+            en: {
+                title: '📏 Unit Converter',
+                sub: 'Instant conversion for length, weight, volume, temperature, batch input support',
+                badge1: '🔒 Privacy Safe',
+                badge2: '⚡ Instant Convert',
+                badge3: '📋 Batch Processing',
+                badge4: '🆓 Free',
+                storyLabel: '📖 You might also like',
+                tabLength: '📐 Length',
+                tabWeight: '⚖️ Weight',
+                tabVolume: '🧪 Volume',
+                tabTemp: '🌡️ Temperature',
+                batchLabel: '📋 Batch Convert (one value per line)',
+                convert: '🔄 Convert',
+                copy: '📋 Copy Results',
+                clear: '🗑️ Clear',
+                empty: 'Waiting for input...',
+                copied: '✅ Copied!'
+            }
+        };
+
+        let lang = 'hk';
+
+        // =============================================================
+        // 語言切換
+        // =============================================================
+        function switchLang(l) {
+            lang = l;
+            const t = texts[l];
+
+            document.getElementById('toolTitle').innerHTML = t.title;
+            document.getElementById('toolSub').innerText = t.sub;
+            document.getElementById('badge1').innerText = t.badge1;
+            document.getElementById('badge2').innerText = t.badge2;
+            document.getElementById('badge3').innerText = t.badge3;
+            document.getElementById('badge4').innerText = t.badge4;
+            document.getElementById('storyLabel').innerText = t.storyLabel;
+            document.getElementById('tabLength').innerHTML = t.tabLength;
+            document.getElementById('tabWeight').innerHTML = t.tabWeight;
+            document.getElementById('tabVolume').innerHTML = t.tabVolume;
+            document.getElementById('tabTemp').innerHTML = t.tabTemp;
+
+            document.querySelectorAll('.batch-section .label').forEach(el => {
+                el.innerText = t.batchLabel;
+            });
+
+            document.querySelectorAll('.btn-cyan').forEach(el => {
+                el.innerHTML = t.convert;
+            });
+            document.querySelectorAll('.btn-outline').forEach(el => {
+                if (el.textContent.includes('複製') || el.textContent.includes('Copy')) {
+                    el.innerHTML = t.copy;
+                }
+                if (el.textContent.includes('清空') || el.textContent.includes('Clear')) {
+                    el.innerHTML = t.clear;
+                }
+            });
+
+            document.querySelectorAll('.batch-result .empty').forEach(el => {
+                el.textContent = t.empty;
+            });
+
+            document.querySelectorAll('.story-suggest .items a').forEach(a => {
+                try {
+                    const url = new URL(a.href);
+                    url.searchParams.set('lang', l);
+                    a.href = url.toString();
+                } catch (e) {}
+            });
+        }
+
+        // =============================================================
+        // 偵測語言（URL 參數優先）
+        // =============================================================
+        function detectLanguage() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('lang') === 'en') return 'en';
+            if (params.get('lang') === 'tw') return 'tw';
+            if (params.get('lang') === 'hk') return 'hk';
+            const userLang = navigator.language || navigator.userLanguage;
+            if (userLang.startsWith('en')) return 'en';
+            if (userLang.includes('zh')) {
+                if (userLang.includes('TW') || userLang.includes('tw')) return 'tw';
+                return 'hk';
+            }
+            return 'hk';
+        }
+
+        const detectedLang = detectLanguage();
+        switchLang(detectedLang);
+
+        // =============================================================
+        // Tab 切換
+        // =============================================================
+        document.querySelectorAll('.cat-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.converter-panel').forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
+                document.getElementById('panel-' + this.dataset.cat).classList.add('active');
+            });
+        });
+
+        // =============================================================
+        // 換算器工廠
+        // =============================================================
+        function createConverter(config) {
+            const input = document.getElementById(config.inputId);
+            const fromSelect = document.getElementById(config.fromId);
+            const toSelect = document.getElementById(config.toId);
+            const resultDisplay = document.getElementById(config.resultId);
+            const batchTextarea = document.getElementById(config.batchId);
+            const batchResult = document.getElementById(config.batchResultId);
+            const batchBtn = document.getElementById(config.batchBtnId);
+            const copyBtn = document.getElementById(config.copyBtnId);
+            const clearBtn = document.getElementById(config.clearBtnId);
+
+            function convertSingle(value, fromUnit, toUnit) {
+                const inBase = config.toBase(value, fromUnit);
+                return config.fromBase(inBase, toUnit);
+            }
+
+            function updateSingle() {
+                const val = parseFloat(input.value);
+                if (isNaN(val)) {
+                    resultDisplay.textContent = '—';
+                    return;
+                }
+                const from = fromSelect.value;
+                const to = toSelect.value;
+                const result = convertSingle(val, from, to);
+                const label = config.unitLabels[to] || '';
+                resultDisplay.textContent = result.toFixed(4).replace(/\.?0+$/, '') + ' ' + label;
+            }
+
+            function updateBatch() {
+                const text = batchTextarea.value;
+                const lines = text.split('\n').filter(l => l.trim() !== '');
+                const t = texts[lang];
+                if (lines.length === 0) {
+                    batchResult.innerHTML = '<span class="empty">' + t.empty + '</span>';
+                    return;
+                }
+                const from = fromSelect.value;
+                const to = toSelect.value;
+                const label = config.unitLabels[to] || '';
+                const results = lines.map(line => {
+                    const val = parseFloat(line.trim());
+                    if (isNaN(val)) return '❌ ' + (lang === 'en' ? 'Invalid value' : '無效數值');
+                    const result = convertSingle(val, from, to);
+                    return result.toFixed(4).replace(/\.?0+$/, '') + ' ' + label;
+                });
+                batchResult.textContent = results.join('\n');
+            }
+
+            input.addEventListener('input', updateSingle);
+            fromSelect.addEventListener('change', updateSingle);
+            toSelect.addEventListener('change', updateSingle);
+            batchBtn.addEventListener('click', updateBatch);
+
+            copyBtn.addEventListener('click', function() {
+                const text = batchResult.textContent;
+                const t = texts[lang];
+                if (!text || text.includes(t.empty)) return;
+                navigator.clipboard.writeText(text).then(() => {
+                    const orig = this.textContent;
+                    this.textContent = t.copied;
+                    setTimeout(() => { this.textContent = orig; }, 2000);
+                }).catch(() => {
+                    const textarea = document.createElement('textarea');
+                    textarea.value = text;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    const orig = this.textContent;
+                    this.textContent = t.copied;
+                    setTimeout(() => { this.textContent = orig; }, 2000);
+                });
+            });
+
+            clearBtn.addEventListener('click', function() {
+                batchTextarea.value = '';
+                const t = texts[lang];
+                batchResult.innerHTML = '<span class="empty">' + t.empty + '</span>';
+            });
+
+            updateSingle();
+            return { updateSingle, updateBatch };
+        }
+
+        // =============================================================
+        // 長度
+        // =============================================================
+        const lengthUnits = { meter: 1, kilometer: 1000, centimeter: 0.01, millimeter: 0.001, mile: 1609.344, yard: 0.9144,
+            foot: 0.3048, inch: 0.0254 };
+        createConverter({
+            inputId: 'length-input',
+            fromId: 'length-from',
+            toId: 'length-to',
+            resultId: 'length-result',
+            batchId: 'length-batch',
+            batchResultId: 'length-batch-result',
+            batchBtnId: 'length-batch-btn',
+            copyBtnId: 'length-copy-btn',
+            clearBtnId: 'length-clear-btn',
+            unitLabels: { meter: 'm', kilometer: 'km', centimeter: 'cm', millimeter: 'mm', mile: 'mi', yard: 'yd',
+                foot: 'ft', inch: 'in' },
+            toBase: (val, unit) => val * lengthUnits[unit],
+            fromBase: (val, unit) => val / lengthUnits[unit]
+        });
+
+        // =============================================================
+        // 重量
+        // =============================================================
+        const weightUnits = { kilogram: 1, gram: 0.001, milligram: 0.000001, tonne: 1000, pound: 0.453592, ounce: 0.0283495 };
+        createConverter({
+            inputId: 'weight-input',
+            fromId: 'weight-from',
+            toId: 'weight-to',
+            resultId: 'weight-result',
+            batchId: 'weight-batch',
+            batchResultId: 'weight-batch-result',
+            batchBtnId: 'weight-batch-btn',
+            copyBtnId: 'weight-copy-btn',
+            clearBtnId: 'weight-clear-btn',
+            unitLabels: { kilogram: 'kg', gram: 'g', milligram: 'mg', tonne: 't', pound: 'lb', ounce: 'oz' },
+            toBase: (val, unit) => val * weightUnits[unit],
+            fromBase: (val, unit) => val / weightUnits[unit]
+        });
+
+        // =============================================================
+        // 容量
+        // =============================================================
+        const volumeUnits = { liter: 1, milliliter: 0.001, gallon: 3.78541, quart: 0.946353, pint: 0.473176, cup: 0.236588 };
+        createConverter({
+            inputId: 'volume-input',
+            fromId: 'volume-from',
+            toId: 'volume-to',
+            resultId: 'volume-result',
+            batchId: 'volume-batch',
+            batchResultId: 'volume-batch-result',
+            batchBtnId: 'volume-batch-btn',
+            copyBtnId: 'volume-copy-btn',
+            clearBtnId: 'volume-clear-btn',
+            unitLabels: { liter: 'L', milliliter: 'mL', gallon: 'gal', quart: 'qt', pint: 'pt', cup: 'cup' },
+            toBase: (val, unit) => val * volumeUnits[unit],
+            fromBase: (val, unit) => val / volumeUnits[unit]
+        });
+
+        // =============================================================
+        // 溫度
+        // =============================================================
+        createConverter({
+            inputId: 'temp-input',
+            fromId: 'temp-from',
+            toId: 'temp-to',
+            resultId: 'temp-result',
+            batchId: 'temp-batch',
+            batchResultId: 'temp-batch-result',
+            batchBtnId: 'temp-batch-btn',
+            copyBtnId: 'temp-copy-btn',
+            clearBtnId: 'temp-clear-btn',
+            unitLabels: { celsius: '°C', fahrenheit: '°F', kelvin: 'K' },
+            toBase: (val, unit) => {
+                if (unit === 'celsius') return val;
+                if (unit === 'fahrenheit') return (val - 32) * 5 / 9;
+                if (unit === 'kelvin') return val - 273.15;
+                return val;
+            },
+            fromBase: (val, unit) => {
+                if (unit === 'celsius') return val;
+                if (unit === 'fahrenheit') return val * 9 / 5 + 32;
+                if (unit === 'kelvin') return val + 273.15;
+                return val;
+            }
+        });
+    </script>
+</body>
+</html>

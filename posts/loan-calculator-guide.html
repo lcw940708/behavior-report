@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>貸款計算機：借錢前必睇！精算每月供款同總利息 — Loan Calculator Guide | ABRG 免費工具箱</title>
+    <meta name="description" content="免費線上貸款計算機教學，教你如何輸入貸款金額、年利率與還款期數，即時試算每月供款、總利息與詳細還款時間表。Free loan calculator guide for mortgage, car loan & personal loans." />
+    <meta name="keywords" content="貸款計算機, 每月供款試算, 總利息計算, 還款時間表, Loan Calculator, Amortization Schedule, ABRG" />
+    <link rel="canonical" href="https://www.behavior-report.com/posts/loan-calculator-guide.html" />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="貸款計算機：借錢前必睇！精算每月供款同總利息 — Loan Calculator Guide | ABRG" />
+    <meta property="og:description" content="準業主、車主同有借貸需要人士必備！一文教你精算每月供款與總利息，生成完整還款時間表，避免過度借貸。" />
+    <meta property="og:url" content="https://www.behavior-report.com/posts/loan-calculator-guide.html" />
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Loan Calculator Guide: Calculate Monthly Payment & Total Interest" />
+    <meta name="twitter:description" content="Calculate loan payments, total interest, and full amortization schedule instantly with our 100% client-side calculator." />
+
+    <!-- Schema.org Article Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "貸款計算機：借錢前必睇！精算每月供款同總利息 Loan Calculator Guide",
+      "description": "介紹貸款前的財務風險管理、如何使用免費線上貸款計算機計算每月供款、總還款額與利息支出，並查閱詳細還款時間表。",
+      "inLanguage": ["zh-HK", "zh-TW", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root { 
+            --bg-color: #0b0f19; 
+            --card-bg: #151d30; 
+            --text-color: #94a3b8; 
+            --accent-cyan: #22d3ee; 
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+        }
+        * { box-sizing: border-box; }
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+            line-height: 1.7;
+        }
+        .container { max-width: 800px; width: 100%; }
+        
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+        .back-link {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-switch {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+        .lang-btn {
+            padding: 5px 14px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-color);
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .lang-btn.active {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+            background: rgba(34, 211, 238, 0.08);
+        }
+
+        .article-title {
+            font-size: 2rem;
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        .article-meta {
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .article-content h2 {
+            font-size: 1.35rem;
+            color: #ffffff;
+            margin-top: 35px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--accent-cyan);
+            padding-left: 12px;
+        }
+        .article-content p {
+            font-size: 0.98rem;
+            margin-bottom: 16px;
+        }
+        .article-content ul, .article-content ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+        .article-content li {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+        .cta-btn {
+            display: inline-block;
+            background: var(--accent-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+        .cta-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer { 
+            margin-top: 60px; 
+            padding-top: 25px; 
+            border-top: 1px solid rgba(148, 163, 184, 0.1); 
+            text-align: center; 
+            font-size: 0.85rem; 
+            color: #555; 
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <div class="lang-switch">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文 (HK)</button>
+        <button class="lang-btn" data-lang="tw">🇹🇼 繁體中文 (TW)</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <h1 class="article-title" id="artTitle">🏦 貸款計算機：借錢前必睇！精算每月供款同總利息</h1>
+    <div class="article-meta">📅 <span id="artDate">2026-08-31</span> | 🏷️ <span id="artTag">理財工具 / 貸款試算</span></div>
+
+    <div class="article-content" id="artContent"></div>
+
+    <div class="cta-box">
+        <h3 id="ctaTitle" style="color:#fff; margin:0 0 10px;">⚡ 打算申請按揭、車貸或私人貸款？</h3>
+        <p id="ctaDesc" style="margin:0; font-size:0.9rem;">即刻使用免費線上貸款計算機，一秒精算每月供款與總利息！</p>
+        <a href="../tools/loan-calculator.html" class="cta-btn" id="ctaBtn">👉 立即體驗線上貸款計算機</a>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html">主頁</a> |
+        <a href="../blog.html" id="footBlog">文章 Blog</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const articleData = {
+        hk: {
+            title: "🏦 貸款計算機：借錢前必睇！精算每月供款同總利息",
+            date: "2026-08-31",
+            tag: "理財工具 / 貸款試算",
+            back: "← 返回文章列表",
+            ctaTitle: "⚡ 打算申請按揭、車貸或私人貸款？",
+            ctaDesc: "即刻使用免費線上貸款計算機，一秒精算每月供款與總利息！",
+            ctaBtn: "👉 立即體驗線上貸款計算機",
+            htmlContent: `
+                <h2>1. 導言：借貸前要清楚每月還款能力，避免過度借貸</h2>
+                <p>不論係置業上車、購買新車定係因應資金周轉申請私人貸款，借錢係一項長期嘅財務承諾。喺簽署任何貸款合約之前，清楚估算自己嘅每月還款能力極為重要。盲目借貸或者忽視利息支出，好容易導致每月供款超出預算，甚至陷入過度借貸同財務危機。</p>
+
+                <h2>2. 功能介紹：精算供款、總利息與詳細還款時間表</h2>
+                <p>ABRG 貸款計算機專為各類借貸需求而設，提供全面且精準嘅財務試算功能，幫你一眼睇清借貸成本：</p>
+                <ul>
+                    <li><strong>每月供款 (Monthly Payment)：</strong>自動計算每期需要支付嘅定額供款金額，方便你評估每月收支是否平衡。</li>
+                    <li><strong>總還款額 (Total Payment)：</strong>清晰顯示整筆貸款喺期滿時嘅最終還款總金額。</li>
+                    <li><strong>總利息支出 (Total Interest)：</strong>拆解實際借貸成本，讓你清楚知道自己支付咗幾多利息畀銀行或財務機構。</li>
+                    <li><strong>詳細還款時間表 (Amortization Schedule)：</strong>逐期列出每期供款中嘅本金與利息比例，以及剩餘本金餘額，助你清晰規劃財務。</li>
+                </ul>
+
+                <h2>3. 使用步驟：3 步即時出結果</h2>
+                <ol>
+                    <li><strong>輸入貸款金額：</strong>輸入你打算申請嘅總借款額（例如 $1,000,000）。</li>
+                    <li><strong>設定年利率與期數：</strong>填寫銀行提供嘅實際年利率（如 5%）以及還款期數（例如 120 個月）。</li>
+                    <li><strong>即時檢視結果：</strong>系統會即時更新每月供款、總利息，並可隨時展開查看完整嘅逐期還款時間表。</li>
+                </ol>
+
+                <h2>4. 目標受眾：邊個需要貸款計算機？</h2>
+                <ul>
+                    <li><strong>准業主：</strong>規劃樓宇按揭（Mortgage），試算不同年期與按揭利率下嘅每月供款負擔。</li>
+                    <li><strong>準車主：</strong>評估汽車貸款（Car Loan）期數與利息，選擇最合適嘅分期方案。</li>
+                    <li><strong>需要私人貸款或債務重組人士：</strong>精算個人稅務貸款、結餘轉戶或私人貸款嘅實際利息支出，避免過高利息陷阱。</li>
+                </ul>
+
+                <h2>5. 工具優勢：詳細還款時間表、純前端與免費</h2>
+                <p>對比一般線上試算工具，ABRG 貸款計算機擁有三大優勢：</p>
+                <ul>
+                    <li><strong>動態還款時間表：</strong>提供透明嘅攤還明細，讓你清楚了解初期供款中本金與利息嘅分佈。</li>
+                    <li><strong>純前端運算 (100% Client-Side)：</strong>所有計算均喺瀏覽器內即時進行，財務數據絕不上傳，確保個人私隱完全安全。</li>
+                    <li><strong>完全免費：</strong>無須註冊、零隱藏費用，隨時隨地開啟即用。</li>
+                </ul>
+
+                <h2>6. 總結與呼籲</h2>
+                <p>借錢要明智，供款要理性！喺作出任何借貸決定前，記得先用 ABRG 貸款計算機試算一下，清楚掌握自己嘅財務脈搏！</p>
+            `
+        },
+        tw: {
+            title: "🏦 貸款計算機：借錢前必看！精算每月供款與總利息",
+            date: "2026-08-31",
+            tag: "理財工具 / 貸款試算",
+            back: "← 返回文章列表",
+            ctaTitle: "⚡ 打算申請房貸、車貸或私人貸款？",
+            ctaDesc: "立即使用免費線上貸款計算機，一秒精算每月供款與總利息！",
+            ctaBtn: "👉 立即體驗線上貸款計算機",
+            htmlContent: `
+                <h2>1. 導言：借貸前要清楚每月還款能力，避免過度借貸</h2>
+                <p>無論是購屋買房、購買新車或是因應資金周轉申請私人貸款，借錢都是一項長期的財務承諾。在簽署任何貸款合約之前，清楚估算自己的每月還款能力極為重要。盲目借貸或是忽視利息支出，非常容易導致每月供款超出預算，甚至陷入過度借貸與財務危機。</p>
+
+                <h2>2. 功能介紹：精算供款、總利息與詳細還款時間表</h2>
+                <p>ABRG 貸款計算機專為各類借貸需求設計，提供全面且精準的財務試算功能，幫你一眼看清借貸成本：</p>
+                <ul>
+                    <li><strong>每月供款 (Monthly Payment)：</strong>自動計算每期需要支付的定額供款金額，方便你評估每月收支是否平衡。</li>
+                    <li><strong>總還款額 (Total Payment)：</strong>清晰顯示整筆貸款在期滿時的最終還款總金額。</li>
+                    <li><strong>總利息支出 (Total Interest)：</strong>拆解實際借貸成本，讓你清楚知道自己支付了多少利息給銀行或金融機構。</li>
+                    <li><strong>詳細還款時間表 (Amortization Schedule)：</strong>逐期列出每期供款中的本金與利息比例，以及剩餘本金餘額，助你清晰規劃財務。</li>
+                </ul>
+
+                <h2>3. 使用步驟：3 步即時出結果</h2>
+                <ol>
+                    <li><strong>輸入貸款金額：</strong>輸入你打算申請的總借款額（例如 $1,000,000）。</li>
+                    <li><strong>設定年利率與期數：</strong>填寫銀行提供的實際年利率（如 5%）以及還款期數（例如 120 個月）。</li>
+                    <li><strong>即時檢視結果：</strong>系統會即時更新每月供款、總利息，並可隨時展開查看完整的逐期還款時間表。</li>
+                </ol>
+
+                <h2>4. 目標受眾：誰需要貸款計算機？</h2>
+                <ul>
+                    <li><strong>準業主：</strong>規劃房屋貸款（Mortgage），試算不同年期與貸款利率下的每月供款負擔。</li>
+                    <li><strong>準車主：</strong>評估汽車貸款（Car Loan）期數與利息，選擇最合適的分期方案。</li>
+                    <li><strong>需要私人貸款或債務整合人士：</strong>精算個人信貸、結餘轉戶或私人貸款的實際利息支出，避免過高利息陷阱。</li>
+                </ul>
+
+                <h2>5. 工具優勢：詳細還款時間表、純前端與免費</h2>
+                <p>對比一般線上試算工具，ABRG 貸款計算機擁有三大優勢：</p>
+                <ul>
+                    <li><strong>動態還款時間表：</strong>提供透明的攤還明細，讓你清楚了解初期供款中本金與利息的分佈。</li>
+                    <li><strong>純前端運算 (100% Client-Side)：</strong>所有計算均在瀏覽器內即時進行，財務數據絕不上傳，確保個人隱私完全安全。</li>
+                    <li><strong>完全免費：</strong>無需註冊、零隱藏費用，隨時隨地開啟即用。</li>
+                </ul>
+
+                <h2>6. 總結與呼籲</h2>
+                <p>借錢要明智，供款要理性！在做出任何借貸決定前，記得先用 ABRG 貸款計算機試算一下，清楚掌握自己的財務脈搏！</p>
+            `
+        },
+        en: {
+            title: "🏦 Loan Calculator: Calculate Monthly Payment & Total Interest",
+            date: "2026-08-31",
+            tag: "Financial Tools / Loan Calculation",
+            back: "← Back to Articles",
+            ctaTitle: "⚡ Planning for a Mortgage, Car Loan, or Personal Loan?",
+            ctaDesc: "Use our free 100% client-side Loan Calculator to estimate payments & interest instantly!",
+            ctaBtn: "👉 Try Online Loan Calculator Now",
+            htmlContent: `
+                <h2>1. Introduction: Know Your Repayment Ability Before Borrowing</h2>
+                <p>Taking out a loan for a mortgage, vehicle purchase, or personal financing is a long-term financial commitment. Evaluating your monthly repayment capacity before signing any agreement is crucial to avoid over-borrowing and financial distress.</p>
+
+                <h2>2. Features: Monthly Payment, Total Interest & Amortization Schedule</h2>
+                <p>The ABRG Loan Calculator provides essential financial insights for all loan types:</p>
+                <ul>
+                    <li><strong>Monthly Payment:</strong> Calculates your exact fixed monthly installment.</li>
+                    <li><strong>Total Payment:</strong> Displays the cumulative amount repaid over the full loan tenure.</li>
+                    <li><strong>Total Interest:</strong> Isolates borrowing costs so you see exactly how much goes to interest.</li>
+                    <li><strong>Full Amortization Schedule:</strong> Breaks down principal vs. interest breakdown per payment along with the remaining principal balance.</li>
+                </ul>
+
+                <h2>3. Usage Steps: 3 Easy Steps</h2>
+                <ol>
+                    <li><strong>Enter Principal:</strong> Input your total requested loan amount (e.g., $1,000,000).</li>
+                    <li><strong>Set Rate & Term:</strong> Fill in the annual interest rate (e.g., 5%) and duration in months (e.g., 120 months).</li>
+                    <li><strong>Instant Results:</strong> View updated monthly payments, total interest, and toggle the full repayment schedule instantly.</li>
+                </ol>
+
+                <h2>4. Target Audience: Who Needs a Loan Calculator?</h2>
+                <ul>
+                    <li><strong>Prospective Homeowners:</strong> Plan home mortgages and test various loan terms.</li>
+                    <li><strong>Car Buyers:</strong> Evaluate auto loan installment plans and interest options.</li>
+                    <li><strong>Personal Loan & Debt Consolidation Applicants:</strong> Assess personal loans or balance transfers to avoid high-interest traps.</li>
+                </ul>
+
+                <h2>5. Key Advantages: Detailed Amortization, 100% Client-Side & Free</h2>
+                <ul>
+                    <li><strong>Detailed Amortization Schedule:</strong> Provides total transparency into principal vs. interest ratios over time.</li>
+                    <li><strong>100% Client-Side Security:</strong> All math executes locally in your browser. Your sensitive financial data is never stored or transmitted.</li>
+                    <li><strong>Completely Free:</strong> No registration or fees required.</li>
+                </ul>
+
+                <h2>6. Conclusion & Call to Action</h2>
+                <p>Borrow responsibly by staying in control of your finances. Bookmark the ABRG Loan Calculator today to plan your loans with confidence!</p>
+            `
+        }
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let lang = urlParams.get('lang') || 'hk';
+
+    function renderArticle(l) {
+        const data = articleData[l] || articleData.hk;
+        
+        // 更新文字
+        document.getElementById('backLink').textContent = data.back;
+        document.getElementById('artTitle').textContent = data.title;
+        document.getElementById('artDate').textContent = data.date;
+        document.getElementById('artTag').textContent = data.tag;
+        document.getElementById('artContent').innerHTML = data.htmlContent;
+        document.getElementById('ctaTitle').textContent = data.ctaTitle;
+        document.getElementById('ctaDesc').textContent = data.ctaDesc;
+        document.getElementById('ctaBtn').textContent = data.ctaBtn;
+
+        // 確保相關連結帶入當前語言參數
+        document.getElementById('backLink').href = `../blog.html?lang=${l}`;
+        document.getElementById('footBlog').href = `../blog.html?lang=${l}`;
+        document.getElementById('ctaBtn').href = `../tools/loan-calculator.html?lang=${l}`;
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.lang === l) btn.classList.add('active');
+        });
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.dataset.lang;
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            renderArticle(selectedLang);
+        });
+    });
+
+    renderArticle(lang);
+});
+</script>
+
+</body>
+</html>

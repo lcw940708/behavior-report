@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【圖片加水印教學】文字與 Logo 浮水印製作｜免費線上工具｜Free Image Watermark Guide</title>
+    <meta name="description" content="圖片加水印教學！支援文字與 Logo 浮水印，自由調整位置、透明度、大小與旋轉角度。100% 瀏覽器處理保護私隱，防止圖片被盜用。Free online image watermark tool guide.">
+    <meta name="keywords" content="圖片加水印, 浮水印製作, 文字水印, Logo水印, 照片防盜, 版權保護, Image Watermark, Add Watermark, Watermark Generator, Photo Protection, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/image-watermark-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【圖片加水印教學】文字與 Logo 浮水印製作 — 免費線上工具｜Free Image Watermark Guide">
+    <meta property="og:description" content="支援文字與 Logo 浮水印，自由調整位置、透明度、大小與旋轉角度。100% 瀏覽器處理保護私隱，防止圖片被盜用。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/image-watermark-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Image Watermark Guide – Add Text or Logo Watermarks">
+    <meta name="twitter:description" content="Learn to add text or logo watermarks with customizable position, opacity, size, and rotation. 100% client-side privacy.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "圖片加水印教學：文字與 Logo 浮水印製作 — 免費線上工具",
+      "description": "介紹如何使用圖片加水印工具為照片添加文字或 Logo 浮水印，適用於攝影作品保護、品牌形象與版權宣告。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        code {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--primary-cyan);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>圖片加水印教學：文字與 Logo 浮水印製作 — 免費線上工具</h1>
+
+        <h2>1. 導言</h2>
+        <p>你試過影咗一張好靚嘅相，放上網之後俾人偷圖，連 credit 都冇？或者你係設計師、攝影師、品牌經營者，需要保護自己嘅作品？<strong>浮水印（Watermark）</strong>就係為咗呢個問題而存在——將你嘅品牌名稱、版權宣告或 Logo 加喺圖片上面，令偷圖嘅人冇咁易盜用。我哋嘅免費圖片加水印工具可以幫你加入文字或 Logo 浮水印，自由調整位置、透明度、大小同旋轉角度。所有運算喺你嘅瀏覽器入面完成，圖片唔會離開你嘅裝置。呢篇文章會教你點用呢個工具，仲會話你知點解浮水印係數位時代嘅必要防線。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>浮水印（Watermark）</strong> 係喺圖片上疊加嘅半透明標記，用嚟標示版權或來源。主要分為兩種：</p>
+        <ul>
+            <li><strong>文字浮水印：</strong> 用文字內容（如版權宣告、品牌名稱、網址）作為標記，簡單直接。</li>
+            <li><strong>Logo 浮水印：</strong> 用公司標誌或品牌圖案作為標記，專業感更強。</li>
+        </ul>
+        <p>我哋嘅工具提供以下自訂選項：</p>
+        <ul>
+            <li><strong>位置：</strong> 四角、正中、全圖鋪滿（Tile Pattern）。</li>
+            <li><strong>透明度：</strong> 0.05 至 1.0，控制浮水印嘅明顯程度。</li>
+            <li><strong>大小/字體：</strong> 調整浮水印尺寸或文字大小。</li>
+            <li><strong>旋轉角度：</strong> 可傾斜放置，增加防盜難度。</li>
+        </ul>
+        <p>所有處理喺你嘅瀏覽器入面完成，圖片唔會上傳去任何 Server，私隱 100% 安全。</p>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>攝影作品保護：</strong> 將攝影師名稱或版權標記加喺相片角落。</li>
+            <li><strong>品牌形象建立：</strong> 將公司 Logo 加喺產品圖片，提升識別度。</li>
+            <li><strong>社交媒體內容：</strong> 將 IG 帳號或網址加喺圖片，防止被盜。</li>
+            <li><strong>電商產品圖：</strong> 加入品牌標記，防止競爭對手盜圖。</li>
+            <li><strong>設計素材：</strong> 將草稿或預覽圖加上浮水印，防止未經授權使用。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>上傳圖片：</strong> 點擊或拖曳圖片到上傳區域。</li>
+            <li><strong>揀浮水印類型：</strong> 選擇「文字」或「圖檔 Logo」。</li>
+            <li><strong>設定內容：</strong>
+                <ul>
+                    <li>文字模式：輸入水印文字，選擇顏色。</li>
+                    <li>Logo 模式：上傳 Logo 圖片（PNG 最啱）。</li>
+                </ul>
+            </li>
+            <li><strong>調整參數：</strong> 位置、透明度、大小、旋轉角度。</li>
+            <li><strong>下載：</strong> 點擊「下載加水印圖片」儲存檔案。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站前端工具</th>
+                    <th>其他線上工具</th>
+                    <th>桌面軟件</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>免費但有廣告/限制</td>
+                    <td>付費或需安裝</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>❌ 需上傳伺服器</td>
+                    <td>✅ 本地處理</td>
+                </tr>
+                <tr>
+                    <td><strong>文字 + Logo</strong></td>
+                    <td>✅ 雙模式支援</td>
+                    <td>⚠️ 部分只支援文字</td>
+                    <td>✅ 全面</td>
+                </tr>
+                <tr>
+                    <td><strong>自訂參數</strong></td>
+                    <td>✅ 位置/透明度/大小/旋轉</td>
+                    <td>⚠️ 部分支援</td>
+                    <td>✅ 全面</td>
+                </tr>
+                <tr>
+                    <td><strong>全圖鋪滿</strong></td>
+                    <td>✅ Tile 模式</td>
+                    <td>❌ 通常不支援</td>
+                    <td>✅ 部分支援</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>低</td>
+                    <td>中等</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「試過一次，我擺咗張相上 IG，兩日後發現俾人截圖當成自己作品出 post。嗰種 <strong>無助同憤怒</strong>，我至今記得。自此之後，我所有相都加水印。浮水印唔係萬能，但佢係 <strong>一道門鎖</strong>——鎖住君子，擋住小人。太顯眼會破壞美觀，太隱形又冇防盜作用。<strong>浮水印嘅藝術係：夠用就得</strong>。呢個工具幫我喺『保護』同『美觀』之間搵到平衡點——<strong>三秒內加好，唔使煩</strong>。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">🖼️ 需要為圖片加上浮水印？</h3>
+            <p style="margin:0; font-size:0.9rem;">文字/Logo 雙模式，自由調整位置、透明度、大小，完全免費。</p>
+            <a href="../tools/image-watermark.html" class="cta-btn-link" id="ctaBtn">👉 立即免費試用圖片加水印工具</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Image Watermark Guide: Add Text or Logo Watermarks — Free Online Tool</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Ever taken a beautiful photo, posted it online, and found someone used it without credit? Or you're a designer, photographer, or brand owner who needs to protect your work? <strong>Watermarks</strong> exist for exactly this reason—adding your brand name, copyright notice, or logo to images makes theft less appealing. Our free image watermark tool lets you add text or logo watermarks with custom position, opacity, size, and rotation. All processing happens in your browser—your images never leave your device. This guide shows you how to use it and explains why watermarks are essential in the digital age.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p>A <strong>watermark</strong> is a semi-transparent mark overlaid on an image to indicate copyright or ownership. Two main types:</p>
+        <ul>
+            <li><strong>Text Watermark:</strong> Uses text content (copyright notice, brand name, website) as the mark—simple and direct.</li>
+            <li><strong>Logo Watermark:</strong> Uses a company logo or brand graphic—more professional.</li>
+        </ul>
+        <p>Our tool offers customization options:</p>
+        <ul>
+            <li><strong>Position:</strong> Corners, center, or tile pattern.</li>
+            <li><strong>Opacity:</strong> 0.05 to 1.0—control how visible the watermark is.</li>
+            <li><strong>Size/Font:</strong> Adjust watermark dimensions or text size.</li>
+            <li><strong>Rotation:</strong> Tilt the watermark for added difficulty to remove.</li>
+        </ul>
+        <p>All processing is 100% client-side—your images never leave your device.</p>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Photography Protection:</strong> Add photographer name or copyright to photo corners.</li>
+            <li><strong>Brand Building:</strong> Add company logo to product images for recognition.</li>
+            <li><strong>Social Media Content:</strong> Add IG handle or website to prevent theft.</li>
+            <li><strong>E-Commerce Product Images:</strong> Add brand marks to deter competitors.</li>
+            <li><strong>Design Drafts:</strong> Add watermarks to prevent unauthorized use.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Upload Image:</strong> Click or drag your image to the upload area.</li>
+            <li><strong>Select Watermark Type:</strong> Choose "Text" or "Image Logo."</li>
+            <li><strong>Set Content:</strong>
+                <ul>
+                    <li>Text mode: Enter watermark text, choose color.</li>
+                    <li>Logo mode: Upload a logo image (PNG recommended).</li>
+                </ul>
+            </li>
+            <li><strong>Adjust Parameters:</strong> Position, opacity, size, rotation.</li>
+            <li><strong>Download:</strong> Click "Download Watermarked Image" to save.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Client-Side Tool (Us)</th>
+                    <th>Other Online Tools</th>
+                    <th>Desktop Software</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Freemium / Ads</td>
+                    <td>Paid / Install</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>❌ Server Upload</td>
+                    <td>✅ Local</td>
+                </tr>
+                <tr>
+                    <td><strong>Text + Logo</strong></td>
+                    <td>✅ Dual Mode</td>
+                    <td>⚠️ Text Only</td>
+                    <td>✅ Full</td>
+                </tr>
+                <tr>
+                    <td><strong>Custom Options</strong></td>
+                    <td>✅ Position/Opacity/Size/Rotation</td>
+                    <td>⚠️ Some</td>
+                    <td>✅ Full</td>
+                </tr>
+                <tr>
+                    <td><strong>Tile Pattern</strong></td>
+                    <td>✅ Supported</td>
+                    <td>❌ Usually Not</td>
+                    <td>✅ Some</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Low</td>
+                    <td>Medium</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"I once posted a photo on IG, and two days later, someone had screenshotted it and posted it as their own. That feeling of <strong>helplessness and anger</strong> stuck with me. Since then, I watermark everything. Watermarks aren't foolproof—but they're <strong>a lock on the door</strong>. Too obvious and it ruins the image—too subtle and it offers no protection. <strong>The art of watermarking is: enough is enough</strong>. This tool helped me find the balance between 'protection' and 'aesthetics'—<strong>add it in three seconds and move on</strong>."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">🖼️ Need to Add Watermarks to Your Images?</h3>
+            <p style="margin:0; font-size:0.9rem;">Text/Logo dual mode, custom position, opacity, size—completely free.</p>
+            <a href="../tools/image-watermark.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Image Watermark Tool Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtn = document.getElementById('ctaBtn');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtn.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtn.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

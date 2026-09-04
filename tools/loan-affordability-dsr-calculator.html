@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="seo-title">貸款負擔能力計算器 | Loan Affordability & DSR Calculator - ABRG</title>
+    <meta id="seo-desc" name="description" content="免費線上貸款負擔能力計算器。輸入每月收入、現有負債及擬申請貸款，即時計算供款與入息比率（DSR），評估財務負擔能力並推算最高建議貸款額。">
+    <meta id="seo-keywords" name="keywords" content="貸款負擔能力計算, 供款與入息比率, DSR計算機, 最高貸款額評估, Loan Affordability Calculator, Debt Service Ratio, DSR Calculator">
+    <link rel="canonical" href="https://www.behavior-report.com/tools/loan-affordability-dsr-calculator.html" />
+    
+    <style>
+        :root { 
+            --bg-color: #0b0f19; 
+            --card-bg: #151d30; 
+            --input-bg: #1e293b;
+            --text-color: #94a3b8; 
+            --heading-color: #ffffff;
+            --accent-cyan: #22d3ee; 
+            --accent-red: #ef4444;
+            --accent-green: #22c55e;
+            --accent-yellow: #eab308;
+            --border-color: rgba(148, 163, 184, 0.15);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
+        .container { max-width: 800px; width: 100%; }
+
+        .top-bar { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 20px; 
+        }
+        .back-link {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+        
+        .lang-switch button {
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+            padding: 4px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .lang-switch button:hover {
+            background: var(--accent-cyan);
+            color: #0b0f19;
+        }
+
+        .hero { text-align: center; margin-bottom: 25px; }
+        .hero h1 { font-size: 1.8rem; color: var(--heading-color); margin-bottom: 8px; }
+        .hero p { font-size: 0.95rem; color: var(--text-color); }
+
+        .calculator-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .grid-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 600px) {
+            .grid-form { grid-template-columns: 1fr; }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .form-group label {
+            font-size: 0.85rem;
+            color: var(--heading-color);
+            font-weight: bold;
+        }
+        .form-group input {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus {
+            border-color: var(--accent-cyan);
+        }
+
+        .results-box {
+            background: rgba(11, 15, 25, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        @media (max-width: 500px) {
+            .results-box { grid-template-columns: 1fr; }
+        }
+
+        .result-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .result-item.highlight {
+            grid-column: 1 / -1;
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid var(--accent-cyan);
+            padding: 16px;
+            border-radius: 8px;
+        }
+        .result-label {
+            font-size: 0.85rem;
+            color: var(--text-color);
+        }
+        .result-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--heading-color);
+        }
+        .result-value.accent {
+            font-size: 1.8rem;
+        }
+
+        .dsr-progress-bg {
+            width: 100%;
+            height: 10px;
+            background: var(--input-bg);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        .dsr-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--accent-green);
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 6px;
+            width: fit-content;
+        }
+
+        .info-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+        .info-section h2 {
+            color: var(--heading-color);
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+        .info-section p { margin-bottom: 12px; }
+        .info-section ul { margin-left: 20px; margin-bottom: 12px; }
+        .info-section li { margin-bottom: 6px; }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; }
+        .footer a:hover { color: #aaa; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="top-bar">
+        <a href="../index.html" class="back-link" id="btn-back">← 返回主頁</a>
+        <div class="lang-switch">
+            <button id="btn-lang" onclick="toggleLanguage()">English</button>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h1 id="txt-title">貸款負擔能力計算器</h1>
+        <p id="txt-subtitle">計算供款與入息比率（DSR），評估新貸款負擔能力並推算最高可借額度</p>
+    </div>
+
+    <div class="calculator-card">
+        <div class="grid-form">
+            <div class="form-group">
+                <label id="lbl-income" for="income">每月總收入 ($)</label>
+                <input type="number" id="income" value="45000" min="0" step="1000" oninput="calculate()">
+            </div>
+            <div class="form-group">
+                <label id="lbl-existing-debt" for="existingDebt">現有每月總供款/負債 ($)</label>
+                <input type="number" id="existingDebt" value="5000" min="0" step="500" oninput="calculate()">
+            </div>
+            <div class="form-group">
+                <label id="lbl-loan-amount" for="loanAmount">預期新貸款金額 ($)</label>
+                <input type="number" id="loanAmount" value="300000" min="0" step="10000" oninput="calculate()">
+            </div>
+            <div class="form-group">
+                <label id="lbl-apr" for="apr">預期貸款年利率 APR (%)</label>
+                <input type="number" id="apr" value="4.5" min="0" step="0.1" oninput="calculate()">
+            </div>
+            <div class="form-group">
+                <label id="lbl-tenure" for="tenure">還款期數 (月 Months)</label>
+                <input type="number" id="tenure" value="36" min="6" max="84" step="6" oninput="calculate()">
+            </div>
+            <div class="form-group">
+                <label id="lbl-dsr-target" for="dsrTarget">目標上限 DSR (%)</label>
+                <input type="number" id="dsrTarget" value="50" min="10" max="80" step="5" oninput="calculate()">
+            </div>
+        </div>
+
+        <div class="results-box">
+            <div class="result-item highlight">
+                <span class="result-label" id="lbl-res-dsr">供款與入息比率 (DSR)</span>
+                <span class="result-value accent" id="res-dsr">0.00%</span>
+                <div class="dsr-progress-bg">
+                    <div class="dsr-progress-bar" id="dsr-bar"></div>
+                </div>
+                <div id="status-badge" class="status-badge">--</div>
+            </div>
+
+            <div class="result-item">
+                <span class="result-label" id="lbl-res-new-monthly">新貸款每月供款</span>
+                <span class="result-value" id="res-new-monthly">$0</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label" id="lbl-res-total-monthly">總每月供款 (含現有負債)</span>
+                <span class="result-value" id="res-total-monthly">$0</span>
+            </div>
+            <div class="result-item" style="grid-column: 1 / -1; background: rgba(34, 197, 94, 0.08); border: 1px solid var(--accent-green); padding: 12px; border-radius: 8px;">
+                <span class="result-label" id="lbl-res-max-loan" style="color: var(--accent-green); font-weight: bold;">最高建議可貸款金額 (以目標 DSR 推算)</span>
+                <span class="result-value" id="res-max-loan" style="color: #fff; font-size: 1.5rem;">$0</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-section">
+        <h2 id="txt-info-title">什麼是供款與入息比率 (DSR)？</h2>
+        <p id="txt-info-p1"><strong>DSR（Debt Service Ratio，供款與入息比率）</strong>是銀行及金融機構用作評估借款人信貸風險的最核心指標。計算公式為：</p>
+        <p style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 6px; text-align: center; font-family: monospace;">DSR = ( 每月總債務供款額 ÷ 每月總淨收入 ) × 100%</p>
+        <p id="txt-info-p2"><strong>DSR 安全健康範圍參考：</strong></p>
+        <ul>
+            <li id="txt-info-li1"><strong>40% 或以下（健康級）：</strong>財務狀況非常健康，銀行批核機會極高，且不易對日常生活造成資金壓力。</li>
+            <li id="txt-info-li2"><strong>41% – 50%（警示級）：</strong>負債比率偏高。大多數銀行以 50% 作為批核上限。</li>
+            <li id="txt-info-li3"><strong>超過 50%（高風險級）：</strong>債務負擔過重，極易引發拒批或要求更高的貸款利率。</li>
+        </ul>
+    </div>
+
+    <div class="footer">
+        &copy; 2026 ABRG 大數據行為觀察中心 | <a href="../index.html">主頁</a>
+    </div>
+
+</div>
+
+<script>
+    let currentLang = 'zh';
+
+    const translations = {
+        zh: {
+            pageTitle: "貸款負擔能力計算器 | Loan Affordability & DSR Calculator - ABRG",
+            metaDesc: "免費線上貸款負擔能力計算器。輸入每月收入、現有負債及擬申請貸款，即時計算供款與入息比率（DSR），評估財務負擔能力並推算最高建議貸款額。",
+            metaKeywords: "貸款負擔能力計算, 供款與入息比率, DSR計算機, 最高貸款額評估, Loan Affordability Calculator, Debt Service Ratio, DSR Calculator",
+            btnBack: "← 返回主頁",
+            btnLang: "English",
+            title: "貸款負擔能力計算器",
+            subtitle: "計算供款與入息比率（DSR），評估新貸款負擔能力並推算最高可借額度",
+            lblIncome: "每月總收入 ($)",
+            lblExistingDebt: "現有每月總供款/負債 ($)",
+            lblLoanAmount: "預期新貸款金額 ($)",
+            lblApr: "預期貸款年利率 APR (%)",
+            lblTenure: "還款期數 (月 Months)",
+            lblDsrTarget: "目標上限 DSR (%)",
+            lblResDsr: "供款與入息比率 (DSR)",
+            lblResNewMonthly: "新貸款每月供款",
+            lblResTotalMonthly: "總每月供款 (含現有負債)",
+            lblResMaxLoan: "最高建議可貸款金額 (以目標 DSR 推算)",
+            statusLow: "健康 (Low Risk)",
+            statusMed: "適中 (Moderate)",
+            statusHigh: "高風險 (High Risk)",
+            infoTitle: "什麼是供款與入息比率 (DSR)？",
+            infoP1: "<strong>DSR（Debt Service Ratio，供款與入息比率）</strong>是銀行及金融機構用作評估借款人信貸風險的最核心指標。計算公式為：",
+            infoP2: "<strong>DSR 安全健康範圍參考：</strong>",
+            infoLi1: "<strong>40% 或以下（健康級）：</strong>財務狀況非常健康，銀行批核機會極高，且不易對日常生活造成資金壓力。",
+            infoLi2: "<strong>41% – 50%（警示級）：</strong>負債比率偏高。大多數銀行以 50% 作為批核上限。",
+            infoLi3: "<strong>超過 50%（高風險級）：</strong>債務負擔過重，極易引發拒批或要求更高的貸款利率。"
+        },
+        en: {
+            pageTitle: "Loan Affordability & DSR Calculator | Debt Service Ratio - ABRG",
+            metaDesc: "Free online Loan Affordability & Debt Service Ratio (DSR) Calculator. Assess borrow capacity, compute DSR percentage, and derive max recommended loan limit.",
+            metaKeywords: "Loan affordability calculator, Debt service ratio, DSR calculator, Max borrowing capacity, Personal loan limit, DSR analysis",
+            btnBack: "← Back to Home",
+            btnLang: "繁體中文",
+            title: "Loan Affordability & DSR Calculator",
+            subtitle: "Calculate Debt Service Ratio (DSR) and determine maximum affordable borrowing limits",
+            lblIncome: "Monthly Gross Income ($)",
+            lblExistingDebt: "Existing Monthly Debt Commitments ($)",
+            lblLoanAmount: "Proposed Loan Amount ($)",
+            lblApr: "Expected Loan APR (%)",
+            lblTenure: "Loan Term (Months)",
+            lblDsrTarget: "Target Max DSR (%)",
+            lblResDsr: "Debt Service Ratio (DSR)",
+            lblResNewMonthly: "New Loan Monthly Payment",
+            lblResTotalMonthly: "Total Monthly Debt Payment",
+            lblResMaxLoan: "Max Recommended Loan Amount (Based on Target DSR)",
+            statusLow: "Healthy (Low Risk)",
+            statusMed: "Moderate Risk",
+            statusHigh: "High Risk (Exceeds Limit)",
+            infoTitle: "What is Debt Service Ratio (DSR)?",
+            infoP1: "<strong>Debt Service Ratio (DSR)</strong> is a critical financial metric used by lenders to evaluate borrowing capacity and credit risk. Formula:",
+            infoP2: "<strong>DSR Health Ranges:</strong>",
+            infoLi1: "<strong>40% or Below (Healthy):</strong> Strong financial capacity with high approval likelihood and manageable cash flow.",
+            infoLi2: "<strong>41% – 50% (Moderate):</strong> Higher debt level. Most institutions cap approval limits around 50% DSR.",
+            infoLi3: "<strong>Above 50% (High Risk):</strong> Heavy debt exposure, often leading to loan rejection or higher interest surcharges."
+        }
+    };
+
+    function toggleLanguage() {
+        currentLang = currentLang === 'zh' ? 'en' : 'zh';
+        const t = translations[currentLang];
+
+        document.getElementById('seo-title').innerText = t.pageTitle;
+        document.getElementById('seo-desc').setAttribute('content', t.metaDesc);
+        document.getElementById('seo-keywords').setAttribute('content', t.metaKeywords);
+
+        document.getElementById('btn-back').innerText = t.btnBack;
+        document.getElementById('btn-lang').innerText = t.btnLang;
+        document.getElementById('txt-title').innerText = t.title;
+        document.getElementById('txt-subtitle').innerText = t.subtitle;
+
+        document.getElementById('lbl-income').innerText = t.lblIncome;
+        document.getElementById('lbl-existing-debt').innerText = t.lblExistingDebt;
+        document.getElementById('lbl-loan-amount').innerText = t.lblLoanAmount;
+        document.getElementById('lbl-apr').innerText = t.lblApr;
+        document.getElementById('lbl-tenure').innerText = t.lblTenure;
+        document.getElementById('lbl-dsr-target').innerText = t.lblDsrTarget;
+
+        document.getElementById('lbl-res-dsr').innerText = t.lblResDsr;
+        document.getElementById('lbl-res-new-monthly').innerText = t.lblResNewMonthly;
+        document.getElementById('lbl-res-total-monthly').innerText = t.lblResTotalMonthly;
+        document.getElementById('lbl-res-max-loan').innerText = t.lblResMaxLoan;
+
+        document.getElementById('txt-info-title').innerText = t.infoTitle;
+        document.getElementById('txt-info-p1').innerHTML = t.infoP1;
+        document.getElementById('txt-info-p2').innerHTML = t.infoP2;
+        document.getElementById('txt-info-li1').innerHTML = t.infoLi1;
+        document.getElementById('txt-info-li2').innerHTML = t.infoLi2;
+        document.getElementById('txt-info-li3').innerHTML = t.infoLi3;
+
+        document.documentElement.lang = currentLang === 'zh' ? 'zh-Hant-HK' : 'en';
+        calculate();
+    }
+
+    function calculatePMT(principal, annualRate, months) {
+        if (principal <= 0 || months <= 0) return 0;
+        if (annualRate === 0) return principal / months;
+        const monthlyRate = annualRate / 100 / 12;
+        return (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+    }
+
+    function calculateMaxPrincipal(maxMonthlyPayment, annualRate, months) {
+        if (maxMonthlyPayment <= 0 || months <= 0) return 0;
+        if (annualRate === 0) return maxMonthlyPayment * months;
+        const monthlyRate = annualRate / 100 / 12;
+        return (maxMonthlyPayment * (Math.pow(1 + monthlyRate, months) - 1)) / (monthlyRate * Math.pow(1 + monthlyRate, months));
+    }
+
+    function calculate() {
+        const income = parseFloat(document.getElementById('income').value) || 0;
+        const existingDebt = parseFloat(document.getElementById('existingDebt').value) || 0;
+        const loanAmount = parseFloat(document.getElementById('loanAmount').value) || 0;
+        const apr = parseFloat(document.getElementById('apr').value) || 0;
+        const tenure = parseInt(document.getElementById('tenure').value) || 0;
+        const dsrTarget = (parseFloat(document.getElementById('dsrTarget').value) || 50) / 100;
+
+        const newMonthlyPayment = calculatePMT(loanAmount, apr, tenure);
+        const totalMonthlyPayment = existingDebt + newMonthlyPayment;
+
+        let dsr = 0;
+        if (income > 0) {
+            dsr = (totalMonthlyPayment / income) * 100;
+        }
+
+        // 推算在目標 DSR 下的可負擔新貸款每月最大額度
+        const maxTotalMonthlyAllowed = income * dsrTarget;
+        const maxNewMonthlyAllowed = Math.max(0, maxTotalMonthlyAllowed - existingDebt);
+        const maxLoanAmount = calculateMaxPrincipal(maxNewMonthlyAllowed, apr, tenure);
+
+        // UI 更新
+        document.getElementById('res-dsr').innerText = dsr.toFixed(2) + '%';
+        document.getElementById('res-new-monthly').innerText = '$' + Math.round(newMonthlyPayment).toLocaleString();
+        document.getElementById('res-total-monthly').innerText = '$' + Math.round(totalMonthlyPayment).toLocaleString();
+        document.getElementById('res-max-loan').innerText = '$' + Math.round(maxLoanAmount).toLocaleString();
+
+        // 進度條與狀態 Update
+        const progressBar = document.getElementById('dsr-bar');
+        const badge = document.getElementById('status-badge');
+        const t = translations[currentLang];
+
+        const barWidth = Math.min(100, dsr);
+        progressBar.style.width = barWidth + '%';
+
+        if (dsr <= 40) {
+            progressBar.style.backgroundColor = 'var(--accent-green)';
+            badge.style.backgroundColor = 'rgba(34, 197, 94, 0.2)';
+            badge.style.color = 'var(--accent-green)';
+            badge.innerText = t.statusLow;
+            document.getElementById('res-dsr').style.color = 'var(--accent-green)';
+        } else if (dsr <= 50) {
+            progressBar.style.backgroundColor = 'var(--accent-yellow)';
+            badge.style.backgroundColor = 'rgba(234, 179, 8, 0.2)';
+            badge.style.color = 'var(--accent-yellow)';
+            badge.innerText = t.statusMed;
+            document.getElementById('res-dsr').style.color = 'var(--accent-yellow)';
+        } else {
+            progressBar.style.backgroundColor = 'var(--accent-red)';
+            badge.style.backgroundColor = 'rgba(239, 68, 68, 0.2)';
+            badge.style.color = 'var(--accent-red)';
+            badge.innerText = t.statusHigh;
+            document.getElementById('res-dsr').style.color = 'var(--accent-red)';
+        }
+    }
+
+window.onload = function() {
+    // 偵測 URL 語言參數
+    const urlParams = new URLSearchParams(window.location.search);
+    const langParam = urlParams.get('lang');
+    if (langParam === 'en') {
+        if (currentLang !== 'en') {
+            toggleLanguage();
+        }
+    } else if (langParam === 'hk' || langParam === 'tw') {
+        if (currentLang !== 'zh') {
+            toggleLanguage();
+        }
+    }
+    calculate();
+};
+</script>
+</body>
+</html>

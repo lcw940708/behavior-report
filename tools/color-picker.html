@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>螢幕顏色選取器 — 網頁揀色・HEX/RGB/HSL 即時顯示｜Free Color Picker｜ABRG 免費工具</title>
+    <meta name="description" content="免費線上螢幕顏色選取器，點擊網頁任何位置即時顯示顏色代碼，支援 HEX、RGB、HSL。Free color picker, click any color on screen, instant HEX/RGB/HSL display, one-click copy." />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/color-picker.html" />
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --success: #10b981;
+            --red: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 720px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .lang-switch a {
+            color: var(--cyan);
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .lang-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .tool-title .emoji {
+            font-size: 1.8rem;
+        }
+
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 10px 0 25px;
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        /* ===== 顏色顯示區 ===== */
+        .color-display {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: var(--bg);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .color-preview {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            border: 2px solid var(--border);
+            flex-shrink: 0;
+            background: #22d3ee;
+            transition: background 0.15s;
+        }
+
+        .color-info {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .color-info .current-color {
+            font-size: 1.2rem;
+            color: #ffffff;
+            font-weight: bold;
+            font-family: monospace;
+            margin-bottom: 2px;
+        }
+
+        .color-info .current-color span {
+            color: var(--cyan);
+        }
+
+        .color-info .hint {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        /* ===== 顏色代碼列表 ===== */
+        .color-codes {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .code-item {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .code-item:hover {
+            border-color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .code-item .label {
+            font-size: 0.65rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .code-item .value {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            font-family: monospace;
+            margin-top: 2px;
+        }
+
+        .code-item.copied {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .code-item.copied .value {
+            color: var(--success);
+        }
+
+        /* ===== 控制區 ===== */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-primary {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background: var(--cyan-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--red);
+            color: #fca5a5;
+        }
+        .btn-danger:hover:not(:disabled) {
+            background: rgba(239, 68, 68, 0.25);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        .btn-outline:hover:not(:disabled) {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        /* ===== 狀態提示 ===== */
+        .status-bar {
+            margin-top: 16px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            text-align: center;
+            display: none;
+            border: 1px solid rgba(148, 163, 184, 0.06);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .status-bar.show {
+            display: block;
+        }
+
+        .status-bar .icon {
+            margin-right: 8px;
+        }
+
+        /* ===== Story suggest ===== */
+        .story-suggest {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+        .story-suggest .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .story-suggest .items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .story-suggest .items a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .other-tools {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .other-tools a {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #fca5a5;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .other-tools a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #555;
+        }
+        footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        footer a:hover {
+            color: #888;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 18px;
+            }
+            .color-display {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .color-codes {
+                grid-template-columns: 1fr 1fr;
+            }
+            .color-preview {
+                width: 60px;
+                height: 60px;
+            }
+            .btn {
+                flex: none;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .color-codes {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="lang-switch">
+            <a onclick="switchLang('hk')">🇭🇰 港版</a> |
+            <a onclick="switchLang('tw')">🇹🇼 台版</a> |
+            <a onclick="switchLang('en')">🇬🇧 English</a>
+        </div>
+
+        <h1 class="tool-title" id="toolTitle"><span class="emoji">🎨</span> 螢幕顏色選取器</h1>
+        <p class="tool-sub" id="toolSub">點擊網頁任何位置即時顯示顏色代碼 · 一鍵複製</p>
+
+        <div class="badge-row">
+            <span class="badge" id="badge1">🎯 點擊選色</span>
+            <span class="badge" id="badge2">📋 一鍵複製</span>
+            <span class="badge" id="badge3">🆓 完全免費</span>
+            <span class="badge" id="badge4">🔒 私隱安全</span>
+        </div>
+
+        <!-- ===== 顏色顯示 ===== -->
+        <div class="color-display">
+            <div class="color-preview" id="colorPreview" style="background:#22d3ee;"></div>
+            <div class="color-info">
+                <div class="current-color" id="currentColorLabel">當前顏色：<span id="currentColor">#22d3ee</span></div>
+                <div class="hint" id="hintText">👆 將滑鼠移到網頁任何位置點擊選色</div>
+            </div>
+        </div>
+
+        <!-- ===== 顏色代碼 ===== -->
+        <div class="color-codes">
+            <div class="code-item" data-copy="hex" id="hexItem">
+                <div class="label" id="hexLabel">HEX</div>
+                <div class="value" id="hexValue">#22d3ee</div>
+            </div>
+            <div class="code-item" data-copy="rgb" id="rgbItem">
+                <div class="label" id="rgbLabel">RGB</div>
+                <div class="value" id="rgbValue">rgb(34, 211, 238)</div>
+            </div>
+            <div class="code-item" data-copy="hsl" id="hslItem">
+                <div class="label" id="hslLabel">HSL</div>
+                <div class="value" id="hslValue">hsl(187, 86%, 53%)</div>
+            </div>
+        </div>
+
+        <!-- ===== 按鈕 ===== -->
+        <div class="btn-group">
+            <button class="btn btn-primary" id="activateBtn">🎯 啟用選色</button>
+            <button class="btn btn-outline" id="resetBtn">↩️ 重設</button>
+        </div>
+
+        <!-- ===== 狀態 ===== -->
+        <div class="status-bar" id="statusBar">
+            <span class="icon">🎯</span>
+            <span id="statusText">移動滑鼠到任何位置，點擊選取顏色</span>
+        </div>
+
+        <!-- ===== Story suggest ===== -->
+        <div class="story-suggest">
+            <div class="label" id="storyLabel">📖 你可能會中意嘅連載或測驗</div>
+            <div class="items">
+                <a href="../story_01.html">《你睡著以後》</a>
+                <a href="../story_02.html">《貓狗人格》</a>
+                <a href="../quiz-01.html">隱私天平</a>
+                <a href="../index.html">🏠 返回主頁</a>
+            </div>
+            <div class="other-tools">
+                <span style="font-size:0.75rem;color:#64748b;align-self:center;" id="otherToolsLabel">🔧 其他工具：</span>
+                <a href="resize-image.html">📐 圖片縮放</a>
+                <a href="crop-image.html">✂️ 圖片裁剪</a>
+                <a href="remove-bg.html">🖼️ 圖片去背</a>
+                <a href="composer.html">圖片合成</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+    </footer>
+
+    <script>
+        // =============================================================
+        // 語言文字
+        // =============================================================
+        const texts = {
+            hk: {
+                title: '🎨 螢幕顏色選取器',
+                sub: '點擊網頁任何位置即時顯示顏色代碼 · 一鍵複製',
+                badge1: '🎯 點擊選色',
+                badge2: '📋 一鍵複製',
+                badge3: '🆓 完全免費',
+                badge4: '🔒 私隱安全',
+                storyLabel: '📖 你可能會中意嘅連載或測驗',
+                otherTools: '🔧 其他工具：',
+                currentLabel: '當前顏色：',
+                hint: '👆 將滑鼠移到網頁任何位置點擊選色',
+                hexLabel: 'HEX',
+                rgbLabel: 'RGB',
+                hslLabel: 'HSL',
+                activate: '🎯 啟用選色',
+                deactivate: '⏹️ 停止選色',
+                reset: '↩️ 重設',
+                statusReady: '移動滑鼠到任何位置，點擊選取顏色',
+                statusActive: '🎯 移動滑鼠到任何位置，<strong>點擊</strong>選取顏色',
+                statusPicked: '✅ 已選取顏色：',
+                statusNoSupport: '⚠️ 你嘅瀏覽器唔支援 EyeDropper API，請用最新版 Chrome 或 Edge',
+                statusInitial: '👆 撳「啟用選色」，然後點擊網頁任何位置選取顏色',
+                noSupportAlert: '你嘅瀏覽器唔支援 EyeDropper API，請用最新版 Chrome 或 Edge',
+                hex: 'HEX',
+                rgb: 'RGB',
+                hsl: 'HSL'
+            },
+            tw: {
+                title: '🎨 螢幕顏色選取器',
+                sub: '點擊網頁任何位置即時顯示顏色代碼 · 一鍵複製',
+                badge1: '🎯 點擊選色',
+                badge2: '📋 一鍵複製',
+                badge3: '🆓 完全免費',
+                badge4: '🔒 私隱安全',
+                storyLabel: '📖 你可能會喜歡的連載或測驗',
+                otherTools: '🔧 其他工具：',
+                currentLabel: '當前顏色：',
+                hint: '👆 將滑鼠移到網頁任何位置點擊選色',
+                hexLabel: 'HEX',
+                rgbLabel: 'RGB',
+                hslLabel: 'HSL',
+                activate: '🎯 啟用選色',
+                deactivate: '⏹️ 停止選色',
+                reset: '↩️ 重設',
+                statusReady: '移動滑鼠到任何位置，點擊選取顏色',
+                statusActive: '🎯 移動滑鼠到任何位置，<strong>點擊</strong>選取顏色',
+                statusPicked: '✅ 已選取顏色：',
+                statusNoSupport: '⚠️ 你的瀏覽器不支援 EyeDropper API，請用最新版 Chrome 或 Edge',
+                statusInitial: '👆 點「啟用選色」，然後點擊網頁任何位置選取顏色',
+                noSupportAlert: '你的瀏覽器不支援 EyeDropper API，請用最新版 Chrome 或 Edge',
+                hex: 'HEX',
+                rgb: 'RGB',
+                hsl: 'HSL'
+            },
+            en: {
+                title: '🎨 Color Picker',
+                sub: 'Click any color on screen · Instant HEX/RGB/HSL display · One-click copy',
+                badge1: '🎯 Click to Pick',
+                badge2: '📋 One-click Copy',
+                badge3: '🆓 Free',
+                badge4: '🔒 Privacy Safe',
+                storyLabel: '📖 You might also like',
+                otherTools: '🔧 Other Tools:',
+                currentLabel: 'Current Color: ',
+                hint: '👆 Move mouse over any color and click to pick',
+                hexLabel: 'HEX',
+                rgbLabel: 'RGB',
+                hslLabel: 'HSL',
+                activate: '🎯 Activate Picker',
+                deactivate: '⏹️ Stop Picker',
+                reset: '↩️ Reset',
+                statusReady: 'Move mouse to any position, click to pick color',
+                statusActive: '🎯 Move mouse to any position, <strong>click</strong> to pick color',
+                statusPicked: '✅ Color picked: ',
+                statusNoSupport: '⚠️ Your browser does not support EyeDropper API. Please use the latest Chrome or Edge.',
+                statusInitial: '👆 Click "Activate Picker", then click anywhere on the page to pick a color',
+                noSupportAlert: 'Your browser does not support EyeDropper API. Please use the latest Chrome or Edge.',
+                hex: 'HEX',
+                rgb: 'RGB',
+                hsl: 'HSL'
+            }
+        };
+
+        let lang = 'hk';
+
+        // =============================================================
+        // 語言切換
+        // =============================================================
+        function switchLang(l) {
+            lang = l;
+            const t = texts[l];
+
+            document.getElementById('toolTitle').innerHTML = t.title;
+            document.getElementById('toolSub').innerText = t.sub;
+            document.getElementById('badge1').innerText = t.badge1;
+            document.getElementById('badge2').innerText = t.badge2;
+            document.getElementById('badge3').innerText = t.badge3;
+            document.getElementById('badge4').innerText = t.badge4;
+            document.getElementById('storyLabel').innerText = t.storyLabel;
+            document.getElementById('otherToolsLabel').innerText = t.otherTools;
+            document.getElementById('currentColorLabel').innerHTML = t.currentLabel + '<span id="currentColor">' + currentHex + '</span>';
+            document.getElementById('hintText').innerHTML = t.hint;
+            document.getElementById('hexLabel').innerText = t.hexLabel;
+            document.getElementById('rgbLabel').innerText = t.rgbLabel;
+            document.getElementById('hslLabel').innerText = t.hslLabel;
+
+            // Update status text based on current state
+            if (isActive) {
+                document.getElementById('activateBtn').innerHTML = t.deactivate;
+                statusText.innerHTML = t.statusActive;
+            } else {
+                document.getElementById('activateBtn').innerHTML = t.activate;
+                if (!window.EyeDropper) {
+                    statusText.innerHTML = t.statusNoSupport;
+                } else {
+                    statusText.innerHTML = t.statusInitial;
+                }
+            }
+            document.getElementById('resetBtn').innerHTML = t.reset;
+
+            document.querySelectorAll('.story-suggest .items a, .other-tools a').forEach(a => {
+                try {
+                    const url = new URL(a.href);
+                    url.searchParams.set('lang', l);
+                    a.href = url.toString();
+                } catch (e) {}
+            });
+        }
+
+        // =============================================================
+        // 偵測語言（URL 參數優先）
+        // =============================================================
+        function detectLanguage() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('lang') === 'en') return 'en';
+            if (params.get('lang') === 'tw') return 'tw';
+            if (params.get('lang') === 'hk') return 'hk';
+            const userLang = navigator.language || navigator.userLanguage;
+            if (userLang.startsWith('en')) return 'en';
+            if (userLang.includes('zh')) {
+                if (userLang.includes('TW') || userLang.includes('tw')) return 'tw';
+                return 'hk';
+            }
+            return 'hk';
+        }
+
+        // =============================================================
+        // 工具核心
+        // =============================================================
+        const colorPreview = document.getElementById('colorPreview');
+        const hexValue = document.getElementById('hexValue');
+        const rgbValue = document.getElementById('rgbValue');
+        const hslValue = document.getElementById('hslValue');
+        const activateBtn = document.getElementById('activateBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const statusBar = document.getElementById('statusBar');
+        const statusText = document.getElementById('statusText');
+        const hexItem = document.getElementById('hexItem');
+        const rgbItem = document.getElementById('rgbItem');
+        const hslItem = document.getElementById('hslItem');
+
+        let isActive = false;
+        let currentHex = '#22d3ee';
+        let currentRgb = { r: 34, g: 211, b: 238 };
+        let currentHsl = { h: 187, s: 86, l: 53 };
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : { r: 0, g: 0, b: 0 };
+        }
+
+        function rgbToHsl(r, g, b) {
+            r /= 255;
+            g /= 255;
+            b /= 255;
+            const max = Math.max(r, g, b);
+            const min = Math.min(r, g, b);
+            let h, s, l = (max + min) / 2;
+
+            if (max === min) {
+                h = s = 0;
+            } else {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                    case r:
+                        h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+                        break;
+                    case g:
+                        h = ((b - r) / d + 2) / 6;
+                        break;
+                    case b:
+                        h = ((r - g) / d + 4) / 6;
+                        break;
+                }
+            }
+
+            return {
+                h: Math.round(h * 360),
+                s: Math.round(s * 100),
+                l: Math.round(l * 100)
+            };
+        }
+
+        function rgbToHex(r, g, b) {
+            return '#' + [r, g, b].map(c => {
+                const hex = c.toString(16);
+                return hex.length === 1 ? '0' + hex : hex;
+            }).join('');
+        }
+
+        function updateColor(hex) {
+            currentHex = hex;
+            const rgb = hexToRgb(hex);
+            currentRgb = rgb;
+            const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+            currentHsl = hsl;
+
+            colorPreview.style.background = hex;
+            const currentColor = document.getElementById('currentColor');
+            if (currentColor) currentColor.textContent = hex;
+            hexValue.textContent = hex;
+            rgbValue.textContent = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+            hslValue.textContent = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+
+            document.querySelectorAll('.code-item').forEach(el => el.classList.remove('copied'));
+        }
+
+        function activatePicker() {
+            const t = texts[lang];
+            if (isActive) {
+                deactivatePicker();
+                return;
+            }
+
+            isActive = true;
+            activateBtn.innerHTML = t.deactivate;
+            activateBtn.style.borderColor = 'var(--red)';
+            statusBar.classList.add('show');
+            statusText.innerHTML = t.statusActive;
+            document.body.style.cursor = 'crosshair';
+
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('click', onColorPick);
+        }
+
+        function deactivatePicker() {
+            const t = texts[lang];
+            isActive = false;
+            activateBtn.innerHTML = t.activate;
+            activateBtn.style.borderColor = '';
+            statusBar.classList.remove('show');
+            document.body.style.cursor = '';
+
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('click', onColorPick);
+        }
+
+        function onMouseMove(e) {
+            if (!isActive) return;
+        }
+
+        function onColorPick(e) {
+            const t = texts[lang];
+            if (!isActive) return;
+            e.preventDefault();
+
+            if (window.EyeDropper) {
+                const eyeDropper = new EyeDropper();
+                eyeDropper.open()
+                    .then(result => {
+                        const hex = result.sRGBHex;
+                        updateColor(hex);
+                        statusText.innerHTML = t.statusPicked + `<strong>${hex}</strong>`;
+                        setTimeout(() => {
+                            if (isActive) {
+                                statusText.innerHTML = t.statusActive;
+                            }
+                        }, 2000);
+                    })
+                    .catch(err => {
+                        if (err.message !== 'User cancelled') {
+                            console.error('EyeDropper 錯誤:', err);
+                        }
+                    });
+                return;
+            }
+
+            alert(t.noSupportAlert);
+            deactivatePicker();
+        }
+
+        function copyText(text, element) {
+            const t = texts[lang];
+            navigator.clipboard.writeText(text).then(() => {
+                document.querySelectorAll('.code-item').forEach(el => el.classList.remove('copied'));
+                element.classList.add('copied');
+                setTimeout(() => {
+                    element.classList.remove('copied');
+                }, 1500);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                document.querySelectorAll('.code-item').forEach(el => el.classList.remove('copied'));
+                element.classList.add('copied');
+                setTimeout(() => {
+                    element.classList.remove('copied');
+                }, 1500);
+            });
+        }
+
+        hexItem.addEventListener('click', function() {
+            copyText(currentHex, this);
+        });
+
+        rgbItem.addEventListener('click', function() {
+            copyText(`rgb(${currentRgb.r}, ${currentRgb.g}, ${currentRgb.b})`, this);
+        });
+
+        hslItem.addEventListener('click', function() {
+            copyText(`hsl(${currentHsl.h}, ${currentHsl.s}%, ${currentHsl.l}%)`, this);
+        });
+
+        resetBtn.addEventListener('click', function() {
+            const t = texts[lang];
+            if (isActive) deactivatePicker();
+            updateColor('#22d3ee');
+            statusBar.classList.remove('show');
+            activateBtn.innerHTML = t.activate;
+        });
+
+        activateBtn.addEventListener('click', activatePicker);
+
+        const detectedLang = detectLanguage();
+        switchLang(detectedLang);
+
+        if (!window.EyeDropper) {
+            const t = texts[lang];
+            statusBar.classList.add('show');
+            statusText.innerHTML = t.statusNoSupport;
+            activateBtn.disabled = true;
+            activateBtn.style.opacity = '0.4';
+            activateBtn.style.cursor = 'not-allowed';
+        } else {
+            const t = texts[lang];
+            statusBar.classList.add('show');
+            statusText.innerHTML = t.statusInitial;
+            setTimeout(() => {
+                if (!isActive) {
+                    statusBar.classList.remove('show');
+                }
+            }, 4000);
+        }
+
+        updateColor('#22d3ee');
+    </script>
+
+</body>
+
+</html>

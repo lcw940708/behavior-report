@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【URL 編解碼器教學】點樣將文字安全放入網址？encodeURI 教學｜免費線上工具｜Free URL Encoder Guide</title>
+    <meta name="description" content="URL 編解碼器完整教學！教你如何使用 encodeURI 與 encodeURIComponent 將中文字及特殊字符轉換成 URL-safe 格式。100% 瀏覽器處理保護私隱。Free online URL encoder & decoder guide.">
+    <meta name="keywords" content="URL 編碼, URL 解碼, encodeURI, encodeURIComponent, Percent Encoding, 網址編碼器, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/url-encoder-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【URL 編解碼器教學】點樣將文字安全放入網址？encodeURI 教學｜免費線上工具｜Free URL Encoder Guide">
+    <meta property="og:description" content="教你如何使用 encodeURI 與 encodeURIComponent 將中文字及特殊字符轉換成 URL-safe 格式。100% 瀏覽器處理保護私隱。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/url-encoder-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free URL Encoder Guide – Master encodeURI & encodeURIComponent">
+    <meta name="twitter:description" content="Learn how URL encoding works and safely format special characters into URLs with our 100% client-side tool.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "URL 編解碼器教學：點樣將文字安全放入網址？encodeURI 教學",
+      "description": "解釋 URL Encoding 嘅用途、encodeURI 與 encodeURIComponent 嘅差別，以及如何使用免費線上工具進行編碼同解碼。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>URL 編解碼器教學：點樣將文字安全放入網址？encodeURI 教學</h1>
+
+        <h2>1. 導言：URL 入面有特殊字符會出錯？</h2>
+        <p>你有冇試過喺網址（URL）入面貼上中文、空格或者特殊符號，結果傳畀朋友之後連結失效，或者變成一串例如 <code>%E4%BD%A0%E5%A5%BD</code> 嘅亂碼？其實，互聯網標準（RFC 3986）規定 URL 只可以包含基本的 ASCII 字符。當網址需要傳遞中文、空格或 <code>?</code>、<code>&amp;</code> 等特殊符號時，就必須透過 <strong>URL Encoding（百分號編碼 Percent-Encoding）</strong> 將其轉換成安全的字符格式，確保瀏覽器同伺服器能夠正確解析。我哋嘅免費 URL 編解碼器支援 <strong>encodeURI 同 encodeURIComponent</strong> 兩種模式，所有運算喺瀏覽器入面完成，數據唔會離開你嘅裝置，私隱 100% 安全。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>URL 編碼（URL Encoding / Percent-Encoding）</strong> 係將非 ASCII 字符轉換為百分號開頭嘅十六進制格式嘅過程。主要概念包括：</p>
+        <ul>
+            <li><strong>encodeURI：</strong> 專為完整網址而設。保留網址結構符號（如 <code>http://</code>、<code>/</code>、<code>?</code>、<code>&amp;</code>、<code>=</code>），只編碼中文、空格等非 ASCII 字符。</li>
+            <li><strong>encodeURIComponent：</strong> 專為網址參數（Query Parameter）而設。會將所有特殊符號（包括 <code>/</code>、<code>?</code>、<code>&amp;</code>、<code>=</code>）通通編碼，防止參數內容干擾整個 URL 嘅結構。</li>
+            <li><strong>解碼（decodeURI / decodeURIComponent）：</strong> 將已被百分號編碼嘅網址還原為原本可讀嘅文字。</li>
+        </ul>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>網頁前端與後端開發者：</strong> 處理 API Request、Query String 傳參或建立動態路由時，確保資料安全無誤。</li>
+            <li><strong>網頁設計師與 SEO 專家：</strong> 製作帶有中文 Slug 嘅網址時，預先編碼以確保連結喺各平台分享時不會中斷。</li>
+            <li><strong>API 調試與測試人員：</strong> 使用 Postman 或 cURL 測試接口時，快速將 JSON 或參數進行百分號編碼。</li>
+            <li><strong>社交媒體分享：</strong> 分享帶有中文或特殊字符嘅連結時，確保連結完整可點擊。</li>
+            <li><strong>電子商務網站：</strong> 處理產品名稱、分類名稱等包含特殊字符嘅 URL 參數。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>輸入或貼上文字：</strong> 喺輸入框內貼上需要處理嘅完整 URL、網址參數或文字。</li>
+            <li><strong>選擇方向（編碼 / 解碼）：</strong> 點擊切換「編碼 (Encode)」或「解碼 (Decode)」模式。</li>
+            <li><strong>選擇編碼模式：</strong> 根據用途選擇「標準 encodeURI」（用於完整網址）或「Component encodeURIComponent」（用於網址參數）。</li>
+            <li><strong>一鍵複製結果：</strong> 系統會自動即時運算，點擊「複製」按鈕即可將處理好嘅 URL 貼到你的專案或訊息中。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站 URL 工具</th>
+                    <th>瀏覽器 DevTools</th>
+                    <th>手動編碼</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>免費</td>
+                    <td>時間成本</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>✅ 本地處理</td>
+                    <td>✅ 無需上傳</td>
+                </tr>
+                <tr>
+                    <td><strong>兩種編碼模式</strong></td>
+                    <td>✅ encodeURI / encodeURIComponent</td>
+                    <td>❌ 需手動輸入指令</td>
+                    <td>❌ 需要記住規則</td>
+                </tr>
+                <tr>
+                    <td><strong>雙向轉換</strong></td>
+                    <td>✅ 編碼/解碼即時切換</td>
+                    <td>✅ 支援</td>
+                    <td>❌ 需手動</td>
+                </tr>
+                <tr>
+                    <td><strong>無需安裝</strong></td>
+                    <td>✅ 瀏覽器即用</td>
+                    <td>✅ 內置</td>
+                    <td>✅ 無需安裝</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>低</td>
+                    <td>較高</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「試過一次整網站嘅 search function，user 打咗個中文 keyword，結果個 URL 爛咗，成個 page 出 error。搵咗成日先知原來 <strong>URL 入面嘅中文同空格要 encode</strong>。嗰陣我先知道，URL 編碼唔係一個『轉換符號』嘅功能，而係一個 <strong>確保資料喺網絡上安全傳遞</strong> 嘅工具。一個未經編碼嘅 URL，喺 browser 可能 work，但經 API、電郵、WhatsApp 分享嗰陣，唔同平台嘅處理方式唔同——<strong>一個 broken link 就等於一個 lost opportunity</strong>。呢個工具俾你嘅，就係 <strong>用一個 click 確保你嘅連結喺任何平台都 work</strong>。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">🔗 需要即時處理網址編碼或解碼？一鍵轉換！</h3>
+            <p style="margin:0; font-size:0.9rem;">支援兩種編碼模式與雙向即時轉換，完全免費且保護私隱。</p>
+            <a href="../tools/url-encoder.html?lang=hk" class="cta-btn-link" id="ctaBtnZh">👉 立即免費試用 URL 編解碼器</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>URL Encoder/Decoder Guide: How to Safely Format Text into URLs? encodeURI Tutorial</h1>
+
+        <h2>1. Introduction: Why Do Special Characters Cause Errors in URLs?</h2>
+        <p>Have you ever pasted non-ASCII characters, spaces, or special symbols into a URL, only to find the link broke or turned into gibberish like <code>%E4%BD%A0%E5%A5%BD</code>? Under RFC 3986 standards, URLs can only contain basic ASCII characters. <strong>URL Encoding (Percent-Encoding)</strong> converts invalid characters into percentage-escaped hex values, ensuring web servers and browsers interpret links without syntax errors. Our free URL encoder/decoder supports <strong>encodeURI and encodeURIComponent</strong> modes—all processing happens in your browser, your data never leaves your device, ensuring 100% privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>URL Encoding (Percent-Encoding)</strong> converts non-ASCII characters into a percent-sign + hexadecimal format. Key concepts include:</p>
+        <ul>
+            <li><strong>encodeURI:</strong> Designed for complete URL strings. Preserves structural delimiters (e.g., <code>http://</code>, <code>/</code>, <code>?</code>, <code>&amp;</code>, <code>=</code>) while converting spaces and Unicode characters.</li>
+            <li><strong>encodeURIComponent:</strong> Designed for query parameters. Converts all special characters (including <code>/</code>, <code>?</code>, <code>&amp;</code>, <code>=</code>) so parameter values do not break the surrounding URL syntax.</li>
+            <li><strong>Decoding (decodeURI / decodeURIComponent):</strong> Restores percent-encoded strings back to human-readable plain text.</li>
+        </ul>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Frontend & Backend Developers:</strong> Safeguard query strings and API requests during integration.</li>
+            <li><strong>Web Designers & SEO Specialists:</strong> Format multilingual URL slugs without breaking social media links.</li>
+            <li><strong>API Testers:</strong> Encode JSON payloads or parameters quickly for cURL or Postman tests.</li>
+            <li><strong>Social Media Sharing:</strong> Share links with Chinese or special characters that are fully clickable.</li>
+            <li><strong>E-commerce Websites:</strong> Handle URL parameters containing product names and category names with special characters.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Input Text:</strong> Paste your URL, query parameter, or text into the input field.</li>
+            <li><strong>Select Direction:</strong> Choose either "Encode" or "Decode".</li>
+            <li><strong>Select Mode:</strong> Choose between Standard (encodeURI) or Component (encodeURIComponent).</li>
+            <li><strong>Copy Output:</strong> Review instant results and click "Copy" to use in your projects.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>URL Tool (Us)</th>
+                    <th>Browser DevTools</th>
+                    <th>Manual Encoding</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Free</td>
+                    <td>Time Cost</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>✅ Local</td>
+                    <td>✅ No Upload</td>
+                </tr>
+                <tr>
+                    <td><strong>Dual Encoding Modes</strong></td>
+                    <td>✅ encodeURI / encodeURIComponent</td>
+                    <td>❌ Manual commands</td>
+                    <td>❌ Need to remember rules</td>
+                </tr>
+                <tr>
+                    <td><strong>Bi-directional</strong></td>
+                    <td>✅ Encode/Decode toggle</td>
+                    <td>✅ Supported</td>
+                    <td>❌ Manual</td>
+                </tr>
+                <tr>
+                    <td><strong>No Installation</strong></td>
+                    <td>✅ Browser</td>
+                    <td>✅ Built-in</td>
+                    <td>✅ No installation</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Low</td>
+                    <td>Higher</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"Once I was building a website's search function—a user typed a Chinese keyword, and the URL broke, throwing a page error. It took me a full day to realize that <strong>Chinese characters and spaces in URLs need to be encoded</strong>. That's when I learned URL encoding isn't a 'character conversion' feature—it's a tool for <strong>ensuring safe data transmission across the web</strong>. An unencoded URL might work in your browser, but when you share it via API, email, or WhatsApp—different platforms handle it differently. <strong>A broken link equals a lost opportunity</strong>. This tool gives you exactly that <strong>ability to ensure your links work everywhere with one click</strong>."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">🔗 Need to Encode or Decode URLs Instantly? One-Click Conversion!</h3>
+            <p style="margin:0; font-size:0.9rem;">Dual encoding modes with real-time bi-directional conversion—completely free with privacy protection.</p>
+            <a href="../tools/url-encoder.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free URL Encoder/Decoder Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtnZh = document.getElementById('ctaBtnZh');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtnZh.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtnZh.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

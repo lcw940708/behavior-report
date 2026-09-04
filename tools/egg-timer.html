@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <link rel="canonical" href="https://www.behavior-report.com/tools/egg-timer.html" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>完美煮蛋計時器 | Perfect Egg Timer | ABRG</title>
+    <meta name="description" content="免費線上完美煮蛋計時器 (Egg Boiling Timer)。支援溏心蛋、溫泉蛋、全熟蛋熟度選擇，並根據雞蛋大小精準倒數，附音效提醒！">
+    <meta name="keywords" content="煮蛋計時器, 溏心蛋時間, 溫泉蛋計時器, 全熟蛋時間, 煮蛋時間, 煮蛋計算器, Egg Timer, Boiling Egg Calculator">
+    
+    <style>
+        :root { 
+            --bg-color: #0b0f19; 
+            --card-bg: #151d30; 
+            --text-color: #94a3b8; 
+            --accent-cyan: #22d3ee; 
+            --accent-red: #ef4444; 
+            --accent-green: #10b981;
+            --accent-gold: #f59e0b;
+            --border-color: rgba(148, 163, 184, 0.15);
+        }
+        * { box-sizing: border-box; }
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
+        .container { max-width: 800px; width: 100%; }
+
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .back-btn {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-btn:hover { text-decoration: underline; }
+
+        .lang-switch button {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-left: 5px;
+        }
+        .lang-switch button:hover {
+            background: var(--accent-cyan);
+            color: #0b0f19;
+        }
+
+        .hero { text-align: center; padding: 10px 0 20px; border-bottom: 1px solid rgba(148, 163, 184, 0.1); margin-bottom: 25px; }
+        .hero h1 { font-size: 1.8rem; color: #ffffff; font-weight: bold; margin-bottom: 8px; }
+        .hero h1 span { color: var(--accent-gold); }
+        .hero p { font-size: 0.9rem; color: var(--text-color); margin: 0 auto; line-height: 1.5; }
+
+        .timer-card {
+            background: rgba(21, 29, 48, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 25px;
+        }
+
+        .setting-section {
+            margin-bottom: 20px;
+        }
+        .section-label {
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .options-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        .opt-btn {
+            background: rgba(11, 15, 25, 0.6);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .opt-btn.active {
+            background: var(--accent-gold);
+            color: #0b0f19;
+            border-color: var(--accent-gold);
+        }
+
+        /* 倒數計時器圓環 */
+        .circle-container {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            margin: 15px auto 25px;
+        }
+        .circle-svg {
+            transform: rotate(-90deg);
+            width: 100%;
+            height: 100%;
+        }
+        .circle-bg {
+            fill: none;
+            stroke: rgba(148, 163, 184, 0.1);
+            stroke-width: 8;
+        }
+        .circle-progress {
+            fill: none;
+            stroke: var(--accent-gold);
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 565.48;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 1s linear, stroke 0.3s;
+        }
+        .timer-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 2px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        .ctrl-btn {
+            background: var(--accent-cyan);
+            color: #0b0f19;
+            border: none;
+            padding: 10px 28px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .ctrl-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
+        }
+        .ctrl-btn.reset {
+            background: rgba(148, 163, 184, 0.2);
+            color: #fff;
+        }
+        .ctrl-btn.reset:hover {
+            background: rgba(148, 163, 184, 0.4);
+            box-shadow: none;
+        }
+
+        /* SEO 說明區塊 */
+        .seo-content {
+            background: rgba(21, 29, 48, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+        .seo-content h2 { color: #fff; font-size: 1.3rem; margin-top: 0; }
+        .seo-content h3 { color: var(--accent-cyan); font-size: 1.1rem; margin-top: 20px; }
+
+        .footer { 
+            margin-top: 40px; 
+            padding-top: 20px; 
+            border-top: 1px solid rgba(148, 163, 184, 0.1); 
+            text-align: center; 
+            font-size: 0.85rem; 
+            color: #555; 
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="top-nav">
+        <a href="../index.html" class="back-btn" id="nav-back">← 返主頁 Back to Home</a>
+        <div class="lang-switch">
+            <button onclick="setLang('zh')">中文</button>
+            <button onclick="setLang('en')">English</button>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h1 id="title-text">🥚 完美煮蛋計時器 <span>Egg Timer</span></h1>
+        <p id="desc-text">精準掌控煮蛋時間！不論是水潤溫泉蛋、完美溏心蛋，還是紮實全熟蛋，一鍵開始科學煮蛋。</p>
+    </div>
+
+    <div class="timer-card">
+        <div class="setting-section">
+            <span class="section-label" id="lbl-doneness">1. 選擇熟度 (Select Doneness)</span>
+            <div class="options-group">
+                <button class="opt-btn" id="done-soft" onclick="setDoneness('soft')">🫠 溫泉蛋 (Soft-boiled)</button>
+                <button class="opt-btn active" id="done-medium" onclick="setDoneness('medium')">💛 溏心蛋 (Jammy)</button>
+                <button class="opt-btn" id="done-hard" onclick="setDoneness('hard')">🥚 全熟蛋 (Hard-boiled)</button>
+            </div>
+        </div>
+
+        <div class="setting-section">
+            <span class="section-label" id="lbl-size">2. 選擇雞蛋大小 (Egg Size)</span>
+            <div class="options-group">
+                <button class="opt-btn" id="size-s" onclick="setSize('s')">細蛋 (Small ~50g)</button>
+                <button class="opt-btn active" id="size-m" onclick="setSize('m')">中蛋 (Medium ~60g)</button>
+                <button class="opt-btn" id="size-l" onclick="setSize('l')">大蛋 (Large ~70g)</button>
+            </div>
+        </div>
+
+        <div class="circle-container">
+            <svg class="circle-svg" viewBox="0 0 200 200">
+                <circle class="circle-bg" cx="100" cy="100" r="90"></circle>
+                <circle class="circle-progress" id="progress-bar" cx="100" cy="100" r="90"></circle>
+            </svg>
+            <div class="timer-text" id="timer-display">06:30</div>
+        </div>
+
+        <div class="controls">
+            <button class="ctrl-btn" id="btn-start" onclick="toggleTimer()">開始 Start</button>
+            <button class="ctrl-btn reset" id="btn-reset" onclick="resetTimer()">重置 Reset</button>
+        </div>
+    </div>
+
+    <!-- SEO 說明區塊 -->
+    <div class="seo-content">
+        <h2 id="seo-h2">如何煮出完美的溏心蛋？秘訣公開</h2>
+        <p id="seo-p1">要煮出完美熟度的水煮蛋，關鍵在於「沸水下鍋」與「精準計時間」。將雞蛋從雪櫃取出後，水滾即可下鍋，並按照本工具提供的黃金時間進行倒數。</p>
+        
+        <h3 id="seo-h3-1">不同熟度的建議烹調時間</h3>
+        <p id="seo-p2">• <b>溫泉蛋/水潤蛋白 (約 4.5 - 5.5 分鐘)</b>：蛋白半凝固、蛋黃呈流動液態。<br>
+        • <b>完美溏心蛋 (約 6.5 - 7.5 分鐘)</b>：蛋白完全凝固、蛋黃呈膏狀稠密口感。<br>
+        • <b>紮實全熟蛋 (約 9 - 10 分鐘)</b>：蛋白蛋黃完全熟透，適合做蛋沙拉。</p>
+        
+        <h3 id="seo-h3-2">烹飪貼士：如何輕鬆剝蛋殼？</h3>
+        <p id="seo-p3">起鍋後務必將雞蛋立即浸入<b>冰水冰鎮 3-5 分鐘</b>。熱脹冷縮會使蛋殼與蛋白之間產生縫隙，讓剝殼變得極為輕鬆流暢！</p>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../contact.html">聯絡我們</a> |
+        <a href="../privacy.html">隱私權政策</a>
+        <br><br>
+        &copy; 2026 ABRG 大數據趣味行為觀察社
+    </div>
+</div>
+
+<script>
+    let currentLang = 'zh';
+    function detectLanguage() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('lang') === 'en') return 'en';
+    if (params.get('lang') === 'tw') return 'zh';
+    if (params.get('lang') === 'hk') return 'zh';
+    
+    // 如果無參數，用瀏覽器語言
+    const userLang = navigator.language || navigator.userLanguage;
+    if (userLang.startsWith('en')) return 'en';
+    return 'zh';
+}
+
+    let timer = null;
+    let isRunning = false;
+    let doneness = 'medium'; // soft, medium, hard
+    let size = 'm'; // s, m, l
+
+    // 時間矩陣 (以秒為單位)
+    const timeMatrix = {
+        soft: { s: 4 * 60 + 30, m: 5 * 60, l: 5 * 60 + 30 },
+        medium: { s: 6 * 60, m: 6 * 60 + 30, l: 7 * 60 + 15 },
+        hard: { s: 9 * 60, m: 9 * 60 + 30, l: 10 * 60 + 30 }
+    };
+
+    let totalSeconds = timeMatrix[doneness][size];
+    let remainingSeconds = totalSeconds;
+
+    const langData = {
+        zh: {
+            back: "← 返主頁",
+            title: "🥚 完美煮蛋計時器 <span>Egg Timer</span>",
+            desc: "精準掌控煮蛋時間！不論是水潤溫泉蛋、完美溏心蛋，還是紮實全熟蛋，一鍵開始科學煮蛋。",
+            lblDoneness: "1. 選擇熟度 (Select Doneness)",
+            lblSize: "2. 選擇雞蛋大小 (Egg Size)",
+            doneSoft: "🫠 溫泉蛋 (Soft-boiled)",
+            doneMedium: "💛 溏心蛋 (Jammy)",
+            doneHard: "🥚 全熟蛋 (Hard-boiled)",
+            sizeS: "細蛋 (Small ~50g)",
+            sizeM: "中蛋 (Medium ~60g)",
+            sizeL: "大蛋 (Large ~70g)",
+            btnStart: "開始 Start",
+            btnPause: "暫停 Pause",
+            btnReset: "重置 Reset",
+            seoH2: "如何煮出完美的溏心蛋？秘訣公開",
+            seoP1: "要煮出完美熟度的水煮蛋，關鍵在於「沸水下鍋」與「精準計時間」。將雞蛋從雪櫃取出後，水滾即可下鍋，並按照本工具提供的黃金時間進行倒數。",
+            seoH3_1: "不同熟度的建議烹調時間",
+            seoP2: "• <b>溫泉蛋/水潤蛋白 (約 4.5 - 5.5 分鐘)</b>：蛋白半凝固、蛋黃呈流動液態。<br>• <b>完美溏心蛋 (約 6.5 - 7.5 分鐘)</b>：蛋白完全凝固、蛋黃呈膏狀稠密口感。<br>• <b>紮實全熟蛋 (約 9 - 10 分鐘)</b>：蛋白蛋黃完全熟透，適合做蛋沙拉。",
+            seoH3_2: "烹飪貼士：如何輕鬆剝蛋殼？",
+            seoP3: "起鍋後務必將雞蛋立即浸入冰水冰鎮 3-5 分鐘。熱脹冷縮會使蛋殼與蛋白之間產生縫隙，讓剝殼變得極為輕鬆流暢！"
+        },
+        en: {
+            back: "← Back to Home",
+            title: "🥚 Perfect <span>Egg Timer</span>",
+            desc: "Master exact boiling times for soft-boiled, jammy, or hard-boiled eggs based on size with audio alerts.",
+            lblDoneness: "1. Select Doneness",
+            lblSize: "2. Select Egg Size",
+            doneSoft: "🫠 Soft-boiled",
+            doneMedium: "💛 Jammy / Medium",
+            doneHard: "🥚 Hard-boiled",
+            sizeS: "Small (~50g)",
+            sizeM: "Medium (~60g)",
+            sizeL: "Large (~70g)",
+            btnStart: "Start",
+            btnPause: "Pause",
+            btnReset: "Reset",
+            seoH2: "How to Cook the Perfect Jammy Egg?",
+            seoP1: "The secret to ideal boiled eggs is boiling water immersion and precise timing. Drop fridge-cold eggs into boiling water and start the countdown.",
+            seoH3_1: "Recommended Boiling Times",
+            seoP2: "• <b>Soft-boiled (~4.5 - 5.5 min)</b>: Set whites with a warm runny yolk.<br>• <b>Jammy / Medium (~6.5 - 7.5 min)</b>: Firm whites with a thick custard-like yolk.<br>• <b>Hard-boiled (~9 - 10 min)</b>: Completely firm throughout, perfect for egg salad.",
+            seoH3_2: "Pro Tip: Easy Peeling Method",
+            seoP3: "Immediately transfer eggs into an ice bath for 3-5 minutes after boiling. Thermal shock creates steam gaps for effortless peeling!"
+        }
+    };
+
+    function playBeep() {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(880, ctx.currentTime); // A5
+            gain.gain.setValueAtTime(0.3, ctx.currentTime);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start();
+            osc.stop(ctx.currentTime + 1.2);
+        } catch(e){}
+    }
+
+    function updateDisplay() {
+        const mins = Math.floor(remainingSeconds / 60);
+        const secs = remainingSeconds % 60;
+        const timeStr = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        
+        document.getElementById('timer-display').innerText = timeStr;
+        document.title = `${timeStr} - 煮蛋計時器 | Egg Timer`;
+
+        // 圓環進度
+        const circle = document.getElementById('progress-bar');
+        const circumference = 2 * Math.PI * 90; // 565.48
+        const offset = circumference - (remainingSeconds / totalSeconds) * circumference;
+        circle.style.strokeDashoffset = offset;
+    }
+
+    function recalculateTime() {
+        totalSeconds = timeMatrix[doneness][size];
+        remainingSeconds = totalSeconds;
+        pauseTimer();
+        updateDisplay();
+    }
+
+    function setDoneness(d) {
+        doneness = d;
+        ['soft', 'medium', 'hard'].forEach(item => {
+            document.getElementById(`done-${item}`).classList.remove('active');
+        });
+        document.getElementById(`done-${d}`).classList.add('active');
+        recalculateTime();
+    }
+
+    function setSize(s) {
+        size = s;
+        ['s', 'm', 'l'].forEach(item => {
+            document.getElementById(`size-${item}`).classList.remove('active');
+        });
+        document.getElementById(`size-${s}`).classList.add('active');
+        recalculateTime();
+    }
+
+    function toggleTimer() {
+        if (isRunning) {
+            pauseTimer();
+        } else {
+            startTimer();
+        }
+    }
+
+    function startTimer() {
+        if (isRunning) return;
+        isRunning = true;
+        document.getElementById('btn-start').innerText = langData[currentLang].btnPause;
+
+        timer = setInterval(() => {
+            if (remainingSeconds > 0) {
+                remainingSeconds--;
+                updateDisplay();
+            } else {
+                pauseTimer();
+                playBeep();
+                alert('⏰ 時間到！立刻將雞蛋撈出浸入冰水！');
+            }
+        }, 1000);
+    }
+
+    function pauseTimer() {
+        isRunning = false;
+        clearInterval(timer);
+        document.getElementById('btn-start').innerText = langData[currentLang].btnStart;
+    }
+
+    function resetTimer() {
+        pauseTimer();
+        remainingSeconds = totalSeconds;
+        updateDisplay();
+    }
+
+    function setLang(lang) {
+        currentLang = lang;
+        const d = langData[lang];
+        document.getElementById('nav-back').innerText = d.back;
+        document.getElementById('title-text').innerHTML = d.title;
+        document.getElementById('desc-text').innerText = d.desc;
+        document.getElementById('lbl-doneness').innerText = d.lblDoneness;
+        document.getElementById('lbl-size').innerText = d.lblSize;
+        document.getElementById('done-soft').innerText = d.doneSoft;
+        document.getElementById('done-medium').innerText = d.doneMedium;
+        document.getElementById('done-hard').innerText = d.doneHard;
+        document.getElementById('size-s').innerText = d.sizeS;
+        document.getElementById('size-m').innerText = d.sizeM;
+        document.getElementById('size-l').innerText = d.sizeL;
+        document.getElementById('btn-start').innerText = isRunning ? d.btnPause : d.btnStart;
+        document.getElementById('btn-reset').innerText = d.btnReset;
+
+        document.getElementById('seo-h2').innerText = d.seoH2;
+        document.getElementById('seo-p1').innerText = d.seoP1;
+        document.getElementById('seo-h3-1').innerText = d.seoH3_1;
+        document.getElementById('seo-p2').innerHTML = d.seoP2;
+        document.getElementById('seo-h3-2').innerText = d.seoH3_2;
+        document.getElementById('seo-p3').innerText = d.seoP3;
+    }
+
+    // 初始化
+    updateDisplay();
+    // 初始化 - 使用偵測到的語言
+const detectedLang = detectLanguage();
+setLang(detectedLang);
+updateDisplay();
+</script>
+</body>
+</html>

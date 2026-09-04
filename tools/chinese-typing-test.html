@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>中文打字測試 — 字數速度｜ABRG 免費工具</title>
+    <meta name="description" content="免費中文打字速度測試，測試你每分鐘可以打幾多字，記錄個人最佳成績。" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/chinese-typing-test.html" />
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --red: #ef4444;
+            --yellow: #fbbf24;
+            --green: #22c55e;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 720px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+        .lang-switch {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .lang-switch a {
+            color: var(--cyan);
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .lang-switch a:hover { text-decoration: underline; }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 10px 0 25px;
+        }
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        .settings {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin: 0 0 16px;
+            justify-content: center;
+        }
+        .settings .field {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .settings .field label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        .settings .field select {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text-light);
+            font-size: 0.9rem;
+            outline: none;
+            cursor: pointer;
+        }
+        .settings .field select:focus { border-color: var(--cyan); }
+        .settings .field select option { background: var(--card); }
+
+        .best-record {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 16px;
+            padding: 8px 14px;
+            background: rgba(34, 211, 238, 0.04);
+            border-radius: 8px;
+            border: 1px solid rgba(34, 211, 238, 0.08);
+        }
+        .best-record .highlight {
+            color: var(--cyan);
+            font-weight: bold;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-item .label {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+        .stat-item .value {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        .stat-item .value.cyan { color: var(--cyan); }
+        .stat-item .value.yellow { color: var(--yellow); }
+
+        .test-area {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 24px 20px;
+            border: 2px solid var(--border);
+            min-height: 160px;
+            position: relative;
+        }
+        .test-area.active {
+            border-color: var(--cyan);
+        }
+        .words-display {
+            font-size: 1.4rem;
+            line-height: 2;
+            color: #64748b;
+            letter-spacing: 0.05em;
+            min-height: 90px;
+        }
+        .words-display .correct {
+            color: var(--green);
+        }
+        .words-display .wrong {
+            color: var(--red);
+            background: rgba(239, 68, 68, 0.15);
+            border-radius: 3px;
+            text-decoration: line-through;
+        }
+        .words-display .current {
+            color: #fff;
+            border-bottom: 2px solid var(--cyan);
+        }
+
+        .input-area {
+            margin-top: 16px;
+        }
+        .input-area input {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+            outline: none;
+        }
+        .input-area input:focus {
+            border-color: var(--cyan);
+        }
+        .input-area input:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .timer-display {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            background: rgba(0, 0, 0, 0.5);
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            display: none;
+        }
+        .timer-display.show { display: block; }
+        .timer-display .time-remaining {
+            color: var(--yellow);
+            font-weight: bold;
+            font-family: monospace;
+            font-size: 1.1rem;
+        }
+        .timer-display .time-remaining.warning {
+            color: var(--red);
+            animation: pulse 0.5s ease-in-out infinite alternate;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+
+        .result-box {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+        }
+        .result-box.show { display: block; }
+        .result-box .final-cpm {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        .result-box .final-acc {
+            font-size: 1.2rem;
+            color: var(--cyan);
+            margin-top: 6px;
+        }
+        .result-box .rank {
+            font-size: 1.4rem;
+            margin-top: 12px;
+            padding: 6px 22px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        .result-box .rank.S { background: rgba(239, 68, 68, 0.15); color: var(--red); border: 1px solid rgba(239, 68, 68, 0.2); }
+        .result-box .rank.A { background: rgba(251, 191, 36, 0.15); color: var(--yellow); border: 1px solid rgba(251, 191, 36, 0.25); }
+        .result-box .rank.B { background: rgba(34, 211, 238, 0.15); color: var(--cyan); border: 1px solid rgba(34, 211, 238, 0.25); }
+        .result-box .rank.C { background: rgba(148, 163, 184, 0.15); color: var(--text); border: 1px solid rgba(148, 163, 184, 0.2); }
+        .result-box .rank.D { background: rgba(100, 116, 139, 0.12); color: #64748b; border: 1px solid rgba(100, 116, 139, 0.2); }
+        .result-box .rank-desc {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+        .new-record {
+            margin-top: 10px;
+            font-size: 0.95rem;
+            color: var(--yellow);
+            font-weight: bold;
+            display: none;
+        }
+        .new-record.show { display: block; }
+
+        .wrong-words-box {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 10px;
+            text-align: left;
+            display: none;
+        }
+        .wrong-words-box.show { display: block; }
+        .wrong-words-box .title {
+            font-size: 0.85rem;
+            color: var(--red);
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .wrong-words-box .list {
+            font-size: 1.1rem;
+            color: #fca5a5;
+            line-height: 1.8;
+            letter-spacing: 0.15em;
+            word-break: break-word;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            flex: 1;
+        }
+        .btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        .btn-primary {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background: var(--cyan-hover);
+            transform: translateY(-1px);
+        }
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--red);
+            color: #fca5a5;
+        }
+        .btn-danger:hover:not(:disabled) {
+            background: rgba(239, 68, 68, 0.25);
+        }
+
+        .story-suggest {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+        .story-suggest .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .story-suggest .items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .story-suggest .items a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #555;
+        }
+        footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        footer a:hover { color: #888; }
+
+        @media (max-width: 600px) {
+            .container { padding: 18px; }
+            .words-display { font-size: 1.2rem; }
+            .result-box .final-cpm { font-size: 2.4rem; }
+            .btn { flex: none; width: 100%; }
+            .stats-bar { gap: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="lang-switch">
+            <a onclick="switchLang('hk')">🇭🇰 港版</a> |
+            <a onclick="switchLang('tw')">🇹🇼 台版</a>
+        </div>
+
+        <h1 class="tool-title" id="toolTitle">⌨️ 中文打字測試</h1>
+        <p class="tool-sub" id="toolSub">測試你每分鐘可以打幾多中文字，挑戰個人最佳成績！</p>
+
+        <div class="badge-row">
+            <span class="badge" id="badge1">⌨️ 中文</span>
+            <span class="badge" id="badge2">⚡ 字數測試</span>
+            <span class="badge" id="badge3">🏆 等級排名</span>
+            <span class="badge" id="badge4">🆓 完全免費</span>
+        </div>
+
+        <div class="settings">
+            <div class="field">
+                <label id="labelDuration">⏱️ 測試時長</label>
+                <select id="timeSelect">
+                    <option value="15">15 秒</option>
+                    <option value="30" selected>30 秒</option>
+                    <option value="60">60 秒</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="best-record">
+            <span id="bestLabel">個人最佳：</span>
+            <span class="highlight" id="bestCpm">—</span> 字/分 · 
+            <span class="highlight" id="bestAcc">—</span>%
+        </div>
+
+        <div class="stats-bar" id="statsBar">
+            <div class="stat-item">
+                <div class="label" id="labelCpm">字/分</div>
+                <div class="value cyan" id="liveCpm">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="label" id="labelAcc">正確率</div>
+                <div class="value yellow" id="liveAcc">100%</div>
+            </div>
+            <div class="stat-item">
+                <div class="label" id="labelTime">剩餘</div>
+                <div class="value" id="liveTime">30</div>
+            </div>
+        </div>
+
+        <div class="test-area" id="testArea">
+            <div class="timer-display" id="timerDisplay">
+                ⏱️ <span class="time-remaining" id="timeRemaining">30</span>s
+            </div>
+
+            <div id="wordsDisplay" class="words-display"></div>
+
+            <div class="input-area">
+                <input type="text" id="typeInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="按「開始測試」後喺呢度打字..." disabled />
+            </div>
+
+            <div class="result-box" id="resultBox">
+                <div class="final-cpm" id="finalCpm">0</div>
+                <div class="final-acc">正確率：<span id="finalAcc">0</span>%</div>
+                <div class="rank" id="rankDisplay">🏆 S</div>
+                <div class="rank-desc" id="rankDescription"></div>
+                <div class="new-record" id="newRecord">🎉 新紀錄！</div>
+
+                <div class="wrong-words-box" id="wrongWordsBox">
+                    <div class="title" id="wrongTitle">打錯的字：</div>
+                    <div class="list" id="wrongList"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-primary" id="startBtn">▶️ 開始測試</button>
+            <button class="btn btn-danger" id="resetBtn">↩️ 重設</button>
+        </div>
+
+        <div class="story-suggest">
+            <div class="label" id="storyLabel">📖 你可能會中意嘅連載或測驗</div>
+            <div class="items">
+                <a href="../story_01.html">《你睡著以後》</a>
+                <a href="../quiz-01.html">隱私天平</a>
+                <a href="typing-test.html">⌨️ 英文打字測試</a>
+                <a href="click-speed-test.html">🖱️ 點擊速度測試</a>
+                <a href="../index.html">🏠 返回主頁</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+    </footer>
+
+    <script>
+        const WORD_LIST = ["的","了","是","我","你","他","她","們","在","有","這","個","上","也","到","說","要","去","會","可","以","就","不","人","大","來","為","子","和","生","能","而","過","家","學","時","很","裡","後","自","面","前","頭","經","發","成","事","只","作","當","與","無","同","現","看","文","分","還","沒","心","走","定","長","方","又","因","從","問","等","部","己","些","意","月","日","年","本","中","國","出","用","工","手","力","水","火","山","石","田","目","耳","口","言","食","金","木","土","風","雨","天","地","東","西","南","北","高","低","多","少","好","壞","新","舊","快","慢","早","晚","今","明","昨","春","夏","秋","冬","花","草","樹","魚","鳥","馬","牛","羊","狗","貓","車","門","窗","房","路","橋","船","飛","機","電","話","書","紙","筆","畫","歌","舞","球","玩","笑","哭","愛","恨","喜","怒","哀","樂"];
+
+        const texts = {
+            hk: {
+                title: '⌨️ 中文打字測試',
+                sub: '測試你每分鐘可以打幾多中文字，挑戰個人最佳成績！',
+                badge1: '⌨️ 中文',
+                badge2: '⚡ 字數測試',
+                badge3: '🏆 等級排名',
+                badge4: '🆓 完全免費',
+                labelDuration: '⏱️ 測試時長',
+                bestLabel: '個人最佳：',
+                labelCpm: '字/分',
+                labelAcc: '正確率',
+                labelTime: '剩餘',
+                placeholder: '按「開始測試」後喺呢度打字...',
+                start: '▶️ 開始測試',
+                reset: '↩️ 重設',
+                storyLabel: '📖 你可能會中意嘅連載或測驗',
+                newRecord: '🎉 新紀錄！',
+                wrongTitle: '打錯的字：',
+                ranks: [
+                    { min: 120, rank: '🏆 S', desc: '打字速度爆表！你係中文鍵盤戰士！', color: 'S' },
+                    { min: 90,  rank: '🥇 A', desc: '好快手！文書工作難唔倒你！', color: 'A' },
+                    { min: 60,  rank: '🥈 B', desc: '合格水平，OT 打中文報告冇問題！', color: 'B' },
+                    { min: 40,  rank: '🥉 C', desc: '一般速度，可以再練習！', color: 'C' },
+                    { min: 0,   rank: '💤 D', desc: '係時候練多啲中文打字喇！', color: 'D' }
+                ]
+            },
+            tw: {
+                title: '⌨️ 中文打字測試',
+                sub: '測試你每分鐘可以打多少中文字，挑戰個人最佳成績！',
+                badge1: '⌨️ 中文',
+                badge2: '⚡ 字數測試',
+                badge3: '🏆 等級排名',
+                badge4: '🆓 完全免費',
+                labelDuration: '⏱️ 測試時長',
+                bestLabel: '個人最佳：',
+                labelCpm: '字/分',
+                labelAcc: '正確率',
+                labelTime: '剩餘',
+                placeholder: '按「開始測試」後在這裡打字...',
+                start: '▶️ 開始測試',
+                reset: '↩️ 重設',
+                storyLabel: '📖 你可能會喜歡的連載或測驗',
+                newRecord: '🎉 新紀錄！',
+                wrongTitle: '打錯的字：',
+                ranks: [
+                    { min: 120, rank: '🏆 S', desc: '打字速度爆表！你是中文鍵盤戰士！', color: 'S' },
+                    { min: 90,  rank: '🥇 A', desc: '好快手！文書工作難不倒你！', color: 'A' },
+                    { min: 60,  rank: '🥈 B', desc: '合格水平，OT 打中文報告沒問題！', color: 'B' },
+                    { min: 40,  rank: '🥉 C', desc: '一般速度，可以再練習！', color: 'C' },
+                    { min: 0,   rank: '💤 D', desc: '是時候多練習中文打字了！', color: 'D' }
+                ]
+            }
+        };
+
+        let lang = 'hk';
+        let isRunning = false;
+        let words = [];
+        let wordStatus = []; // 'correct' | 'wrong' | null
+        let currentIndex = 0;
+        let correctChars = 0;
+        let totalTyped = 0;
+        let wrongWordsList = [];
+        let timer = null;
+        let testDuration = 30;
+        let startTime = null;
+        let isComposing = false;
+
+        const STORAGE_KEY = 'abrg_chinese_typing_best';
+        const typeInput = document.getElementById('typeInput');
+
+        function getBest() {
+            try {
+                const data = localStorage.getItem(STORAGE_KEY);
+                return data ? JSON.parse(data) : { cpm: 0, acc: 0 };
+            } catch (e) {
+                return { cpm: 0, acc: 0 };
+            }
+        }
+
+        function saveBest(cpm, acc) {
+            const best = getBest();
+            let isNew = false;
+            if (cpm > best.cpm) {
+                best.cpm = cpm;
+                isNew = true;
+            }
+            if (acc > best.acc) best.acc = acc;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(best));
+            return isNew;
+        }
+
+        function updateBestDisplay() {
+            const best = getBest();
+            document.getElementById('bestCpm').textContent = best.cpm > 0 ? best.cpm : '—';
+            document.getElementById('bestAcc').textContent = best.acc > 0 ? best.acc : '—';
+        }
+
+        function switchLang(l) {
+            lang = l;
+            const t = texts[l];
+            document.getElementById('toolTitle').innerHTML = t.title;
+            document.getElementById('toolSub').innerText = t.sub;
+            document.getElementById('badge1').innerText = t.badge1;
+            document.getElementById('badge2').innerText = t.badge2;
+            document.getElementById('badge3').innerText = t.badge3;
+            document.getElementById('badge4').innerText = t.badge4;
+            document.getElementById('labelDuration').innerText = t.labelDuration;
+            document.getElementById('bestLabel').innerText = t.bestLabel;
+            document.getElementById('labelCpm').innerText = t.labelCpm;
+            document.getElementById('labelAcc').innerText = t.labelAcc;
+            document.getElementById('labelTime').innerText = t.labelTime;
+            typeInput.placeholder = t.placeholder;
+            document.getElementById('startBtn').innerHTML = t.start;
+            document.getElementById('resetBtn').innerHTML = t.reset;
+            document.getElementById('storyLabel').innerText = t.storyLabel;
+            document.getElementById('newRecord').innerText = t.newRecord;
+            document.getElementById('wrongTitle').innerText = t.wrongTitle;
+            document.getElementById('timeSelect').querySelectorAll('option').forEach(opt => {
+                opt.textContent = opt.value + ' 秒';
+            });
+        }
+
+        function detectLanguage() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('lang') === 'tw') return 'tw';
+            const userLang = navigator.language || '';
+            if (userLang.includes('TW') || userLang.includes('tw')) return 'tw';
+            return 'hk';
+        }
+
+        switchLang(detectLanguage());
+        updateBestDisplay();
+
+        function generateWords(count = 80) {
+            const result = [];
+            for (let i = 0; i < count; i++) {
+                result.push(WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)]);
+            }
+            return result;
+        }
+
+        function renderWords() {
+            const display = document.getElementById('wordsDisplay');
+            let html = '';
+            words.forEach((word, i) => {
+                if (i < currentIndex) {
+                    const status = wordStatus[i];
+                    if (status === 'correct') {
+                        html += `<span class="correct">${word}</span>`;
+                    } else {
+                        html += `<span class="wrong">${word}</span>`;
+                    }
+                } else if (i === currentIndex) {
+                    html += `<span class="current">${word}</span>`;
+                } else {
+                    html += `<span>${word}</span>`;
+                }
+            });
+            display.innerHTML = html;
+        }
+
+        function getRank(cpm) {
+            const ranks = texts[lang].ranks;
+            for (const r of ranks) {
+                if (cpm >= r.min) return r;
+            }
+            return ranks[ranks.length - 1];
+        }
+
+        function calculateCpm() {
+            if (!startTime) return 0;
+            const minutes = (Date.now() - startTime) / 60000;
+            if (minutes <= 0) return 0;
+            return Math.round(correctChars / minutes);
+        }
+
+        function calculateAcc() {
+            if (totalTyped === 0) return 100;
+            return Math.round((correctChars / totalTyped) * 100);
+        }
+
+        function updateLiveStats() {
+            document.getElementById('liveCpm').textContent = calculateCpm();
+            document.getElementById('liveAcc').textContent = calculateAcc() + '%';
+        }
+
+        function endTest() {
+            clearInterval(timer);
+            isRunning = false;
+            typeInput.disabled = true;
+            typeInput.value = '';
+
+            const cpm = calculateCpm();
+            const acc = calculateAcc();
+            const rank = getRank(cpm);
+
+            document.getElementById('wordsDisplay').style.display = 'none';
+            document.getElementById('typeInput').parentElement.style.display = 'none';
+            document.getElementById('statsBar').style.display = 'none';
+            document.getElementById('timerDisplay').classList.remove('show');
+
+            const resultBox = document.getElementById('resultBox');
+            resultBox.classList.add('show');
+            document.getElementById('finalCpm').textContent = cpm;
+            document.getElementById('finalAcc').textContent = acc;
+            document.getElementById('rankDisplay').textContent = rank.rank;
+            document.getElementById('rankDisplay').className = 'rank ' + rank.color;
+            document.getElementById('rankDescription').textContent = rank.desc;
+
+            // 顯示打錯的字
+            const wrongBox = document.getElementById('wrongWordsBox');
+            const wrongList = document.getElementById('wrongList');
+            if (wrongWordsList.length > 0) {
+                wrongList.textContent = wrongWordsList.join(' ');
+                wrongBox.classList.add('show');
+            } else {
+                wrongBox.classList.remove('show');
+            }
+
+            const isNew = saveBest(cpm, acc);
+            updateBestDisplay();
+            if (isNew) document.getElementById('newRecord').classList.add('show');
+
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('timeSelect').disabled = false;
+        }
+
+        function startTest() {
+            if (isRunning) return;
+
+            testDuration = parseInt(document.getElementById('timeSelect').value);
+            words = generateWords(80);
+            wordStatus = new Array(words.length).fill(null);
+            currentIndex = 0;
+            correctChars = 0;
+            totalTyped = 0;
+            wrongWordsList = [];
+            isRunning = true;
+            startTime = Date.now();
+            isComposing = false;
+
+            document.getElementById('wordsDisplay').style.display = 'block';
+            document.getElementById('typeInput').parentElement.style.display = 'block';
+            document.getElementById('statsBar').style.display = 'flex';
+            document.getElementById('resultBox').classList.remove('show');
+            document.getElementById('newRecord').classList.remove('show');
+            document.getElementById('wrongWordsBox').classList.remove('show');
+            document.getElementById('testArea').classList.add('active');
+            document.getElementById('timerDisplay').classList.add('show');
+
+            renderWords();
+            typeInput.disabled = false;
+            typeInput.value = '';
+            typeInput.focus();
+
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('timeSelect').disabled = true;
+            document.getElementById('liveTime').textContent = testDuration;
+            document.getElementById('timeRemaining').textContent = testDuration;
+
+            let elapsed = 0;
+            timer = setInterval(() => {
+                elapsed += 0.1;
+                const remaining = Math.max(0, testDuration - elapsed);
+                document.getElementById('liveTime').textContent = Math.ceil(remaining);
+                document.getElementById('timeRemaining').textContent = Math.ceil(remaining);
+                document.getElementById('timeRemaining').className = 'time-remaining' + (remaining <= 5 ? ' warning' : '');
+                updateLiveStats();
+                if (remaining <= 0) endTest();
+            }, 100);
+        }
+
+        function resetTest() {
+            clearInterval(timer);
+            isRunning = false;
+            isComposing = false;
+            typeInput.disabled = true;
+            typeInput.value = '';
+            document.getElementById('wordsDisplay').innerHTML = '';
+            document.getElementById('wordsDisplay').style.display = 'block';
+            document.getElementById('typeInput').parentElement.style.display = 'block';
+            document.getElementById('statsBar').style.display = 'flex';
+            document.getElementById('resultBox').classList.remove('show');
+            document.getElementById('testArea').classList.remove('active');
+            document.getElementById('timerDisplay').classList.remove('show');
+            document.getElementById('liveCpm').textContent = '0';
+            document.getElementById('liveAcc').textContent = '100%';
+            document.getElementById('liveTime').textContent = document.getElementById('timeSelect').value;
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('timeSelect').disabled = false;
+            document.getElementById('newRecord').classList.remove('show');
+            document.getElementById('wrongWordsBox').classList.remove('show');
+        }
+
+        // ===== 處理輸入（兼容 Mac 速成 / 倉頡）=====
+        function processInput(val) {
+            if (!isRunning || !val) return;
+            const currentWord = words[currentIndex];
+            if (!currentWord) return;
+
+            // 完全匹配 → 正確
+            if (val === currentWord) {
+                correctChars += currentWord.length;
+                totalTyped += currentWord.length;
+                wordStatus[currentIndex] = 'correct';
+                currentIndex++;
+                typeInput.value = '';
+                renderWords();
+                updateLiveStats();
+                return;
+            }
+
+            // 長度已達目標但仍未匹配 → 當錯誤
+            if (val.length >= currentWord.length) {
+                totalTyped += currentWord.length;
+                wordStatus[currentIndex] = 'wrong';
+                wrongWordsList.push(currentWord);
+                currentIndex++;
+                typeInput.value = '';
+                renderWords();
+                updateLiveStats();
+            }
+        }
+
+        // 組字開始
+        typeInput.addEventListener('compositionstart', () => {
+            isComposing = true;
+        });
+
+        // 組字結束（用戶選咗字）
+        typeInput.addEventListener('compositionend', (e) => {
+            isComposing = false;
+            const finalVal = e.data || typeInput.value;
+            processInput(finalVal);
+        });
+
+        // 一般輸入（非組字狀態）
+        typeInput.addEventListener('input', () => {
+            if (isComposing) return;
+            processInput(typeInput.value);
+        });
+
+        document.getElementById('startBtn').addEventListener('click', startTest);
+        document.getElementById('resetBtn').addEventListener('click', resetTest);
+    </script>
+</body>
+</html>

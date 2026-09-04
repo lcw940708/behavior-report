@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【汽車租賃 vs 購買決策分析器教學】租車定買車更慳錢？｜長期財務成本比較｜Free Lease vs Buy Calculator Guide</title>
+    <meta name="description" content="汽車租賃 vs 購買決策分析器完整教學！比較長期租用與直接購車的總財務成本差異，協助您做最佳用車決策。Free online auto lease vs buy calculator guide.">
+    <meta name="keywords" content="買車 vs 租車, 汽車租賃計算器, Lease vs Buy, 車貸比較, 汽車殘值, 車輛折舊, Auto Lease vs Buy, car leasing decision, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/auto-lease-vs-buy-calculator-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【汽車租賃 vs 購買決策分析器教學】租車定買車更慳錢？｜長期財務成本比較｜Free Lease vs Buy Calculator Guide">
+    <meta property="og:description" content="比較長期租用與直接購車的總財務成本差異，協助您做最佳用車決策。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/auto-lease-vs-buy-calculator-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Lease vs Buy Calculator Guide – Compare Auto Financing Costs">
+    <meta name="twitter:description" content="Compare total net costs between leasing and buying a vehicle for smarter financial decisions.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "汽車租賃 vs 購買決策分析器教學：租車定買車更慳錢？ — 長期財務成本比較",
+      "description": "介紹如何使用汽車租賃 vs 購買決策分析器比較長期租用與購車的財務成本差異，適用於用車決策、汽車融資規劃與財務分析。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>汽車租賃 vs 購買決策分析器教學：租車定買車更慳錢？ — 長期財務成本比較</h1>
+
+        <h2>1. 導言</h2>
+        <p>你準備換車，但係唔知應該 <strong>直接買斷（Buy）</strong> 定係 <strong>長期租用（Lease）</strong>？買車每個月供款高啲，但最後仲有部車；租車每個月俾少啲，但到期後咩都冇——咁到底邊個方案 <strong>真正慳錢</strong>？<strong>汽車租賃 vs 購買決策（Auto Lease vs. Buy）</strong> 就係為咗解答呢個問題而存在。我哋嘅免費決策分析器幫你輸入 <strong>車價、首付、租賃月費、貸款利率及殘值</strong>，即時計算 <strong>買車與租車嘅總淨成本差異</strong>，仲會自動俾出 <strong>最佳決策建議</strong>。所有運算喺瀏覽器入面完成，數據唔會離開你嘅裝置，私隱 100% 安全。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>汽車租賃（Lease）與購買（Buy）</strong> 係兩種唔同嘅用車融資方式。主要概念包括：</p>
+        <ul>
+            <li><strong>購車（Buy）：</strong> 透過貸款或現金買斷車輛，擁有車輛所有權，可自由出售或改裝。</li>
+            <li><strong>租賃（Lease）：</strong> 長期租用車輛，每月支付租金，到期後歸還車輛（或選擇購買）。</li>
+            <li><strong>殘值（Residual Value）：</strong> 車輛喺租賃或持有期結束後嘅預估市值，對購車方案尤其重要——因為你可以賣出回收部分成本。</li>
+            <li><strong>淨總成本（Net Total Cost）：</strong> 總支出減去殘值後嘅真正花費，係比較兩個方案嘅最佳指標。</li>
+        </ul>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>買車決策：</strong> 比較「買斷」同「長期租用」邊個更適合自己嘅財務狀況。</li>
+            <li><strong>公司用車：</strong> 企業決定為員工提供公司車時，評估租賃定購買更符合成本效益。</li>
+            <li><strong>換車週期：</strong> 如果你每 3-4 年換一次車，租賃可能比購買更靈活。</li>
+            <li><strong>財務規劃：</strong> 了解不同方案對每月現金流同長期資產嘅影響。</li>
+            <li><strong>車行比較：</strong> 比較不同車行嘅租賃方案同貸款方案。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>輸入基本資料：</strong>
+                <ul>
+                    <li>🚗 汽車總價（Vehicle Price）</li>
+                    <li>📅 比較年期（Comparison Period - Months）</li>
+                </ul>
+            </li>
+            <li><strong>輸入購車方案參數：</strong>
+                <ul>
+                    <li>💰 購車首付（Down Payment）</li>
+                    <li>📈 貸款年利率（Loan Interest Rate %）</li>
+                    <li>📊 期末預估殘值 / 中古車價（Estimated Residual Value）</li>
+                </ul>
+            </li>
+            <li><strong>輸入租賃方案參數：</strong>
+                <ul>
+                    <li>🔑 租賃首期 / 押金（Lease Down Payment）</li>
+                    <li>📋 每月租金（Monthly Lease Payment）</li>
+                    <li>📋 期末處置費 / 手續費（Disposition Fee）</li>
+                </ul>
+            </li>
+            <li><strong>計算：</strong> 點擊「即時分析」按鈕（輸入會自動更新）。</li>
+            <li><strong>檢視結果：</strong>
+                <ul>
+                    <li>💚 最佳決策建議（購車／租車更划算）</li>
+                    <li>📊 購車淨總支出 vs 租賃淨總支出</li>
+                    <li>📊 詳細財務明細（月供、總利息、總付款等）</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站決策分析器</th>
+                    <th>車行 Finance</th>
+                    <th>Excel 手動計算</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>免費</td>
+                    <td>需購買軟件</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>⚠️ 視乎車行</td>
+                    <td>✅ 本地處理</td>
+                </tr>
+                <tr>
+                    <td><strong>計算速度</strong></td>
+                    <td>⚡ 即時</td>
+                    <td>⚡ 即時</td>
+                    <td>🐢 需設定公式</td>
+                </tr>
+                <tr>
+                    <td><strong>殘值納入</strong></td>
+                    <td>✅ 自動計算</td>
+                    <td>⚠️ 視乎車行</td>
+                    <td>⚠️ 需手動設定</td>
+                </tr>
+                <tr>
+                    <td><strong>雙方案對比</strong></td>
+                    <td>✅ 並排比較</td>
+                    <td>❌ 通常只有單一方案</td>
+                    <td>⚠️ 需手動設計</td>
+                </tr>
+                <tr>
+                    <td><strong>無需安裝</strong></td>
+                    <td>✅ 瀏覽器即用</td>
+                    <td>✅ 無需</td>
+                    <td>❌ 需安裝軟件</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>低</td>
+                    <td>中等</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「朋友上個月換車，頭痕緊買定租好。佢問我意見，我幫佢用呢個工具計完，先知 <strong>買車雖然每月供多 $2,000，但 3 年後賣車可以收返 $22 萬；租車每月慳 $2,000，但 3 年後咩都冇</strong>。真正嘅問題係：你願意每個月俾多幾多錢，去換取 3 年後嘅資產？呢個工具俾你嘅，就係 <strong>用 10 秒鐘睇清『租』同『買』嘅真實財務差異</strong>—等你嘅決定 <strong>建基於數字</strong>，而唔係 <strong>建基於感覺</strong>。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚖️ 想知租車定買車更慳錢？即時分析！</h3>
+            <p style="margin:0; font-size:0.9rem;">輸入車價與融資條件即時比較總成本差異與最佳決策，完全免費且保護私隱。</p>
+            <a href="../tools/auto-lease-vs-buy-calculator.html?lang=hk" class="cta-btn-link" id="ctaBtnZh">👉 立即免費試用租賃 vs 購買決策分析器</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Lease vs Buy Calculator Guide: Is It Cheaper to Lease or Buy a Car? — Long-Term Financial Cost Comparison</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Planning to get a new car but unsure whether to <strong>buy outright</strong> or <strong>lease long-term</strong>? Buying has higher monthly payments but you own the car at the end; leasing has lower payments but you walk away with nothing—so which option <strong>truly saves you money</strong>? <strong>Auto Lease vs. Buy decision</strong> is exactly for answering this question. Our free decision analyzer helps you enter <strong>vehicle price, down payment, lease monthly payment, loan interest rate, and residual value</strong> to instantly calculate <strong>total net cost differences</strong> and provide a <strong>recommendation</strong>. All processing happens in your browser—your data never leaves your device, ensuring 100% privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>Auto leasing and buying</strong> are two different vehicle financing methods. Key concepts include:</p>
+        <ul>
+            <li><strong>Buying:</strong> Purchase the vehicle through a loan or cash—you own the car and can sell or modify it freely.</li>
+            <li><strong>Leasing:</strong> Long-term rental with monthly payments—you return the vehicle at the end (or choose to buy it).</li>
+            <li><strong>Residual Value:</strong> The estimated market value of the vehicle at the end of the lease or holding period—critical for the buy option since you can recover part of the cost by selling.</li>
+            <li><strong>Net Total Cost:</strong> Total expenses minus residual value—the best metric for comparing both options.</li>
+        </ul>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Car Buying Decision:</strong> Compare whether buying or leasing is better for your financial situation.</li>
+            <li><strong>Company Fleet:</strong> Evaluate whether leasing or buying company vehicles is more cost-effective.</li>
+            <li><strong>Vehicle Replacement Cycle:</strong> If you change cars every 3-4 years, leasing may offer more flexibility.</li>
+            <li><strong>Financial Planning:</strong> Understand how each option affects monthly cash flow and long-term assets.</li>
+            <li><strong>Dealer Comparison:</strong> Compare lease offers vs. loan offers across different dealers.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Enter Basic Information:</strong>
+                <ul>
+                    <li>🚗 Vehicle Price</li>
+                    <li>📅 Comparison Period (Months)</li>
+                </ul>
+            </li>
+            <li><strong>Enter Buy Option Parameters:</strong>
+                <ul>
+                    <li>💰 Down Payment</li>
+                    <li>📈 Loan Interest Rate (%)</li>
+                    <li>📊 Estimated Residual Value</li>
+                </ul>
+            </li>
+            <li><strong>Enter Lease Option Parameters:</strong>
+                <ul>
+                    <li>🔑 Lease Down Payment</li>
+                    <li>📋 Monthly Lease Payment</li>
+                    <li>📋 Disposition / End Fees</li>
+                </ul>
+            </li>
+            <li><strong>Calculate:</strong> Click the "Analyze Now" button (inputs auto-update).</li>
+            <li><strong>View Results:</strong>
+                <ul>
+                    <li>💚 Recommendation (Buy/Lease is better)</li>
+                    <li>📊 Buy Net Outlay vs Lease Net Outlay</li>
+                    <li>📊 Detailed Financial Breakdown</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Decision Tool (Us)</th>
+                    <th>Dealer Finance</th>
+                    <th>Excel Manual</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Free</td>
+                    <td>Software Purchase</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>⚠️ Dealer-dependent</td>
+                    <td>✅ Local</td>
+                </tr>
+                <tr>
+                    <td><strong>Speed</strong></td>
+                    <td>⚡ Instant</td>
+                    <td>⚡ Instant</td>
+                    <td>🐢 Formula setup</td>
+                </tr>
+                <tr>
+                    <td><strong>Residual Value</strong></td>
+                    <td>✅ Auto-calculated</td>
+                    <td>⚠️ Dealer-dependent</td>
+                    <td>⚠️ Manual setup</td>
+                </tr>
+                <tr>
+                    <td><strong>Side-by-Side Comparison</strong></td>
+                    <td>✅ Included</td>
+                    <td>❌ Usually one option</td>
+                    <td>⚠️ Manual design</td>
+                </tr>
+                <tr>
+                    <td><strong>No Installation</strong></td>
+                    <td>✅ Browser</td>
+                    <td>✅ None needed</td>
+                    <td>❌ Software</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Low</td>
+                    <td>Medium</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"A friend was agonizing over whether to lease or buy their new car last month. They asked my opinion, and after running the numbers through this tool, we found that <strong>buying costs $2,000 more per month but you can sell it for $220,000 after 3 years; leasing saves $2,000 per month but you walk away with nothing</strong>. The real question is: how much extra are you willing to pay each month for the asset 3 years from now? This tool gives you exactly that <strong>ability to see the true financial difference between 'lease' and 'buy' in 10 seconds</strong>—so your decision is <strong>based on numbers</strong>, not <strong>based on feelings</strong>."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚖️ Want to Know If Leasing or Buying Saves More? Analyze Instantly!</h3>
+            <p style="margin:0; font-size:0.9rem;">Enter vehicle price and financing terms for instant cost comparison and recommendations—completely free with privacy protection.</p>
+            <a href="../tools/auto-lease-vs-buy-calculator.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Lease vs Buy Calculator Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtnZh = document.getElementById('ctaBtnZh');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtnZh.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtnZh.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

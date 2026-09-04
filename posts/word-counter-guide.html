@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【文字統計工具教學】即時計算字數、字元數與閱讀時間｜免費線上工具｜Free Word Counter Guide</title>
+    <meta name="description" content="文字統計工具完整教學！即時精準計算中英文字數、字符數、段落、句子數量、關鍵字密度及預估閱讀時間。100% 瀏覽器處理保護私隱。Free online word counter guide.">
+    <meta name="keywords" content="文字統計工具, 字數計算, 字元數計算器, 閱讀時間計算, 關鍵字密度, 免費線上工具, Word Counter, Character Counter, Reading Time Calculator, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/word-counter-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【文字統計工具教學】即時計算字數、字元數與閱讀時間｜免費線上工具｜Free Word Counter Guide">
+    <meta property="og:description" content="即時精準計算中英文字數、字符數、段落、句子數量、關鍵字密度及預估閱讀時間。100% 瀏覽器處理保護私隱。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/word-counter-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Word Counter Guide – Instant Word Count, Character Count & Reading Time">
+    <meta name="twitter:description" content="Count words, characters, sentences, paragraphs, and estimated reading time instantly. 100% client-side privacy.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "文字統計工具教學：即時計算字數、字元數與閱讀時間 — 免費線上工具",
+      "description": "介紹如何使用文字統計工具進行中英文字數、字符數、段落與關鍵字密度分析，適用於寫作、SEO 優化與內容創作。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .step-box {
+            background: rgba(21, 29, 48, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .step-number {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 26px;
+            height: 26px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>文字統計工具教學：即時計算字數、字元數與閱讀時間 — 免費線上工具</h1>
+
+        <h2>1. 導言</h2>
+        <p>你寫緊學校論文、Blog 文章或者社交媒體貼文嗰陣，有冇試過要數住字數，睇吓夠唔夠字數要求？或者你想知道一篇文章要讀幾耐，但係要逐個字數？<strong>文字統計工具（Word Counter）</strong> 就係為咗呢個情況而設。我哋嘅免費文字統計工具可以即時計算 <strong>中英文字數、字符數（含空格/不含空格）、段落數、句子數、關鍵字密度</strong>，仲會自動估算 <strong>閱讀時間</strong>。所有運算喺瀏覽器入面完成，文字唔會離開你嘅裝置，私隱 100% 安全。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>文字統計（Word Counting）</strong> 係將文字內容進行量化分析嘅基本操作。主要統計指標包括：</p>
+        <ul>
+            <li><strong>字數（Word Count）：</strong> 文章入面嘅總字數，係最常用嘅指標。</li>
+            <li><strong>字符數（Character Count）：</strong> 包含空格同唔包含空格嘅總字符數。</li>
+            <li><strong>段落數（Paragraph Count）：</strong> 文章嘅段落數量。</li>
+            <li><strong>句子數（Sentence Count）：</strong> 文章嘅句子數量。</li>
+            <li><strong>閱讀時間（Reading Time）：</strong> 根據平均閱讀速度（約 200-250 字/分鐘）估算嘅閱讀所需時間。</li>
+            <li><strong>關鍵字密度（Keyword Density）：</strong> 特定關鍵字喺文章入面出現嘅頻率百分比，對 SEO 優化好重要。</li>
+        </ul>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>學術寫作：</strong> 確保論文、報告符合字數要求。</li>
+            <li><strong>SEO 內容創作：</strong> 監控文章長度同關鍵字密度，優化搜尋排名。</li>
+            <li><strong>社交媒體：</strong> 確保貼文符合平台字數限制（例如 Twitter 280 字）。</li>
+            <li><strong>求職信 / CV：</strong> 控制篇幅，保持精簡。</li>
+            <li><strong>翻譯校對：</strong> 比較原文同譯文嘅字數差異。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <div class="step-box">
+            <div><span class="step-number">1</span><strong>輸入或貼上文字</strong></div>
+            <p style="margin:8px 0 0 34px;">喺文字框內輸入或貼上你想統計嘅文字內容。</p>
+        </div>
+        <div class="step-box">
+            <div><span class="step-number">2</span><strong>即時統計</strong></div>
+            <p style="margin:8px 0 0 34px;">工具會自動即時更新所有統計數據，無需按任何按鈕。</p>
+        </div>
+        <div class="step-box">
+            <div><span class="step-number">3</span><strong>查看數據</strong></div>
+            <p style="margin:8px 0 0 34px;">檢視字數、字符數、段落數、句子數、閱讀時間同關鍵字密度。</p>
+        </div>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站文字統計工具</th>
+                    <th>Word 軟件</th>
+                    <th>手動計算</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>需購買軟件</td>
+                    <td>時間成本</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>⚠️ 視乎雲端設定</td>
+                    <td>✅ 無需上傳</td>
+                </tr>
+                <tr>
+                    <td><strong>關鍵字密度</strong></td>
+                    <td>✅ 自動計算</td>
+                    <td>❌ 無此功能</td>
+                    <td>❌ 需手動數</td>
+                </tr>
+                <tr>
+                    <td><strong>閱讀時間</strong></td>
+                    <td>✅ 自動估算</td>
+                    <td>❌ 無此功能</td>
+                    <td>❌ 需手動計</td>
+                </tr>
+                <tr>
+                    <td><strong>即時更新</strong></td>
+                    <td>✅ 毫秒級即時</td>
+                    <td>⚠️ 需按更新</td>
+                    <td>❌ 需重新數</td>
+                </tr>
+                <tr>
+                    <td><strong>無需安裝</strong></td>
+                    <td>✅ 瀏覽器即用</td>
+                    <td>❌ 需安裝軟件</td>
+                    <td>✅ 無需安裝</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>中等</td>
+                    <td>低</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「記得以前寫大學論文嗰陣，最煩嘅嘢唔係搵 reference，而係 <strong>數住自己寫咗幾多字</strong>。成日差少少先夠字數，要夾硬塞嘢入去，但又唔知塞咗之後 total 幾多。後來用呢個工具，一貼就知幾多字，仲有閱讀時間同 keyword density，<strong>寫作變成一件有數據支持嘅事</strong>。字數統計唔係『數數吓』，佢係一個 <strong>將文字量化為數據</strong> 嘅工具。一篇 500 字同 2000 字嘅文章，深度完全唔同。呢個工具俾你嘅，就係 <strong>用數據去驗證你嘅寫作策略</strong> 嘅能力。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">📝 需要即時統計文字數據？一鍵貼上即睇結果！</h3>
+            <p style="margin:0; font-size:0.9rem;">即時計算字數、字符數、閱讀時間與關鍵字密度，完全免費且保護私隱。</p>
+            <a href="../tools/word-counter.html?lang=hk" class="cta-btn-link" id="ctaBtnZh">👉 立即免費試用文字統計工具</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Word Counter Guide: Instant Word Count, Character Count & Reading Time — Free Tool</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Ever written an essay, blog post, or social media post and needed to count words to meet a requirement? Or wanted to know how long an article takes to read but didn't want to count manually? <strong>A word counter</strong> is exactly for this situation. Our free word counter instantly calculates <strong>word count, character count (with/without spaces), paragraphs, sentences, keyword density</strong>, and estimates <strong>reading time</strong>. All processing happens in your browser—your text never leaves your device, ensuring 100% privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>Word counting</strong> is a basic text analysis operation that quantifies written content. Key metrics include:</p>
+        <ul>
+            <li><strong>Word Count:</strong> The total number of words in the text—the most common metric.</li>
+            <li><strong>Character Count:</strong> Total characters (including and excluding spaces).</li>
+            <li><strong>Paragraph Count:</strong> The number of paragraphs in the text.</li>
+            <li><strong>Sentence Count:</strong> The number of sentences in the text.</li>
+            <li><strong>Reading Time:</strong> Estimated reading time based on average reading speed (approx. 200-250 words per minute).</li>
+            <li><strong>Keyword Density:</strong> The frequency percentage of specific keywords—critical for SEO optimization.</li>
+        </ul>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Academic Writing:</strong> Ensure essays and reports meet word count requirements.</li>
+            <li><strong>SEO Content Creation:</strong> Monitor article length and keyword density to optimize search rankings.</li>
+            <li><strong>Social Media:</strong> Ensure posts meet platform character limits (e.g., Twitter's 280 characters).</li>
+            <li><strong>Cover Letters / CVs:</strong> Control length and keep content concise.</li>
+            <li><strong>Translation Proofreading:</strong> Compare word count differences between source and translated text.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <div class="step-box">
+            <div><span class="step-number">1</span><strong>Enter or Paste Text</strong></div>
+            <p style="margin:8px 0 0 34px;">Type or paste your text into the text area.</p>
+        </div>
+        <div class="step-box">
+            <div><span class="step-number">2</span><strong>Instant Statistics</strong></div>
+            <p style="margin:8px 0 0 34px;">All statistics update instantly—no button clicking required.</p>
+        </div>
+        <div class="step-box">
+            <div><span class="step-number">3</span><strong>View Data</strong></div>
+            <p style="margin:8px 0 0 34px;">Review word count, character count, paragraphs, sentences, reading time, and keyword density.</p>
+        </div>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Word Counter (Us)</th>
+                    <th>Word Processor</th>
+                    <th>Manual Counting</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Software Purchase</td>
+                    <td>Time Cost</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>⚠️ Cloud-dependent</td>
+                    <td>✅ No Upload</td>
+                </tr>
+                <tr>
+                    <td><strong>Keyword Density</strong></td>
+                    <td>✅ Auto-calculated</td>
+                    <td>❌ Not available</td>
+                    <td>❌ Manual count</td>
+                </tr>
+                <tr>
+                    <td><strong>Reading Time</strong></td>
+                    <td>✅ Auto-estimated</td>
+                    <td>❌ Not available</td>
+                    <td>❌ Manual calc</td>
+                </tr>
+                <tr>
+                    <td><strong>Real-Time Update</strong></td>
+                    <td>✅ Millisecond</td>
+                    <td>⚠️ Manual refresh</td>
+                    <td>❌ Recount needed</td>
+                </tr>
+                <tr>
+                    <td><strong>No Installation</strong></td>
+                    <td>✅ Browser</td>
+                    <td>❌ Software</td>
+                    <td>✅ No installation</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Medium</td>
+                    <td>Low</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"Back when I was writing university essays, the most annoying part wasn't finding references—it was <strong>counting my word count</strong>. I'd always be a bit short and have to pad things out, but had no idea what the final total was. With this tool, one paste tells me the word count, reading time, and keyword density—<strong>writing became a data-backed process</strong>. Word counting isn't just 'counting'—it's a tool that <strong>quantifies text into data</strong>. A 500-word article and a 2000-word article have completely different depth. This tool gives you exactly that <strong>ability to validate your writing strategy with data</strong>."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">📝 Need Instant Text Statistics? One Paste Away!</h3>
+            <p style="margin:0; font-size:0.9rem;">Instant word count, character count, reading time, and keyword density—completely free with privacy protection.</p>
+            <a href="../tools/word-counter.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Word Counter Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtnZh = document.getElementById('ctaBtnZh');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtnZh.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtnZh.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

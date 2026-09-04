@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【圖片濾鏡工具教學】黑白/復古/暖色/冷色/銳化/模糊｜免費線上照片特效｜Free Image Filter Guide</title>
+    <meta name="description" content="圖片濾鏡工具教學！提供黑白、復古、暖色、冷色、銳化與模糊等多種影像特效，自由調整強度。100% 瀏覽器處理保護私隱，免費線上照片濾鏡。Free online photo filter tool guide.">
+    <meta name="keywords" content="圖片濾鏡, 線上濾鏡, 照片特效, 黑白濾鏡, 復古濾鏡, 銳化圖片, 圖片模糊, Photo Filter, Image Filters, Photo Effects, Grayscale, Sepia, Sharpen, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/image-filter-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【圖片濾鏡工具教學】黑白/復古/暖色/冷色/銳化/模糊 — 免費線上照片特效｜Free Image Filter Guide">
+    <meta property="og:description" content="提供黑白、復古、暖色、冷色、銳化與模糊等多種影像特效，自由調整強度。100% 瀏覽器處理保護私隱。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/image-filter-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Image Filter Guide – Grayscale/Sepia/Warm/Cool/Sharpen/Blur">
+    <meta name="twitter:description" content="Apply 6 professional photo filters with adjustable intensity. 100% client-side privacy.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "圖片濾鏡工具教學：黑白/復古/暖色/冷色/銳化/模糊 — 免費線上照片特效",
+      "description": "介紹如何使用圖片濾鏡工具為照片添加黑白、復古、暖色、冷色、銳化與模糊等特效，適用於社群媒體、攝影作品與內容創作。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        code {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--primary-cyan);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>圖片濾鏡工具教學：黑白/復古/暖色/冷色/銳化/模糊 — 免費線上照片特效</h1>
+
+        <h2>1. 導言</h2>
+        <p>你係咪成日見到 IG 上啲相好有質感，自己影出嚟就平平無奇？想將一張普通相片變成復古風、黑白風、或者日系暖色調，但又唔想裝 Photoshop？<strong>圖片濾鏡</strong>就係為咗呢個問題而存在——用一個 filter 改變成個 mood。我哋嘅免費圖片濾鏡工具提供黑白、復古、暖色、冷色、銳化同模糊六種特效，仲可以自由調整強度。所有運算喺你嘅瀏覽器入面完成，相片唔會離開你嘅裝置。呢篇文章會教你點用呢個工具，仲會話你知邊個 filter 啱邊種場合。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>圖片濾鏡（Image Filter）</strong> 係透過改變像素顏色值嚟達到視覺效果嘅技術。主要分為兩大類：</p>
+        <ul>
+            <li><strong>顏色變換濾鏡：</strong> 改變顏色分佈（黑白、復古、暖色、冷色）。</li>
+            <li><strong>卷積濾鏡：</strong> 改變像素與周邊像素嘅關係（銳化、模糊）。</li>
+        </ul>
+        <p>工具提供六種濾鏡效果：</p>
+        <ul>
+            <li><strong>黑白（Grayscale）：</strong> 將彩色轉為灰階，經典 timeless 風格。</li>
+            <li><strong>復古（Sepia）：</strong> 棕褐色調，懷舊老照片 feel。</li>
+            <li><strong>暖色（Warm）：</strong> 增強紅黃色調，日系溫暖感。</li>
+            <li><strong>冷色（Cool）：</strong> 增強藍色調，冰冷靜謐感。</li>
+            <li><strong>銳化（Sharpen）：</strong> 強化邊緣細節，令相片更 sharp。</li>
+            <li><strong>模糊（Blur）：</strong> 柔化影像，適合 dreamy 效果或背景虛化。</li>
+        </ul>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>社群媒體貼文：</strong> 為 IG、Facebook、小紅書照片加濾鏡增加質感。</li>
+            <li><strong>攝影作品後製：</strong> 快速調整相片色調與氛圍。</li>
+            <li><strong>產品圖片優化：</strong> 用銳化令產品圖更清晰。</li>
+            <li><strong>個人頭像：</strong> 用黑白或復古濾鏡打造獨特風格。</li>
+            <li><strong>設計素材準備：</strong> 將圖片調整到合適嘅視覺風格。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>上傳圖片：</strong> 點擊或拖曳圖片到上傳區域。</li>
+            <li><strong>揀濾鏡：</strong> 點擊黑白、復古、暖色、冷色、銳化或模糊。</li>
+            <li><strong>調強度：</strong> 拖動滑桿調整濾鏡強度（0-100%）。</li>
+            <li><strong>下載：</strong> 點擊「下載濾鏡圖片」儲存。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站前端工具</th>
+                    <th>手機修圖 App</th>
+                    <th>Photoshop</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>免費／付費</td>
+                    <td>需付費訂閱</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>⚠️ 需授權權限</td>
+                    <td>✅ 本地處理</td>
+                </tr>
+                <tr>
+                    <td><strong>無需安裝</strong></td>
+                    <td>✅ 瀏覽器即用</td>
+                    <td>❌ 需下載 App</td>
+                    <td>❌ 需安裝軟件</td>
+                </tr>
+                <tr>
+                    <td><strong>濾鏡種類</strong></td>
+                    <td>✅ 6 種</td>
+                    <td>✅ 多種</td>
+                    <td>✅ 無限</td>
+                </tr>
+                <tr>
+                    <td><strong>強度調整</strong></td>
+                    <td>✅ 0-100%</td>
+                    <td>✅ 部分支援</td>
+                    <td>✅ 全面</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>低</td>
+                    <td>高</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「我記得有次影咗張街景相，平平無奇，點執都覺得唔夠 feel。後尾求其試咗個黑白濾鏡，成張相即刻有故事感——<strong>原來 filter 可以改變成個 mood</strong>。濾鏡嘅魔力在於：佢改變咗你睇世界嘅方式。有時你唔需要學識 Photoshop 嘅所有功能，<strong>一個 filter 就夠</strong>。呢個工具嘅價值就係俾你快速 experiment——你隨時可以換 filter，可以調強度。<strong>玩 filter 嘅過程，本身就係創作</strong>。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">🎨 需要為圖片加濾鏡增加質感？</h3>
+            <p style="margin:0; font-size:0.9rem;">6 種濾鏡效果，自由調整強度，完全免費且保護私隱。</p>
+            <a href="../tools/image-filter.html" class="cta-btn-link" id="ctaBtn">👉 立即免費試用圖片濾鏡工具</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Image Filter Guide: Grayscale/Sepia/Warm/Cool/Sharpen/Blur — Free Online Photo Effects</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Ever scrolled through Instagram and wondered why everyone's photos look so good while yours seem flat? Want to turn an ordinary photo into something vintage, black-and-white, or warm-toned—without installing Photoshop? <strong>Image filters</strong> exist exactly for this reason—one click changes the whole mood. Our free image filter tool offers Grayscale, Sepia, Warm, Cool, Sharpen, and Blur effects with adjustable intensity. All processing happens in your browser—your photos never leave your device. This guide shows you how to use it and which filter works best for which scenario.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>Image filters</strong> change pixel color values to create visual effects. Two main categories:</p>
+        <ul>
+            <li><strong>Color Transformation Filters:</strong> Change color distribution (Grayscale, Sepia, Warm, Cool).</li>
+            <li><strong>Convolution Filters:</strong> Change pixel relationships with neighbors (Sharpen, Blur).</li>
+        </ul>
+        <p>Six filter effects available:</p>
+        <ul>
+            <li><strong>Grayscale:</strong> Convert to black and white—classic, timeless style.</li>
+            <li><strong>Sepia:</strong> Warm brown tones—vintage, nostalgic feel.</li>
+            <li><strong>Warm:</strong> Enhance red and yellow tones—Japanese warmth.</li>
+            <li><strong>Cool:</strong> Enhance blue tones—cold, serene atmosphere.</li>
+            <li><strong>Sharpen:</strong> Enhance edge details—crisper, clearer images.</li>
+            <li><strong>Blur:</strong> Soften the image—dreamy effect or background blur.</li>
+        </ul>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Social Media Posts:</strong> Add filters to Instagram, Facebook, Xiaohongshu photos.</li>
+            <li><strong>Photography Editing:</strong> Quick tone and mood adjustments.</li>
+            <li><strong>Product Images:</strong> Use sharpen for clearer product shots.</li>
+            <li><strong>Profile Pictures:</strong> Create unique style with black-and-white or sepia.</li>
+            <li><strong>Design Assets:</strong> Adjust images to match visual style.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Upload Image:</strong> Click or drag your image to the upload area.</li>
+            <li><strong>Select Filter:</strong> Click Grayscale, Sepia, Warm, Cool, Sharpen, or Blur.</li>
+            <li><strong>Adjust Intensity:</strong> Drag the slider (0-100%) to control filter strength.</li>
+            <li><strong>Download:</strong> Click "Download Filtered Image" to save.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Client-Side Tool (Us)</th>
+                    <th>Mobile Apps</th>
+                    <th>Photoshop</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Freemium</td>
+                    <td>Paid Subscription</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>⚠️ Permissions</td>
+                    <td>✅ Local</td>
+                </tr>
+                <tr>
+                    <td><strong>No Installation</strong></td>
+                    <td>✅ Browser</td>
+                    <td>❌ App Download</td>
+                    <td>❌ Software</td>
+                </tr>
+                <tr>
+                    <td><strong>Filter Variety</strong></td>
+                    <td>✅ 6 Filters</td>
+                    <td>✅ Many</td>
+                    <td>✅ Unlimited</td>
+                </tr>
+                <tr>
+                    <td><strong>Intensity Control</strong></td>
+                    <td>✅ 0-100%</td>
+                    <td>✅ Some</td>
+                    <td>✅ Full</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Low</td>
+                    <td>High</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"I remember taking a street photo that looked completely ordinary. No matter what I tried, it felt flat. Then I randomly applied a grayscale filter—<strong>the whole photo suddenly had a story</strong>. That's the magic of filters: they change how you see the world. Sometimes you don't need to master every Photoshop feature—<strong>one filter is enough</strong>. This tool lets you experiment freely—switch filters, adjust intensity anytime. <strong>Playing with filters is already creation</strong>."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">🎨 Need to Add Filters to Your Photos?</h3>
+            <p style="margin:0; font-size:0.9rem;">6 filter effects, adjustable intensity, completely free with privacy protection.</p>
+            <a href="../tools/image-filter.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Image Filter Tool Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtn = document.getElementById('ctaBtn');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtn.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtn.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

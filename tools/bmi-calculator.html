@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>免費 BMI 計算機 — 體重指數計算、健康評估｜Free BMI Calculator｜ABRG 免費工具</title>
+    <meta name="description" content="免費線上 BMI 計算機，輸入身高體重，即時計算體重指數並提供健康評估。Free BMI calculator, instant health assessment, 100% client-side, privacy safe." />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/bmi-calculator.html" />
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --cyan: #22d3ee;
+            --green: #10b981;
+            --yellow: #fbbf24;
+            --orange: #f97316;
+            --red: #ef4444;
+            --border: #24324f;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 720px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+        .lang-switch {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .lang-switch a {
+            color: var(--cyan);
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .lang-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 10px 0 25px;
+        }
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+        .form-group .input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .form-group .input-row input {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(148, 163, 184, 0.15);
+            background: var(--bg);
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        .form-group .input-row input:focus {
+            outline: none;
+            border-color: var(--cyan);
+        }
+        .form-group .input-row .suffix {
+            color: #64748b;
+            font-size: 0.9rem;
+            min-width: 30px;
+        }
+
+        .unit-toggle {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+            padding: 4px;
+            border: 1px solid rgba(148, 163, 184, 0.06);
+        }
+        .unit-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: #64748b;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .unit-btn:hover {
+            color: #cbd5e1;
+        }
+        .unit-btn.active {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+
+        .result-box {
+            margin-top: 20px;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(148, 163, 184, 0.06);
+        }
+        .result-box .bmi-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        .result-box .bmi-label {
+            font-size: 1.2rem;
+            margin-top: 6px;
+        }
+        .result-box .bmi-desc {
+            font-size: 0.9rem;
+            color: var(--text);
+            margin-top: 10px;
+        }
+        .result-box .bmi-range {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        /* 外層容器包裹量表與 Marker */
+        .bmi-scale-wrapper {
+            position: relative;
+            margin-top: 16px;
+            padding: 4px 0;
+        }
+        .bmi-scale {
+            display: flex;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .bmi-scale .segment {
+            flex: 1;
+            height: 100%;
+        }
+        .bmi-scale .seg-underweight {
+            background: #60a5fa;
+        }
+        .bmi-scale .seg-normal {
+            background: var(--green);
+        }
+        .bmi-scale .seg-overweight {
+            background: var(--yellow);
+        }
+        .bmi-scale .seg-obese {
+            background: var(--orange);
+        }
+        .bmi-scale .seg-severe-obese {
+            background: var(--red);
+        }
+
+        .bmi-marker {
+            position: absolute;
+            top: 0;
+            width: 4px;
+            height: 16px;
+            background: #fff;
+            border-radius: 2px;
+            transform: translateX(-50%);
+            transition: left 0.3s ease-out;
+            box-shadow: 0 0 8px rgba(255,255,255,0.8);
+            display: none;
+        }
+
+        .bmi-scale-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.6rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .bmi-status {
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .bmi-status.underweight {
+            background: rgba(96, 165, 250, 0.2);
+            color: #60a5fa;
+        }
+        .bmi-status.normal {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--green);
+        }
+        .bmi-status.overweight {
+            background: rgba(251, 191, 36, 0.2);
+            color: var(--yellow);
+        }
+        .bmi-status.obese {
+            background: rgba(249, 115, 22, 0.2);
+            color: var(--orange);
+        }
+        .bmi-status.severe-obese {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--red);
+        }
+
+        .story-suggest {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+        .story-suggest .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .story-suggest .items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .story-suggest .items a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 11px;
+            color: #555;
+        }
+        footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        footer a:hover {
+            color: #888;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 18px;
+            }
+            .result-box .bmi-number {
+                font-size: 2.2rem;
+            }
+            .form-group .input-row {
+                flex-direction: flex-start;
+            }
+            .form-group .input-row input {
+                min-width: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="lang-switch">
+            <a onclick="switchLang('hk')">🇭🇰 港版</a> |
+            <a onclick="switchLang('tw')">🇹🇼 台版</a> |
+            <a onclick="switchLang('en')">🇬🇧 English</a>
+        </div>
+
+        <h1 class="tool-title" id="toolTitle">⚖️ BMI 計算機</h1>
+        <p class="tool-sub" id="toolSub">輸入身高體重，即時計算體重指數</p>
+        <div class="badge-row">
+            <span class="badge" id="badge1">🔒 私隱安全</span>
+            <span class="badge" id="badge2">⚡ 即時計算</span>
+            <span class="badge" id="badge3">🆓 完全免費</span>
+        </div>
+
+        <!-- 單位切換 -->
+        <div class="unit-toggle">
+            <button class="unit-btn active" data-unit="metric" id="unitMetric">📏 公制 (cm/kg)</button>
+            <button class="unit-btn" data-unit="imperial" id="unitImperial">📐 英制 (ft/in/lbs)</button>
+        </div>
+
+        <!-- 公制輸入 -->
+        <div id="metricInputs">
+            <div class="form-group">
+                <label id="labelHeight">📏 身高</label>
+                <div class="input-row">
+                    <input type="number" id="heightCm" value="170" step="0.1" min="50" max="300" />
+                    <span class="suffix">cm</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label id="labelWeight">⚖️ 體重</label>
+                <div class="input-row">
+                    <input type="number" id="weightKg" value="70" step="0.1" min="10" max="500" />
+                    <span class="suffix">kg</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 英制輸入 -->
+        <div id="imperialInputs" style="display:none;">
+            <div class="form-group">
+                <label id="labelHeightImperial">📐 身高</label>
+                <div class="input-row">
+                    <input type="number" id="heightFt" value="5" step="1" min="1" max="8" />
+                    <span class="suffix">ft</span>
+                    <input type="number" id="heightIn" value="7" step="0.5" min="0" max="11.9" />
+                    <span class="suffix">in</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label id="labelWeightImperial">⚖️ 體重</label>
+                <div class="input-row">
+                    <input type="number" id="weightLbs" value="154" step="0.5" min="20" max="1000" />
+                    <span class="suffix">lbs</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 結果 -->
+        <div class="result-box" id="resultBox">
+            <div class="bmi-number" id="bmiNumber">24.2</div>
+            <div class="bmi-label">
+                <span class="bmi-status normal" id="bmiStatus">正常</span>
+            </div>
+            <div class="bmi-desc" id="bmiDesc">你的體重處於健康範圍</div>
+            <div class="bmi-range" id="bmiRange">健康範圍：18.5 – 24.9</div>
+        </div>
+
+        <!-- BMI 量表與指標 -->
+        <div class="bmi-scale-wrapper">
+            <div class="bmi-scale">
+                <div class="segment seg-underweight"></div>
+                <div class="segment seg-normal"></div>
+                <div class="segment seg-overweight"></div>
+                <div class="segment seg-obese"></div>
+                <div class="segment seg-severe-obese"></div>
+            </div>
+            <div class="bmi-marker" id="bmiMarker"></div>
+        </div>
+        <div class="bmi-scale-labels">
+            <span id="labelUnderweight">過輕 (&lt;18.5)</span>
+            <span id="labelNormal">正常 (18.5-24.9)</span>
+            <span id="labelOverweight">過重 (25-29.9)</span>
+            <span id="labelObese">肥胖 (30-34.9)</span>
+            <span id="labelSevere">嚴重肥胖 (&gt;35)</span>
+        </div>
+
+        <div class="story-suggest">
+            <div class="label" id="storyLabel">📖 你可能會中意嘅連載或測驗</div>
+            <div class="items">
+                <a href="../story_01.html">《你睡著以後》</a>
+                <a href="../story_02.html">《貓狗人格》</a>
+                <a href="../quiz-01.html">隱私天平</a>
+                <a href="../index.html">🏠 返回主頁</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+    </footer>
+
+    <script>
+        const texts = {
+            hk: {
+                title: '⚖️ BMI 計算機',
+                sub: '輸入身高體重，即時計算體重指數',
+                badge1: '🔒 私隱安全',
+                badge2: '⚡ 即時計算',
+                badge3: '🆓 完全免費',
+                storyLabel: '📖 你可能會中意嘅連載或測驗',
+                unitMetric: '📏 公制 (cm/kg)',
+                unitImperial: '📐 英制 (ft/in/lbs)',
+                labelHeight: '📏 身高',
+                labelWeight: '⚖️ 體重',
+                labelHeightImperial: '📐 身高',
+                labelWeightImperial: '⚖️ 體重',
+                labelUnderweight: '過輕 (<18.5)',
+                labelNormal: '正常 (18.5-24.9)',
+                labelOverweight: '過重 (25-29.9)',
+                labelObese: '肥胖 (30-34.9)',
+                labelSevere: '嚴重肥胖 (>35)',
+                statusUnderweight: '過輕',
+                statusNormal: '正常',
+                statusOverweight: '過重',
+                statusObese: '肥胖',
+                statusSevere: '嚴重肥胖',
+                descUnderweight: '你的體重低於健康範圍，建議諮詢營養師。',
+                descNormal: '你的體重處於健康範圍，繼續保持！',
+                descOverweight: '你的體重略高於健康範圍，建議多運動及注意飲食。',
+                descObese: '你的體重屬於肥胖範圍，建議諮詢醫生。',
+                descSevere: '你的體重屬於嚴重肥胖範圍，強烈建議諮詢醫生。',
+                range: '健康範圍：18.5 – 24.9',
+                invalid: '請輸入有效數值',
+                invalidDesc: '請輸入正確嘅身高體重'
+            },
+            tw: {
+                title: '⚖️ BMI 計算機',
+                sub: '輸入身高體重，即時計算體重指數',
+                badge1: '🔒 私隱安全',
+                badge2: '⚡ 即時計算',
+                badge3: '🆓 完全免費',
+                storyLabel: '📖 你可能會喜歡的連載或測驗',
+                unitMetric: '📏 公制 (cm/kg)',
+                unitImperial: '📐 英制 (ft/in/lbs)',
+                labelHeight: '📏 身高',
+                labelWeight: '⚖️ 體重',
+                labelHeightImperial: '📐 身高',
+                labelWeightImperial: '⚖️ 體重',
+                labelUnderweight: '過輕 (<18.5)',
+                labelNormal: '正常 (18.5-24.9)',
+                labelOverweight: '過重 (25-29.9)',
+                labelObese: '肥胖 (30-34.9)',
+                labelSevere: '嚴重肥胖 (>35)',
+                statusUnderweight: '過輕',
+                statusNormal: '正常',
+                statusOverweight: '過重',
+                statusObese: '肥胖',
+                statusSevere: '嚴重肥胖',
+                descUnderweight: '你的體重低於健康範圍，建議諮詢營養師。',
+                descNormal: '你的體重處於健康範圍，繼續保持！',
+                descOverweight: '你的體重略高於健康範圍，建議多運動及注意飲食。',
+                descObese: '你的體重屬於肥胖範圍，建議諮詢醫生。',
+                descSevere: '你的體重屬於嚴重肥胖範圍，強烈建議諮詢醫生。',
+                range: '健康範圍：18.5 – 24.9',
+                invalid: '請輸入有效數值',
+                invalidDesc: '請輸入正確的身高體重'
+            },
+            en: {
+                title: '⚖️ BMI Calculator',
+                sub: 'Enter your height and weight, instant BMI calculation',
+                badge1: '🔒 Privacy Safe',
+                badge2: '⚡ Instant Calculate',
+                badge3: '🆓 Free',
+                storyLabel: '📖 You might also like',
+                unitMetric: '📏 Metric (cm/kg)',
+                unitImperial: '📐 Imperial (ft/in/lbs)',
+                labelHeight: '📏 Height',
+                labelWeight: '⚖️ Weight',
+                labelHeightImperial: '📐 Height',
+                labelWeightImperial: '⚖️ Weight',
+                labelUnderweight: 'Underweight (<18.5)',
+                labelNormal: 'Normal (18.5-24.9)',
+                labelOverweight: 'Overweight (25-29.9)',
+                labelObese: 'Obese (30-34.9)',
+                labelSevere: 'Severe Obese (>35)',
+                statusUnderweight: 'Underweight',
+                statusNormal: 'Normal',
+                statusOverweight: 'Overweight',
+                statusObese: 'Obese',
+                statusSevere: 'Severe Obese',
+                descUnderweight: 'Your weight is below the healthy range. Consider consulting a nutritionist.',
+                descNormal: 'Your weight is in the healthy range. Keep it up!',
+                descOverweight: 'Your weight is slightly above the healthy range. Consider more exercise and a balanced diet.',
+                descObese: 'Your weight is in the obese range. Please consult a doctor.',
+                descSevere: 'Your weight is in the severe obese range. Strongly recommend consulting a doctor.',
+                range: 'Healthy range: 18.5 – 24.9',
+                invalid: 'Please enter valid values',
+                invalidDesc: 'Please enter correct height and weight'
+            }
+        };
+
+        let lang = 'hk';
+
+        function switchLang(l) {
+            lang = l;
+            const t = texts[l];
+
+            document.getElementById('toolTitle').innerHTML = t.title;
+            document.getElementById('toolSub').innerText = t.sub;
+            document.getElementById('badge1').innerText = t.badge1;
+            document.getElementById('badge2').innerText = t.badge2;
+            document.getElementById('badge3').innerText = t.badge3;
+            document.getElementById('storyLabel').innerText = t.storyLabel;
+            document.getElementById('unitMetric').innerHTML = t.unitMetric;
+            document.getElementById('unitImperial').innerHTML = t.unitImperial;
+            document.getElementById('labelHeight').innerText = t.labelHeight;
+            document.getElementById('labelWeight').innerText = t.labelWeight;
+            document.getElementById('labelHeightImperial').innerText = t.labelHeightImperial;
+            document.getElementById('labelWeightImperial').innerText = t.labelWeightImperial;
+            document.getElementById('labelUnderweight').innerText = t.labelUnderweight;
+            document.getElementById('labelNormal').innerText = t.labelNormal;
+            document.getElementById('labelOverweight').innerText = t.labelOverweight;
+            document.getElementById('labelObese').innerText = t.labelObese;
+            document.getElementById('labelSevere').innerText = t.labelSevere;
+
+            document.querySelectorAll('.story-suggest .items a').forEach(a => {
+                try {
+                    const url = new URL(a.href, window.location.href);
+                    url.searchParams.set('lang', l);
+                    a.href = url.toString();
+                } catch (e) {}
+            });
+
+            calculateBMI();
+        }
+
+        function detectLanguage() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('lang') === 'en') return 'en';
+            if (params.get('lang') === 'tw') return 'tw';
+            if (params.get('lang') === 'hk') return 'hk';
+            const userLang = navigator.language || navigator.userLanguage;
+            if (userLang.startsWith('en')) return 'en';
+            if (userLang.includes('zh')) {
+                if (userLang.includes('TW') || userLang.includes('tw')) return 'tw';
+                return 'hk';
+            }
+            return 'hk';
+        }
+
+        // 單位切換與數據同動
+        const unitBtns = document.querySelectorAll('.unit-btn');
+        const metricInputs = document.getElementById('metricInputs');
+        const imperialInputs = document.getElementById('imperialInputs');
+        let currentUnit = 'metric';
+
+        const heightCm = document.getElementById('heightCm');
+        const weightKg = document.getElementById('weightKg');
+        const heightFt = document.getElementById('heightFt');
+        const heightIn = document.getElementById('heightIn');
+        const weightLbs = document.getElementById('weightLbs');
+
+        unitBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const targetUnit = this.dataset.unit;
+                if (targetUnit === currentUnit) return;
+
+                // 單位切換時進行雙向數值換算
+                if (targetUnit === 'imperial') {
+                    const cm = parseFloat(heightCm.value) || 0;
+                    const kg = parseFloat(weightKg.value) || 0;
+                    if (cm > 0) {
+                        const totalInches = cm / 2.54;
+                        heightFt.value = Math.floor(totalInches / 12);
+                        heightIn.value = (totalInches % 12).toFixed(1);
+                    }
+                    if (kg > 0) {
+                        weightLbs.value = (kg * 2.20462).toFixed(1);
+                    }
+                    metricInputs.style.display = 'none';
+                    imperialInputs.style.display = 'block';
+                } else {
+                    const ft = parseFloat(heightFt.value) || 0;
+                    const inc = parseFloat(heightIn.value) || 0;
+                    const lbs = parseFloat(weightLbs.value) || 0;
+                    if (ft > 0 || inc > 0) {
+                        const totalInches = ft * 12 + inc;
+                        heightCm.value = (totalInches * 2.54).toFixed(1);
+                    }
+                    if (lbs > 0) {
+                        weightKg.value = (lbs / 2.20462).toFixed(1);
+                    }
+                    metricInputs.style.display = 'block';
+                    imperialInputs.style.display = 'none';
+                }
+
+                unitBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentUnit = targetUnit;
+                calculateBMI();
+            });
+        });
+
+        const bmiNumber = document.getElementById('bmiNumber');
+        const bmiStatus = document.getElementById('bmiStatus');
+        const bmiDesc = document.getElementById('bmiDesc');
+        const bmiRange = document.getElementById('bmiRange');
+        const bmiMarker = document.getElementById('bmiMarker');
+
+        function calculateBMI() {
+            const t = texts[lang];
+            let bmi = 0;
+
+            if (currentUnit === 'metric') {
+                const h = parseFloat(heightCm.value) || 0;
+                const w = parseFloat(weightKg.value) || 0;
+                if (h > 0 && w > 0) {
+                    const heightM = h / 100;
+                    bmi = w / (heightM * heightM);
+                }
+            } else {
+                const ft = parseFloat(heightFt.value) || 0;
+                const inc = parseFloat(heightIn.value) || 0;
+                const lbs = parseFloat(weightLbs.value) || 0;
+                if ((ft > 0 || inc > 0) && lbs > 0) {
+                    const totalInches = ft * 12 + inc;
+                    // 英制 BMI 公式: 703 * lbs / (in^2)
+                    bmi = (lbs * 703) / (totalInches * totalInches);
+                }
+            }
+
+            if (bmi > 0 && bmi < 100) {
+                bmiNumber.textContent = bmi.toFixed(1);
+
+                let status = '';
+                let desc = '';
+                let range = '';
+                let color = '';
+
+                if (bmi < 18.5) {
+                    status = t.statusUnderweight;
+                    desc = t.descUnderweight;
+                    range = t.range;
+                    color = 'underweight';
+                } else if (bmi < 25) {
+                    status = t.statusNormal;
+                    desc = t.descNormal;
+                    range = t.range;
+                    color = 'normal';
+                } else if (bmi < 30) {
+                    status = t.statusOverweight;
+                    desc = t.descOverweight;
+                    range = t.range;
+                    color = 'overweight';
+                } else if (bmi < 35) {
+                    status = t.statusObese;
+                    desc = t.descObese;
+                    range = t.range;
+                    color = 'obese';
+                } else {
+                    status = t.statusSevere;
+                    desc = t.descSevere;
+                    range = t.range;
+                    color = 'severe-obese';
+                }
+
+                bmiStatus.textContent = status;
+                bmiStatus.className = 'bmi-status ' + color;
+                bmiDesc.textContent = desc;
+                bmiRange.textContent = range;
+
+                // Marker 定位計算 (刻度範圍設定為 10 ~ 40)
+                const pct = Math.min(Math.max((bmi - 10) / (40 - 10) * 100, 0), 100);
+                bmiMarker.style.display = 'block';
+                bmiMarker.style.left = pct + '%';
+
+            } else {
+                bmiNumber.textContent = '—';
+                bmiStatus.textContent = t.invalid;
+                bmiStatus.className = 'bmi-status';
+                bmiDesc.textContent = t.invalidDesc;
+                bmiRange.textContent = '';
+                bmiMarker.style.display = 'none';
+            }
+        }
+
+        // 綁定輸入事件
+        [heightCm, weightKg, heightFt, heightIn, weightLbs].forEach(input => {
+            input.addEventListener('input', calculateBMI);
+        });
+
+        // 初始化
+        switchLang(detectLanguage());
+    </script>
+</body>
+</html>

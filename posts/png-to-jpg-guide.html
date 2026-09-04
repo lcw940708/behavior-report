@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【PNG 轉 JPG 免費工具教學】幾時應該用 JPG？｜壓縮圖片｜提升網站速度｜Free PNG to JPG Converter Guide</title>
+    <meta name="description" content="PNG 轉 JPG 免費工具完整教學！說明何時選擇 JPG 格式壓縮檔案體積、提升網站載入速度，並解析純前端安全轉檔技術。Free online PNG to JPG converter guide.">
+    <meta name="keywords" content="PNG轉JPG, 圖片壓縮, 網站加速, 免費線上轉檔, 純前端工具, PNG to JPG, Compress Image, Page Speed, Image Converter, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/png-to-jpg-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【PNG 轉 JPG 免費工具教學】幾時應該用 JPG？｜壓縮圖片｜提升網站速度｜Free PNG to JPG Converter Guide">
+    <meta property="og:description" content="說明何時選擇 JPG 格式壓縮圖片體積、提升網站載入速度，並解析純前端安全轉檔技術。100% 瀏覽器處理保護私隱。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/png-to-jpg-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free PNG to JPG Converter Guide – When to Use JPG Over PNG?">
+    <meta name="twitter:description" content="Learn when to choose JPG for smaller file size and faster web loading. 100% client-side privacy.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "PNG 轉 JPG 免費工具教學：幾時應該用 JPG？ — 壓縮圖片與提升網站速度",
+      "description": "介紹如何使用 PNG 轉 JPG 工具將圖片轉換為 JPG 格式，適用於檔案壓縮、網站加速與圖片優化。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: rgba(21, 29, 48, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .feature-card h3 {
+            color: #ffffff;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .step-box {
+            background: rgba(21, 29, 48, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .step-number {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 26px;
+            height: 26px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>PNG 轉 JPG 免費工具教學：幾時應該用 JPG？ — 壓縮圖片與提升網站速度</h1>
+
+        <h2>1. 導言</h2>
+        <p>你嘅網站圖片 load 得好慢？或者你 upload 相片嗰陣成日遇到「檔案太大」嘅 error？<strong>PNG</strong> 雖然畫質好，但檔案體積龐大；而 <strong>JPG</strong> 採用破壞性壓縮，能夠喺肉眼難以察覺嘅情況下大幅縮減檔案大小。將 PNG 轉為 JPG 可以喺保持可接受畫質嘅前提下縮減 <strong>50% 至 80%</strong> 嘅檔案體積，係 <strong>網站加速</strong> 同 <strong>節省儲存空間</strong> 嘅最佳選擇。我哋嘅免費 PNG 轉 JPG 工具支援 <strong>可調式壓縮品質</strong>，所有運算喺瀏覽器入面完成，圖片唔會離開你嘅裝置，私隱 100% 安全。</p>
+
+        <h2>2. PNG 同 JPG 嘅核心差異</h2>
+        <ul>
+            <li><strong>壓縮方式：</strong> PNG 使用無損壓縮（Lossless Compression），保留所有像素細節，但檔案較大；JPG 使用破壞性壓縮（Lossy Compression），檔案較細，但會犧牲部分畫質。</li>
+            <li><strong>透明背景：</strong> PNG 支援透明背景（Alpha Channel）；JPG 唔支援透明背景。</li>
+            <li><strong>適用場景：</strong> PNG 適合圖標、Logo、需要透明背景嘅圖片；JPG 適合相片、複雜圖像、網頁圖片。</li>
+            <li><strong>檔案大小：</strong> 相同圖片下，PNG 檔案通常比 JPG 大 3-10 倍。</li>
+        </ul>
+
+        <h2>3. 幾時需要將 PNG 轉 JPG？</h2>
+        <ul>
+            <li><strong>檔案體積限制：</strong> 應付上傳上限（如 2MB 以內），轉為 JPG 可以大幅縮減檔案大小。</li>
+            <li><strong>提升網站速度與 SEO：</strong> 減少圖片體積，提升 PageSpeed 載入分數，改善用戶體驗。</li>
+            <li><strong>節省儲存空間：</strong> 大量圖片嘅話，轉為 JPG 可以節省可觀嘅儲存空間。</li>
+            <li><strong>社交媒體分享：</strong> 大部分社交平台會自動壓縮圖片，用 JPG 可以減少上傳時間。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <div class="step-box">
+            <div><span class="step-number">1</span><strong>上傳 PNG 圖片</strong></div>
+            <p style="margin:8px 0 0 34px;">點擊或拖曳 PNG 圖片到上傳區域。支援 PNG、JPG、WEBP、BMP 等格式。</p>
+        </div>
+        <div class="step-box">
+            <div><span class="step-number">2</span><strong>調整壓縮品質</strong></div>
+            <p style="margin:8px 0 0 34px;">使用滑桿調整 JPG 壓縮品質（建議 80-90%），平衡檔案大小與畫質。</p>
+        </div>
+        <div class="step-box">
+            <div><span class="step-number">3</span><strong>下載 JPG</strong></div>
+            <p style="margin:8px 0 0 34px;">點擊「下載」按鈕即可獲取壓縮後嘅 JPG 檔案。</p>
+        </div>
+
+        <h2>5. PNG 轉 JPG 嘅好處同缺點</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3 style="color: var(--primary-cyan);">✅ 好處</h3>
+                <ul>
+                    <li>檔案體積大幅縮減（50-80%）</li>
+                    <li>網站載入速度顯著提升</li>
+                    <li>節省儲存空間與頻寬</li>
+                    <li>適合社交媒體分享</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h3 style="color: #ef4444;">❌ 缺點</h3>
+                <ul>
+                    <li>唔支援透明背景</li>
+                    <li>會有一定程度嘅畫質損失</li>
+                    <li>唔適合需要無損儲存嘅場合</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>6. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站工具</th>
+                    <th>桌面軟件</th>
+                    <th>手機 App</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>付費或需安裝</td>
+                    <td>免費或付費</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>✅ 本地處理</td>
+                    <td>⚠️ 視乎 App</td>
+                </tr>
+                <tr>
+                    <td><strong>壓縮品質調節</strong></td>
+                    <td>✅ 滑桿自由調節</td>
+                    <td>✅ 完整控制</td>
+                    <td>⚠️ 視乎 App</td>
+                </tr>
+                <tr>
+                    <td><strong>批次處理</strong></td>
+                    <td>❌ 單張處理</td>
+                    <td>✅ 支援</td>
+                    <td>⚠️ 視乎 App</td>
+                </tr>
+                <tr>
+                    <td><strong>無需安裝</strong></td>
+                    <td>✅ 瀏覽器即用</td>
+                    <td>❌ 需安裝軟件</td>
+                    <td>❌ 需下載 App</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>中等</td>
+                    <td>低</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>7. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「初初開始整網站嗰陣，我完全唔理圖片大小，求其擺晒 PNG 上去。結果個網站 load 得勁慢，Google PageSpeed 分數得 40 分。後來我先知道，<strong>一張 5MB 嘅 PNG 相片同 500KB 嘅 JPG，肉眼根本分唔出分別，但 loading 時間爭 2.5 秒</strong>。呢 2.5 秒嘅差距，就係 <strong>用戶會唔會離開你網站</strong> 嘅關鍵。仲有 SEO——Google 會將網站速度納入排名因素，慢嘅網站會俾人 <strong>懲罰</strong>。呢個工具俾你嘅，就係 <strong>用一個 click 換取更快嘅網站速度同更好嘅 SEO 排名</strong>。」</p>
+        </div>
+
+        <h2>8. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">🖼️ 需要壓縮圖片？PNG 轉 JPG 一鍵搞定！</h3>
+            <p style="margin:0; font-size:0.9rem;">自訂壓縮品質，即時轉換下載，完全免費且保護私隱。</p>
+            <a href="../tools/png-to-jpg.html?lang=hk" class="cta-btn-link" id="ctaBtnZh">👉 立即免費試用 PNG 轉 JPG 工具</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Free PNG to JPG Converter Guide: When Should You Use JPG Over PNG? — Compress Images & Boost Website Speed</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Your website images loading slowly? Or constantly getting "file too large" errors when uploading? <strong>PNG</strong> offers high quality but massive file sizes, while <strong>JPG</strong> uses lossy compression to dramatically reduce file size with minimal visible quality loss. Converting PNG to JPG can reduce file size by <strong>50-80%</strong>—the best choice for <strong>website speed optimization</strong> and <strong>storage savings</strong>. Our free PNG to JPG converter features <strong>adjustable compression quality</strong>—all processing happens in your browser, your images never leave your device, ensuring 100% privacy.</p>
+
+        <h2>2. Key Differences Between PNG and JPG</h2>
+        <ul>
+            <li><strong>Compression:</strong> PNG uses lossless compression (retains all details, larger files); JPG uses lossy compression (smaller files, some quality loss).</li>
+            <li><strong>Transparent Background:</strong> PNG supports transparency (Alpha Channel); JPG does not.</li>
+            <li><strong>Use Cases:</strong> PNG is best for icons, logos, and images requiring transparency; JPG is best for photos, complex images, and web graphics.</li>
+            <li><strong>File Size:</strong> PNG files are typically 3-10x larger than JPG for the same image.</li>
+        </ul>
+
+        <h2>3. When Should You Convert PNG to JPG?</h2>
+        <ul>
+            <li><strong>File Size Limits:</strong> Meet upload limits (e.g., under 2MB) by converting to JPG.</li>
+            <li><strong>Boost Website Speed & SEO:</strong> Reduce image file size to improve PageSpeed scores and user experience.</li>
+            <li><strong>Save Storage Space:</strong> Convert large batches of images to JPG to save significant storage.</li>
+            <li><strong>Social Media Sharing:</strong> Most platforms compress images—JPG uploads are faster.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <div class="step-box">
+            <div><span class="step-number">1</span><strong>Upload PNG Image</strong></div>
+            <p style="margin:8px 0 0 34px;">Click or drag your PNG image to the upload area. Supports PNG, JPG, WEBP, BMP, and more.</p>
+        </div>
+        <div class="step-box">
+            <div><span class="step-number">2</span><strong>Adjust Compression Quality</strong></div>
+            <p style="margin:8px 0 0 34px;">Use the slider to adjust JPG quality (recommended 80-90%) to balance file size and image quality.</p>
+        </div>
+        <div class="step-box">
+            <div><span class="step-number">3</span><strong>Download JPG</strong></div>
+            <p style="margin:8px 0 0 34px;">Click the download button to save your compressed JPG file.</p>
+        </div>
+
+        <h2>5. Pros and Cons of PNG to JPG Conversion</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3 style="color: var(--primary-cyan);">✅ Pros</h3>
+                <ul>
+                    <li>Dramatically reduced file size (50-80%)</li>
+                    <li>Significantly faster website loading</li>
+                    <li>Save storage space and bandwidth</li>
+                    <li>Ideal for social media sharing</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h3 style="color: #ef4444;">❌ Cons</h3>
+                <ul>
+                    <li>Does not support transparent backgrounds</li>
+                    <li>Some quality loss is inevitable</li>
+                    <li>Not suitable for lossless storage needs</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>6. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Tool (Us)</th>
+                    <th>Desktop Software</th>
+                    <th>Mobile App</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Paid / Install</td>
+                    <td>Free or Paid</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>✅ Local</td>
+                    <td>⚠️ App-dependent</td>
+                </tr>
+                <tr>
+                    <td><strong>Quality Control</strong></td>
+                    <td>✅ Slider adjustment</td>
+                    <td>✅ Full control</td>
+                    <td>⚠️ App-dependent</td>
+                </tr>
+                <tr>
+                    <td><strong>Batch Processing</strong></td>
+                    <td>❌ Single image</td>
+                    <td>✅ Supported</td>
+                    <td>⚠️ App-dependent</td>
+                </tr>
+                <tr>
+                    <td><strong>No Installation</strong></td>
+                    <td>✅ Browser</td>
+                    <td>❌ Software</td>
+                    <td>❌ App Required</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Medium</td>
+                    <td>Low</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>7. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"When I first started building websites, I didn't pay any attention to image sizes—just uploaded everything as PNG. My site loaded painfully slow, and my Google PageSpeed score was a miserable 40. Later I learned: <strong>the naked eye can barely tell the difference between a 5MB PNG and a 500KB JPG, but the loading time difference is 2.5 seconds</strong>. That 2.5-second gap is the <strong>difference between users staying or leaving</strong>. And SEO—Google factors site speed into rankings; slow sites get <strong>penalized</strong>. This tool gives you exactly that <strong>ability to trade one click for faster site speed and better SEO rankings</strong>."</p>
+        </div>
+
+        <h2>8. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">🖼️ Need to Compress Images? PNG to JPG Does It Instantly!</h3>
+            <p style="margin:0; font-size:0.9rem;">Custom compression quality, instant conversion and download—completely free with privacy protection.</p>
+            <a href="../tools/png-to-jpg.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free PNG to JPG Converter Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtnZh = document.getElementById('ctaBtnZh');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtnZh.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtnZh.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

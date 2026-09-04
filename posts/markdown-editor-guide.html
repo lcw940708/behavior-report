@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【Markdown 編輯器教學】新手入門指南｜即時預覽 HTML｜免費線上工具｜Free Markdown Editor Guide</title>
+    <meta name="description" content="Markdown 編輯器完整教學！新手入門指南，學習標題、列表、程式碼、表格等語法，支援左寫右即時預覽、一鍵複製 HTML 與下載檔案。Free online Markdown editor guide.">
+    <meta name="keywords" content="Markdown 編輯器, Markdown 教學, Markdown 語法, 即時預覽, Markdown to HTML, 免費線上工具, Markdown Editor, Live Preview, Markdown Syntax, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/markdown-editor-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【Markdown 編輯器教學】新手入門指南｜即時預覽 HTML｜免費線上工具｜Free Markdown Editor Guide">
+    <meta property="og:description" content="學習 Markdown 基本語法，搭配即時預覽編輯器，輕鬆輸出標準 HTML code。100% 瀏覽器處理保護私隱。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/markdown-editor-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Markdown Editor Guide – Beginner Tutorial with Live Preview & HTML Export">
+    <meta name="twitter:description" content="Learn Markdown syntax with live preview, HTML export, and simple tutorials. 100% client-side privacy.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Markdown 編輯器教學：新手入門指南 — 即時預覽 HTML",
+      "description": "介紹 Markdown 基本語法，並說明如何使用免費 Markdown 編輯器進行即時預覽與 HTML 轉換，適用於技術寫作、文件編寫與內容創作。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .syntax-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .syntax-table th, .syntax-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .syntax-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .syntax-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .syntax-table code {
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--primary-cyan);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .step-box {
+            background: rgba(21, 29, 48, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .step-number {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 26px;
+            height: 26px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .syntax-table { font-size: 0.8rem; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>Markdown 編輯器教學：新手入門指南 — 即時預覽 HTML</h1>
+
+        <h2>1. 導言</h2>
+        <p>你試過寫技術文件或者 Blog 文章嗰陣，覺得用 Word 排版好麻煩，用 HTML 又記唔晒啲 tag？<strong>Markdown</strong> 就係為咗呢個情況而設——佢係一種輕量級標記語言，用純文字就可以快速排版，仲可以秒級轉換為 <strong>標準 HTML Code</strong>。我哋嘅免費 Markdown 編輯器支援 <strong>左寫右即時預覽</strong>、<strong>一鍵複製 HTML</strong> 同 <strong>下載 HTML 檔案</strong>，仲有內置語法教學，新手都可以立即上手。所有運算喺瀏覽器入面完成，文字唔會離開你嘅裝置，私隱 100% 安全。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>Markdown</strong> 係由 John Gruber 喺 2004 年創造嘅輕量級標記語言，目標係做到「易寫易讀」。主要特色包括：</p>
+        <ul>
+            <li><strong>純文字格式：</strong> 任何文字編輯器都可以打開同編輯。</li>
+            <li><strong>語法簡單直觀：</strong> 例如用 <code>#</code> 表示標題，用 <code>**</code> 表示粗體。</li>
+            <li><strong>秒級轉 HTML：</strong> Markdown 文件可以快速轉換為結構化嘅 HTML。</li>
+            <li><strong>廣泛應用：</strong> GitHub、Stack Overflow、Notion、Reddit 等都支援 Markdown。</li>
+        </ul>
+
+        <h2>3. Markdown 基本語法</h2>
+        <table class="syntax-table">
+            <thead>
+                <tr>
+                    <th>功能</th>
+                    <th>語法</th>
+                    <th>輸出效果</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>標題</td>
+                    <td><code># 一級標題<br>## 二級標題</code></td>
+                    <td>大標題 / 中標題</td>
+                </tr>
+                <tr>
+                    <td>粗體</td>
+                    <td><code>**粗體文字**</code></td>
+                    <td><strong>粗體文字</strong></td>
+                </tr>
+                <tr>
+                    <td>斜體</td>
+                    <td><code>*斜體文字*</code></td>
+                    <td><em>斜體文字</em></td>
+                </tr>
+                <tr>
+                    <td>無序列表</td>
+                    <td><code>- 項目一<br>- 項目二</code></td>
+                    <td>• 項目一<br>• 項目二</td>
+                </tr>
+                <tr>
+                    <td>有序列表</td>
+                    <td><code>1. 第一項<br>2. 第二項</code></td>
+                    <td>1. 第一項<br>2. 第二項</td>
+                </tr>
+                <tr>
+                    <td>連結</td>
+                    <td><code>[顯示文字](https://網址)</code></td>
+                    <td><a href="#" style="color: var(--primary-cyan);">顯示文字</a></td>
+                </tr>
+                <tr>
+                    <td>圖片</td>
+                    <td><code>![替代文字](圖片網址)</code></td>
+                    <td>嵌入圖片</td>
+                </tr>
+                <tr>
+                    <td>程式碼</td>
+                    <td><code>```語言<br>code<br>```</code></td>
+                    <td>程式碼區塊</td>
+                </tr>
+                <tr>
+                    <td>引用</td>
+                    <td><code>&gt; 引用文字</code></td>
+                    <td>引用區塊</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>4. 實際應用場景</h2>
+        <ul>
+            <li><strong>技術文件撰寫：</strong> README、API 文件、開發者手冊。</li>
+            <li><strong>Blog 文章：</strong> 快速排版文章，專注內容而非格式。</li>
+            <li><strong>筆記整理：</strong> 用 Markdown 格式記錄學習筆記、會議記錄。</li>
+            <li><strong>GitHub 專案：</strong> README.md 係每個專案嘅標準配備。</li>
+            <li><strong>網頁內容製作：</strong> 先寫 Markdown，再轉換為 HTML 嵌入網站。</li>
+        </ul>
+
+        <h2>5. 使用步驟</h2>
+        <div class="step-box">
+            <div><span class="step-number">1</span><strong>輸入 Markdown 語法</strong></div>
+            <p style="margin:8px 0 0 34px;">喺左側編輯區輸入或貼上 Markdown 格式嘅文字。</p>
+        </div>
+        <div class="step-box">
+            <div><span class="step-number">2</span><strong>即時預覽</strong></div>
+            <p style="margin:8px 0 0 34px;">右側面板會毫秒級自動渲染最終 HTML 效果。</p>
+        </div>
+        <div class="step-box">
+            <div><span class="step-number">3</span><strong>複製或下載 HTML</strong></div>
+            <p style="margin:8px 0 0 34px;">點擊「複製 HTML」或「下載 HTML」儲存結果。</p>
+        </div>
+
+        <h2>6. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站 Markdown 編輯器</th>
+                    <th>Word 文書軟件</th>
+                    <th>純 HTML 編寫</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>需購買軟件</td>
+                    <td>免費</td>
+                </tr>
+                <tr>
+                    <td><strong>學習曲線</strong></td>
+                    <td>極低（5 分鐘上手）</td>
+                    <td>中等</td>
+                    <td>較高</td>
+                </tr>
+                <tr>
+                    <td><strong>即時預覽</strong></td>
+                    <td>✅ 左寫右即時預覽</td>
+                    <td>⚠️ 需切換模式</td>
+                    <td>❌ 需瀏覽器</td>
+                </tr>
+                <tr>
+                    <td><strong>HTML 輸出</strong></td>
+                    <td>✅ 一鍵複製/下載</td>
+                    <td>❌ 需另存 HTML</td>
+                    <td>✅ 直接編寫</td>
+                </tr>
+                <tr>
+                    <td><strong>私隱保護</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>✅ 本地處理</td>
+                    <td>✅ 本地處理</td>
+                </tr>
+                <tr>
+                    <td><strong>無需安裝</strong></td>
+                    <td>✅ 瀏覽器即用</td>
+                    <td>❌ 需安裝軟件</td>
+                    <td>✅ 瀏覽器即用</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>中等</td>
+                    <td>較高</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>7. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「以前寫技術文件嗰陣，用 Word 排版搞到燥底——較字型、調 alignment、改顏色，<strong>花喺格式嘅時間仲多過寫內容</strong>。後來轉咗用 Markdown，先發現原來寫嘢可以咁專注——<strong>淨係打幾個 symbol 就完成排版</strong>，完全唔使分心。Markdown 係一個 <strong>將內容從格式中解放出來</strong> 嘅工具，逼你 <strong>專注喺內容本身</strong>。呢個工具俾你嘅，就係 <strong>用最簡單嘅方式寫出最乾淨嘅內容</strong> 嘅能力——你唔需要再記 HTML tag，只需要記幾個 symbol。」</p>
+        </div>
+
+        <h2>8. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">📝 想用 Markdown 快速排版？即時預覽 HTML！</h3>
+            <p style="margin:0; font-size:0.9rem;">左寫右即時預覽，一鍵複製或下載 HTML，完全免費且保護私隱。</p>
+            <a href="../tools/markdown-editor.html?lang=hk" class="cta-btn-link" id="ctaBtnZh">👉 立即免費試用 Markdown 編輯器</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Markdown Editor Guide: Beginner Tutorial with Live Preview & HTML Export</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Ever found Word formatting frustrating, or couldn't remember all the HTML tags? <strong>Markdown</strong> is exactly for this situation—a lightweight markup language that lets you format plain text quickly and convert it to <strong>standard HTML code</strong> in seconds. Our free Markdown editor features <strong>split-screen live preview</strong>, <strong>one-click HTML copy</strong>, and <strong>HTML file download</strong>, with built-in syntax help for beginners. All processing happens in your browser—your text never leaves your device, ensuring 100% privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>Markdown</strong> was created by John Gruber in 2004 with the goal of being "easy to write and easy to read." Key features include:</p>
+        <ul>
+            <li><strong>Plain Text Format:</strong> Can be opened and edited in any text editor.</li>
+            <li><strong>Simple, Intuitive Syntax:</strong> Use <code>#</code> for headings, <code>**</code> for bold text.</li>
+            <li><strong>Instant HTML Conversion:</strong> Markdown documents can be quickly converted to structured HTML.</li>
+            <li><strong>Wide Adoption:</strong> GitHub, Stack Overflow, Notion, Reddit, and many more support Markdown.</li>
+        </ul>
+
+        <h2>3. Basic Markdown Syntax</h2>
+        <table class="syntax-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Syntax</th>
+                    <th>Output</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Heading</td>
+                    <td><code># Heading 1<br>## Heading 2</code></td>
+                    <td>Heading 1 / Heading 2</td>
+                </tr>
+                <tr>
+                    <td>Bold</td>
+                    <td><code>**Bold Text**</code></td>
+                    <td><strong>Bold Text</strong></td>
+                </tr>
+                <tr>
+                    <td>Italic</td>
+                    <td><code>*Italic Text*</code></td>
+                    <td><em>Italic Text</em></td>
+                </tr>
+                <tr>
+                    <td>Unordered List</td>
+                    <td><code>- Item 1<br>- Item 2</code></td>
+                    <td>• Item 1<br>• Item 2</td>
+                </tr>
+                <tr>
+                    <td>Ordered List</td>
+                    <td><code>1. First<br>2. Second</code></td>
+                    <td>1. First<br>2. Second</td>
+                </tr>
+                <tr>
+                    <td>Link</td>
+                    <td><code>[Text](https://url)</code></td>
+                    <td><a href="#" style="color: var(--primary-cyan);">Text</a></td>
+                </tr>
+                <tr>
+                    <td>Image</td>
+                    <td><code>![Alt](image-url)</code></td>
+                    <td>Embedded Image</td>
+                </tr>
+                <tr>
+                    <td>Code Block</td>
+                    <td><code>```language<br>code<br>```</code></td>
+                    <td>Code Block</td>
+                </tr>
+                <tr>
+                    <td>Blockquote</td>
+                    <td><code>&gt; Quote text</code></td>
+                    <td>Quote Block</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>4. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Technical Documentation:</strong> README files, API docs, developer manuals.</li>
+            <li><strong>Blog Writing:</strong> Quickly format articles—focus on content, not formatting.</li>
+            <li><strong>Note-Taking:</strong> Record study notes and meeting minutes in Markdown format.</li>
+            <li><strong>GitHub Projects:</strong> README.md is a standard for every project.</li>
+            <li><strong>Web Content Creation:</strong> Write in Markdown, then convert to HTML for your website.</li>
+        </ul>
+
+        <h2>5. Step-by-Step Usage Guide</h2>
+        <div class="step-box">
+            <div><span class="step-number">1</span><strong>Write Markdown</strong></div>
+            <p style="margin:8px 0 0 34px;">Type or paste your Markdown-formatted text in the left editor panel.</p>
+        </div>
+        <div class="step-box">
+            <div><span class="step-number">2</span><strong>Live Preview</strong></div>
+            <p style="margin:8px 0 0 34px;">The right panel renders the final HTML output instantly.</p>
+        </div>
+        <div class="step-box">
+            <div><span class="step-number">3</span><strong>Copy or Download HTML</strong></div>
+            <p style="margin:8px 0 0 34px;">Click "Copy HTML" or "Download HTML" to save your results.</p>
+        </div>
+
+        <h2>6. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Markdown Editor (Us)</th>
+                    <th>Word Processor</th>
+                    <th>Raw HTML Editing</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Software Purchase</td>
+                    <td>Free</td>
+                </tr>
+                <tr>
+                    <td><strong>Learning Curve</strong></td>
+                    <td>Very Low (5 min)</td>
+                    <td>Medium</td>
+                    <td>Higher</td>
+                </tr>
+                <tr>
+                    <td><strong>Live Preview</strong></td>
+                    <td>✅ Split-screen real-time</td>
+                    <td>⚠️ Mode switching</td>
+                    <td>❌ Browser needed</td>
+                </tr>
+                <tr>
+                    <td><strong>HTML Export</strong></td>
+                    <td>✅ One-click copy/download</td>
+                    <td>❌ Save as HTML</td>
+                    <td>✅ Direct writing</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy Protection</strong></td>
+                    <td>✅ 100% Client-side</td>
+                    <td>✅ Local processing</td>
+                    <td>✅ Local processing</td>
+                </tr>
+                <tr>
+                    <td><strong>No Installation</strong></td>
+                    <td>✅ Browser</td>
+                    <td>❌ Software</td>
+                    <td>✅ Browser</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Medium</td>
+                    <td>Higher</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>7. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"Back when I wrote technical documentation in Word, I'd get frustrated with formatting—fonts, alignment, colors—<strong>I spent more time on formatting than on the actual content</strong>. After switching to Markdown, I discovered I could write with total focus—<strong>just a few symbols for formatting</strong>, no distractions. Markdown is a tool that <strong>liberates content from formatting</strong>, forcing you to <strong>focus on content itself</strong>. This tool gives you exactly that <strong>ability to write clean content in the simplest way possible</strong>—you don't need to remember HTML tags, just a few symbols."</p>
+        </div>
+
+        <h2>8. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">📝 Want to Write with Markdown? Live Preview & HTML Export!</h3>
+            <p style="margin:0; font-size:0.9rem;">Split-screen live preview, one-click HTML copy or download—completely free with privacy protection.</p>
+            <a href="../tools/markdown-editor.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Markdown Editor Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtnZh = document.getElementById('ctaBtnZh');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtnZh.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtnZh.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

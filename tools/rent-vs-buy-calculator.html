@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>租屋 vs 買房決策分析器 — Rent vs. Buy Calculator & Financial Comparison | ABRG</title>
+    <meta name="description" content="免費線上租屋 vs 買房決策分析器！輸入月租金、房價、按揭利率、物業稅與升值率，即時比較長期財務總成本差異與買房損益平衡點。Calculate whether renting or buying a home makes more financial sense for your long-term wealth." />
+    <meta name="keywords" content="租屋 vs 買房, 買樓定租樓, Rent vs Buy Calculator, 買房損益平衡點, 房貸計算器, 按揭計算, 買房總成本, 機會成本計算, Break-even Homeownership" />
+    <link rel="canonical" href="https://www.behavior-report.com/rent-vs-buy-calculator.html" />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="租屋 vs 買房決策分析器 — Free Online Rent vs. Buy Calculator | ABRG" />
+    <meta property="og:description" content="輸入月租、房價、按揭利率與升值率，即時比較「租樓」與「買樓」在相同時間跨度下的累積財富差異與損益平衡點 (Bilingual Chinese & English)." />
+    <meta property="og:url" content="https://www.behavior-report.com/rent-vs-buy-calculator.html" />
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Rent vs. Buy Calculator & Financial Analysis | ABRG" />
+    <meta name="twitter:description" content="Compare long-term cost differences and calculate break-even years between renting and buying a property." />
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "租屋 vs 買房決策分析器 / Rent vs. Buy Calculator",
+      "url": "https://www.behavior-report.com/rent-vs-buy-calculator.html",
+      "description": "估算租屋與買房長期財務差異與損益平衡點的線上工具。Compare lifetime cost & wealth accumulated between renting and buying.",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "All",
+      "inLanguage": ["zh-HK", "zh-TW", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root { 
+            --bg-color: #0b0f19; 
+            --card-bg: #151d30; 
+            --text-color: #94a3b8; 
+            --accent-cyan: #22d3ee; 
+            --accent-amber: #f59e0b;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+        }
+        * { box-sizing: border-box; }
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            margin: 0; 
+            padding: 15px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
+        .container { max-width: 950px; width: 100%; }
+        
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0 15px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 15px;
+        }
+        .brand {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+        .back-link {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        /* ===== Language Switcher ===== */
+        .lang-switch {
+            display: flex;
+            gap: 6px;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+        .lang-btn {
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-color);
+            font-size: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .lang-btn.active {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+            background: rgba(34, 211, 238, 0.08);
+        }
+        .lang-btn:hover:not(.active) {
+            border-color: #cbd5e1;
+            color: #cbd5e1;
+        }
+
+        .page-title {
+            font-size: 1.4rem;
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        .page-desc {
+            font-size: 0.85rem;
+            color: var(--text-color);
+            margin-bottom: 20px;
+        }
+
+        /* ===== Calculator Layout ===== */
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 820px) {
+            .calculator-grid { grid-template-columns: 1fr; }
+        }
+
+        .panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .panel-title {
+            font-size: 1.05rem;
+            color: var(--accent-amber);
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-weight: 700;
+            border-left: 3px solid var(--accent-amber);
+            padding-left: 8px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        @media (max-width: 480px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.82rem;
+            color: #cbd5e1;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .form-control {
+            width: 100%;
+            padding: 9px 12px;
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-control:focus {
+            border-color: var(--accent-cyan);
+        }
+        .unit-suffix {
+            position: absolute;
+            right: 10px;
+            color: #64748b;
+            font-size: 0.8rem;
+            pointer-events: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 11px;
+            background: var(--accent-cyan);
+            color: #0b0f19;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.92rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: opacity 0.2s;
+        }
+        .btn-submit:hover { opacity: 0.9; }
+
+        /* ===== Verdict Banner ===== */
+        .verdict-banner {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .verdict-title {
+            font-size: 0.82rem;
+            color: var(--text-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .verdict-text {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin: 4px 0;
+        }
+        .verdict-sub {
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+        }
+
+        /* ===== Result Cards ===== */
+        .result-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        .result-label {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+        .result-value {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+        .result-value.buy { color: var(--accent-green); }
+        .result-value.rent { color: var(--accent-amber); }
+        .result-desc {
+            font-size: 0.76rem;
+            color: #64748b;
+            line-height: 1.4;
+        }
+
+        .breakdown-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.78rem;
+            margin-top: 10px;
+        }
+        .breakdown-table td {
+            padding: 4px 0;
+            color: #94a3b8;
+        }
+        .breakdown-table td:last-child {
+            text-align: right;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .footer { 
+            margin-top: 40px; 
+            padding-top: 15px; 
+            border-top: 1px solid rgba(148, 163, 184, 0.1); 
+            text-align: center; 
+            font-size: 0.78rem; 
+            color: #555; 
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 8px; }
+        .footer a:hover { color: #aaa; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-switch">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文 (HK)</button>
+        <button class="lang-btn" data-lang="tw">🇹🇼 繁體中文 (TW)</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <h1 class="page-title" id="pageTitle">🏠 租屋 vs 買房決策分析器</h1>
+    <p class="page-desc" id="pageDesc">比較長期租房與買房的真實總財務成本、淨資產累積差異，並找出買房的最佳損益平衡點。</p>
+
+    <div class="calculator-grid">
+        <!-- 輸入參數面板 -->
+        <div class="panel">
+            <h2 class="panel-title" id="inputPanelTitle">⚙️ 房屋與財務參數</h2>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label id="lblHomePrice" for="homePrice">目標房屋總價 ($)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="homePrice" class="form-control" value="6000000" step="100000">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label id="lblMonthlyRent" for="monthlyRent">預估月租金 ($)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="monthlyRent" class="form-control" value="18000" step="500">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label id="lblDownPayment" for="downPaymentPct">首期比例 (%)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="downPaymentPct" class="form-control" value="20" min="5" max="90">
+                        <span class="unit-suffix">%</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label id="lblMortgageRate" for="mortgageRate">按揭年利率 (%)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="mortgageRate" class="form-control" value="3.5" step="0.1">
+                        <span class="unit-suffix">%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label id="lblMortgageTerm" for="mortgageTerm">按揭年期 (年)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="mortgageTerm" class="form-control" value="30" min="5" max="30">
+                        <span class="unit-suffix" id="unitYears1">年</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label id="lblHoldYears" for="holdYears">預計居住/持有 (年)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="holdYears" class="form-control" value="10" min="1" max="40">
+                        <span class="unit-suffix" id="unitYears2">年</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label id="lblAppreciation" for="appreciationRate">預期房價年升值率 (%)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="appreciationRate" class="form-control" value="2.5" step="0.5">
+                        <span class="unit-suffix">%</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label id="lblRentIncrease" for="rentIncreaseRate">預期租金年調漲率 (%)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="rentIncreaseRate" class="form-control" value="2.0" step="0.5">
+                        <span class="unit-suffix">%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label id="lblInvestReturn" for="investReturnRate">投資年化回報率 (%)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="investReturnRate" class="form-control" value="5.0" step="0.5">
+                        <span class="unit-suffix">%</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label id="lblTaxMaint" for="taxMaintPct">每年物業稅與維護 (%)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="taxMaintPct" class="form-control" value="1.0" step="0.1">
+                        <span class="unit-suffix">%</span>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn-submit" id="btnCalculate">即時分析 / Analyze Now</button>
+        </div>
+
+        <!-- 輸出結果面板 -->
+        <div class="panel">
+            <h2 class="panel-title" id="resultPanelTitle">📊 決策分析與財務對比</h2>
+
+            <!-- 核心建議 Banner -->
+            <div class="verdict-banner">
+                <div class="verdict-title" id="verdictHeader">財務最佳選擇 (FINANCIAL VERDICT)</div>
+                <div class="verdict-text" id="verdictMain">計算中...</div>
+                <div class="verdict-sub" id="verdictBreakeven">損益平衡點估估中...</div>
+            </div>
+
+            <!-- 買房分析卡片 -->
+            <div class="result-card">
+                <div class="result-header">
+                    <span class="result-label" id="lblBuyCard">🏡 選擇買房 (Buying)</span>
+                    <span class="result-value buy" id="valBuyNetCost">$0</span>
+                </div>
+                <div class="result-desc" id="descBuyCard">累積房屋總淨支出（總開支減去期末房屋淨值）。</div>
+                <table class="breakdown-table">
+                    <tr><td id="tdBuyMortgage">累積按揭供款:</td><td id="valBuyMortgage">$0</td></tr>
+                    <tr><td id="tdBuyTax">物業稅及維修:</td><td id="valBuyTax">$0</td></tr>
+                    <tr><td id="tdBuyHomeVal">期末房屋估值:</td><td id="valBuyHomeVal">$0</td></tr>
+                    <tr><td id="tdBuyEquity">期末淨資產 (Equity):</td><td id="valBuyEquity">$0</td></tr>
+                </table>
+            </div>
+
+            <!-- 租屋分析卡片 -->
+            <div class="result-card">
+                <div class="result-header">
+                    <span class="result-label" id="lblRentCard">🔑 選擇租屋 (Renting)</span>
+                    <span class="result-value rent" id="valRentNetCost">$0</span>
+                </div>
+                <div class="result-desc" id="descRentCard">累積租金淨支出（總租金減去首期與差額投資收益）。</div>
+                <table class="breakdown-table">
+                    <tr><td id="tdRentTotal">累積付出的租金:</td><td id="valRentTotal">$0</td></tr>
+                    <tr><td id="tdRentOpportunity">首期差額投資回報:</td><td id="valRentOpportunity">$0</td></tr>
+                    <tr><td id="tdRentWealth">租屋者期末投資總資產:</td><td id="valRentWealth">$0</td></tr>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footHome">主頁</a> |
+        <a href="../blog.html" id="footBlog">最新文章</a> |
+        <a href="../about.html" id="footAbout">關於我</a> |
+        <a href="../privacy.html" id="footPrivacy">隱私權政策</a>
+        <br><br>
+        &copy; 2026 ABRG 大數據趣味行為觀察社
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    // 介面語言多語系翻譯
+    const i18n = {
+        zh: {
+            back: "← 文章列表",
+            title: "🏠 租屋 vs 買房決策分析器",
+            desc: "比較長期租房與買房的真實總財務成本、淨資產累積差異，並找出買房的最佳損益平衡點。",
+            inputTitle: "⚙️ 房屋與財務參數",
+            lblHomePrice: "目標房屋總價 ($)",
+            lblMonthlyRent: "預估月租金 ($)",
+            lblDownPayment: "首期比例 (%)",
+            lblMortgageRate: "按揭年利率 (%)",
+            lblMortgageTerm: "按揭年期 (年)",
+            lblHoldYears: "預計居住/持有 (年)",
+            lblAppreciation: "預期房價年升值率 (%)",
+            lblRentIncrease: "預期租金年調漲率 (%)",
+            lblInvestReturn: "投資年化回報率 (%)",
+            lblTaxMaint: "每年物業稅與維護 (%)",
+            unitYears: "年",
+            btnCalc: "即時分析",
+            resultTitle: "📊 決策分析與財務對比",
+            verdictHeader: "財務最佳選擇 (FINANCIAL VERDICT)",
+            verdictBuy: "買房較划算！可節省約 ",
+            verdictRent: "租屋較划算！可節省約 ",
+            verdictBreakeven: "買房與租屋損益平衡點約為：第 {years} 年",
+            verdictNoBreakeven: "在設定年限內，租屋的財務回報整體高於買房。",
+            lblBuyCard: "🏡 選擇買房 (Buying)",
+            descBuyCard: "累積房屋總淨支出（總開支減去期末房屋淨值）。",
+            tdBuyMortgage: "累積按揭供款:",
+            tdBuyTax: "物業稅及維修費用:",
+            tdBuyHomeVal: "期末房屋預估價值:",
+            tdBuyEquity: "期末房屋淨資產 (Equity):",
+            lblRentCard: "🔑 選擇租屋 (Renting)",
+            descRentCard: "累積租金淨支出（總租金支出減去投資回報）。",
+            tdRentTotal: "累積付出的總租金:",
+            tdRentOpportunity: "將首期/差額拿去投資收益:",
+            tdRentWealth: "租屋者期末投資總資產:",
+            footHome: "主頁",
+            footBlog: "最新文章",
+            footAbout: "關於我",
+            footPrivacy: "隱私權政策"
+        },
+        en: {
+            back: "← Articles",
+            title: "🏠 Rent vs. Buy Calculator",
+            desc: "Compare long-term total financial costs, net worth accumulation, and calculate the break-even year between renting and buying a property.",
+            inputTitle: "⚙️ Property & Financial Parameters",
+            lblHomePrice: "Home Purchase Price ($)",
+            lblMonthlyRent: "Monthly Rent ($)",
+            lblDownPayment: "Down Payment (%)",
+            lblMortgageRate: "Mortgage Rate (%)",
+            lblMortgageTerm: "Mortgage Term (Years)",
+            lblHoldYears: "Years of Occupancy",
+            lblAppreciation: "Home Appreciation Rate (%)",
+            lblRentIncrease: "Annual Rent Increase (%)",
+            lblInvestReturn: "Investment Return Rate (%)",
+            lblTaxMaint: "Annual Tax & Maintenance (%)",
+            unitYears: "yrs",
+            btnCalc: "Analyze Now",
+            resultTitle: "📊 Financial Verdict & Comparison",
+            verdictHeader: "FINANCIAL VERDICT",
+            verdictBuy: "Buying is financially better! Saves approx ",
+            verdictRent: "Renting is financially better! Saves approx ",
+            verdictBreakeven: "Buying breaks even with renting at: Year {years}",
+            verdictNoBreakeven: "Renting remains financially superior within your timeframe.",
+            lblBuyCard: "🏡 Buying Option",
+            descBuyCard: "Net cost of buying (Total outflows minus home equity built).",
+            tdBuyMortgage: "Total Mortgage Payments:",
+            tdBuyTax: "Total Tax & Maintenance:",
+            tdBuyHomeVal: "Estimated Home Value at End:",
+            tdBuyEquity: "Home Equity Accumulated:",
+            lblRentCard: "🔑 Renting Option",
+            descRentCard: "Net cost of renting (Total rent paid minus investment earnings).",
+            tdRentTotal: "Total Cumulative Rent Paid:",
+            tdRentOpportunity: "Investment Gains (Down Payment & Savings):",
+            tdRentWealth: "Renter's Ending Investment Net Worth:",
+            footHome: "Home",
+            footBlog: "Blog",
+            footAbout: "About",
+            footPrivacy: "Privacy Policy"
+        }
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentLang = urlParams.get('lang') || 'hk';
+
+    function formatCurrency(amount) {
+        return '$' + Math.round(amount).toLocaleString('en-US');
+    }
+
+    // 核心對比與計算邏輯
+    function calculateRentVsBuy() {
+        const homePrice = parseFloat(document.getElementById('homePrice').value) || 0;
+        const monthlyRent = parseFloat(document.getElementById('monthlyRent').value) || 0;
+        const downPaymentPct = (parseFloat(document.getElementById('downPaymentPct').value) || 0) / 100;
+        const mortgageRate = (parseFloat(document.getElementById('mortgageRate').value) || 0) / 100;
+        const mortgageTerm = parseFloat(document.getElementById('mortgageTerm').value) || 30;
+        const holdYears = parseFloat(document.getElementById('holdYears').value) || 10;
+        const appreciationRate = (parseFloat(document.getElementById('appreciationRate').value) || 0) / 100;
+        const rentIncreaseRate = (parseFloat(document.getElementById('rentIncreaseRate').value) || 0) / 100;
+        const investReturnRate = (parseFloat(document.getElementById('investReturnRate').value) || 0) / 100;
+        const taxMaintPct = (parseFloat(document.getElementById('taxMaintPct').value) || 0) / 100;
+
+        const downPayment = homePrice * downPaymentPct;
+        const loanAmount = homePrice - downPayment;
+        const monthlyMortgageRate = mortgageRate / 12;
+        const totalMortgageMonths = mortgageTerm * 12;
+
+        // 每月按揭供款
+        let monthlyMortgagePayment = 0;
+        if (monthlyMortgageRate > 0) {
+            monthlyMortgagePayment = loanAmount * (monthlyMortgageRate * Math.pow(1 + monthlyMortgageRate, totalMortgageMonths)) / (Math.pow(1 + monthlyMortgageRate, totalMortgageMonths) - 1);
+        } else {
+            monthlyMortgagePayment = loanAmount / totalMortgageMonths;
+        }
+
+        // --- 買房試算 ---
+        let currentHomeVal = homePrice;
+        let remainingLoan = loanAmount;
+        let cumulativeMortgage = 0;
+        let cumulativeTaxMaint = 0;
+
+        const monthsToCalculate = Math.min(holdYears * 12, totalMortgageMonths);
+
+        for (let m = 1; m <= holdYears * 12; m++) {
+            // 每月房屋增值
+            currentHomeVal *= (1 + appreciationRate / 12);
+            // 每年物業稅維護
+            cumulativeTaxMaint += (currentHomeVal * taxMaintPct / 12);
+
+            if (m <= totalMortgageMonths) {
+                cumulativeMortgage += monthlyMortgagePayment;
+                const interestPayment = remainingLoan * monthlyMortgageRate;
+                const principalPayment = monthlyMortgagePayment - interestPayment;
+                remainingLoan = Math.max(0, remainingLoan - principalPayment);
+            }
+        }
+
+        const homeEquity = currentHomeVal - remainingLoan;
+        const buyTotalOutflow = downPayment + cumulativeMortgage + cumulativeTaxMaint;
+        const buyNetCost = buyTotalOutflow - homeEquity;
+
+        // --- 租屋試算 ---
+        let cumulativeRent = 0;
+        let currentRent = monthlyRent;
+        let renterInvestmentPortfolio = downPayment; // 首期拿去投資
+
+        for (let y = 1; y <= holdYears; y++) {
+            let yearlyRent = 0;
+            for (let m = 1; m <= 12; m++) {
+                yearlyRent += currentRent;
+                // 每月買房與租屋開支差額拿去投資
+                const currentBuyMonthlyOutflow = (y <= mortgageTerm ? monthlyMortgagePayment : 0) + (currentHomeVal * taxMaintPct / 12);
+                const monthlySavingsDiff = currentBuyMonthlyOutflow - currentRent;
+                
+                renterInvestmentPortfolio *= (1 + investReturnRate / 12);
+                renterInvestmentPortfolio += monthlySavingsDiff;
+            }
+            cumulativeRent += yearlyRent;
+            currentRent *= (1 + rentIncreaseRate); // 租金逐年調漲
+        }
+
+        const rentOpportunityGains = renterInvestmentPortfolio - downPayment;
+        const rentNetCost = cumulativeRent - rentOpportunityGains;
+
+        // 計算損益平衡點 Break-even Year
+        let breakevenYear = -1;
+        let tempHomeVal = homePrice;
+        let tempLoan = loanAmount;
+        let tempRenterPortfolio = downPayment;
+        let tempRent = monthlyRent;
+        let tempBuyOutflow = downPayment;
+        let tempRentOutflow = 0;
+
+        for (let y = 1; y <= 35; y++) {
+            for (let m = 1; m <= 12; m++) {
+                tempHomeVal *= (1 + appreciationRate / 12);
+                const taxM = (tempHomeVal * taxMaintPct / 12);
+                let mortM = 0;
+                if ((y - 1) * 12 + m <= totalMortgageMonths) {
+                    mortM = monthlyMortgagePayment;
+                    const interestP = tempLoan * monthlyMortgageRate;
+                    tempLoan = Math.max(0, tempLoan - (monthlyMortgagePayment - interestP));
+                }
+                tempBuyOutflow += (mortM + taxM);
+                tempRentOutflow += tempRent;
+
+                const diff = (mortM + taxM) - tempRent;
+                tempRenterPortfolio *= (1 + investReturnRate / 12);
+                tempRenterPortfolio += diff;
+            }
+            tempRent *= (1 + rentIncreaseRate);
+
+            const tempBuyNetWorth = (tempHomeVal - tempLoan) - tempBuyOutflow;
+            const tempRentNetWorth = tempRenterPortfolio - tempRentOutflow;
+
+            if (tempBuyNetWorth >= tempRentNetWorth && breakevenYear === -1) {
+                breakevenYear = y;
+                break;
+            }
+        }
+
+        // 更新介面 UI
+        const isEn = (currentLang === 'en');
+        const langData = isEn ? i18n.en : i18n.zh;
+
+        document.getElementById('valBuyNetCost').textContent = formatCurrency(buyNetCost);
+        document.getElementById('valBuyMortgage').textContent = formatCurrency(cumulativeMortgage + downPayment);
+        document.getElementById('valBuyTax').textContent = formatCurrency(cumulativeTaxMaint);
+        document.getElementById('valBuyHomeVal').textContent = formatCurrency(currentHomeVal);
+        document.getElementById('valBuyEquity').textContent = formatCurrency(homeEquity);
+
+        document.getElementById('valRentNetCost').textContent = formatCurrency(rentNetCost);
+        document.getElementById('valRentTotal').textContent = formatCurrency(cumulativeRent);
+        document.getElementById('valRentOpportunity').textContent = formatCurrency(rentOpportunityGains);
+        document.getElementById('valRentWealth').textContent = formatCurrency(renterInvestmentPortfolio);
+
+        // Verdict Text
+        const diffCost = Math.abs(buyNetCost - rentNetCost);
+        if (buyNetCost < rentNetCost) {
+            document.getElementById('verdictMain').textContent = langData.verdictBuy + formatCurrency(diffCost);
+            document.getElementById('verdictMain').style.color = 'var(--accent-green)';
+        } else {
+            document.getElementById('verdictMain').textContent = langData.verdictRent + formatCurrency(diffCost);
+            document.getElementById('verdictMain').style.color = 'var(--accent-amber)';
+        }
+
+        if (breakevenYear !== -1) {
+            document.getElementById('verdictBreakeven').textContent = langData.verdictBreakeven.replace('{years}', breakevenYear);
+        } else {
+            document.getElementById('verdictBreakeven').textContent = langData.verdictNoBreakeven;
+        }
+    }
+
+    // 多語系渲染
+    function renderPage(langKey) {
+        currentLang = langKey;
+        const isEn = (langKey === 'en');
+        const langData = isEn ? i18n.en : i18n.zh;
+
+        document.getElementById('backLink').textContent = langData.back;
+        document.getElementById('pageTitle').textContent = langData.title;
+        document.getElementById('pageDesc').textContent = langData.desc;
+        document.getElementById('inputPanelTitle').textContent = langData.inputTitle;
+
+        document.getElementById('lblHomePrice').textContent = langData.lblHomePrice;
+        document.getElementById('lblMonthlyRent').textContent = langData.lblMonthlyRent;
+        document.getElementById('lblDownPayment').textContent = langData.lblDownPayment;
+        document.getElementById('lblMortgageRate').textContent = langData.lblMortgageRate;
+        document.getElementById('lblMortgageTerm').textContent = langData.lblMortgageTerm;
+        document.getElementById('lblHoldYears').textContent = langData.lblHoldYears;
+        document.getElementById('lblAppreciation').textContent = langData.lblAppreciation;
+        document.getElementById('lblRentIncrease').textContent = langData.lblRentIncrease;
+        document.getElementById('lblInvestReturn').textContent = langData.lblInvestReturn;
+        document.getElementById('lblTaxMaint').textContent = langData.lblTaxMaint;
+
+        document.getElementById('unitYears1').textContent = langData.unitYears;
+        document.getElementById('unitYears2').textContent = langData.unitYears;
+        document.getElementById('btnCalculate').textContent = langData.btnCalc;
+
+        document.getElementById('resultPanelTitle').textContent = langData.resultTitle;
+        document.getElementById('verdictHeader').textContent = langData.verdictHeader;
+
+        document.getElementById('lblBuyCard').textContent = langData.lblBuyCard;
+        document.getElementById('descBuyCard').textContent = langData.descBuyCard;
+        document.getElementById('tdBuyMortgage').textContent = langData.tdBuyMortgage;
+        document.getElementById('tdBuyTax').textContent = langData.tdBuyTax;
+        document.getElementById('tdBuyHomeVal').textContent = langData.tdBuyHomeVal;
+        document.getElementById('tdBuyEquity').textContent = langData.tdBuyEquity;
+
+        document.getElementById('lblRentCard').textContent = langData.lblRentCard;
+        document.getElementById('descRentCard').textContent = langData.descRentCard;
+        document.getElementById('tdRentTotal').textContent = langData.tdRentTotal;
+        document.getElementById('tdRentOpportunity').textContent = langData.tdRentOpportunity;
+        document.getElementById('tdRentWealth').textContent = langData.tdRentWealth;
+
+        document.getElementById('footHome').textContent = langData.footHome;
+        document.getElementById('footBlog').textContent = langData.footBlog;
+        document.getElementById('footAbout').textContent = langData.footAbout;
+        document.getElementById('footPrivacy').textContent = langData.footPrivacy;
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.lang === langKey) {
+                btn.classList.add('active');
+            }
+        });
+
+        calculateRentVsBuy();
+    }
+
+    // 事件監聽
+    document.getElementById('btnCalculate').addEventListener('click', calculateRentVsBuy);
+    document.querySelectorAll('.form-control').forEach(input => {
+        input.addEventListener('input', calculateRentVsBuy);
+    });
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.dataset.lang;
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            renderPage(selectedLang);
+        });
+    });
+
+    renderPage(currentLang);
+});
+</script>
+<!-- 語言參數接收與傳遞 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang');
+    if (lang) {
+        if (typeof setLang === 'function') {
+            setLang(lang);
+        }
+        document.querySelectorAll('a[href]').forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('../')) {
+                const url = new URL(href, window.location.href);
+                url.searchParams.set('lang', lang);
+                link.setAttribute('href', url.toString());
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

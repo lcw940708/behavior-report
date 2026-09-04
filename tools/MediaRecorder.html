@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>螢幕錄影工具 — 錄製畫面・下載 WebM / GIF｜Free Screen Recorder｜ABRG 免費工具</title>
+    <meta name="description" content="免費線上螢幕錄影工具，錄製瀏覽器畫面，支援下載 WebM 或轉換成 GIF。Free screen recorder, record browser tab, download WebM or GIF, 100% client-side, privacy safe." />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/screen-recorder.html" />
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --red: #ef4444;
+            --red-hover: #f87171;
+            --success: #10b981;
+            --yellow: #fbbf24;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 780px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .lang-switch a {
+            color: var(--cyan);
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .lang-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .tool-title .emoji {
+            font-size: 1.8rem;
+        }
+
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 10px 0 25px;
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        /* ===== 私隱說明 ===== */
+        .privacy-notice {
+            background: rgba(34, 211, 238, 0.04);
+            border: 1px solid rgba(34, 211, 238, 0.1);
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+        }
+
+        .privacy-notice .title {
+            color: var(--cyan);
+            font-weight: bold;
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .privacy-notice .title .lock {
+            font-size: 1.1rem;
+        }
+
+        .privacy-notice ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .privacy-notice ul li {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            padding: 3px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .privacy-notice ul li .check {
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .privacy-notice .step {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(148, 163, 184, 0.06);
+            color: var(--yellow);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .privacy-notice .step .icon {
+            font-size: 1rem;
+        }
+
+        /* ===== 錄影顯示區 ===== */
+        .preview-area {
+            background: var(--bg);
+            border-radius: 12px;
+            border: 2px dashed rgba(148, 163, 184, 0.1);
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .preview-area.recording {
+            border-color: var(--red);
+            border-style: solid;
+        }
+
+        .preview-area video {
+            width: 100%;
+            max-height: 400px;
+            background: #000;
+            display: none;
+        }
+
+        .preview-area video.visible {
+            display: block;
+        }
+
+        .preview-area .placeholder {
+            padding: 40px 20px;
+            text-align: center;
+            color: #64748b;
+        }
+
+        .preview-area .placeholder .icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* ===== 錄影指示燈 ===== */
+        .recording-indicator {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #fff;
+        }
+
+        .recording-indicator.show {
+            display: flex;
+        }
+
+        .recording-indicator .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--red);
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.2;
+            }
+        }
+
+        .recording-indicator .timer {
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        /* ===== 按鈕 ===== */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 16px 0;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-primary {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--cyan-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: var(--red);
+            color: #fff;
+        }
+
+        .btn-danger:hover:not(:disabled) {
+            background: var(--red-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: #0b0f19;
+        }
+
+        .btn-success:hover:not(:disabled) {
+            background: #34d399;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .btn-outline:hover:not(:disabled) {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        /* ===== 下載區 ===== */
+        .download-section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+            display: none;
+        }
+
+        .download-section.show {
+            display: block;
+        }
+
+        .download-section .info {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .download-section .info .size {
+            color: var(--cyan);
+            font-weight: bold;
+        }
+
+        /* ===== GIF 品質選擇 ===== */
+        .gif-options {
+            display: none;
+            margin: 10px 0;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            border: 1px solid rgba(148, 163, 184, 0.06);
+        }
+
+        .gif-options.show {
+            display: block;
+        }
+
+        .gif-options label {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-right: 12px;
+        }
+
+        .gif-options select {
+            background: var(--bg);
+            color: var(--text-light);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .gif-options select:focus {
+            border-color: var(--cyan);
+        }
+
+        /* ===== 推介區 ===== */
+        .story-suggest {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+
+        .story-suggest .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .story-suggest .items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .story-suggest .items a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #555;
+        }
+
+        footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+
+        footer a:hover {
+            color: #888;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 18px;
+            }
+            .btn {
+                flex: none;
+                width: 100%;
+            }
+            .preview-area {
+                min-height: 150px;
+            }
+            .preview-area video {
+                max-height: 250px;
+            }
+            .privacy-notice ul li {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="lang-switch">
+            <a onclick="switchLang('hk')">🇭🇰 港版</a> |
+            <a onclick="switchLang('tw')">🇹🇼 台版</a> |
+            <a onclick="switchLang('en')">🇬🇧 English</a>
+        </div>
+
+        <h1 class="tool-title" id="toolTitle"><span class="emoji">🎥</span> 螢幕錄影工具</h1>
+        <p class="tool-sub" id="toolSub">錄製瀏覽器分頁 · 下載 WebM 影片 · 或轉換成 GIF</p>
+
+        <div class="badge-row">
+            <span class="badge" id="badge1">🔒 私隱安全</span>
+            <span class="badge" id="badge2">🎬 支援 WebM</span>
+            <span class="badge" id="badge3">🔄 可轉 GIF</span>
+            <span class="badge" id="badge4">🆓 完全免費</span>
+        </div>
+
+        <!-- ===== 私隱說明 ===== -->
+        <div class="privacy-notice">
+            <div class="title"><span class="lock">🔒</span> <span id="privacyTitle">錄影前須知</span></div>
+            <ul>
+                <li><span class="check">✅</span> <span id="privacy1">錄影過程完全喺你嘅瀏覽器進行</span></li>
+                <li><span class="check">✅</span> <span id="privacy2">影片 <strong>唔會</strong> 上傳去任何伺服器</span></li>
+                <li><span class="check">✅</span> <span id="privacy3">所有數據只會留喺你部電腦</span></li>
+                <li><span class="check">✅</span> <span id="privacy4">錄完之後自己決定下載定刪除</span></li>
+            </ul>
+            <div class="step">
+                <span class="icon">👆</span>
+                <span id="privacyStep">撳「開始錄影」→ 選擇 <strong>「Chrome 分頁」</strong> 或你嘅瀏覽器分頁 → 撳「分享」</span>
+            </div>
+        </div>
+
+        <!-- ===== 預覽區 ===== -->
+        <div class="preview-area" id="previewArea">
+            <video id="previewVideo" autoplay muted></video>
+            <div class="placeholder" id="placeholder">
+                <span class="icon">🖥️</span>
+                <span id="placeholderText">按「開始錄影」選擇要錄製嘅瀏覽器分頁</span><br />
+                <span style="font-size:0.8rem; color:#475569;" id="placeholderSub">建議揀「Chrome 分頁」只錄單個分頁，私隱更安全</span>
+            </div>
+            <div class="recording-indicator" id="recordingIndicator">
+                <span class="dot"></span>
+                <span class="timer" id="timerDisplay">00:00</span>
+            </div>
+        </div>
+
+        <!-- ===== 按鈕 ===== -->
+        <div class="btn-group">
+            <button class="btn btn-primary" id="startBtn">▶️ <span id="startText">開始錄影</span></button>
+            <button class="btn btn-danger" id="stopBtn" disabled>⏹️ <span id="stopText">停止錄影</span></button>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-success" id="downloadWebmBtn" disabled>⬇️ <span id="downloadWebmText">下載 WebM</span></button>
+            <button class="btn btn-outline" id="downloadGifBtn" disabled>🔄 <span id="downloadGifText">轉換 GIF</span></button>
+            <button class="btn btn-outline" id="clearBtn">🗑️ <span id="clearText">清空</span></button>
+        </div>
+
+        <!-- ===== GIF 選項 ===== -->
+        <div class="gif-options" id="gifOptions">
+            <label id="gifLabel">🎞️ GIF 品質：</label>
+            <select id="gifQuality">
+                <option value="high" id="gifHigh">高畫質（10fps · 較大檔案）</option>
+                <option value="medium" selected id="gifMedium">中等（8fps · 平衡）</option>
+                <option value="low" id="gifLow">低畫質（5fps · 細檔案）</option>
+            </select>
+            <span style="color:#64748b; font-size:0.75rem; margin-left:8px;" id="gifHint">建議 60 秒內</span>
+        </div>
+
+        <!-- ===== 下載區 ===== -->
+        <div class="download-section" id="downloadSection">
+            <div class="info">
+                ✅ <span id="doneText">錄影完成！</span> <span id="fileSizeLabel">檔案大小：</span><span class="size" id="fileSize">--</span>
+            </div>
+        </div>
+
+        <!-- ===== 推介區 ===== -->
+        <div class="story-suggest">
+            <div class="label" id="storyLabel">📖 你可能會中意嘅連載或測驗</div>
+            <div class="items">
+                <a href="../story_01.html">《你睡著以後》</a>
+                <a href="../story_02.html">《貓狗人格》</a>
+                <a href="../quiz-01.html">隱私天平</a>
+                <a href="../index.html">🏠 返回主頁</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+    </footer>
+
+    <script>
+        // =============================================================
+        // 語言文字
+        // =============================================================
+        const texts = {
+            hk: {
+                title: '🎥 螢幕錄影工具',
+                sub: '錄製瀏覽器分頁 · 下載 WebM 影片 · 或轉換成 GIF',
+                badge1: '🔒 私隱安全',
+                badge2: '🎬 支援 WebM',
+                badge3: '🔄 可轉 GIF',
+                badge4: '🆓 完全免費',
+                storyLabel: '📖 你可能會中意嘅連載或測驗',
+                privacyTitle: '錄影前須知',
+                privacy1: '錄影過程完全喺你嘅瀏覽器進行',
+                privacy2: '影片 唔會 上傳去任何伺服器',
+                privacy3: '所有數據只會留喺你部電腦',
+                privacy4: '錄完之後自己決定下載定刪除',
+                privacyStep: '撳「開始錄影」→ 選擇 「Chrome 分頁」 或你嘅瀏覽器分頁 → 撳「分享」',
+                placeholder: '按「開始錄影」選擇要錄製嘅瀏覽器分頁',
+                placeholderSub: '建議揀「Chrome 分頁」只錄單個分頁，私隱更安全',
+                start: '開始錄影',
+                stop: '停止錄影',
+                downloadWebm: '下載 WebM',
+                downloadGif: '轉換 GIF',
+                clear: '清空',
+                gifLabel: '🎞️ GIF 品質：',
+                gifHigh: '高畫質（10fps · 較大檔案）',
+                gifMedium: '中等（8fps · 平衡）',
+                gifLow: '低畫質（5fps · 細檔案）',
+                gifHint: '建議 60 秒內',
+                done: '錄影完成！',
+                fileSizeLabel: '檔案大小：',
+                converting: '轉換中...',
+                invalid: '無法開始錄影：請檢查瀏覽器權限設定',
+                noSupport: '你嘅瀏覽器唔支援 WebM 錄影，請用 Chrome 或 Edge',
+                gifAlert: '無法擷取任何幀，請嘗試較短嘅錄影',
+                gifConfirm: (duration, quality, totalFrames) =>
+                    `錄影長度 ${duration} 秒，轉換 GIF 會比較慢同檔案較大。\n使用 ${quality} 設定：，約 ${totalFrames} 幀。\n\n確定繼續？`,
+                gifFailed: 'GIF 轉換失敗：請試下較短嘅錄影',
+                recording: '錄影中...'
+            },
+            tw: {
+                title: '🎥 螢幕錄影工具',
+                sub: '錄製瀏覽器分頁 · 下載 WebM 影片 · 或轉換成 GIF',
+                badge1: '🔒 私隱安全',
+                badge2: '🎬 支援 WebM',
+                badge3: '🔄 可轉 GIF',
+                badge4: '🆓 完全免費',
+                storyLabel: '📖 你可能會喜歡的連載或測驗',
+                privacyTitle: '錄影前須知',
+                privacy1: '錄影過程完全在你的瀏覽器進行',
+                privacy2: '影片 不會 上傳去任何伺服器',
+                privacy3: '所有數據只會留在你電腦',
+                privacy4: '錄完之後自己決定下載或刪除',
+                privacyStep: '點「開始錄影」→ 選擇 「Chrome 分頁」 或你的瀏覽器分頁 → 點「分享」',
+                placeholder: '按「開始錄影」選擇要錄製的瀏覽器分頁',
+                placeholderSub: '建議選「Chrome 分頁」只錄單個分頁，私隱更安全',
+                start: '開始錄影',
+                stop: '停止錄影',
+                downloadWebm: '下載 WebM',
+                downloadGif: '轉換 GIF',
+                clear: '清空',
+                gifLabel: '🎞️ GIF 品質：',
+                gifHigh: '高畫質（10fps · 較大檔案）',
+                gifMedium: '中等（8fps · 平衡）',
+                gifLow: '低畫質（5fps · 細檔案）',
+                gifHint: '建議 60 秒內',
+                done: '錄影完成！',
+                fileSizeLabel: '檔案大小：',
+                converting: '轉換中...',
+                invalid: '無法開始錄影：請檢查瀏覽器權限設定',
+                noSupport: '你的瀏覽器不支援 WebM 錄影，請用 Chrome 或 Edge',
+                gifAlert: '無法擷取任何幀，請嘗試較短錄影',
+                gifConfirm: (duration, quality, totalFrames) =>
+                    `錄影長度 ${duration} 秒，轉換 GIF 會比較慢且檔案較大。\n使用 ${quality} 設定：，約 ${totalFrames} 幀。\n\n確定繼續？`,
+                gifFailed: 'GIF 轉換失敗：請嘗試較短錄影',
+                recording: '錄影中...'
+            },
+            en: {
+                title: '🎥 Screen Recorder',
+                sub: 'Record browser tab · Download WebM · or Convert to GIF',
+                badge1: '🔒 Privacy Safe',
+                badge2: '🎬 WebM Support',
+                badge3: '🔄 GIF Convert',
+                badge4: '🆓 Free',
+                storyLabel: '📖 You might also like',
+                privacyTitle: 'Before Recording',
+                privacy1: 'Recording is done entirely in your browser',
+                privacy2: 'Videos are NOT uploaded to any server',
+                privacy3: 'All data stays on your computer',
+                privacy4: 'You decide to download or delete after recording',
+                privacyStep: 'Click "Start Recording" → Select your browser tab → Click "Share"',
+                placeholder: 'Click "Start Recording" to select a browser tab',
+                placeholderSub: 'Recommended: Select "Chrome Tab" to record only a single tab for better privacy',
+                start: 'Start Recording',
+                stop: 'Stop Recording',
+                downloadWebm: 'Download WebM',
+                downloadGif: 'Convert GIF',
+                clear: 'Clear',
+                gifLabel: '🎞️ GIF Quality：',
+                gifHigh: 'High (10fps · Larger file)',
+                gifMedium: 'Medium (8fps · Balanced)',
+                gifLow: 'Low (5fps · Smaller file)',
+                gifHint: 'Recommended within 60 seconds',
+                done: 'Recording complete!',
+                fileSizeLabel: 'File size：',
+                converting: 'Converting...',
+                invalid: 'Cannot start recording: Please check browser permissions',
+                noSupport: 'Your browser does not support WebM recording. Please use Chrome or Edge.',
+                gifAlert: 'Cannot capture any frames, please try a shorter recording',
+                gifConfirm: (duration, quality, totalFrames) =>
+                    `Recording length ${duration} seconds. Converting to GIF may be slow and produce a large file.\nUsing ${quality} settings: ${totalFrames} frames.\n\nContinue?`,
+                gifFailed: 'GIF conversion failed: Please try a shorter recording',
+                recording: 'Recording...'
+            }
+        };
+
+        let lang = 'hk';
+
+        // =============================================================
+        // 語言切換
+        // =============================================================
+        function switchLang(l) {
+            lang = l;
+            const t = texts[l];
+
+            document.getElementById('toolTitle').innerHTML = t.title;
+            document.getElementById('toolSub').innerText = t.sub;
+            document.getElementById('badge1').innerText = t.badge1;
+            document.getElementById('badge2').innerText = t.badge2;
+            document.getElementById('badge3').innerText = t.badge3;
+            document.getElementById('badge4').innerText = t.badge4;
+            document.getElementById('storyLabel').innerText = t.storyLabel;
+            document.getElementById('privacyTitle').innerText = t.privacyTitle;
+            document.getElementById('privacy1').innerHTML = t.privacy1;
+            document.getElementById('privacy2').innerHTML = t.privacy2;
+            document.getElementById('privacy3').innerHTML = t.privacy3;
+            document.getElementById('privacy4').innerHTML = t.privacy4;
+            document.getElementById('privacyStep').innerHTML = t.privacyStep;
+            document.getElementById('placeholderText').innerText = t.placeholder;
+            document.getElementById('placeholderSub').innerText = t.placeholderSub;
+            document.getElementById('startText').innerText = t.start;
+            document.getElementById('stopText').innerText = t.stop;
+            document.getElementById('downloadWebmText').innerText = t.downloadWebm;
+            document.getElementById('downloadGifText').innerText = t.downloadGif;
+            document.getElementById('clearText').innerText = t.clear;
+            document.getElementById('gifLabel').innerText = t.gifLabel;
+            document.getElementById('gifHigh').innerText = t.gifHigh;
+            document.getElementById('gifMedium').innerText = t.gifMedium;
+            document.getElementById('gifLow').innerText = t.gifLow;
+            document.getElementById('gifHint').innerText = t.gifHint;
+            document.getElementById('doneText').innerText = t.done;
+            document.getElementById('fileSizeLabel').innerText = t.fileSizeLabel;
+
+            document.querySelectorAll('.story-suggest .items a').forEach(a => {
+                try {
+                    const url = new URL(a.href);
+                    url.searchParams.set('lang', l);
+                    a.href = url.toString();
+                } catch (e) {}
+            });
+        }
+
+        // =============================================================
+        // 偵測語言（URL 參數優先）
+        // =============================================================
+        function detectLanguage() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('lang') === 'en') return 'en';
+            if (params.get('lang') === 'tw') return 'tw';
+            if (params.get('lang') === 'hk') return 'hk';
+            const userLang = navigator.language || navigator.userLanguage;
+            if (userLang.startsWith('en')) return 'en';
+            if (userLang.includes('zh')) {
+                if (userLang.includes('TW') || userLang.includes('tw')) return 'tw';
+                return 'hk';
+            }
+            return 'hk';
+        }
+
+        const detectedLang = detectLanguage();
+        switchLang(detectedLang);
+
+        // =============================================================
+        // 工具核心
+        // =============================================================
+        const previewArea = document.getElementById('previewArea');
+        const previewVideo = document.getElementById('previewVideo');
+        const placeholder = document.getElementById('placeholder');
+        const recordingIndicator = document.getElementById('recordingIndicator');
+        const timerDisplay = document.getElementById('timerDisplay');
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const downloadWebmBtn = document.getElementById('downloadWebmBtn');
+        const downloadGifBtn = document.getElementById('downloadGifBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const downloadSection = document.getElementById('downloadSection');
+        const fileSize = document.getElementById('fileSize');
+        const gifOptions = document.getElementById('gifOptions');
+        const gifQuality = document.getElementById('gifQuality');
+
+        let mediaStream = null;
+        let mediaRecorder = null;
+        let recordedChunks = [];
+        let recordingBlob = null;
+        let timerInterval = null;
+        let startTime = 0;
+        let isRecording = false;
+
+        function updateTimer() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const mins = String(Math.floor(elapsed / 60)).padStart(2, '0');
+            const secs = String(elapsed % 60).padStart(2, '0');
+            timerDisplay.textContent = `${mins}:${secs}`;
+        }
+
+        function startTimer() {
+            startTime = Date.now();
+            updateTimer();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+
+        function resetTimer() {
+            stopTimer();
+            timerDisplay.textContent = '00:00';
+        }
+
+        function formatSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        function getSupportedMimeType() {
+            const types = [
+                'video/webm;codecs=vp9,opus',
+                'video/webm;codecs=vp8,opus',
+                'video/webm;codecs=h264,opus',
+                'video/webm;codecs=vp9',
+                'video/webm;codecs=vp8',
+                'video/webm'
+            ];
+            for (const type of types) {
+                if (MediaRecorder.isTypeSupported(type)) {
+                    return type;
+                }
+            }
+            return null;
+        }
+
+        async function startRecording() {
+            const t = texts[lang];
+            try {
+                const stream = await navigator.mediaDevices.getDisplayMedia({
+                    video: {
+                        cursor: 'always',
+                        displaySurface: 'browser',
+                        logicalSurface: true
+                    },
+                    audio: false,
+                    preferCurrentTab: true
+                });
+
+                if (!stream) return;
+
+                const track = stream.getVideoTracks()[0];
+                const settings = track.getSettings();
+                if (settings.displaySurface === 'monitor') {
+                    console.log('用戶揀咗錄製成個螢幕');
+                } else {
+                    console.log('用戶揀咗錄製分頁/視窗');
+                }
+
+                mediaStream = stream;
+                previewVideo.srcObject = stream;
+                previewVideo.classList.add('visible');
+                placeholder.style.display = 'none';
+                previewArea.classList.add('recording');
+
+                const mimeType = getSupportedMimeType();
+                if (!mimeType) {
+                    alert(t.noSupport);
+                    stream.getTracks().forEach(t => t.stop());
+                    previewVideo.srcObject = null;
+                    previewVideo.classList.remove('visible');
+                    placeholder.style.display = 'block';
+                    return;
+                }
+
+                console.log('使用 MIME type:', mimeType);
+
+                mediaRecorder = new MediaRecorder(stream, {
+                    mimeType: mimeType
+                });
+
+                recordedChunks = [];
+
+                mediaRecorder.ondataavailable = function(event) {
+                    if (event.data && event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                    }
+                };
+
+                mediaRecorder.onstop = function() {
+                    recordingBlob = new Blob(recordedChunks, {
+                        type: 'video/webm'
+                    });
+
+                    fileSize.textContent = formatSize(recordingBlob.size);
+                    downloadSection.classList.add('show');
+                    downloadWebmBtn.disabled = false;
+                    downloadGifBtn.disabled = false;
+                    gifOptions.classList.add('show');
+
+                    if (mediaStream) {
+                        mediaStream.getTracks().forEach(track => track.stop());
+                        mediaStream = null;
+                    }
+
+                    previewArea.classList.remove('recording');
+                    recordingIndicator.classList.remove('show');
+                    resetTimer();
+                    isRecording = false;
+                    stopBtn.disabled = true;
+                    startBtn.disabled = false;
+                };
+
+                mediaRecorder.start(1000);
+                isRecording = true;
+                startTimer();
+                recordingIndicator.classList.add('show');
+
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+                downloadWebmBtn.disabled = true;
+                downloadGifBtn.disabled = true;
+                gifOptions.classList.remove('show');
+
+                stream.getVideoTracks()[0].onended = function() {
+                    if (isRecording) {
+                        stopRecording();
+                    }
+                };
+
+            } catch (err) {
+                console.error('錄影失敗:', err);
+                if (err.name !== 'AbortError' && err.name !== 'NotAllowedError') {
+                    alert(t.invalid);
+                }
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                isRecording = false;
+            }
+        }
+
+        function downloadWebm() {
+            if (!recordingBlob) return;
+            const url = URL.createObjectURL(recordingBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `recording_${new Date().toISOString().slice(0,19).replace(/[:-]/g, '')}.webm`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 5000);
+        }
+
+        async function convertToGif() {
+            const t = texts[lang];
+            if (!recordingBlob) return;
+
+            downloadGifBtn.disabled = true;
+            downloadGifBtn.textContent = t.converting;
+
+            const qualityMap = {
+                high: { fps: 10, maxFrames: 600, label: t.gifHigh.split('（')[0] || 'High' },
+                medium: { fps: 8, maxFrames: 480, label: t.gifMedium.split('（')[0] || 'Medium' },
+                low: { fps: 5, maxFrames: 300, label: t.gifLow.split('（')[0] || 'Low' }
+            };
+            const quality = qualityMap[gifQuality.value] || qualityMap.medium;
+
+            try {
+                const video = document.createElement('video');
+                const url = URL.createObjectURL(recordingBlob);
+                video.src = url;
+                video.muted = true;
+                video.playsInline = true;
+
+                await new Promise((resolve, reject) => {
+                    video.onloadedmetadata = resolve;
+                    video.onerror = reject;
+                    video.load();
+                });
+
+                video.currentTime = 0;
+                await new Promise(resolve => {
+                    video.onseeked = resolve;
+                });
+
+                const duration = video.duration;
+                const totalFrames = Math.min(Math.floor(duration * quality.fps), quality.maxFrames);
+                const frameInterval = 1 / quality.fps;
+
+                if (totalFrames === 0) {
+                    alert(t.gifAlert);
+                    downloadGifBtn.disabled = false;
+                    downloadGifBtn.textContent = '🔄 ' + t.downloadGif;
+                    return;
+                }
+
+                if (duration > 60) {
+                    if (!confirm(t.gifConfirm(Math.round(duration), quality.label, totalFrames))) {
+                        downloadGifBtn.disabled = false;
+                        downloadGifBtn.textContent = '🔄 ' + t.downloadGif;
+                        URL.revokeObjectURL(url);
+                        return;
+                    }
+                }
+
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                let width = video.videoWidth;
+                let height = video.videoHeight;
+                const maxDimension = 640;
+                if (width > maxDimension || height > maxDimension) {
+                    const ratio = Math.min(maxDimension / width, maxDimension / height);
+                    width = Math.floor(width * ratio);
+                    height = Math.floor(height * ratio);
+                }
+                canvas.width = width;
+                canvas.height = height;
+
+                const frames = [];
+
+                for (let i = 0; i < totalFrames; i++) {
+                    const time = i * frameInterval;
+                    if (time >= duration) break;
+
+                    video.currentTime = time;
+                    await new Promise(resolve => {
+                        video.onseeked = resolve;
+                    });
+
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    frames.push(canvas.toDataURL('image/png'));
+                }
+
+                URL.revokeObjectURL(url);
+
+                if (frames.length === 0) {
+                    alert(t.gifAlert);
+                    downloadGifBtn.disabled = false;
+                    downloadGifBtn.textContent = '🔄 ' + t.downloadGif;
+                    return;
+                }
+
+                const gifScript = document.createElement('script');
+                gifScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js';
+                await new Promise((resolve, reject) => {
+                    gifScript.onload = resolve;
+                    gifScript.onerror = reject;
+                    document.head.appendChild(gifScript);
+                });
+
+                const gif = new GIF({
+                    workers: 2,
+                    quality: 10,
+                    width: canvas.width,
+                    height: canvas.height
+                });
+
+                for (let i = 0; i < frames.length; i++) {
+                    const img = new Image();
+                    img.src = frames[i];
+                    await new Promise(resolve => { img.onload = resolve; });
+                    gif.addFrame(img, { copy: true, delay: 1000 / quality.fps });
+                }
+
+                await new Promise((resolve) => {
+                    gif.on('finished', function(blob) {
+                        const gifUrl = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = gifUrl;
+                        a.download =
+                            `recording_${new Date().toISOString().slice(0,19).replace(/[:-]/g, '')}.gif`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        setTimeout(() => URL.revokeObjectURL(gifUrl), 5000);
+                        resolve();
+                    });
+                    gif.render();
+                });
+
+            } catch (err) {
+                console.error('GIF 轉換失敗:', err);
+                alert(t.gifFailed);
+            }
+
+            downloadGifBtn.disabled = false;
+            downloadGifBtn.textContent = '🔄 ' + texts[lang].downloadGif;
+        }
+
+        function clearAll() {
+            const t = texts[lang];
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+                mediaStream = null;
+            }
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                isRecording = false;
+            }
+            stopTimer();
+            resetTimer();
+
+            previewVideo.srcObject = null;
+            previewVideo.classList.remove('visible');
+            placeholder.style.display = 'block';
+            previewArea.classList.remove('recording');
+            recordingIndicator.classList.remove('show');
+
+            recordedChunks = [];
+            recordingBlob = null;
+            downloadSection.classList.remove('show');
+            gifOptions.classList.remove('show');
+
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+            downloadWebmBtn.disabled = true;
+            downloadGifBtn.disabled = true;
+
+            // Update placeholder text
+            document.getElementById('placeholderText').innerText = t.placeholder;
+        }
+
+        startBtn.addEventListener('click', startRecording);
+        stopBtn.addEventListener('click', stopRecording);
+        downloadWebmBtn.addEventListener('click', downloadWebm);
+        downloadGifBtn.addEventListener('click', convertToGif);
+        clearBtn.addEventListener('click', clearAll);
+
+        stopBtn.disabled = true;
+        downloadWebmBtn.disabled = true;
+        downloadGifBtn.disabled = true;
+    </script>
+
+</body>
+</html>

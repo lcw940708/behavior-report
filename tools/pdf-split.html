@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PDF 拆分工具 — 揀選頁面，拆出獨立 PDF｜Free PDF Splitter｜ABRG 免費工具</title>
+    <meta name="description" content="免費線上 PDF 拆分工具，上傳 PDF，揀選要拆出嘅頁面，下載成一個新 PDF。Free PDF splitter, select pages, extract to new PDF, 100% client-side, privacy safe." />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/pdf-split.html" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js">
+    </script>
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --cyan: #22d3ee;
+            --red: #ef4444;
+            --border: #24324f;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 780px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+        .lang-switch {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .lang-switch a {
+            color: var(--cyan);
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .lang-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 10px 0 25px;
+        }
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        .upload-area {
+            border: 2px dashed rgba(148, 163, 184, 0.25);
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.02);
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .upload-area:hover {
+            border-color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+        .upload-area.dragover {
+            border-color: var(--cyan);
+            background: rgba(34, 211, 238, 0.08);
+        }
+        .upload-area .icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .upload-area p {
+            font-size: 1rem;
+            color: #cbd5e1;
+        }
+        .upload-area .hint {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        #fileInput {
+            display: none;
+        }
+
+        .file-info {
+            display: none;
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(148, 163, 184, 0.06);
+            border-radius: 8px;
+        }
+        .file-info.show {
+            display: block;
+        }
+        .file-info .name {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+        .file-info .size {
+            color: #64748b;
+            font-size: 0.8rem;
+            margin-left: 12px;
+        }
+        .file-info .page-count {
+            color: var(--cyan);
+            font-size: 0.8rem;
+            margin-left: 12px;
+        }
+
+        .page-list {
+            margin-top: 16px;
+            display: none;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        .page-list.show {
+            display: block;
+        }
+        .page-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .page-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 4px;
+        }
+        .page-list::-webkit-scrollbar-thumb {
+            background: rgba(34, 211, 238, 0.2);
+            border-radius: 4px;
+        }
+
+        .page-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            margin: 3px 0;
+            gap: 12px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(148, 163, 184, 0.04);
+            transition: background 0.15s;
+        }
+        .page-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .page-item input[type="checkbox"] {
+            accent-color: var(--cyan);
+            width: 17px;
+            height: 17px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .page-item .page-label {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            flex: 1;
+        }
+        .page-item .page-index {
+            color: #64748b;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .selection-tools {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+        .selection-tools button {
+            padding: 4px 14px;
+            border-radius: 6px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            background: transparent;
+            color: #64748b;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+        }
+        .selection-tools button:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+        .btn {
+            padding: 12px 28px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            justify-content: center;
+        }
+        .btn-primary {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+        .btn-primary:hover {
+            background: #67e8f9;
+            transform: translateY(-1px);
+        }
+        .btn-primary:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--red);
+            color: #fca5a5;
+        }
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.25);
+        }
+
+        .loading {
+            color: var(--cyan);
+            text-align: center;
+            padding: 20px;
+            display: none;
+            font-size: 1rem;
+        }
+        .loading.show {
+            display: block;
+        }
+        .loading .spinner {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error {
+            color: #ef4444;
+            text-align: center;
+            padding: 15px;
+            display: none;
+            background: rgba(239, 68, 68, 0.08);
+            border-radius: 10px;
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            margin-top: 15px;
+        }
+        .error.show {
+            display: block;
+        }
+
+        .result-box {
+            margin-top: 25px;
+            display: none;
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(34, 211, 238, 0.15);
+            text-align: center;
+        }
+        .result-box.show {
+            display: block;
+        }
+        .result-box .success-icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .result-box .message {
+            color: #cbd5e1;
+            font-size: 1rem;
+        }
+        .result-box .file-size {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+        .btn-download {
+            background: var(--cyan);
+            color: #0b0f19;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-download:hover {
+            background: #67e8f9;
+            transform: translateY(-1px);
+        }
+
+        .info-bar {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-top: 10px;
+            text-align: center;
+            padding: 8px;
+            background: rgba(34, 211, 238, 0.03);
+            border-radius: 8px;
+            border: 1px solid rgba(34, 211, 238, 0.05);
+        }
+        .info-bar .highlight {
+            color: var(--cyan);
+            font-weight: bold;
+        }
+
+        .other-tools {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .other-tools a {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #fca5a5;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .other-tools a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .story-suggest {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+        .story-suggest .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .story-suggest .items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .story-suggest .items a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 11px;
+            color: #555;
+        }
+        footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        footer a:hover {
+            color: #888;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 18px;
+            }
+            .btn {
+                flex: none;
+                width: 100%;
+            }
+            .page-item {
+                padding: 6px 10px;
+            }
+            .page-item .page-label {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="lang-switch">
+            <a onclick="switchLang('hk')">🇭🇰 港版</a> |
+            <a onclick="switchLang('tw')">🇹🇼 台版</a> |
+            <a onclick="switchLang('en')">🇬🇧 English</a>
+        </div>
+
+        <h1 class="tool-title" id="toolTitle">✂️ PDF 拆分工具</h1>
+        <p class="tool-sub" id="toolSub">上傳 PDF，揀選頁面，拆出一個新 PDF</p>
+        <div class="badge-row">
+            <span class="badge" id="badge1">🔒 私隱安全</span>
+            <span class="badge" id="badge2">📄 逐頁揀選</span>
+            <span class="badge" id="badge3">🆓 完全免費</span>
+        </div>
+
+        <div class="upload-area" id="dropArea">
+            <span class="icon">📤</span>
+            <p id="uploadText">拖曳 PDF 檔案到這裡，或點擊揀選</p>
+            <span class="hint" id="uploadHint">支援單一 PDF，揀選要拆出嘅頁面</span>
+            <input type="file" id="fileInput" accept=".pdf" />
+        </div>
+
+        <div class="file-info" id="fileInfo">
+            <span class="name" id="fileName">filename.pdf</span>
+            <span class="size" id="fileSize">2.3 MB</span>
+            <span class="page-count" id="filePageCount">10 頁</span>
+        </div>
+
+        <div class="page-list" id="pageList">
+            <div id="pageItems"></div>
+            <div class="selection-tools">
+                <button id="selectAllBtn">✅ 全選</button>
+                <button id="deselectAllBtn">⬜ 取消全選</button>
+                <button id="selectOddBtn">🔢 單數頁</button>
+                <button id="selectEvenBtn">🔢 雙數頁</button>
+            </div>
+            <div class="info-bar"><span id="selectedPrefix">已揀選 </span><span class="highlight" id="selectedCount">0</span> <span id="selectedSuffix">頁</span></div>
+            <div class="btn-group">
+                <button class="btn btn-primary" id="splitBtn">📥 <span id="splitText">下載已揀選頁面</span></button>
+                <button class="btn btn-danger" id="clearBtn">🗑️ <span id="clearText">清空</span></button>
+            </div>
+        </div>
+
+        <div class="loading" id="loading"><span class="spinner">⟳</span> <span id="loadingText">正在處理中，請稍候...</span></div>
+        <div class="error" id="error">❌ <span id="errorText">處理失敗，請再試一次</span></div>
+
+        <div class="result-box" id="resultBox">
+            <span class="success-icon">✅</span>
+            <div class="message" id="resultMessage">拆分完成！</div>
+            <div class="file-size" id="resultSize"></div>
+            <div style="margin-top: 16px;">
+                <button class="btn-download" id="downloadBtn">⬇️ <span id="downloadText">下載拆分後 PDF</span></button>
+            </div>
+        </div>
+
+        <div class="story-suggest">
+            <div class="label" id="storyLabel">📖 你可能會中意嘅連載或測驗</div>
+            <div class="items">
+                <a href="../story_01.html">《你睡著以後》</a>
+                <a href="../story_02.html">《貓狗人格》</a>
+                <a href="../quiz-01.html">隱私天平</a>
+                <a href="../index.html">🏠 返回主頁</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+    </footer>
+
+    <script>
+        // =============================================================
+        // 語言文字
+        // =============================================================
+        const texts = {
+            hk: {
+                title: '✂️ PDF 拆分工具',
+                sub: '上傳 PDF，揀選頁面，拆出一個新 PDF',
+                badge1: '🔒 私隱安全',
+                badge2: '📄 逐頁揀選',
+                badge3: '🆓 完全免費',
+                storyLabel: '📖 你可能會中意嘅連載或測驗',
+                upload: '拖曳 PDF 檔案到這裡，或點擊揀選',
+                hint: '支援單一 PDF，揀選要拆出嘅頁面',
+                selectAll: '✅ 全選',
+                deselectAll: '⬜ 取消全選',
+                selectOdd: '🔢 單數頁',
+                selectEven: '🔢 雙數頁',
+                selectedPrefix: '已揀選 ',
+                selectedSuffix: ' 頁',
+                split: '下載已揀選頁面',
+                clear: '清空',
+                loading: '正在處理中，請稍候...',
+                error: '處理失敗，請再試一次',
+                result: '拆分完成！',
+                download: '下載拆分後 PDF',
+                page: '頁',
+                allSelected: '你揀選咗全部頁面。如果只係想下載原檔，直接下載就得，唔使拆。',
+                selectAtLeast: '請至少揀選 1 頁進行拆分',
+                fileSize: '檔案大小：',
+                bytes: 'bytes',
+            },
+            tw: {
+                title: '✂️ PDF 拆分工具',
+                sub: '上傳 PDF，揀選頁面，拆出一個新 PDF',
+                badge1: '🔒 私隱安全',
+                badge2: '📄 逐頁揀選',
+                badge3: '🆓 完全免費',
+                storyLabel: '📖 你可能會喜歡的連載或測驗',
+                upload: '拖曳 PDF 檔案到這裡，或點擊選擇',
+                hint: '支援單一 PDF，揀選要拆出的頁面',
+                selectAll: '✅ 全選',
+                deselectAll: '⬜ 取消全選',
+                selectOdd: '🔢 單數頁',
+                selectEven: '🔢 雙數頁',
+                selectedPrefix: '已揀選 ',
+                selectedSuffix: ' 頁',
+                split: '下載已揀選頁面',
+                clear: '清空',
+                loading: '正在處理中，請稍候...',
+                error: '處理失敗，請再試一次',
+                result: '拆分完成！',
+                download: '下載拆分後 PDF',
+                page: '頁',
+                allSelected: '你揀選了全部頁面。如果只是想下載原檔，直接下載即可，不需要拆分。',
+                selectAtLeast: '請至少揀選 1 頁進行拆分',
+                fileSize: '檔案大小：',
+                bytes: 'bytes',
+            },
+            en: {
+                title: '✂️ PDF Splitter',
+                sub: 'Upload PDF, select pages, extract to a new PDF',
+                badge1: '🔒 Privacy Safe',
+                badge2: '📄 Select Pages',
+                badge3: '🆓 Free',
+                storyLabel: '📖 You might also like',
+                upload: 'Drag & drop your PDF here, or click to select',
+                hint: 'Upload a single PDF, select pages to extract',
+                selectAll: '✅ Select All',
+                deselectAll: '⬜ Deselect All',
+                selectOdd: '🔢 Odd Pages',
+                selectEven: '🔢 Even Pages',
+                selectedPrefix: 'Selected ',
+                selectedSuffix: ' pages',
+                split: 'Download Selected Pages',
+                clear: 'Clear',
+                loading: 'Processing, please wait...',
+                error: 'Failed, please try again',
+                result: 'Split complete!',
+                download: 'Download Extracted PDF',
+                page: 'pages',
+                allSelected: 'You selected all pages. If you just want to download the original file, you can download it directly without splitting.',
+                selectAtLeast: 'Please select at least 1 page to split',
+                fileSize: 'File size：',
+                bytes: 'bytes',
+            }
+        };
+
+        let lang = 'hk';
+
+        // =============================================================
+        // 語言切換
+        // =============================================================
+        function switchLang(l) {
+            lang = l;
+            const t = texts[l];
+
+            document.getElementById('toolTitle').innerHTML = t.title;
+            document.getElementById('toolSub').innerText = t.sub;
+            document.getElementById('badge1').innerText = t.badge1;
+            document.getElementById('badge2').innerText = t.badge2;
+            document.getElementById('badge3').innerText = t.badge3;
+            document.getElementById('storyLabel').innerText = t.storyLabel;
+            document.getElementById('uploadText').innerText = t.upload;
+            document.getElementById('uploadHint').innerText = t.hint;
+            document.getElementById('selectAllBtn').innerText = t.selectAll;
+            document.getElementById('deselectAllBtn').innerText = t.deselectAll;
+            document.getElementById('selectOddBtn').innerText = t.selectOdd;
+            document.getElementById('selectEvenBtn').innerText = t.selectEven;
+            document.getElementById('selectedPrefix').innerText = t.selectedPrefix;
+            document.getElementById('selectedSuffix').innerText = t.selectedSuffix;
+            document.getElementById('splitText').innerText = t.split;
+            document.getElementById('clearText').innerText = t.clear;
+            document.getElementById('loadingText').innerText = t.loading;
+            document.getElementById('errorText').innerText = t.error;
+            document.getElementById('resultMessage').innerText = t.result;
+            document.getElementById('downloadText').innerText = t.download;
+
+            document.querySelectorAll('.story-suggest .items a').forEach(a => {
+                try {
+                    const url = new URL(a.href);
+                    url.searchParams.set('lang', l);
+                    a.href = url.toString();
+                } catch (e) {}
+            });
+        }
+
+        // =============================================================
+        // 偵測語言（URL 參數優先）
+        // =============================================================
+        function detectLanguage() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('lang') === 'en') return 'en';
+            if (params.get('lang') === 'tw') return 'tw';
+            if (params.get('lang') === 'hk') return 'hk';
+            const userLang = navigator.language || navigator.userLanguage;
+            if (userLang.startsWith('en')) return 'en';
+            if (userLang.includes('zh')) {
+                if (userLang.includes('TW') || userLang.includes('tw')) return 'tw';
+                return 'hk';
+            }
+            return 'hk';
+        }
+
+        const detectedLang = detectLanguage();
+        switchLang(detectedLang);
+
+        // =============================================================
+        // 工具核心
+        // =============================================================
+        const fileInput = document.getElementById('fileInput');
+        const dropArea = document.getElementById('dropArea');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const filePageCount = document.getElementById('filePageCount');
+        const pageList = document.getElementById('pageList');
+        const pageItems = document.getElementById('pageItems');
+        const selectedCount = document.getElementById('selectedCount');
+        const splitBtn = document.getElementById('splitBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const loading = document.getElementById('loading');
+        const error = document.getElementById('error');
+        const resultBox = document.getElementById('resultBox');
+        const resultSize = document.getElementById('resultSize');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const selectAllBtn = document.getElementById('selectAllBtn');
+        const deselectAllBtn = document.getElementById('deselectAllBtn');
+        const selectOddBtn = document.getElementById('selectOddBtn');
+        const selectEvenBtn = document.getElementById('selectEvenBtn');
+
+        let currentFile = null;
+        let pageData = [];
+        let splitPdfData = null;
+        let originalFileName = '';
+
+        function formatSize(bytes) {
+            const t = texts[lang];
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        function renderPageList() {
+            if (pageData.length === 0) {
+                pageList.classList.remove('show');
+                return;
+            }
+            pageList.classList.add('show');
+
+            let html = '';
+            pageData.forEach((page, index) => {
+                const checked = page.selected ? 'checked' : '';
+                html += `
+                    <div class="page-item">
+                        <input type="checkbox" data-index="${index}" ${checked} />
+                        <span class="page-label">第 ${index + 1} 頁</span>
+                        <span class="page-index">#${index + 1}</span>
+                    </div>
+                `;
+            });
+            pageItems.innerHTML = html;
+
+            document.querySelectorAll('.page-item input[type="checkbox"]').forEach(cb => {
+                cb.addEventListener('change', function() {
+                    const idx = parseInt(this.dataset.index);
+                    pageData[idx].selected = this.checked;
+                    updateSelectedCount();
+                });
+            });
+
+            updateSelectedCount();
+        }
+
+        function updateSelectedCount() {
+            const count = pageData.filter(p => p.selected).length;
+            selectedCount.innerText = count;
+        }
+
+        function resetResult() {
+            resultBox.classList.remove('show');
+            splitPdfData = null;
+        }
+
+        async function handleFile(file) {
+            if (!file || !(file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf'))) {
+                const t = texts[lang];
+                alert('請上傳 PDF 檔案');
+                return;
+            }
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
+                const pageCount = pdf.getPageCount();
+
+                currentFile = file;
+                originalFileName = file.name.replace(/\.[^.]+$/, '');
+                pageData = Array.from({ length: pageCount }, (_, i) => ({
+                    selected: true
+                }));
+
+                fileInfo.classList.add('show');
+                fileName.innerText = file.name;
+                fileSize.innerText = formatSize(file.size);
+                const t = texts[lang];
+                filePageCount.innerText = `${pageCount} ${t.page}`;
+
+                renderPageList();
+                resetResult();
+
+            } catch (e) {
+                console.error('讀取 PDF 失敗:', e);
+                alert('無法讀取此 PDF 檔案，可能已損壞。');
+            }
+        }
+
+        dropArea.addEventListener('click', () => fileInput.click());
+        dropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropArea.classList.add('dragover');
+        });
+        dropArea.addEventListener('dragleave', () => dropArea.classList.remove('dragover'));
+        dropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropArea.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+                fileInput.value = '';
+            }
+        });
+
+        selectAllBtn.addEventListener('click', () => {
+            pageData.forEach(p => p.selected = true);
+            renderPageList();
+            resetResult();
+        });
+
+        deselectAllBtn.addEventListener('click', () => {
+            pageData.forEach(p => p.selected = false);
+            renderPageList();
+            resetResult();
+        });
+
+        selectOddBtn.addEventListener('click', () => {
+            pageData.forEach((p, i) => p.selected = (i % 2 === 0));
+            renderPageList();
+            resetResult();
+        });
+
+        selectEvenBtn.addEventListener('click', () => {
+            pageData.forEach((p, i) => p.selected = (i % 2 === 1));
+            renderPageList();
+            resetResult();
+        });
+
+        clearBtn.addEventListener('click', () => {
+            currentFile = null;
+            pageData = [];
+            fileInfo.classList.remove('show');
+            renderPageList();
+            resetResult();
+        });
+
+        splitBtn.addEventListener('click', async () => {
+            const t = texts[lang];
+            const selected = pageData.filter(p => p.selected);
+            if (selected.length === 0) {
+                alert(t.selectAtLeast);
+                return;
+            }
+
+            if (selected.length === pageData.length) {
+                alert(t.allSelected);
+                return;
+            }
+
+            splitBtn.disabled = true;
+            loading.classList.add('show');
+            error.classList.remove('show');
+            resultBox.classList.remove('show');
+
+            try {
+                const { PDFDocument } = PDFLib;
+                const arrayBuffer = await currentFile.arrayBuffer();
+                const sourcePdf = await PDFDocument.load(arrayBuffer);
+                const newPdf = await PDFDocument.create();
+
+                const indices = [];
+                pageData.forEach((p, i) => {
+                    if (p.selected) indices.push(i);
+                });
+
+                for (const idx of indices) {
+                    const [copiedPage] = await newPdf.copyPages(sourcePdf, [idx]);
+                    newPdf.addPage(copiedPage);
+                }
+
+                const bytes = await newPdf.save();
+                splitPdfData = bytes;
+
+                const sizeInMB = (bytes.length / (1024 * 1024)).toFixed(2);
+                resultSize.innerText = `${t.fileSize}${sizeInMB} MB（${bytes.length.toLocaleString()} ${t.bytes}）· ${indices.length} ${t.page}`;
+                resultBox.classList.add('show');
+
+            } catch (err) {
+                const t = texts[lang];
+                error.innerText = '❌ ' + (err.message || t.error);
+                error.classList.add('show');
+            }
+
+            loading.classList.remove('show');
+            splitBtn.disabled = false;
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            if (!splitPdfData) return;
+            const blob = new Blob([splitPdfData], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${originalFileName}_extracted.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        renderPageList();
+    </script>
+</body>
+</html>

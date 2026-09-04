@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【影片變速工具教學】慢動作與快轉效果｜0.25x-4.0x 速度調整｜Free Video Speed Controller Guide</title>
+    <meta name="description" content="影片變速工具完整教學！支援 0.25x 至 4.0x 播放速度調整，輕鬆製作慢動作 (Slow Motion) 與快轉縮時 (Timelapse) 效果。100% 瀏覽器處理保護私隱。Free online video speed controller guide.">
+    <meta name="keywords" content="影片變速, 影片調速, 慢動作, 快轉, 縮時影片, 影片播放速度, video speed controller, change video speed, slow motion, speed up video, timelapse, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/video-speed-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【影片變速工具教學】慢動作與快轉效果 — 0.25x-4.0x 速度調整｜Free Video Speed Controller Guide">
+    <meta property="og:description" content="調整影片播放速度 0.25x 至 4.0x，輕鬆製作慢動作重播與快轉縮時影片。100% 瀏覽器處理保護私隱。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/video-speed-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Video Speed Controller Guide – Slow Motion & Timelapse Effects">
+    <meta name="twitter:description" content="Adjust video speed from 0.25x to 4.0x. Create slow-motion and timelapse videos. 100% client-side privacy.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "影片變速工具教學：慢動作與快轉效果 — 0.25x-4.0x 速度調整",
+      "description": "介紹如何使用影片變速工具調整播放速度，製作慢動作重播與快轉縮時影片，適用於社交媒體、運動分析與內容創作。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        code {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--primary-cyan);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>影片變速工具教學：慢動作與快轉效果 — 0.25x-4.0x 速度調整</h1>
+
+        <h2>1. 導言</h2>
+        <p>你有冇試過拍咗一段好正嘅運動片段，想睇慢動作重播但手機冇內置功能？或者拍咗好長嘅旅遊 Vlog，想加快速度濃縮成精華？<strong>影片變速（Video Speed Control）</strong> 就係為咗呢個情況而設。我哋嘅免費影片變速工具支援 <strong>0.25x 至 4.0x</strong> 播放速度調整，無論你想製作慢動作（Slow Motion）定係快轉縮時（Timelapse），都喺瀏覽器入面一鍵完成。所有運算喺你嘅裝置入面進行，影片唔會離開你嘅電腦或手機，私隱 100% 安全。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>影片變速（Video Speed Control）</strong> 係指改變影片播放速度嘅編輯操作。主要分為兩大類：</p>
+        <ul>
+            <li><strong>慢動作（Slow Motion）：</strong> 速度低於 1.0x（例如 0.25x、0.5x、0.75x），將影片放慢播放，適合運動重播、藝術效果與細節捕捉。</li>
+            <li><strong>快轉 / 縮時（Speed Up / Timelapse）：</strong> 速度高於 1.0x（例如 1.25x、1.5x、2.0x、4.0x），將影片加快播放，適合濃縮長時間內容、製作縮時影片與快速瀏覽。</li>
+        </ul>
+        <p>我哋嘅工具採用瀏覽器內建嘅 Canvas、AudioContext 與 MediaRecorder API，將影片重新編碼為指定速度嘅新影片。所有處理 100% 客戶端進行，你嘅影片檔案絕不會上傳到任何伺服器。</p>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>運動分析：</strong> 將跑步、籃球、足球等運動片段放慢，分析動作細節。</li>
+            <li><strong>社交媒體短片：</strong> 製作慢動作或快轉效果嘅 Reels、Shorts、TikTok 影片。</li>
+            <li><strong>旅遊 Vlog 濃縮：</strong> 將數小時嘅旅遊記錄加快，製成幾分鐘嘅精華縮時。</li>
+            <li><strong>教學示範：</strong> 將操作步驟放慢，方便學生跟住做。</li>
+            <li><strong>創意內容：</strong> 為影片加入速度變化嘅節奏感（例如慢動作 + 快轉交替）。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>上傳影片：</strong> 點擊或拖曳影片到上傳區域。支援 MP4、WebM、MOV 等主流格式。</li>
+            <li><strong>選擇速度：</strong>
+                <ul>
+                    <li>點擊預設速度按鈕（0.25x、0.5x、0.75x、1.0x、1.25x、1.5x、2.0x、4.0x）快速切換。</li>
+                    <li>或使用滑桿進行 0.25x 至 4.0x 嘅精細調整，每 0.05x 為單位。</li>
+                </ul>
+            </li>
+            <li><strong>即時預覽：</strong> 上傳後影片會自動以所選速度播放，你可以即時感受效果。</li>
+            <li><strong>開始轉換：</strong> 點擊「開始轉換與預覽」，工具會將影片重新編碼為新速度。</li>
+            <li><strong>預覽與下載：</strong> 轉換完成後喺下方播放器預覽，滿意後點擊「下載變速影片」儲存。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站前端工具</th>
+                    <th>手機內建編輯</th>
+                    <th>桌面剪片軟件</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>免費</td>
+                    <td>付費或需安裝</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>⚠️ 本地處理但需權限</td>
+                    <td>✅ 本地處理</td>
+                </tr>
+                <tr>
+                    <td><strong>速度範圍</strong></td>
+                    <td>0.25x - 4.0x</td>
+                    <td>⚠️ 通常只有 2-3 個選項</td>
+                    <td>0.1x - 10x+</td>
+                </tr>
+                <tr>
+                    <td><strong>精細調整</strong></td>
+                    <td>✅ 滑桿 0.05x 為單位</td>
+                    <td>❌ 通常只提供固定選項</td>
+                    <td>✅ 完整自訂</td>
+                </tr>
+                <tr>
+                    <td><strong>即時預覽</strong></td>
+                    <td>✅ 上傳後即時播放</td>
+                    <td>⚠️ 部份支援</td>
+                    <td>✅ 全面</td>
+                </tr>
+                <tr>
+                    <td><strong>無需安裝</strong></td>
+                    <td>✅ 瀏覽器即用</td>
+                    <td>✅ 內置</td>
+                    <td>❌ 需安裝軟件</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>低</td>
+                    <td>中等</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「攝影師朋友教我嘅第一堂課：『慢動作係放大情緒，快轉係濃縮時間。』嗰陣我唔明，直到自己剪片嗰陣先發現——將一個笑容放慢，觀眾會停留喺嗰一刻；將一段行路加快，觀眾會覺得『呢 part 唔重要』。速度從來唔只係技術參數，佢係一種 <strong>控制觀眾節奏</strong> 嘅工具。你控制速度，你就控制咗觀眾點樣感受你嘅內容。呢個工具俾你嘅，就係呢種 <strong>掌控權</strong>——你要人停留，定係要人跳過？呢個選擇，而家喺你手上面。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ 需要調整影片速度？慢動作或快轉都得！</h3>
+            <p style="margin:0; font-size:0.9rem;">即時預覽速度效果，0.25x 至 4.0x 自由調整，完全免費且保護私隱。</p>
+            <a href="../tools/video-speed.html?lang=hk" class="cta-btn-link" id="ctaBtn">👉 立即免費試用影片變速工具</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Video Speed Controller Guide: Slow Motion & Timelapse — 0.25x to 4.0x Speed Adjustment</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Ever shot an awesome sports clip and wished you could watch it in slow motion? Or recorded a long travel vlog and wanted to condense it into a few minutes of highlights? <strong>Video speed control</strong> is exactly for this purpose. Our free video speed controller supports <strong>0.25x to 4.0x</strong> playback speed adjustment—whether you want slow motion or timelapse effects, everything happens right in your browser. All processing is 100% client-side—your video files never leave your device.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>Video speed control</strong> refers to changing the playback rate of a video. The two main categories are:</p>
+        <ul>
+            <li><strong>Slow Motion:</strong> Speed below 1.0x (e.g., 0.25x, 0.5x, 0.75x)—slows down the video for sports replays, artistic effects, and detail capture.</li>
+            <li><strong>Speed Up / Timelapse:</strong> Speed above 1.0x (e.g., 1.25x, 1.5x, 2.0x, 4.0x)—speeds up the video for condensing long content, timelapse videos, and quick previews.</li>
+        </ul>
+        <p>Our tool uses browser APIs (Canvas, AudioContext, and MediaRecorder) to re-encode the video at the selected speed. All processing is 100% client-side—your videos never leave your device.</p>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Sports Analysis:</strong> Slow down running, basketball, or soccer clips to analyze movement details.</li>
+            <li><strong>Social Media Shorts:</strong> Create slow-motion or speed-up effects for Reels, Shorts, and TikTok videos.</li>
+            <li><strong>Vlog Condensing:</strong> Compress hours of travel footage into a few minutes of timelapse highlights.</li>
+            <li><strong>Tutorials:</strong> Slow down step-by-step instructions for students to follow along.</li>
+            <li><strong>Creative Content:</strong> Add rhythmic speed variations (e.g., slow motion + speed-up alternation).</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Upload Video:</strong> Click or drag your video to the upload area. Supports MP4, WebM, MOV, and other common formats.</li>
+            <li><strong>Select Speed:</strong>
+                <ul>
+                    <li>Click preset speed buttons (0.25x, 0.5x, 0.75x, 1.0x, 1.25x, 1.5x, 2.0x, 4.0x) for quick switching.</li>
+                    <li>Or use the slider for fine-tuning from 0.25x to 4.0x in 0.05x increments.</li>
+                </ul>
+            </li>
+            <li><strong>Real-Time Preview:</strong> After upload, the video plays at your selected speed automatically.</li>
+            <li><strong>Start Processing:</strong> Click "Process & Preview" to re-encode the video at the new speed.</li>
+            <li><strong>Preview & Download:</strong> Check the result in the preview player below, then click "Download Speed Video" to save.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Client-Side Tool (Us)</th>
+                    <th>Phone Built-in Editor</th>
+                    <th>Desktop Software</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Free</td>
+                    <td>Paid / Install</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>⚠️ Permissions</td>
+                    <td>✅ Local</td>
+                </tr>
+                <tr>
+                    <td><strong>Speed Range</strong></td>
+                    <td>0.25x - 4.0x</td>
+                    <td>⚠️ Usually 2-3 options</td>
+                    <td>0.1x - 10x+</td>
+                </tr>
+                <tr>
+                    <td><strong>Fine Adjustment</strong></td>
+                    <td>✅ 0.05x slider steps</td>
+                    <td>❌ Fixed presets only</td>
+                    <td>✅ Full custom</td>
+                </tr>
+                <tr>
+                    <td><strong>Real-Time Preview</strong></td>
+                    <td>✅ Instant playback</td>
+                    <td>⚠️ Some support</td>
+                    <td>✅ Full</td>
+                </tr>
+                <tr>
+                    <td><strong>No Installation</strong></td>
+                    <td>✅ Browser</td>
+                    <td>✅ Built-in</td>
+                    <td>❌ Software</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Low</td>
+                    <td>Medium</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"A photographer friend once taught me: 'Slow motion amplifies emotion; speed-up compresses time.' I didn't get it at first—until I started editing my own videos. Slow down a smile, and the audience stays in that moment. Speed up a walk, and they feel 'this part isn't important.' Speed was never just a technical parameter—it's a tool for <strong>controlling the audience's rhythm</strong>. You control speed, you control how people feel about your content. This tool gives you exactly that <strong>control</strong>—do you want people to stay, or do you want them to skip? That choice is now in your hands."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ Need to Adjust Video Speed? Slow Motion or Timelapse—Both Work!</h3>
+            <p style="margin:0; font-size:0.9rem;">Real-time speed preview with 0.25x to 4.0x adjustment—completely free with privacy protection.</p>
+            <a href="../tools/video-speed.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Video Speed Controller Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtn = document.getElementById('ctaBtn');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtn.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtn.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

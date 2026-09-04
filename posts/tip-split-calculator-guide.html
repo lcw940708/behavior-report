@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【小費與帳單分攤計算器教學】AA 制計算｜聚餐結帳必備｜Free Tip & Split Bill Calculator Guide</title>
+    <meta name="description" content="小費與帳單分攤計算器完整教學！輸入帳單總額、小費比例與人數，即時計算小費總額、含稅總帳單及每人應付金額。Free online tip and split bill calculator guide.">
+    <meta name="keywords" content="小費計算, 帳單分攤, AA制計算, Tip Calculator, Split Bill, 聚餐結帳, 每人應付, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/tip-split-calculator-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【小費與帳單分攤計算器教學】AA 制計算｜聚餐結帳必備｜Free Tip & Split Bill Calculator Guide">
+    <meta property="og:description" content="輸入帳單總額、小費比例與人數，即時計算小費總額、含稅總帳單及每人應付金額。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/tip-split-calculator-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Tip & Split Bill Calculator Guide – Calculate AA System Instantly">
+    <meta name="twitter:description" content="Calculate total tip, grand total, and per-person split for group dining instantly.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "小費與帳單分攤計算器教學：AA 制計算 — 聚餐結帳必備工具",
+      "description": "介紹如何使用小費與帳單分攤計算器計算小費總額、含稅總帳單及每人應付金額，適用於朋友聚餐、家庭聚會與公司活動的 AA 制結帳。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(16, 185, 129, 0.05);
+            border-left: 4px solid var(--accent-green);
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: var(--accent-green);
+        }
+
+        .insight-quote .story-highlight {
+            color: #cbd5e1;
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .insight-quote .emoji-highlight {
+            font-style: normal;
+        }
+
+        .cta-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid var(--accent-green);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--accent-green);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>小費與帳單分攤計算器教學：AA 制計算 — 聚餐結帳必備工具</h1>
+
+        <h2>1. 導言</h2>
+        <p>你同朋友聚餐之後，每次埋單計數都 <strong>計到頭都大</strong>？「$880 蚊，4 個人，仲要加 10% 服務費，即係每人幾多？」呢條數，計錯咗 <strong>尷尬</strong>，計得太慢又 <strong>畀人催</strong>。我哋嘅免費小費與帳單分攤計算器幫你輸入 <strong>帳單總額、小費百分比同分攤人數</strong>，即時計算 <strong>小費總額、含小費總帳單、每人應付金額</strong>，仲會拆細 <strong>每人餐費本金同每人分攤小費</strong>。所有運算喺瀏覽器入面完成，數據唔會離開你嘅裝置，私隱 100% 安全。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>小費（Tip）與帳單分攤（Bill Splitting）</strong> 係日常生活聚會中經常遇到嘅場景。主要概念包括：</p>
+        <ul>
+            <li><strong>小費（Tip）：</strong> 顧客對服務員嘅額外獎勵，通常按帳單總額嘅某個百分比計算。常見比例：5% / 10% / 15% / 20%。</li>
+            <li><strong>服務費（Service Charge）：</strong> 部分餐廳會自動收取 10% 服務費，性質類似小費但係強制性。</li>
+            <li><strong>AA 制（Going Dutch）：</strong> 由所有參與者平均分攤總費用嘅支付方式，係朋友聚餐最常見嘅埋單模式。</li>
+            <li><strong>每人應付金額（Per Person Total）：</strong> 總帳單（含小費）除以人數，即係每個人要夾嘅錢。</li>
+        </ul>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>朋友聚餐：</strong> 一群人食飯後快速計算每人要夾幾多錢，避免尷尬。</li>
+            <li><strong>家庭聚會：</strong> 家庭聚餐時公平分攤費用，唔使邊個「請客」邊個「欠人情」。</li>
+            <li><strong>公司活動 / Team Lunch：</strong> 同事午餐或團隊活動後快速 AA 制埋單。</li>
+            <li><strong>旅行團餐：</strong> 旅行途中同團友一齊食飯，方便計算每人分攤金額。</li>
+            <li><strong>派對 / 慶祝活動：</strong> 生日派對、慶功宴等多人聚會嘅費用分攤。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>輸入帳單總額：</strong> 輸入餐廳帳單嘅原始金額（未加小費/服務費）。</li>
+            <li><strong>選擇小費比例：</strong>
+                <ul>
+                    <li>點擊快速按鈕：5% / 10% / 15% / 20%</li>
+                    <li>或手動輸入自訂小費百分比</li>
+                </ul>
+            </li>
+            <li><strong>輸入分攤人數：</strong> 輸入聚會嘅總人數。</li>
+            <li><strong>即時計算：</strong> 輸入會自動更新結果，無需點擊按鈕。</li>
+            <li><strong>檢視結果：</strong>
+                <ul>
+                    <li>💰 每人應付總額 — 即時 AA 制結果</li>
+                    <li>💡 小費總額</li>
+                    <li>🧾 含小費總帳單</li>
+                    <li>📋 每人餐費本金 + 每人分攤小費明細</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站小費與分攤工具</th>
+                    <th>心算 / 手算</th>
+                    <th>手機計算機 App</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>完全免費</td>
+                    <td>通常免費</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>✅ 無數據</td>
+                    <td>⚠️ 可能記錄</td>
+                </tr>
+                <tr>
+                    <td><strong>計算速度</strong></td>
+                    <td>⚡ 即時</td>
+                    <td>🐢 需時間</td>
+                    <td>🐢 需手動按</td>
+                </tr>
+                <tr>
+                    <td><strong>小費比例快選</strong></td>
+                    <td>✅ 4 種快速按鈕</td>
+                    <td>❌ 無</td>
+                    <td>⚠️ 部分有</td>
+                </tr>
+                <tr>
+                    <td><strong>自訂小費百分比</strong></td>
+                    <td>✅ 支援</td>
+                    <td>⚠️ 需心算</td>
+                    <td>✅ 通常支援</td>
+                </tr>
+                <tr>
+                    <td><strong>每人明細拆解</strong></td>
+                    <td>✅ 自動顯示</td>
+                    <td>❌ 無</td>
+                    <td>⚠️ 部分有</td>
+                </tr>
+                <tr>
+                    <td><strong>無需下載</strong></td>
+                    <td>✅ 瀏覽器即用</td>
+                    <td>✅ 無需</td>
+                    <td>❌ 需下載 App</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>中等</td>
+                    <td>低</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p><span class="emoji-highlight">😅</span> 我諗好多人都經歷過呢個尷尬場面：<span class="story-highlight">一大班朋友食完飯，侍應遞上張單，全場突然靜晒</span>。有人低頭扮睇電話，有人望住天花板，有人開始計「$880 加一即係幾多？」結果 <strong>5 分鐘過去都未計完</strong>，最後有人忍唔住話「不如我請啦」，但其實心裡面係想 AA 制嘅。</p>
+            <p>我以前就係嗰個 <strong>成日計錯數嘅人</strong>。有一次同 6 個朋友食飯，帳單 $1,200，我計到每人 $180，點知 <span class="story-highlight">原來仲要加 10% 服務費</span>，結果每人應該係 $198。嗰次我 <strong>收少咗錢，自己蝕底咗 $108</strong>。雖然唔係大數目，但嗰種 <span class="story-highlight">「計錯數要自己畀多啲」嘅感覺真係好唔爽</span>。</p>
+            <p><span class="emoji-highlight">💡</span> 自從我開始用呢個工具之後，<strong>呢種尷尬從此消失</strong>。而家每次聚會，我只要 <span class="story-highlight">打開手機，輸入帳單金額、揀小費比例、輸入人數</span>，唔使 3 秒就計好晒。然後我會大大聲講：「<strong>每人 $220，夾俾我先，我碌卡</strong>」—成個過程 <span class="story-highlight">爽快、準確、冇尷尬</span>。朋友仲會覺得我好 <strong>靠得住</strong>。</p>
+            <p style="margin-top:10px; font-style:normal;">記住：<strong>AA 制嘅精髓唔係「慳」，而係「公平」。</strong> 用啱工具，埋單都可以係一件開心嘅事。</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">🍽️ 聚餐埋單怕計錯數？即時用 AA 制計算器！</h3>
+            <p style="margin:0; font-size:0.9rem;">輸入帳單金額、小費比例同人數，即時計算每人應付金額同詳細明細，完全免費且保護私隱。</p>
+            <a href="../tools/tip-split-calculator.html?lang=hk" class="cta-btn-link" id="ctaBtnZh">👉 立即免費試用小費與帳單分攤計算器</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Tip & Split Bill Calculator Guide: AA System — Essential for Group Dining</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Have you ever been at a restaurant with friends, staring at the bill, and <strong>struggling to calculate how much each person owes</strong>? "$880, 4 people, plus 10% service charge—how much is that per person?" Getting it wrong is <strong>awkward</strong>, and taking too long makes everyone <strong>impatient</strong>. Our free Tip & Split Bill Calculator lets you enter <strong>bill total, tip percentage, and number of people</strong> to instantly calculate <strong>total tip, grand total, and per-person amount</strong>, with a detailed breakdown of base bill and tip per person. All processing happens in your browser—your data never leaves your device, ensuring 100% privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>Tip and Bill Splitting</strong> are everyday situations in group dining. Key concepts include:</p>
+        <ul>
+            <li><strong>Tip:</strong> An extra reward for service staff, typically calculated as a percentage of the bill. Common rates: 5% / 10% / 15% / 20%.</li>
+            <li><strong>Service Charge:</strong> Some restaurants automatically add a 10% service charge—similar to a tip but mandatory.</li>
+            <li><strong>Going Dutch / AA System:</strong> Splitting the total cost equally among all participants—the most common bill settlement method for group dining.</li>
+            <li><strong>Per-Person Total:</strong> Total bill (including tip) divided by the number of people—the exact amount each person needs to pay.</li>
+        </ul>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Friends Gathering:</strong> Quickly calculate how much each person owes after a group meal—avoid awkwardness.</li>
+            <li><strong>Family Dinner:</strong> Fairly split expenses during family gatherings—no one feels like they're "treating" or "owing."</li>
+            <li><strong>Team Lunch / Company Events:</strong> Quickly split bills for team meals or company outings.</li>
+            <li><strong>Group Travel Meals:</strong> Split meal costs easily when dining with fellow travelers.</li>
+            <li><strong>Parties / Celebrations:</strong> Birthday parties, celebration dinners—any group event that requires bill splitting.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Enter Bill Amount:</strong> Input the original bill amount (before tip/service charge).</li>
+            <li><strong>Select Tip Percentage:</strong>
+                <ul>
+                    <li>Click quick buttons: 5% / 10% / 15% / 20%</li>
+                    <li>Or manually enter a custom tip percentage</li>
+                </ul>
+            </li>
+            <li><strong>Enter Number of People:</strong> Input the total number of people in the group.</li>
+            <li><strong>Calculate:</strong> Inputs auto-update results instantly—no button clicks needed.</li>
+            <li><strong>View Results:</strong>
+                <ul>
+                    <li>💰 Per-Person Total — instant AA result</li>
+                    <li>💡 Total Tip Amount</li>
+                    <li>🧾 Grand Total (including tip)</li>
+                    <li>📋 Breakdown: base bill per person + tip per person</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Tip & Split Tool (Us)</th>
+                    <th>Mental Math</th>
+                    <th>Calculator Apps</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>100% Free</td>
+                    <td>Usually Free</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>✅ No data</td>
+                    <td>⚠️ May track</td>
+                </tr>
+                <tr>
+                    <td><strong>Speed</strong></td>
+                    <td>⚡ Instant</td>
+                    <td>🐢 Time-consuming</td>
+                    <td>🐢 Manual input</td>
+                </tr>
+                <tr>
+                    <td><strong>Tip Quick Buttons</strong></td>
+                    <td>✅ 4 presets</td>
+                    <td>❌ Not available</td>
+                    <td>⚠️ Some have</td>
+                </tr>
+                <tr>
+                    <td><strong>Custom Tip %</strong></td>
+                    <td>✅ Supported</td>
+                    <td>⚠️ Mental math</td>
+                    <td>✅ Usually</td>
+                </tr>
+                <tr>
+                    <td><strong>Per-Person Breakdown</strong></td>
+                    <td>✅ Auto-displayed</td>
+                    <td>❌ Not available</td>
+                    <td>⚠️ Some have</td>
+                </tr>
+                <tr>
+                    <td><strong>No Download</strong></td>
+                    <td>✅ Browser</td>
+                    <td>✅ None needed</td>
+                    <td>❌ App required</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Medium</td>
+                    <td>Low</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p><span class="emoji-highlight">😅</span> I think many of us have experienced this awkward moment: <span class="story-highlight">a big group of friends finishes a meal, the waiter brings the bill, and suddenly everyone goes silent</span>. Some people look down at their phones, others stare at the ceiling, and someone starts calculating "880 plus 10% is how much?" After <strong>5 minutes of silence and confusion</strong>, someone finally says "I'll just pay," even though everyone actually wanted to split it evenly.</p>
+            <p>I used to be the person who <strong>always got the math wrong</strong>. Once, I was out with 6 friends and the bill was $1,200. I calculated $180 each—<span class="story-highlight">but I forgot the 10% service charge</span>, so it should have been $198 each. That time I <strong>collected too little and ended up paying $108 extra myself</strong>. It wasn't a huge amount, but the feeling of <span class="story-highlight">"getting it wrong and paying the price"</span> was really frustrating.</p>
+            <p><span class="emoji-highlight">💡</span> Since I started using this tool, <strong>that awkwardness has disappeared completely</strong>. Now, at every gathering, I just <span class="story-highlight">open my phone, enter the bill amount, pick the tip percentage, and type in the number of people</span>—it takes less than 3 seconds. Then I say with confidence: "<strong>$220 each, send it to me, I'll pay the bill.</strong>" The whole process is <span class="story-highlight">fast, accurate, and embarrassment-free</span>. My friends even think I'm <strong>super reliable</strong>.</p>
+            <p style="margin-top:10px; font-style:normal;">Remember: <strong>The essence of AA system isn't about being cheap—it's about fairness.</strong> With the right tool, settling the bill can actually be a pleasant experience.</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">🍽️ Worried About Splitting the Bill Wrong? Use the AA Calculator Now!</h3>
+            <p style="margin:0; font-size:0.9rem;">Enter bill amount, tip percentage, and number of people for instant per-person total and breakdown—completely free with privacy protection.</p>
+            <a href="../tools/tip-split-calculator.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Tip & Split Calculator Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtnZh = document.getElementById('ctaBtnZh');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtnZh.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtnZh.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

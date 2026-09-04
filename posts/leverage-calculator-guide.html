@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【槓桿效應與保證金計算機教學】ROE 計算｜融資風險評估｜Free Leverage & Margin Calculator Guide</title>
+    <meta name="description" content="槓桿效應與保證金計算機完整教學！輸入本金、借貸金額、融資利率與預期報酬率，即時計算槓桿後報酬率 (ROE)、損益平衡點與強平風險。Free online leverage and margin calculator guide.">
+    <meta name="keywords" content="槓桿計算器, 保證金計算, 融資利息, 槓桿報酬率, 損益平衡點, 強制平倉, 爆倉價, 股票槓桿, 期貨保證金, Leverage Calculator, Margin Call, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/leverage-calculator-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【槓桿效應與保證金計算機教學】ROE 計算｜融資風險評估｜Free Leverage & Margin Calculator Guide">
+    <meta property="og:description" content="評估融資借貸投資的收益放大倍數與風險，即時計算槓桿 ROE、損益平衡點與強制平倉風險。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/leverage-calculator-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Leverage & Margin Calculator Guide – Evaluate Leveraged Returns & Risk">
+    <meta name="twitter:description" content="Calculate leveraged ROE, break-even returns, and margin call thresholds instantly. Free online leverage calculator guide.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "槓桿效應與保證金計算機教學：槓桿後報酬率與融資風險 — 借貸投資評估",
+      "description": "介紹如何使用槓桿效應與保證金計算機評估借貸投資的收益放大倍數與融資風險，適用於股票融資、期貨保證金與財務規劃。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>槓桿效應與保證金計算機教學：槓桿後報酬率與融資風險 — 借貸投資評估</h1>
+
+        <h2>1. 導言</h2>
+        <p>你係投資者想用融資借錢放大回報，但係唔知槓桿後嘅 <strong>實際報酬率（ROE）</strong> 同 <strong>風險</strong> 有幾大？又或者你擔心市場下跌時會唔會 <strong>被追繳保證金（Margin Call）</strong> 甚至 <strong>強制平倉（Liquidation）</strong>？<strong>槓桿效應（Leverage Effect）與保證金（Margin）</strong> 就係決定「借錢投資值唔值得」嘅關鍵。我哋嘅免費槓桿計算機幫你輸入 <strong>自有資金、借貸金額、融資利率與預期報酬率</strong>，即時計算 <strong>槓桿後淨報酬率（ROE）</strong>、<strong>損益平衡點（Break-Even Return）</strong>，仲會自動評估 <strong>槓桿倍數</strong> 同 <strong>強制平倉風險</strong>。所有運算喺瀏覽器入面完成，數據唔會離開你嘅裝置，私隱 100% 安全。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>槓桿效應（Leverage Effect）與保證金（Margin）</strong> 係金融投資中放大收益同時亦放大虧損嘅雙刃劍。主要概念包括：</p>
+        <ul>
+            <li><strong>槓桿倍數（Leverage Multiplier）：</strong> 總資產 ÷ 自有資金。槓桿 2x 表示每 $1 本金控制 $2 資產。</li>
+            <li><strong>槓桿後股東權益報酬率（Leveraged ROE）：</strong> 扣除利息成本後，本金獲得嘅淨報酬率。公式：ROE = (資產報酬率 × 總資產 - 利息支出) ÷ 本金。</li>
+            <li><strong>損益平衡報酬率（Break-Even Return）：</strong> 標的資產須達到嘅最低報酬率，以完全覆蓋借貸利息成本。</li>
+            <li><strong>維持保證金率（Maintenance Margin）：</strong> 融資帳戶中自有資金佔總資產嘅最低比例，低於此比例將觸發追繳通知。</li>
+            <li><strong>強制平倉臨界跌幅（Margin Call Drop）：</strong> 標的資產價格下跌多少百分比會觸發強制平倉。</li>
+            <li><strong>融資成本（Interest Cost）：</strong> 借貸資金所需支付嘅利息，直接影響槓桿策略嘅淨回報。</li>
+        </ul>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>股票融資（Margin Trading）：</strong> 評估融資買股票嘅收益放大倍數與追加保證金風險。</li>
+            <li><strong>期貨保證金交易：</strong> 計算期貨合約嘅保證金要求與強平價格。</li>
+            <li><strong>房地產槓桿投資：</strong> 評估按揭貸款買樓嘅財務槓桿效應與利率風險。</li>
+            <li><strong>創業融資規劃：</strong> 評估借貸經營嘅資金成本與損益平衡點。</li>
+            <li><strong>加密貨幣合約交易：</strong> 計算高槓桿合約嘅爆倉價格與風險敞口。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>輸入基本參數：</strong>
+                <ul>
+                    <li>💰 自有資金 / 本金（Initial Equity）</li>
+                    <li>🏦 借貸金額 / 融資額（Borrowed Amount）</li>
+                    <li>📈 借貸年利率（Interest Rate %）</li>
+                    <li>📊 預期標的資產報酬率（Expected Asset Return %）</li>
+                </ul>
+            </li>
+            <li><strong>設定持倉期限：</strong> 輸入預計持有時間（月份），利息按比例計算。</li>
+            <li><strong>輸入維持保證金率（選填）：</strong> 預設 25%，可根據券商要求調整。</li>
+            <li><strong>即時計算：</strong> 點擊「即時分析」按鈕（輸入會自動更新）。</li>
+            <li><strong>檢視結果：</strong>
+                <ul>
+                    <li>⚡ 槓桿倍數評估（高槓桿 / 適度槓桿 / 無槓桿）</li>
+                    <li>🚀 槓桿後淨報酬率（Leveraged ROE）</li>
+                    <li>🎯 標的損益平衡報酬率（Break-Even Return）</li>
+                    <li>📋 總資產規模、利息支出、淨利潤</li>
+                    <li>📉 觸發追繳 / 強平臨界跌幅</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站槓桿計算機</th>
+                    <th>Excel 手動計算</th>
+                    <th>券商專業平台</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>需購買軟件</td>
+                    <td>需開戶交易</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>✅ 本地處理</td>
+                    <td>⚠️ 數據儲存於系統</td>
+                </tr>
+                <tr>
+                    <td><strong>計算速度</strong></td>
+                    <td>⚡ 即時</td>
+                    <td>🐢 需設定公式</td>
+                    <td>⚡ 即時</td>
+                </tr>
+                <tr>
+                    <td><strong>強平價格計算</strong></td>
+                    <td>✅ 自動計算</td>
+                    <td>⚠️ 需手動設定</td>
+                    <td>✅ 自動</td>
+                </tr>
+                <tr>
+                    <td><strong>利息成本精算</strong></td>
+                    <td>✅ 按比例計算</td>
+                    <td>⚠️ 需手動設定</td>
+                    <td>✅ 自動</td>
+                </tr>
+                <tr>
+                    <td><strong>無需註冊</strong></td>
+                    <td>✅ 即開即用</td>
+                    <td>❌ 需安裝軟件</td>
+                    <td>❌ 需開戶</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>中等</td>
+                    <td>高</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「槓桿係 <strong>雙刃劍</strong>—佢可以將 10% 嘅回報變成 20%，但亦可以將 10% 嘅虧損變成 20%。好多散戶只睇到『放大收益』嘅一面，但完全忽略咗 <strong>利息成本</strong> 同 <strong>強平風險</strong>。我見過太多人用 5 倍槓桿買股票，一個 10% 嘅震盪就 <strong>被強制平倉</strong>，血本無歸。呢個工具俾你嘅，就係 <strong>用 10 秒鐘睇清楚槓桿後嘅『真實回報』同『真實風險』</strong> —等你唔再盲目借錢投資，做一個 <strong>更理性嘅槓桿投資者</strong>。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ 想評估槓桿投資效益與風險？即時計算 ROE 與強平價！</h3>
+            <p style="margin:0; font-size:0.9rem;">輸入本金與融資參數即時計算槓桿後報酬率、損益平衡點與追繳風險，完全免費且保護私隱。</p>
+            <a href="../tools/leverage-calculator.html?lang=hk" class="cta-btn-link" id="ctaBtnZh">👉 立即免費試用槓桿計算機</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Leverage & Margin Calculator Guide: Leveraged ROE & Financing Risk — Borrowed Investment Evaluation</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Are you an investor looking to use borrowed funds to amplify returns, but unsure about your <strong>actual leveraged return (ROE)</strong> and <strong>risk exposure</strong>? Or worried about <strong>margin calls</strong> and <strong>forced liquidation</strong> if the market drops? <strong>Leverage Effect and Margin</strong> are the keys to determining whether "borrowing to invest" is worth it. Our free leverage calculator lets you enter <strong>equity, borrowed amount, interest rate, and expected return</strong> to instantly calculate <strong>leveraged net ROE</strong>, <strong>break-even return</strong>, and automatically assess <strong>leverage multiplier</strong> and <strong>margin call risk</strong>. All processing happens in your browser—your data never leaves your device, ensuring 100% privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>Leverage Effect and Margin</strong> are a double-edged sword in financial investing—amplifying both gains and losses. Key concepts include:</p>
+        <ul>
+            <li><strong>Leverage Multiplier:</strong> Total Assets ÷ Equity. A 2x leverage means every $1 of equity controls $2 of assets.</li>
+            <li><strong>Leveraged Return on Equity (ROE):</strong> Net return on equity after deducting interest costs. Formula: ROE = (Asset Return × Total Assets - Interest Cost) ÷ Equity.</li>
+            <li><strong>Break-Even Return:</strong> The minimum asset return needed to fully cover borrowing interest costs.</li>
+            <li><strong>Maintenance Margin:</strong> The minimum percentage of equity in total assets required by brokers—below this triggers a margin call.</li>
+            <li><strong>Margin Call Drop Threshold:</strong> The percentage price drop that triggers forced liquidation.</li>
+            <li><strong>Interest Cost:</strong> Interest payments on borrowed funds, directly impacting net leveraged returns.</li>
+        </ul>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Stock Margin Trading:</strong> Evaluate amplified returns and margin call risk when buying stocks on margin.</li>
+            <li><strong>Futures Margin Trading:</strong> Calculate margin requirements and liquidation prices for futures contracts.</li>
+            <li><strong>Real Estate Leverage:</strong> Assess the financial leverage effect and interest rate risk of mortgage-financed property purchases.</li>
+            <li><strong>Business Financing Planning:</strong> Evaluate borrowing costs and break-even points for business operations.</li>
+            <li><strong>Crypto Perpetual Contracts:</strong> Calculate liquidation prices and risk exposure for high-leverage crypto positions.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Enter Basic Parameters:</strong>
+                <ul>
+                    <li>💰 Initial Equity / Principal</li>
+                    <li>🏦 Borrowed Amount / Debt</li>
+                    <li>📈 Borrowing Interest Rate (%)</li>
+                    <li>📊 Expected Asset Return (%)</li>
+                </ul>
+            </li>
+            <li><strong>Set Holding Period:</strong> Enter expected holding time (in months)—interest is calculated proportionally.</li>
+            <li><strong>Enter Maintenance Margin (Optional):</strong> Default 25%, adjustable based on broker requirements.</li>
+            <li><strong>Calculate:</strong> Click "Analyze Now" (inputs auto-update).</li>
+            <li><strong>View Results:</strong>
+                <ul>
+                    <li>⚡ Leverage Multiplier Assessment (High/Moderate/None)</li>
+                    <li>🚀 Leveraged Net ROE</li>
+                    <li>🎯 Break-Even Asset Return</li>
+                    <li>📋 Total Portfolio, Interest Cost, Net Profit/Loss</li>
+                    <li>📉 Margin Call Drop Threshold</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Leverage Calculator (Us)</th>
+                    <th>Excel Manual</th>
+                    <th>Broker Platforms</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Software Purchase</td>
+                    <td>Account Required</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>✅ Local</td>
+                    <td>⚠️ System-stored</td>
+                </tr>
+                <tr>
+                    <td><strong>Speed</strong></td>
+                    <td>⚡ Instant</td>
+                    <td>🐢 Formula setup</td>
+                    <td>⚡ Instant</td>
+                </tr>
+                <tr>
+                    <td><strong>Liquidation Price</strong></td>
+                    <td>✅ Auto-calculated</td>
+                    <td>⚠️ Manual setup</td>
+                    <td>✅ Auto</td>
+                </tr>
+                <tr>
+                    <td><strong>Interest Cost</strong></td>
+                    <td>✅ Proportional</td>
+                    <td>⚠️ Manual setup</td>
+                    <td>✅ Auto</td>
+                </tr>
+                <tr>
+                    <td><strong>No Registration</strong></td>
+                    <td>✅ Instant</td>
+                    <td>❌ Software</td>
+                    <td>❌ Account Required</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Medium</td>
+                    <td>High</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"Leverage is a <strong>double-edged sword</strong>—it can turn a 10% return into 20%, but it can also turn a 10% loss into 20%. Most retail investors only see the 'amplified gains' side, completely ignoring <strong>interest costs</strong> and <strong>liquidation risk</strong>. I've seen too many people use 5x leverage on stocks and get <strong>forced out</strong> by a simple 10% market move—losing everything. This tool gives you exactly that <strong>ability to see the 'true return' and 'true risk' of leverage in 10 seconds</strong>—so you can stop blindly borrowing to invest and become a <strong>more rational leveraged investor</strong>."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ Want to Evaluate Leverage Benefits & Risks? Calculate ROE & Liquidation Price Instantly!</h3>
+            <p style="margin:0; font-size:0.9rem;">Enter equity and financing parameters for instant leveraged ROE, break-even return, and margin call risk—completely free with privacy protection.</p>
+            <a href="../tools/leverage-calculator.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Leverage Calculator Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtnZh = document.getElementById('ctaBtnZh');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtnZh.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtnZh.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

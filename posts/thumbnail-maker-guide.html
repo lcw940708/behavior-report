@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【影片縮圖產生器教學】免費擷取影片畫面｜時間軸精準截圖｜Free Thumbnail Maker Guide</title>
+    <meta name="description" content="影片縮圖產生器完整教學！支援拖動時間軸精準擷取影片畫面，產生高清縮圖預覽，一鍵 ZIP 打包下載全部截圖。100% 瀏覽器處理保護私隱。Free online video thumbnail generator guide.">
+    <meta name="keywords" content="影片縮圖產生器, 影片截圖工具, 影片畫面擷取, 時間軸截圖, thumbnail generator, video screenshot, capture video frame, extract thumbnails, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/thumbnail-maker-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【影片縮圖產生器教學】免費擷取影片畫面 — 時間軸精準截圖｜Free Thumbnail Maker Guide">
+    <meta property="og:description" content="拖動時間軸精準擷取影片畫面，產生高清縮圖預覽，一鍵 ZIP 打包下載全部截圖。100% 瀏覽器處理保護私隱。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/thumbnail-maker-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Thumbnail Maker Guide – Capture Video Frames with Timeline Precision">
+    <meta name="twitter:description" content="Capture video frames precisely by scrubbing the timeline. Generate HD thumbnails and download all as ZIP. 100% client-side privacy.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "影片縮圖產生器教學：免費擷取影片畫面 — 時間軸精準截圖",
+      "description": "介紹如何使用影片縮圖產生器從影片中擷取畫面，製作縮圖預覽，適用於 YouTube 縮圖、社交媒體貼文與影片編輯。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>影片縮圖產生器教學：免費擷取影片畫面 — 時間軸精準截圖</h1>
+
+        <h2>1. 導言</h2>
+        <p>你試過想將一條影片入面嘅精彩畫面截圖出嚟，但係手機或電腦嘅截圖功能永遠 capture 唔到最靚嗰一格？或者你想為 YouTube 影片製作縮圖，但係逐格暫停嘅時候總係錯過最佳角度？<strong>影片縮圖產生器（Video Thumbnail Maker）</strong> 就係為咗呢個情況而設。我哋嘅免費工具支援你 <strong>拖動時間軸精準鎖定任何畫面</strong>，一鍵擷取高清縮圖，仲可以一次過打包下載全部截圖。所有運算喺瀏覽器入面完成，影片唔會離開你嘅裝置，私隱 100% 安全。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>影片縮圖產生器（Video Thumbnail Generator）</strong> 係從影片中提取特定畫面幀（Frame）作為靜態圖片嘅工具。主要應用包括：</p>
+        <ul>
+            <li><strong>YouTube / 社交媒體縮圖：</strong> 為影片製作吸引觀眾點擊嘅封面圖片。</li>
+            <li><strong>影片內容預覽：</strong> 從長片中提取關鍵畫面，製作內容預覽圖。</li>
+            <li><strong>教學素材：</strong> 從教學影片中截取重要步驟畫面。</li>
+            <li><strong>影片編輯參考：</strong> 提取多個時間點嘅畫面作為編輯參考。</li>
+        </ul>
+        <p>我哋嘅工具採用瀏覽器內建嘅 Canvas 技術，將影片嘅指定時間點畫面繪製為高清 PNG 圖片。所有處理 100% 客戶端進行，影片檔案絕不會上傳到任何伺服器。</p>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>YouTube 創作者：</strong> 從影片中提取最吸引嘅畫面作為縮圖，提高點擊率。</li>
+            <li><strong>社交媒體小編：</strong> 從產品影片中擷取多張畫面，製作貼文圖片。</li>
+            <li><strong>教育工作者：</strong> 從教學影片中提取關鍵步驟截圖，製作教材。</li>
+            <li><strong>影片剪輯師：</strong> 提取多個時間點嘅畫面，方便後製參考。</li>
+            <li><strong>內容策展人：</strong> 從長片中提取多張縮圖，製作內容索引或預覽。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>上傳影片：</strong> 點擊或拖曳影片到上傳區域。支援 MP4、MOV、WEBM 等格式。</li>
+            <li><strong>拖動時間軸：</strong> 使用播放器嘅時間軸拖動到你想擷取嘅畫面位置。</li>
+            <li><strong>擷取畫面：</strong> 點擊「擷取當前畫面」，工具會將該幀畫面儲存為縮圖。</li>
+            <li><strong>重複步驟：</strong> 你可以多次擷取不同時間點嘅畫面，全部會顯示喺下方縮圖列表。</li>
+            <li><strong>下載：</strong>
+                <ul>
+                    <li>單張下載：點擊縮圖下方嘅 ⬇️ 按鈕。</li>
+                    <li>全部下載：點擊「下載全部 ZIP」，一次過打包所有縮圖。</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站前端工具</th>
+                    <th>手機截圖</th>
+                    <th>桌面剪片軟件</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>免費</td>
+                    <td>付費或需安裝</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>⚠️ 本地處理</td>
+                    <td>✅ 本地處理</td>
+                </tr>
+                <tr>
+                    <td><strong>精準度</strong></td>
+                    <td>✅ 逐幀精準</td>
+                    <td>❌ 難以對準</td>
+                    <td>✅ 精準</td>
+                </tr>
+                <tr>
+                    <td><strong>時間戳顯示</strong></td>
+                    <td>✅ 自動標記</td>
+                    <td>❌ 無</td>
+                    <td>⚠️ 需手動</td>
+                </tr>
+                <tr>
+                    <td><strong>批量截圖</strong></td>
+                    <td>✅ 無限次數</td>
+                    <td>❌ 逐張手動</td>
+                    <td>✅ 支援</td>
+                </tr>
+                <tr>
+                    <td><strong>ZIP 打包下載</strong></td>
+                    <td>✅ 一鍵打包</td>
+                    <td>❌ 不支援</td>
+                    <td>⚠️ 需手動</td>
+                </tr>
+                <tr>
+                    <td><strong>無需安裝</strong></td>
+                    <td>✅ 瀏覽器即用</td>
+                    <td>✅ 內置</td>
+                    <td>❌ 需安裝軟件</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>低</td>
+                    <td>中等</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「初初開始拍 YouTube 嗰陣，我以為縮圖只係隨便截一張圖就得。直到睇返 analytics，先發現同一條片，換咗縮圖之後點擊率由 3% 升到 12%——<strong>差 4 倍</strong>。嗰一刻我先明，縮圖唔係『一張細相』，佢係你段片嘅 <strong>第一印象</strong>——喺觀眾決定『睇定唔睇』嗰一秒入面，縮圖就係你嘅 <strong>全部武器</strong>。呢個工具唔只係幫你 screenshot——佢幫你 <strong>搵出段片入面最吸引人嘅嗰一格</strong>，然後將佢變成一個 <strong>會令觀眾停低嘅視覺鉤</strong>。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">🖼️ 需要從影片中擷取畫面？時間軸精準截圖！</h3>
+            <p style="margin:0; font-size:0.9rem;">拖動時間軸精準擷取，單張下載或 ZIP 打包全部，完全免費且保護私隱。</p>
+            <a href="../tools/thumbnail-maker.html?lang=hk" class="cta-btn-link" id="ctaBtn">👉 立即免費試用影片縮圖產生器</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Thumbnail Maker Guide: Capture Video Frames with Timeline Precision — Free Tool</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Ever tried to screenshot a specific moment in a video but couldn't get the perfect frame? Or needed to create a YouTube thumbnail but kept missing the best angle? <strong>A video thumbnail maker</strong> is exactly for this purpose. Our free tool lets you <strong>scrub the timeline to precisely lock any frame</strong>, capture HD thumbnails with one click, and download all captures as a ZIP package. All processing happens in your browser—your videos never leave your device, ensuring 100% privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>A video thumbnail generator</strong> extracts specific frames from a video as static images. Key applications include:</p>
+        <ul>
+            <li><strong>YouTube / Social Media Thumbnails:</strong> Create eye-catching cover images to boost click-through rates.</li>
+            <li><strong>Content Previews:</strong> Extract key frames from long videos to create preview galleries.</li>
+            <li><strong>Educational Materials:</strong> Capture important steps from tutorial videos.</li>
+            <li><strong>Editing References:</strong> Extract multiple frames as reference points for post-production.</li>
+        </ul>
+        <p>Our tool uses browser Canvas technology to render specific video frames as high-quality PNG images. All processing is 100% client-side—your video files never leave your device.</p>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>YouTube Creators:</strong> Extract the most attractive frames as thumbnails to increase click-through rates.</li>
+            <li><strong>Social Media Managers:</strong> Capture multiple frames from product videos for post images.</li>
+            <li><strong>Educators:</strong> Extract key step frames from tutorial videos for teaching materials.</li>
+            <li><strong>Video Editors:</strong> Capture multiple timeline references for post-production planning.</li>
+            <li><strong>Content Curators:</strong> Extract multiple thumbnails from long videos for content indexing or previews.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Upload Video:</strong> Click or drag your video to the upload area. Supports MP4, MOV, WEBM, and more.</li>
+            <li><strong>Scrub Timeline:</strong> Drag the player's timeline to the exact frame you want to capture.</li>
+            <li><strong>Capture Frame:</strong> Click "Capture Frame" to save that frame as a thumbnail.</li>
+            <li><strong>Repeat:</strong> Capture multiple frames from different timestamps—all appear in the gallery below.</li>
+            <li><strong>Download:</strong>
+                <ul>
+                    <li>Single Download: Click the ⬇️ button below each thumbnail.</li>
+                    <li>All Download: Click "Download All (ZIP)" to package all thumbnails at once.</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Client-Side Tool (Us)</th>
+                    <th>Phone Screenshot</th>
+                    <th>Desktop Video Software</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Free</td>
+                    <td>Paid / Install</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>⚠️ Local</td>
+                    <td>✅ Local</td>
+                </tr>
+                <tr>
+                    <td><strong>Precision</strong></td>
+                    <td>✅ Frame-accurate</td>
+                    <td>❌ Hard to align</td>
+                    <td>✅ Precise</td>
+                </tr>
+                <tr>
+                    <td><strong>Timestamp Display</strong></td>
+                    <td>✅ Auto-labeled</td>
+                    <td>❌ None</td>
+                    <td>⚠️ Manual</td>
+                </tr>
+                <tr>
+                    <td><strong>Batch Capture</strong></td>
+                    <td>✅ Unlimited</td>
+                    <td>❌ One by one</td>
+                    <td>✅ Supported</td>
+                </tr>
+                <tr>
+                    <td><strong>ZIP Batch Download</strong></td>
+                    <td>✅ One-click</td>
+                    <td>❌ Not supported</td>
+                    <td>⚠️ Manual</td>
+                </tr>
+                <tr>
+                    <td><strong>No Installation</strong></td>
+                    <td>✅ Browser</td>
+                    <td>✅ Built-in</td>
+                    <td>❌ Software</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Low</td>
+                    <td>Medium</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"When I first started making YouTube videos, I thought thumbnails were just random screenshots. Until I checked my analytics—the same video went from 3% to 12% click-through rate <strong>just by changing the thumbnail</strong>. That's a <strong>4x difference</strong>. That's when I realized a thumbnail isn't 'a small picture'—it's your video's <strong>first impression</strong>. In that one second when viewers decide 'watch or skip,' your thumbnail is your <strong>only weapon</strong>. This tool isn't just about screenshots—it helps you <strong>find the single most compelling frame in your video</strong> and turn it into a <strong>visual hook that stops viewers</strong>."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">🖼️ Need to Capture Frames from a Video? Timeline-Precise Screenshots!</h3>
+            <p style="margin:0; font-size:0.9rem;">Scrub the timeline for precise captures, single or ZIP batch download—completely free with privacy protection.</p>
+            <a href="../tools/thumbnail-maker.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Thumbnail Maker Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtn = document.getElementById('ctaBtn');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtn.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtn.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

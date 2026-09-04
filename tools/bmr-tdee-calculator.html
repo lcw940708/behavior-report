@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO 基本標籤 / Bilingual SEO -->
+    <title>線上 BMR & TDEE 計算機 — 基礎代謝率與每日熱量消耗計算｜BMR & TDEE Calculator</title>
+    <meta name="description" content="免費線上 BMR 與 TDEE 健康計算機 (Free Online BMR & TDEE Calculator)。精準計算您的基礎代謝率 (BMR) 與每日總熱量消耗 (TDEE)，並提供減脂、增肌與維持體重的每日卡路里建議。" />
+    <meta name="keywords" content="BMR計算機, TDEE計算機, 基礎代謝率, 每日熱量消耗, 減脂卡路里, BMR calculator, TDEE calculator, basal metabolic rate, total daily energy expenditure, calorie intake calculator" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/bmr-tdee-calculator.html" />
+
+    <!-- Open Graph 社交分享標籤 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="免費線上 BMR & TDEE 計算機 — 快速計算每日卡路里需求｜BMR & TDEE Calculator" />
+    <meta property="og:description" content="輸入身高、體重、年齡與活動量，一鍵算出 BMR 基礎代謝率與 TDEE 每日熱量消耗！打造科學減脂與增肌計劃。" />
+    <meta property="og:url" content="https://www.behavior-report.com/tools/bmr-tdee-calculator.html" />
+
+    <!-- Schema.org 結構化資料 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "BMR & TDEE 健康計算機 (BMR & TDEE Calculator)",
+      "url": "https://www.behavior-report.com/tools/bmr-tdee-calculator.html",
+      "description": "計算基礎代謝率 (BMR) 及每日總消耗熱量 (TDEE) 的免費線上工具，提供增肌與減脂熱量建議。",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "All",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --green: #10b981;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch { text-align: center; margin-bottom: 20px; }
+        .lang-switch button {
+            background: transparent; border: none; color: var(--cyan);
+            cursor: pointer; font-size: 0.9rem; margin: 0 8px; font-weight: bold;
+        }
+        .lang-switch button:hover { text-decoration: underline; }
+
+        .tool-title { font-size: 1.6rem; color: #ffffff; text-align: center; font-weight: bold; }
+        .tool-sub { text-align: center; color: var(--text); font-size: 0.95rem; margin: 10px 0 25px; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: bold;
+        }
+
+        input[type="number"], select {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: #ffffff;
+            padding: 12px;
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        input[type="number"]:focus, select:focus {
+            border-color: var(--cyan);
+        }
+
+        .btn-calc {
+            width: 100%;
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--cyan);
+            border: 1px solid rgba(34, 211, 238, 0.25);
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .btn-calc:hover {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+
+        .results-panel {
+            display: none;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .res-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .res-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .res-card h4 { font-size: 0.85rem; color: var(--text-light); margin-bottom: 8px; }
+        .res-card .val { font-size: 1.4rem; color: var(--cyan); font-weight: bold; }
+        .res-card .unit { font-size: 0.75rem; color: var(--text); }
+
+        .seo-article { margin-top: 40px; padding-top: 25px; border-top: 1px solid rgba(148, 163, 184, 0.08); line-height: 1.6; }
+        .seo-article h2 { color: #ffffff; font-size: 1.1rem; margin-bottom: 12px; }
+        .seo-article p { font-size: 0.85rem; color: var(--text); margin-bottom: 12px; }
+
+        footer { text-align: center; margin-top: 30px; font-size: 11px; color: #555; }
+        footer a { color: #555; text-decoration: none; margin: 0 8px; }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="lang-switch">
+        <button onclick="switchLang('zh')">繁體中文</button> |
+        <button onclick="switchLang('en')">English</button>
+    </div>
+
+    <h1 class="tool-title" id="toolTitle">🔥 BMR & TDEE 健康計算機</h1>
+    <p class="tool-sub" id="toolSub">精準計算基礎代謝率與每日熱量消耗 · 科學規劃增肌減脂目標</p>
+
+    <div class="form-grid">
+        <div class="form-group">
+            <label id="lblGender">生理性別</label>
+            <select id="gender">
+                <option value="male" id="optMale">男性</option>
+                <option value="female" id="optFemale">女性</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label id="lblAge">年齡</label>
+            <input type="number" id="age" placeholder="例如: 25" min="10" max="120" value="25">
+        </div>
+        <div class="form-group">
+            <label id="lblHeight">身高 (cm)</label>
+            <input type="number" id="height" placeholder="例如: 175" min="50" max="250" value="175">
+        </div>
+        <div class="form-group">
+            <label id="lblWeight">體重 (kg)</label>
+            <input type="number" id="weight" placeholder="例如: 70" min="20" max="300" value="70">
+        </div>
+    </div>
+
+    <div class="form-group" style="margin-bottom: 20px;">
+        <label id="lblActivity">日常活動量</label>
+        <select id="activity">
+            <option value="1.2" id="act1">久坐 / 幾乎不運動</option>
+            <option value="1.375" id="act2">輕度活動 / 每週運動 1-3 天</option>
+            <option value="1.55" id="act3" selected>中度活動 / 每週運動 3-5 天</option>
+            <option value="1.725" id="act4">高度活動 / 每週運動 6-7 天</option>
+            <option value="1.9" id="act5">極高活動 / 高強度體能工作或每天雙練</option>
+        </select>
+    </div>
+
+    <button class="btn-calc" onclick="calculateBMR_TDEE()" id="btnCalc">⚡ 計算熱量需求</button>
+
+    <div class="results-panel" id="resultsPanel">
+        <h3 style="color: #fff; font-size: 1.1rem; margin-bottom: 10px;" id="resTitle">📊 計算結果</h3>
+        <div class="res-cards">
+            <div class="res-card">
+                <h4 id="headBmr">基礎代謝率 (BMR)</h4>
+                <div class="val" id="valBmr">0</div>
+                <div class="unit">kcal / day</div>
+            </div>
+            <div class="res-card">
+                <h4 id="headTdee">維持體重 (TDEE)</h4>
+                <div class="val" id="valTdee">0</div>
+                <div class="unit">kcal / day</div>
+            </div>
+            <div class="res-card">
+                <h4 id="headCut">減脂目標 (Fat Loss)</h4>
+                <div class="val" id="valCut">0</div>
+                <div class="unit">kcal / day (-15%)</div>
+            </div>
+            <div class="res-card">
+                <h4 id="headBulk">增肌目標 (Muscle Gain)</h4>
+                <div class="val" id="valBulk">0</div>
+                <div class="unit">kcal / day (+15%)</div>
+            </div>
+        </div>
+    </div>
+
+    <article class="seo-article">
+        <h2 id="seoTitle">什麼是 BMR 與 TDEE？如何幫助控制體重？</h2>
+        <p id="seoP1"><strong>BMR (Basal Metabolic Rate, 基礎代謝率)</strong> 是身體在完全靜止狀態下維持生命（呼吸、器官運作）所需的最低熱量；而 <strong>TDEE (Total Daily Energy Expenditure, 每日總熱量消耗)</strong> 則是結合日常活動與運動後的總消耗熱量量。欲達成減脂，每日攝取熱量需低於 TDEE；若要增肌，則需高於 TDEE。</p>
+        <p id="seoP2"><strong>Understanding BMR & TDEE for Fitness Goals.</strong> Your Basal Metabolic Rate (BMR) represents calories burned at rest, while Total Daily Energy Expenditure (TDEE) factors in physical activity. Use this free calculator to find your maintenance calories, calorie deficit for weight loss, or calorie surplus for muscle building.</p>
+    </article>
+</div>
+
+<footer>
+    <a href="../index.html">Home</a> | <a href="../privacy.html">Privacy Policy</a>
+</footer>
+
+<script>
+    let currentLang = 'zh';
+
+    const i18n = {
+        zh: {
+            title: "🔥 BMR & TDEE 健康計算機",
+            sub: "精準計算基礎代謝率與每日熱量消耗 · 科學規劃增肌減脂目標",
+            lblGender: "生理性別",
+            optMale: "男性",
+            optFemale: "女性",
+            lblAge: "年齡",
+            lblHeight: "身高 (cm)",
+            lblWeight: "體重 (kg)",
+            lblActivity: "日常活動量",
+            act1: "久坐 / 幾乎不運動",
+            act2: "輕度活動 / 每週運動 1-3 天",
+            act3: "中度活動 / 每週運動 3-5 天",
+            act4: "高度活動 / 每週運動 6-7 天",
+            act5: "極高活動 / 高強度體能工作或每天雙練",
+            btnCalc: "⚡ 計算熱量需求",
+            resTitle: "📊 計算結果",
+            headBmr: "基礎代謝率 (BMR)",
+            headTdee: "維持體重 (TDEE)",
+            headCut: "減脂目標 (Fat Loss)",
+            headBulk: "增肌目標 (Muscle Gain)",
+            seoTitle: "什麼是 BMR 與 TDEE？如何幫助控制體重？",
+            seoP1: "<strong>BMR (Basal Metabolic Rate, 基礎代謝率)</strong> 是身體在完全靜止狀態下維持生命所需的最低熱量；而 <strong>TDEE (Total Daily Energy Expenditure, 每日總熱量消耗)</strong> 則是結合日常活動與運動後的總消耗熱量。欲達成減脂，每日攝取熱量需低於 TDEE；若要增肌，則需高於 TDEE。",
+            seoP2: "<strong>Understanding BMR & TDEE for Fitness Goals.</strong> Your Basal Metabolic Rate (BMR) represents calories burned at rest, while Total Daily Energy Expenditure (TDEE) factors in physical activity. Use this free calculator to find your maintenance calories, calorie deficit for weight loss, or calorie surplus for muscle building.",
+            alertEmpty: "請完整填寫年齡、身高與體重！",
+            docLang: "zh-Hant-HK"
+        },
+        en: {
+            title: "🔥 BMR & TDEE Calculator",
+            sub: "Calculate Basal Metabolic Rate & Total Daily Energy Expenditure instantly",
+            lblGender: "Gender",
+            optMale: "Male",
+            optFemale: "Female",
+            lblAge: "Age",
+            lblHeight: "Height (cm)",
+            lblWeight: "Weight (kg)",
+            lblActivity: "Activity Level",
+            act1: "Sedentary - Little or no exercise",
+            act2: "Light - Exercise 1-3 days/week",
+            act3: "Moderate - Exercise 3-5 days/week",
+            act4: "Heavy - Exercise 6-7 days/week",
+            act5: "Athlete / Physical job or training twice a day",
+            btnCalc: "⚡ Calculate Calories",
+            resTitle: "📊 Your Results",
+            headBmr: "Basal Metabolic Rate (BMR)",
+            headTdee: "Maintenance Calories (TDEE)",
+            headCut: "Fat Loss Deficit",
+            headBulk: "Muscle Gain Surplus",
+            seoTitle: "What are BMR and TDEE?",
+            seoP1: "<strong>BMR (Basal Metabolic Rate)</strong> is the number of calories your body burns at rest to perform basic life-sustaining functions. <strong>TDEE (Total Daily Energy Expenditure)</strong> estimates the total calories you burn each day including exercise.",
+            seoP2: "<strong>Understanding BMR & TDEE for Fitness Goals.</strong> Your Basal Metabolic Rate (BMR) represents calories burned at rest, while Total Daily Energy Expenditure (TDEE) factors in physical activity. Use this free calculator to find your maintenance calories, calorie deficit for weight loss, or calorie surplus for muscle building.",
+            alertEmpty: "Please fill in all required fields (Age, Height, and Weight)!",
+            docLang: "en"
+        }
+    };
+
+    function setLang(lang) {
+        currentLang = (lang === 'en') ? 'en' : 'zh';
+        const t = i18n[currentLang];
+
+        document.getElementById('toolTitle').innerText = t.title;
+        document.getElementById('toolSub').innerText = t.sub;
+        document.getElementById('lblGender').innerText = t.lblGender;
+        document.getElementById('optMale').innerText = t.optMale;
+        document.getElementById('optFemale').innerText = t.optFemale;
+        document.getElementById('lblAge').innerText = t.lblAge;
+        document.getElementById('lblHeight').innerText = t.lblHeight;
+        document.getElementById('lblWeight').innerText = t.lblWeight;
+        document.getElementById('lblActivity').innerText = t.lblActivity;
+        document.getElementById('act1').innerText = t.act1;
+        document.getElementById('act2').innerText = t.act2;
+        document.getElementById('act3').innerText = t.act3;
+        document.getElementById('act4').innerText = t.act4;
+        document.getElementById('act5').innerText = t.act5;
+        document.getElementById('btnCalc').innerText = t.btnCalc;
+        document.getElementById('resTitle').innerText = t.resTitle;
+        document.getElementById('headBmr').innerText = t.headBmr;
+        document.getElementById('headTdee').innerText = t.headTdee;
+        document.getElementById('headCut').innerText = t.headCut;
+        document.getElementById('headBulk').innerText = t.headBulk;
+        document.getElementById('seoTitle').innerText = t.seoTitle;
+        document.getElementById('seoP1').innerHTML = t.seoP1;
+        document.getElementById('seoP2').innerHTML = t.seoP2;
+        document.documentElement.lang = t.docLang;
+    }
+
+    function switchLang(lang) {
+        const newUrl = new URL(window.location);
+        newUrl.searchParams.set('lang', lang);
+        window.history.pushState({}, '', newUrl);
+        setLang(lang);
+    }
+
+    function calculateBMR_TDEE() {
+        const gender = document.getElementById('gender').value;
+        const age = parseFloat(document.getElementById('age').value);
+        const height = parseFloat(document.getElementById('height').value);
+        const weight = parseFloat(document.getElementById('weight').value);
+        const activity = parseFloat(document.getElementById('activity').value);
+
+        if (!age || !height || !weight) {
+            alert(i18n[currentLang].alertEmpty);
+            return;
+        }
+
+        // Mifflin-St Jeor Formula
+        let bmr = (10 * weight) + (6.25 * height) - (5 * age);
+        if (gender === 'male') {
+            bmr += 5;
+        } else {
+            bmr -= 161;
+        }
+
+        const tdee = bmr * activity;
+        const cut = tdee * 0.85; // 減脂 15% 缺口
+        const bulk = tdee * 1.15; // 增肌 15% 盈餘
+
+        document.getElementById('valBmr').innerText = Math.round(bmr);
+        document.getElementById('valTdee').innerText = Math.round(tdee);
+        document.getElementById('valCut').innerText = Math.round(cut);
+        document.getElementById('valBulk').innerText = Math.round(bulk);
+
+        document.getElementById('resultsPanel').style.display = 'block';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const lang = urlParams.get('lang');
+        if (lang === 'en') {
+            setLang('en');
+        } else {
+            setLang('zh');
+        }
+    });
+</script>
+</body>
+</html>

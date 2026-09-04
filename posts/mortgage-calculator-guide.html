@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【房貸按揭計算器教學】計算每月供款、總利息與還款明細表｜Free Mortgage Calculator Guide</title>
+    <meta name="description" content="房貸按揭計算器完整教學！輸入房屋總價、首付款、年利率及貸款期限，即時計算每月還款額、利息總額，並提供完整逐年還款明細表。Free online mortgage calculator guide.">
+    <meta name="keywords" content="房貸計算器, 按揭計算機, 房屋貸款計算, 每月供款, 房貸利息, 還款明細表, mortgage calculator, home loan calculator, amortization schedule, monthly payment, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/mortgage-calculator-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【房貸按揭計算器教學】計算每月供款、總利息與還款明細表｜Free Mortgage Calculator Guide">
+    <meta property="og:description" content="輸入房屋總價、首付款、年利率及貸款期限，即時計算每月還款額、利息總額，並提供完整逐年還款明細表。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/mortgage-calculator-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Mortgage Calculator Guide – Calculate Monthly Payments & Amortization Schedule">
+    <meta name="twitter:description" content="Calculate monthly mortgage payments, total interest, and view a complete annual amortization schedule.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "房貸按揭計算器教學：計算每月供款、總利息與還款明細表",
+      "description": "介紹如何使用房貸按揭計算器計算每月供款、總利息支出及逐年還款明細，適用於置業規劃、貸款比較與財務決策。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>房貸按揭計算器教學：計算每月供款、總利息與還款明細表</h1>
+
+        <h2>1. 導言</h2>
+        <p>買樓係人生其中一個最大嘅財務決定，但係你知道每個月要供幾多錢嗎？銀行嘅按揭計劃咁多款，點樣先可以搵到最適合自己嘅選擇？<strong>房貸按揭計算器（Mortgage Calculator）</strong> 就係為咗呢個情況而設。我哋嘅免費房貸計算器採用 <strong>等額本息還款法</strong>，輸入房屋總價、首付款、年利率及貸款期限，即時計算 <strong>每月還款額、利息總額</strong>，仲提供 <strong>完整逐年還款明細表</strong>，幫你清清楚楚了解每一筆供款嘅本金與利息分佈。所有運算喺瀏覽器入面完成，你嘅財務資料唔會離開你嘅裝置，私隱 100% 安全。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>房貸按揭計算（Mortgage Calculation）</strong> 係計算房屋貸款還款金額嘅財務工具。主要概念包括：</p>
+        <ul>
+            <li><strong>貸款總額（Loan Amount）：</strong> 房屋總價減去首付金額後嘅實際借款金額。</li>
+            <li><strong>年利率（Interest Rate）：</strong> 銀行收取嘅年度貸款利率，直接影響每月供款金額。</li>
+            <li><strong>貸款年期（Loan Term）：</strong> 還款年期，通常為 20-30 年。</li>
+            <li><strong>等額本息還款法（Fixed-Rate Amortization）：</strong> 每月供款金額固定，但本金與利息嘅佔比會隨時間變化——初期利息佔比較高，後期本金佔比較高。</li>
+        </ul>
+        <p>我哋嘅工具採用標準嘅等額本息還款公式，所有計算 100% 喺瀏覽器入面完成，財務資料絕不會上傳到任何伺服器。</p>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>置業規劃：</strong> 喺買樓前估算每月供款，評估自己嘅還款能力。</li>
+            <li><strong>貸款比較：</strong> 比較不同銀行嘅利率同還款年期，揀選最優惠嘅按揭計劃。</li>
+            <li><strong>預算管理：</strong> 了解未來 20-30 年嘅每月供款金額，做好財務規劃。</li>
+            <li><strong>財務顧問：</strong> 為客戶提供專業嘅按揭計算分析。</li>
+            <li><strong>轉按評估：</strong> 比較現有按揭同新計劃嘅利息支出差異。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>輸入基本資料：</strong>
+                <ul>
+                    <li>🏠 房屋總價（Home Price）</li>
+                    <li>💰 首付金額（Down Payment）</li>
+                    <li>📈 年利率 %（Interest Rate）</li>
+                    <li>📅 貸款年期（Loan Term - Years）</li>
+                </ul>
+            </li>
+            <li><strong>計算：</strong> 點擊「計算按揭供款」按鈕。</li>
+            <li><strong>檢視結果：</strong>
+                <ul>
+                    <li>📊 每月還款額（Monthly Payment）</li>
+                    <li>💰 貸款總額（Loan Amount）</li>
+                    <li>📈 總利息支出（Total Interest）</li>
+                    <li>💳 還款總額（Total Paid）</li>
+                </ul>
+            </li>
+            <li><strong>查看還款明細：</strong> 向下滾動查看完整嘅逐年還款明細表，了解每年償還嘅本金與利息分佈。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站計算機</th>
+                    <th>銀行 App</th>
+                    <th>財務顧問</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>免費</td>
+                    <td>需付費</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>⚠️ 視乎 App</td>
+                    <td>✅ 一對一</td>
+                </tr>
+                <tr>
+                    <td><strong>計算速度</strong></td>
+                    <td>⚡ 即時</td>
+                    <td>⚡ 即時</td>
+                    <td>🐢 需預約</td>
+                </tr>
+                <tr>
+                    <td><strong>還款明細表</strong></td>
+                    <td>✅ 逐年詳細</td>
+                    <td>⚠️ 視乎 App</td>
+                    <td>✅ 詳細</td>
+                </tr>
+                <tr>
+                    <td><strong>等額本息計算</strong></td>
+                    <td>✅ 標準公式</td>
+                    <td>✅ 標準</td>
+                    <td>✅ 專業</td>
+                </tr>
+                <tr>
+                    <td><strong>無需安裝</strong></td>
+                    <td>✅ 瀏覽器即用</td>
+                    <td>❌ 需下載 App</td>
+                    <td>✅ 無需</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>低</td>
+                    <td>高</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「第一次買樓嗰陣，我完全冇概念每個月要供幾多。銀行 sales 話『好易負擔㗎』，我就信咗。結果供咗兩年先發現，原來 <strong>30 年後我要俾多成倍嘅利息</strong>。嗰陣我先知道，房貸計算唔只係『計吓每月供幾多』，而係一個 <strong>幫你避免買貴咗嘅工具</strong>。同一間屋，唔同利率、唔同年期，你嘅總利息支出可以相差幾十萬甚至上百萬。唔用計算機去 compare，等於你 <strong>閉上眼睛簽一張空白支票</strong>。呢個工具俾你嘅，就係 <strong>用 10 秒鐘睇清楚未來 30 年嘅財務狀況</strong>。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">🏠 想計算每月房貸供款？即時精算！</h3>
+            <p style="margin:0; font-size:0.9rem;">輸入房價與利率，即時計算每月供款、總利息與詳細還款明細，完全免費且保護私隱。</p>
+            <a href="../tools/mortgage-calculator.html?lang=hk" class="cta-btn-link" id="ctaBtn">👉 立即免費試用房貸按揭計算器</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Mortgage Calculator Guide: Calculate Monthly Payments, Total Interest & Amortization Schedule</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Buying a home is one of life's biggest financial decisions—but do you know how much your monthly mortgage payment will be? With so many bank loan options available, how do you find the best one for you? <strong>A mortgage calculator</strong> is exactly for this situation. Our free mortgage calculator uses the <strong>fixed-rate amortization method</strong>—enter home price, down payment, interest rate, and loan term to instantly calculate <strong>monthly payments, total interest,</strong> and view a complete <strong>annual amortization schedule</strong>. All processing happens in your browser—your financial data never leaves your device, ensuring 100% privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>Mortgage calculation</strong> is a financial tool that calculates home loan repayment amounts. Key concepts include:</p>
+        <ul>
+            <li><strong>Loan Amount:</strong> The actual amount borrowed—home price minus down payment.</li>
+            <li><strong>Interest Rate:</strong> The annual loan rate charged by the bank—directly affects monthly payments.</li>
+            <li><strong>Loan Term:</strong> The repayment period, typically 20-30 years.</li>
+            <li><strong>Fixed-Rate Amortization:</strong> Monthly payments stay fixed, but the principal-to-interest ratio changes over time—higher interest in early years, higher principal in later years.</li>
+        </ul>
+        <p>Our tool uses the standard fixed-rate amortization formula. All calculations are 100% client-side—your financial data never leaves your device.</p>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Home Purchase Planning:</strong> Estimate monthly payments before buying to assess repayment capacity.</li>
+            <li><strong>Loan Comparison:</strong> Compare rates and terms from different banks to find the best mortgage plan.</li>
+            <li><strong>Budget Management:</strong> Understand future monthly payments over 20-30 years for financial planning.</li>
+            <li><strong>Financial Advising:</strong> Provide professional mortgage calculation analysis for clients.</li>
+            <li><strong>Refinancing Assessment:</strong> Compare existing mortgage vs. new plans for interest savings.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Enter Basic Information:</strong>
+                <ul>
+                    <li>🏠 Home Price</li>
+                    <li>💰 Down Payment</li>
+                    <li>📈 Interest Rate (%)</li>
+                    <li>📅 Loan Term (Years)</li>
+                </ul>
+            </li>
+            <li><strong>Calculate:</strong> Click the "Calculate Mortgage" button.</li>
+            <li><strong>View Results:</strong>
+                <ul>
+                    <li>📊 Monthly Payment</li>
+                    <li>💰 Loan Amount</li>
+                    <li>📈 Total Interest</li>
+                    <li>💳 Total Cost</li>
+                </ul>
+            </li>
+            <li><strong>View Amortization Schedule:</strong> Scroll down to see the complete annual repayment breakdown—understand principal vs. interest distribution each year.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Calculator (Us)</th>
+                    <th>Bank App</th>
+                    <th>Financial Advisor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Free</td>
+                    <td>Paid</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>⚠️ App-dependent</td>
+                    <td>✅ One-on-one</td>
+                </tr>
+                <tr>
+                    <td><strong>Speed</strong></td>
+                    <td>⚡ Instant</td>
+                    <td>⚡ Instant</td>
+                    <td>🐢 Appointment needed</td>
+                </tr>
+                <tr>
+                    <td><strong>Amortization Schedule</strong></td>
+                    <td>✅ Annual detailed</td>
+                    <td>⚠️ App-dependent</td>
+                    <td>✅ Detailed</td>
+                </tr>
+                <tr>
+                    <td><strong>Fixed-Rate Formula</strong></td>
+                    <td>✅ Standard</td>
+                    <td>✅ Standard</td>
+                    <td>✅ Professional</td>
+                </tr>
+                <tr>
+                    <td><strong>No Installation</strong></td>
+                    <td>✅ Browser</td>
+                    <td>❌ App Required</td>
+                    <td>✅ None needed</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Low</td>
+                    <td>High</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"When I bought my first home, I had no idea how much I'd be paying each month. The bank salesperson said 'it'll be easy to afford,' and I believed them. Two years into the mortgage, I realized <strong>I'd be paying nearly double in interest over 30 years</strong>. That's when I learned mortgage calculation isn't just 'how much per month'—it's a tool that <strong>helps you avoid overpaying</strong>. For the same house, different interest rates and terms can mean a difference of hundreds of thousands in total interest. Not using a calculator to compare is like <strong>signing a blank check with your eyes closed</strong>. This tool gives you exactly that <strong>ability to see your financial future for the next 30 years in 10 seconds</strong>."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">🏠 Want to Calculate Your Monthly Mortgage Payment? Instant Calculation!</h3>
+            <p style="margin:0; font-size:0.9rem;">Enter home price and interest rate for instant monthly payment, total interest, and detailed amortization schedule—completely free with privacy protection.</p>
+            <a href="../tools/mortgage-calculator.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Mortgage Calculator Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtn = document.getElementById('ctaBtn');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtn.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtn.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

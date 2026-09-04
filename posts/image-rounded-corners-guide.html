@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【圖片圓角工具教學】照片切圓角與圓形頭像製作｜免費線上圓角加工｜Free Rounded Corner Image Guide</title>
+    <meta name="description" content="圖片圓角工具教學！自訂四角圓弧弧度，一鍵轉為圓形頭像，支援 PNG 透明背景導出。100% 瀏覽器處理保護私隱，免費線上圖片圓角加工。Free rounded corner image tool guide.">
+    <meta name="keywords" content="圖片圓角, 圖片切圓角, 圓形頭像製作, 圓角加工, 照片圓角, 透明PNG, Rounded Corners, Image Rounder, Circular Avatar, Border Radius, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/image-rounded-corners-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【圖片圓角工具教學】照片切圓角與圓形頭像製作 — 免費線上圓角加工｜Free Rounded Corner Image Guide">
+    <meta property="og:description" content="自訂四角圓弧弧度，一鍵轉為圓形頭像，支援 PNG 透明背景導出。100% 瀏覽器處理保護私隱。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/image-rounded-corners-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Rounded Corner Image Guide – Create Circular Avatars">
+    <meta name="twitter:description" content="Customize corner radius, create circular avatars, export transparent PNG. 100% client-side privacy.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "圖片圓角工具教學：照片切圓角與圓形頭像製作 — 免費線上圓角加工",
+      "description": "介紹如何使用圖片圓角工具自訂四角圓弧弧度，適用於網頁設計、社群頭像與簡報圖片美化。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        code {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--primary-cyan);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>圖片圓角工具教學：照片切圓角與圓形頭像製作 — 免費線上圓角加工</h1>
+
+        <h2>1. 導言</h2>
+        <p>你有冇試過想將一張相片嘅四角變圓，令佢睇起嚟更柔和、更有設計感？或者想整一個圓形頭像（Avatar）放上 IG、Facebook 或者 Slack，但唔想開 Photoshop？<strong>圖片圓角加工</strong>就係為咗呢個需求而存在。我哋嘅免費圖片圓角工具可以幫你自訂四角圓弧弧度，甚至一鍵將正方形圖片變成完美圓形，仲支援 PNG 透明背景導出。所有運算喺你嘅瀏覽器入面完成，圖片唔會離開你嘅裝置。呢篇文章會教你點用呢個工具，仲會話你知點解圓角喺設計入面咁重要。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>圖片圓角（Rounded Corners）</strong> 係將圖片嘅直角變成圓弧嘅設計技巧。主要應用包括：</p>
+        <ul>
+            <li><strong>圓角半徑（Border Radius）：</strong> 控制圓弧嘅大小，數值越大越圓。</li>
+            <li><strong>圓形頭像（Circle Avatar）：</strong> 當圓角半徑等於圖片短邊嘅一半時，圖片會變成完美圓形。</li>
+            <li><strong>透明背景（Transparent PNG）：</strong> 圓角以外嘅區域變成透明，方便疊加喺其他設計上。</li>
+        </ul>
+        <p>我哋嘅工具提供以下功能：</p>
+        <ul>
+            <li><strong>圓角弧度自由調整：</strong> 0-200px 滑桿，實時預覽。</li>
+            <li><strong>快速預設值：</strong> 直角、微圓角（20px）、中圓角（50px）、正圓形。</li>
+            <li><strong>PNG 透明導出：</strong> 保留透明背景，方便設計使用。</li>
+        </ul>
+        <p>所有處理喺你嘅瀏覽器入面完成，圖片唔會上傳去任何 Server，私隱 100% 安全。</p>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>社交媒體頭像：</strong> 將相片變成圓形頭像，用喺 IG、Facebook、LinkedIn、Slack。</li>
+            <li><strong>網頁設計：</strong> 為產品圖片、卡片圖片加入圓角，提升 UI 質感。</li>
+            <li><strong>簡報製作：</strong> 將圖片變成圓角或圓形，令簡報更專業。</li>
+            <li><strong>設計素材：</strong> 將圖片加工成圓角 PNG，方便用喺海報、Banner 等設計。</li>
+            <li><strong>品牌視覺：</strong> 統一品牌圖片風格，加入圓角元素。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>上傳圖片：</strong> 點擊或拖曳圖片到上傳區域。</li>
+            <li><strong>調整圓角：</strong>
+                <ul>
+                    <li>拖動滑桿自由調整（0-200px）。</li>
+                    <li>或點擊快速按鈕：直角、微圓角、中圓角、正圓形。</li>
+                </ul>
+            </li>
+            <li><strong>預覽：</strong> 即時顯示圓角效果。</li>
+            <li><strong>下載：</strong> 點擊「下載圓角圖片 (PNG)」儲存透明背景 PNG。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站前端工具</th>
+                    <th>手機修圖 App</th>
+                    <th>Photoshop</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>免費／付費</td>
+                    <td>需付費訂閱</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>⚠️ 需授權權限</td>
+                    <td>✅ 本地處理</td>
+                </tr>
+                <tr>
+                    <td><strong>無需安裝</strong></td>
+                    <td>✅ 瀏覽器即用</td>
+                    <td>❌ 需下載 App</td>
+                    <td>❌ 需安裝軟件</td>
+                </tr>
+                <tr>
+                    <td><strong>圓角精準度</strong></td>
+                    <td>✅ 1px 級別</td>
+                    <td>⚠️ 部分支援</td>
+                    <td>✅ 全面</td>
+                </tr>
+                <tr>
+                    <td><strong>PNG 透明導出</strong></td>
+                    <td>✅ 支援</td>
+                    <td>⚠️ 部分支援</td>
+                    <td>✅ 全面</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>低</td>
+                    <td>高</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「以前整圓形頭像，我要開 Photoshop，開新檔、加遮色片、畫圓形、再 export PNG⋯⋯搞成 10 分鐘。而家用呢個工具，<strong>上傳、㩒一下『正圓形』、下載</strong>，10 秒搞掂。圓角唔單止係美觀問題，<strong>圓角係一種視覺語氣</strong>—0px 係正式嚴肅，20px 係現代簡約，50px 係柔和舒適，正圓形係玩味親切。<strong>設計嘅細節，就係喺呢啲小地方</strong>。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⭕ 需要將圖片加上圓角或變成圓形？</h3>
+            <p style="margin:0; font-size:0.9rem;">自由調整圓角弧度，一鍵轉圓形，支援 PNG 透明導出，完全免費。</p>
+            <a href="../tools/image-rounded-corners.html" class="cta-btn-link" id="ctaBtn">👉 立即免費試用圖片圓角工具</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Rounded Corner Image Guide: Create Circular Avatars — Free Online Tool</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Ever wanted to soften a photo with rounded corners for a more polished look? Or create a circular avatar for IG, Facebook, or Slack without opening Photoshop? <strong>Image corner rounding</strong> exists exactly for this need. Our free tool lets you customize corner radius or turn any square image into a perfect circle, with transparent PNG export. All processing happens in your browser—your images never leave your device. This guide shows you how to use it and explains why rounded corners matter in design.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>Rounded corners</strong> replace sharp right angles with smooth arcs. Key concepts:</p>
+        <ul>
+            <li><strong>Border Radius:</strong> Controls the arc size—larger values create more rounding.</li>
+            <li><strong>Circle Avatar:</strong> When radius equals half the shorter side, the image becomes a perfect circle.</li>
+            <li><strong>Transparent PNG:</strong> Areas outside the rounded/circle shape become transparent for overlaying.</li>
+        </ul>
+        <p>Features include:</p>
+        <ul>
+            <li><strong>Adjustable Corner Radius:</strong> 0-200px slider with live preview.</li>
+            <li><strong>Quick Presets:</strong> Square, Slight (20px), Medium (50px), Circle.</li>
+            <li><strong>PNG Export:</strong> Transparent background for design use.</li>
+        </ul>
+        <p>100% client-side processing—your files never leave your device.</p>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Social Media Avatars:</strong> Turn photos into circular profile pictures for IG, Facebook, LinkedIn, Slack.</li>
+            <li><strong>Web Design:</strong> Add rounded corners to product images and cards for better UI.</li>
+            <li><strong>Presentations:</strong> Make images rounded or circular for professional slides.</li>
+            <li><strong>Design Assets:</strong> Create rounded PNGs for posters, banners, and layouts.</li>
+            <li><strong>Brand Visuals:</strong> Unify brand imagery with consistent rounded corners.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Upload Image:</strong> Click or drag your image to the upload area.</li>
+            <li><strong>Adjust Corner Radius:</strong>
+                <ul>
+                    <li>Drag the slider (0-200px) for custom rounding.</li>
+                    <li>Or click quick presets: Square, Slight, Medium, Circle.</li>
+                </ul>
+            </li>
+            <li><strong>Preview:</strong> See the effect in real-time.</li>
+            <li><strong>Download:</strong> Click "Download Rounded PNG" to save with transparent background.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Client-Side Tool (Us)</th>
+                    <th>Mobile Apps</th>
+                    <th>Photoshop</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Freemium</td>
+                    <td>Paid Subscription</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>⚠️ Permissions</td>
+                    <td>✅ Local</td>
+                </tr>
+                <tr>
+                    <td><strong>No Installation</strong></td>
+                    <td>✅ Browser</td>
+                    <td>❌ App Download</td>
+                    <td>❌ Software</td>
+                </tr>
+                <tr>
+                    <td><strong>Radius Precision</strong></td>
+                    <td>✅ 1px Level</td>
+                    <td>⚠️ Some</td>
+                    <td>✅ Full</td>
+                </tr>
+                <tr>
+                    <td><strong>PNG Transparency</strong></td>
+                    <td>✅ Supported</td>
+                    <td>⚠️ Some</td>
+                    <td>✅ Full</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Low</td>
+                    <td>High</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"Creating a circular avatar used to mean opening Photoshop, creating a new file, adding a mask, drawing a circle, exporting PNG... 10 minutes of work. Now with this tool, <strong>upload, click 'Circle' preset, download</strong>—10 seconds. Rounded corners aren't just about aesthetics—<strong>they're a visual tone</strong>. 0px is formal and serious. 20px is modern and minimal. 50px is soft and comfortable. Circle is playful and approachable. <strong>Design is in the details</strong>."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⭕ Need to Round Corners or Create a Circular Avatar?</h3>
+            <p style="margin:0; font-size:0.9rem;">Adjustable radius, one-click circle, transparent PNG export—completely free.</p>
+            <a href="../tools/image-rounded-corners.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Rounded Corner Tool Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtn = document.getElementById('ctaBtn');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtn.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtn.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video to GIF Converter — 影片轉 GIF 線上工具｜Free Online</title>
+    <meta name="description" content="Free online Video to GIF converter. Upload MP4 or WebM and convert to compressed GIF. 免費線上影片轉 GIF，支援 MP4、WebM，高壓縮，完全在瀏覽器處理。" />
+    <meta name="keywords" content="video to gif, mp4 to gif, webm to gif, convert video to gif, online gif maker, 影片轉GIF, MP4轉GIF, 線上GIF, free gif converter" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/video-to-gif.html" />
+    <meta property="og:title" content="Video to GIF Converter — Free Online | 影片轉 GIF" />
+    <meta property="og:description" content="Convert MP4/WebM to compressed GIF in your browser. No server upload." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.behavior-report.com/tools/video-to-gif.html" />
+
+    <style>
+        :root {
+            --bg: #0b0f19; --card: #151d30; --text: #94a3b8; --text-light: #cbd5e1;
+            --cyan: #22d3ee; --cyan-hover: #67e8f9; --border: #24324f;
+            --red: #ef4444; --yellow: #fbbf24; --green: #22c55e;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg); color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", sans-serif;
+            padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+        }
+        .container {
+            max-width: 720px; width: 100%; background: var(--card); padding: 30px;
+            border-radius: 16px; border: 1px solid var(--border); margin: 20px 0;
+        }
+        .lang-switch { text-align: center; margin-bottom: 20px; }
+        .lang-switch a { color: var(--cyan); text-decoration: none; margin: 0 10px; font-size: 0.9rem; cursor: pointer; }
+        .lang-switch a:hover { text-decoration: underline; }
+        .tool-title { font-size: 1.55rem; color: #fff; text-align: center; font-weight: bold; }
+        .tool-sub { text-align: center; color: var(--text); font-size: 0.95rem; margin: 10px 0 22px; }
+        .badge-row { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+        .badge {
+            background: rgba(34, 211, 238, 0.08); border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 12px; border-radius: 30px; font-size: 0.72rem; color: var(--cyan);
+        }
+        .drop-zone {
+            border: 2px dashed var(--border); border-radius: 12px; padding: 36px 20px;
+            text-align: center; cursor: pointer; transition: all 0.25s; background: var(--bg);
+        }
+        .drop-zone:hover, .drop-zone.dragover { border-color: var(--cyan); background: rgba(34, 211, 238, 0.04); }
+        .drop-zone .icon { font-size: 2.4rem; margin-bottom: 10px; }
+        .drop-zone .main { color: #fff; font-weight: 600; font-size: 1.05rem; }
+        .drop-zone .sub { font-size: 0.85rem; margin-top: 6px; color: #64748b; }
+        .preview-wrap { display: none; margin-top: 18px; }
+        .preview-wrap.show { display: block; }
+        .preview-wrap video { width: 100%; max-height: 280px; border-radius: 10px; background: #000; display: block; }
+        .video-meta { font-size: 0.8rem; color: #64748b; margin-top: 8px; text-align: center; }
+        .settings { display: none; margin-top: 20px; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .settings.show { display: grid; }
+        .field label { display: block; font-size: 0.8rem; color: var(--text-light); margin-bottom: 5px; }
+        .field input, .field select {
+            width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border);
+            background: var(--bg); color: var(--text-light); font-size: 0.9rem; outline: none;
+        }
+        .field input:focus, .field select:focus { border-color: var(--cyan); }
+        .field select option { background: var(--card); }
+        .btn-group { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+        .btn {
+            padding: 12px 22px; border-radius: 10px; border: none; font-size: 0.95rem; font-weight: bold;
+            cursor: pointer; transition: all 0.25s; flex: 1;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+        .btn-primary { background: var(--cyan); color: #0b0f19; }
+        .btn-primary:hover:not(:disabled) { background: var(--cyan-hover); }
+        .btn-danger { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--red); color: #fca5a5; }
+        .progress-wrap { display: none; margin-top: 18px; }
+        .progress-wrap.show { display: block; }
+        .progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+        .progress-bar .fill { height: 100%; width: 0%; background: var(--cyan); transition: width 0.15s; }
+        .progress-text { font-size: 0.85rem; color: var(--text); margin-top: 8px; text-align: center; }
+        .error-box {
+            display: none; margin-top: 12px; padding: 10px 14px; border-radius: 8px;
+            background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5; font-size: 0.85rem; line-height: 1.5;
+        }
+        .error-box.show { display: block; }
+        .result-wrap { display: none; margin-top: 20px; text-align: center; }
+        .result-wrap.show { display: block; }
+        .result-wrap img { max-width: 100%; border-radius: 10px; border: 1px solid var(--border); background: #000; }
+        .result-info { font-size: 0.85rem; color: #64748b; margin: 10px 0 14px; }
+        .result-info .highlight { color: var(--cyan); font-weight: bold; }
+        .tips {
+            margin-top: 24px; padding-top: 18px; border-top: 1px solid rgba(148, 163, 184, 0.08);
+            font-size: 0.82rem; line-height: 1.65; color: #64748b;
+        }
+        .tips strong { color: var(--text-light); }
+        .story-suggest { margin-top: 36px; padding-top: 22px; border-top: 1px solid rgba(148, 163, 184, 0.08); }
+        .story-suggest .label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+        .story-suggest .items { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3); border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 7px 16px; border-radius: 30px; font-size: 0.84rem; color: var(--text-light);
+            text-decoration: none; transition: all 0.2s;
+        }
+        .story-suggest .items a:hover { border-color: var(--cyan); color: var(--cyan); }
+        footer { text-align: center; margin-top: 28px; font-size: 11px; color: #555; }
+        footer a { color: #555; text-decoration: none; margin: 0 8px; }
+        @media (max-width: 600px) {
+            .container { padding: 18px; }
+            .settings { grid-template-columns: 1fr; }
+            .btn { flex: none; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="lang-switch">
+            <a onclick="switchLang('hk')">🇭🇰 港版</a> |
+            <a onclick="switchLang('tw')">🇹🇼 台版</a> |
+            <a onclick="switchLang('en')">🇬🇧 English</a>
+        </div>
+
+        <h1 class="tool-title" id="toolTitle">🎬 Video to GIF Converter</h1>
+        <p class="tool-sub" id="toolSub">Upload MP4 / WebM → compressed GIF. 100% in your browser.</p>
+
+        <div class="badge-row">
+            <span class="badge" id="badge1">🎥 MP4 / WebM</span>
+            <span class="badge" id="badge2">🗜️ High Compression</span>
+            <span class="badge" id="badge3">🔒 Private</span>
+            <span class="badge" id="badge4">🆓 Free</span>
+        </div>
+
+        <div class="drop-zone" id="dropZone">
+            <div class="icon">📁</div>
+            <div class="main" id="dropMain">Click or drop video here</div>
+            <div class="sub" id="dropSub">MP4, WebM · Keep under ~20MB / 5s for best results</div>
+            <input type="file" id="fileInput" accept="video/mp4,video/webm,video/*" hidden />
+        </div>
+
+        <div class="preview-wrap" id="previewWrap">
+            <video id="videoPreview" controls playsinline muted preload="auto"></video>
+            <div class="video-meta" id="videoMeta"></div>
+        </div>
+
+        <div class="settings" id="settings">
+            <div class="field">
+                <label id="labelWidth">Max Width (px)</label>
+                <select id="maxWidth">
+                    <option value="240">240 (smallest)</option>
+                    <option value="320" selected>320</option>
+                    <option value="480">480</option>
+                    <option value="640">640</option>
+                </select>
+            </div>
+            <div class="field">
+                <label id="labelFps">Frame Rate (FPS)</label>
+                <select id="fps">
+                    <option value="6">6 (smallest)</option>
+                    <option value="8" selected>8</option>
+                    <option value="10">10</option>
+                    <option value="12">12</option>
+                </select>
+            </div>
+            <div class="field">
+                <label id="labelStart">Start Time (sec)</label>
+                <input type="number" id="startTime" value="0" min="0" step="0.1" />
+            </div>
+            <div class="field">
+                <label id="labelDuration">Duration (sec)</label>
+                <input type="number" id="duration" value="3" min="0.5" max="8" step="0.5" />
+            </div>
+            <div class="field">
+                <label id="labelQuality">Colors</label>
+                <select id="quality">
+                    <option value="64">64 (high compression)</option>
+                    <option value="128" selected>128</option>
+                    <option value="256">256</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-primary" id="convertBtn" disabled>🎬 Convert to GIF</button>
+            <button class="btn btn-danger" id="resetBtn">↩️ Reset</button>
+        </div>
+
+        <div class="progress-wrap" id="progressWrap">
+            <div class="progress-bar"><div class="fill" id="progressFill"></div></div>
+            <div class="progress-text" id="progressText">Preparing…</div>
+        </div>
+        <div class="error-box" id="errorBox"></div>
+
+        <div class="result-wrap" id="resultWrap">
+            <img id="resultGif" alt="Generated GIF" />
+            <div class="result-info" id="resultInfo"></div>
+            <button class="btn btn-primary" id="downloadBtn" style="max-width:280px;margin:0 auto;">⬇️ Download GIF</button>
+        </div>
+
+        <div class="tips" id="tips">
+            <strong>Tips:</strong> Use 320px width, 6–8 FPS, 2–4 seconds. Processing stays in your browser.
+        </div>
+
+        <div class="story-suggest">
+            <div class="label" id="storyLabel">🛠 Other tools</div>
+            <div class="items">
+                <a href="click-speed-test.html">🖱️ Click Speed</a>
+                <a href="reaction-time-test.html">⚡ Reaction Time</a>
+                <a href="../index.html">🏠 Home</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">Home</a> |
+        <a href="../about.html">About</a> |
+        <a href="../privacy.html">Privacy</a>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js"></script>
+    <script>
+        const texts = {
+            hk: {
+                title: '🎬 影片轉 GIF',
+                sub: '上傳 MP4 / WebM，轉成高壓縮 GIF。全程瀏覽器處理。',
+                badge1: '🎥 MP4 / WebM', badge2: '🗜️ 高壓縮', badge3: '🔒 私隱', badge4: '🆓 免費',
+                dropMain: '點擊或拖放影片', dropSub: 'MP4、WebM · 建議 ≤20MB、5 秒內',
+                labelWidth: '最大闊度 (px)', labelFps: '幀率 (FPS)', labelStart: '開始 (秒)',
+                labelDuration: '長度 (秒)', labelQuality: '顏色數',
+                convert: '🎬 轉換成 GIF', reset: '↩️ 重設', download: '⬇️ 下載 GIF',
+                progressPrep: '準備中…', progressWorker: '載入編碼器…', progressFrame: '擷取畫面',
+                progressEncode: '編碼 GIF…', progressDone: '完成！',
+                resultInfo: '檔案大約 ', tips: '<strong>技巧：</strong>闊度 320、FPS 6–8、長度 2–4 秒最穩。',
+                storyLabel: '🛠 其他工具', noVideo: '請先選擇影片',
+                tooLong: '建議唔好超過 8 秒。', error: '轉換失敗：'
+            },
+            tw: {
+                title: '🎬 影片轉 GIF',
+                sub: '上傳 MP4 / WebM，轉成高壓縮 GIF。全程瀏覽器處理。',
+                badge1: '🎥 MP4 / WebM', badge2: '🗜️ 高壓縮', badge3: '🔒 隱私', badge4: '🆓 免費',
+                dropMain: '點擊或拖放影片', dropSub: 'MP4、WebM · 建議 ≤20MB、5 秒內',
+                labelWidth: '最大寬度 (px)', labelFps: '幀率 (FPS)', labelStart: '開始 (秒)',
+                labelDuration: '長度 (秒)', labelQuality: '顏色數',
+                convert: '🎬 轉換成 GIF', reset: '↩️ 重設', download: '⬇️ 下載 GIF',
+                progressPrep: '準備中…', progressWorker: '載入編碼器…', progressFrame: '擷取畫面',
+                progressEncode: '編碼 GIF…', progressDone: '完成！',
+                resultInfo: '檔案大約 ', tips: '<strong>技巧：</strong>寬度 320、FPS 6–8、長度 2–4 秒最穩。',
+                storyLabel: '🛠 其他工具', noVideo: '請先選擇影片',
+                tooLong: '建議不要超過 8 秒。', error: '轉換失敗：'
+            },
+            en: {
+                title: '🎬 Video to GIF Converter',
+                sub: 'Upload MP4 / WebM → compressed GIF. Fully in-browser.',
+                badge1: '🎥 MP4 / WebM', badge2: '🗜️ High Compression', badge3: '🔒 Private', badge4: '🆓 Free',
+                dropMain: 'Click or drop video here', dropSub: 'MP4, WebM · ≤20MB / 5s recommended',
+                labelWidth: 'Max Width (px)', labelFps: 'Frame Rate (FPS)', labelStart: 'Start (sec)',
+                labelDuration: 'Duration (sec)', labelQuality: 'Colors',
+                convert: '🎬 Convert to GIF', reset: '↩️ Reset', download: '⬇️ Download GIF',
+                progressPrep: 'Preparing…', progressWorker: 'Loading encoder…', progressFrame: 'Capturing frames',
+                progressEncode: 'Encoding GIF…', progressDone: 'Done!',
+                resultInfo: 'File size about ', tips: '<strong>Tips:</strong> Width 320, FPS 6–8, duration 2–4s works best.',
+                storyLabel: '🛠 Other tools', noVideo: 'Please select a video first',
+                tooLong: 'Please keep duration under 8 seconds.', error: 'Conversion failed: '
+            }
+        };
+
+        let lang = 'hk';
+        let videoFile = null;
+        let videoUrl = null;
+        let gifBlob = null;
+        let workerURL = null;
+
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const video = document.getElementById('videoPreview');
+        const previewWrap = document.getElementById('previewWrap');
+        const settings = document.getElementById('settings');
+        const convertBtn = document.getElementById('convertBtn');
+        const progressWrap = document.getElementById('progressWrap');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const errorBox = document.getElementById('errorBox');
+        const resultWrap = document.getElementById('resultWrap');
+        const resultGif = document.getElementById('resultGif');
+        const resultInfo = document.getElementById('resultInfo');
+
+        function switchLang(l) {
+            lang = l;
+            const t = texts[l];
+            document.getElementById('toolTitle').textContent = t.title;
+            document.getElementById('toolSub').textContent = t.sub;
+            ['badge1','badge2','badge3','badge4'].forEach(id => document.getElementById(id).textContent = t[id]);
+            document.getElementById('dropMain').textContent = t.dropMain;
+            document.getElementById('dropSub').textContent = t.dropSub;
+            document.getElementById('labelWidth').textContent = t.labelWidth;
+            document.getElementById('labelFps').textContent = t.labelFps;
+            document.getElementById('labelStart').textContent = t.labelStart;
+            document.getElementById('labelDuration').textContent = t.labelDuration;
+            document.getElementById('labelQuality').textContent = t.labelQuality;
+            document.getElementById('convertBtn').textContent = t.convert;
+            document.getElementById('resetBtn').textContent = t.reset;
+            document.getElementById('downloadBtn').textContent = t.download;
+            document.getElementById('tips').innerHTML = t.tips;
+            document.getElementById('storyLabel').textContent = t.storyLabel;
+        }
+        function detectLanguage() {
+            const p = new URLSearchParams(location.search);
+            if (p.get('lang') === 'en') return 'en';
+            if (p.get('lang') === 'tw') return 'tw';
+            const n = navigator.language || '';
+            if (n.startsWith('en')) return 'en';
+            if (n.includes('TW') || n.includes('tw')) return 'tw';
+            return 'hk';
+        }
+        switchLang(detectLanguage());
+
+        function formatSize(b) {
+            if (b < 1024) return b + ' B';
+            if (b < 1048576) return (b / 1024).toFixed(1) + ' KB';
+            return (b / 1048576).toFixed(2) + ' MB';
+        }
+        function showError(msg) {
+            errorBox.textContent = texts[lang].error + msg;
+            errorBox.classList.add('show');
+        }
+        function clearError() {
+            errorBox.classList.remove('show');
+            errorBox.textContent = '';
+        }
+
+        // 用 Blob 載入 worker，避免 CDN CORS 問題
+        async function ensureWorker() {
+            if (workerURL) return workerURL;
+            const res = await fetch('https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.worker.js');
+            if (!res.ok) throw new Error('Cannot load gif.worker.js (' + res.status + ')');
+            const code = await res.text();
+            workerURL = URL.createObjectURL(new Blob([code], { type: 'application/javascript' }));
+            return workerURL;
+        }
+
+        function loadVideo(file) {
+            clearError();
+            if (videoUrl) URL.revokeObjectURL(videoUrl);
+            videoFile = file;
+            videoUrl = URL.createObjectURL(file);
+            video.src = videoUrl;
+            video.muted = true;
+            previewWrap.classList.add('show');
+            settings.classList.add('show');
+            convertBtn.disabled = false;
+            resultWrap.classList.remove('show');
+            progressWrap.classList.remove('show');
+
+            video.onloadedmetadata = () => {
+                const d = video.duration;
+                document.getElementById('videoMeta').textContent =
+                    `${file.name} · ${formatSize(file.size)} · ${d.toFixed(1)}s · ${video.videoWidth}×${video.videoHeight}`;
+                const durInput = document.getElementById('duration');
+                if (d < parseFloat(durInput.value)) {
+                    durInput.value = Math.max(0.5, Math.floor(Math.min(d, 3) * 10) / 10);
+                }
+            };
+            video.onerror = () => showError('Video cannot be played in this browser. Try MP4 (H.264).');
+        }
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', () => { if (fileInput.files[0]) loadVideo(fileInput.files[0]); });
+        dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', e => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            const f = e.dataTransfer.files[0];
+            if (f && f.type.startsWith('video/')) loadVideo(f);
+        });
+
+        function resetAll() {
+            clearError();
+            if (videoUrl) URL.revokeObjectURL(videoUrl);
+            videoFile = null; videoUrl = null; gifBlob = null;
+            video.removeAttribute('src');
+            fileInput.value = '';
+            previewWrap.classList.remove('show');
+            settings.classList.remove('show');
+            progressWrap.classList.remove('show');
+            resultWrap.classList.remove('show');
+            convertBtn.disabled = true;
+            document.getElementById('videoMeta').textContent = '';
+        }
+        document.getElementById('resetBtn').addEventListener('click', resetAll);
+
+        function seekTo(time) {
+            return new Promise((resolve, reject) => {
+                if (Math.abs(video.currentTime - time) < 0.05) {
+                    resolve();
+                    return;
+                }
+                let done = false;
+                const timer = setTimeout(() => {
+                    if (!done) {
+                        done = true;
+                        video.removeEventListener('seeked', onSeeked);
+                        // 超時都繼續，避免卡死
+                        resolve();
+                    }
+                }, 2000);
+                const onSeeked = () => {
+                    if (done) return;
+                    done = true;
+                    clearTimeout(timer);
+                    video.removeEventListener('seeked', onSeeked);
+                    resolve();
+                };
+                video.addEventListener('seeked', onSeeked);
+                try {
+                    video.currentTime = time;
+                } catch (e) {
+                    clearTimeout(timer);
+                    reject(e);
+                }
+            });
+        }
+
+        async function convert() {
+            const t = texts[lang];
+            clearError();
+            if (!videoFile) { alert(t.noVideo); return; }
+            if (!video.videoWidth) {
+                showError('Video not ready. Wait for preview to load.');
+                return;
+            }
+
+            const maxW = parseInt(document.getElementById('maxWidth').value, 10);
+            const fps = parseInt(document.getElementById('fps').value, 10);
+            let start = parseFloat(document.getElementById('startTime').value) || 0;
+            let duration = parseFloat(document.getElementById('duration').value) || 3;
+            const colors = parseInt(document.getElementById('quality').value, 10);
+
+            if (duration > 8) {
+                alert(t.tooLong);
+                duration = 8;
+            }
+            if (start >= video.duration) start = 0;
+            if (start + duration > video.duration) {
+                duration = Math.max(0.5, video.duration - start);
+            }
+
+            convertBtn.disabled = true;
+            progressWrap.classList.add('show');
+            resultWrap.classList.remove('show');
+            progressFill.style.width = '2%';
+            progressText.textContent = t.progressPrep;
+
+            const scale = Math.min(1, maxW / video.videoWidth);
+            const w = Math.max(2, Math.round(video.videoWidth * scale / 2) * 2);
+            const h = Math.max(2, Math.round(video.videoHeight * scale / 2) * 2);
+
+            const canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext('2d', { willReadFrequently: true, alpha: false });
+
+            const frameCount = Math.max(2, Math.round(duration * fps));
+            const interval = duration / frameCount;
+            const delay = Math.round(1000 / fps);
+
+            try {
+                progressText.textContent = t.progressWorker;
+                const workerScript = await ensureWorker();
+
+                // quality: 1 = best, 30 = worst；顏色少時可以高啲加快
+                const gifQuality = colors <= 64 ? 18 : colors <= 128 ? 12 : 8;
+
+                const gif = new GIF({
+                    workers: 2,
+                    quality: gifQuality,
+                    width: w,
+                    height: h,
+                    workerScript: workerScript
+                });
+
+                // 確保暫停
+                video.pause();
+
+                progressText.textContent = t.progressFrame;
+                for (let i = 0; i < frameCount; i++) {
+                    const time = start + i * interval;
+                    await seekTo(Math.min(time, video.duration - 0.05));
+                    // 等一幀繪製
+                    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+                    ctx.drawImage(video, 0, 0, w, h);
+                    gif.addFrame(ctx, { copy: true, delay: delay });
+                    const pct = Math.round(((i + 1) / frameCount) * 65);
+                    progressFill.style.width = pct + '%';
+                    progressText.textContent = `${t.progressFrame} ${i + 1}/${frameCount}`;
+                }
+
+                progressText.textContent = t.progressEncode;
+                progressFill.style.width = '70%';
+
+                await new Promise((resolve, reject) => {
+                    const timeout = setTimeout(() => reject(new Error('GIF encode timeout')), 120000);
+                    gif.on('progress', p => {
+                        progressFill.style.width = (70 + p * 28) + '%';
+                    });
+                    gif.on('finished', blob => {
+                        clearTimeout(timeout);
+                        gifBlob = blob;
+                        resolve();
+                    });
+                    gif.on('error', err => {
+                        clearTimeout(timeout);
+                        reject(err || new Error('GIF worker error'));
+                    });
+                    try {
+                        gif.render();
+                    } catch (e) {
+                        clearTimeout(timeout);
+                        reject(e);
+                    }
+                });
+
+                progressFill.style.width = '100%';
+                progressText.textContent = t.progressDone;
+
+                const url = URL.createObjectURL(gifBlob);
+                resultGif.src = url;
+                resultInfo.innerHTML = t.resultInfo + `<span class="highlight">${formatSize(gifBlob.size)}</span> · ${w}×${h} · ${frameCount} frames`;
+                resultWrap.classList.add('show');
+            } catch (err) {
+                console.error(err);
+                showError(err && err.message ? err.message : String(err));
+            } finally {
+                convertBtn.disabled = false;
+            }
+        }
+
+        convertBtn.addEventListener('click', convert);
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+            if (!gifBlob) return;
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(gifBlob);
+            a.download = 'converted.gif';
+            a.click();
+        });
+    </script>
+</body>
+</html>

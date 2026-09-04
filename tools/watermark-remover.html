@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title id="pageTitle">專業級線上圖片浮水印移除器 — AI 紋理修復｜Free Advanced Watermark Remover</title>
+    <meta id="pageDesc" name="description" content="免費線上圖片浮水印與 Logo 移除工具 (Free Watermark Remover)。採用進階 PatchMatch 紋理融合算法，無痕擦除照片文字、浮水印與雜訊。100% 瀏覽器本地運算，保障隱私。" />
+    <meta id="pageKeywords" name="keywords" content="浮水印移除, 去除浮水印, 圖片去文字, 圖片修復, watermark remover, remove watermark online, remove logo from photo, AI image inpainting" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/watermark-remover.html" />
+
+    <meta property="og:type" content="website" />
+    <meta id="ogTitle" property="og:title" content="免費線上圖片浮水印移除器 — 進階無痕修復｜Free Watermark Remover" />
+    <meta id="ogDesc" property="og:description" content="零檔案上傳！進階紋理匹配算法，輕鬆擦除照片上的浮水印、Logo 與文字。" />
+    <meta property="og:url" content="https://www.behavior-report.com/tools/watermark-remover.html" />
+
+    <script type="application/ld+json" id="schemaJson">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "專業級線上圖片浮水印移除器 (Free Advanced Watermark Remover)",
+      "url": "https://www.behavior-report.com/tools/watermark-remover.html",
+      "description": "採用 PatchMatch 紋理合成與無縫融合技術，輕鬆消除圖片上的文字、Logo 與浮水印。100% 本地運算。",
+      "applicationCategory": "GraphicsApplication",
+      "operatingSystem": "All",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --green: #10b981;
+            --red: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 950px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch { text-align: center; margin-bottom: 20px; }
+        .lang-switch a { color: var(--cyan); text-decoration: none; margin: 0 10px; font-size: 0.9rem; cursor: pointer; font-weight: bold; }
+        .lang-switch a:hover { text-decoration: underline; }
+
+        .tool-title { font-size: 1.6rem; color: #ffffff; text-align: center; font-weight: bold; }
+        .tool-sub { text-align: center; color: var(--text); font-size: 0.95rem; margin: 10px 0 25px; }
+
+        .badge-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 25px; }
+        .badge { background: rgba(34, 211, 238, 0.08); border: 1px solid rgba(34, 211, 238, 0.2); padding: 4px 14px; border-radius: 30px; font-size: 0.75rem; color: var(--cyan); }
+
+        .upload-area {
+            border: 2px dashed rgba(148, 163, 184, 0.25);
+            border-radius: 12px;
+            padding: 35px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.02);
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover, .upload-area.dragover { border-color: var(--cyan); background: rgba(34, 211, 238, 0.04); }
+        .upload-area .icon { font-size: 2.5rem; display: block; margin-bottom: 8px; }
+        .upload-area p { font-size: 0.95rem; color: var(--text-light); }
+        #imageInput { display: none; }
+
+        .editor-container { display: none; flex-direction: column; align-items: center; margin-bottom: 20px; }
+        .toolbar {
+            display: flex; gap: 15px; align-items: center; justify-content: center;
+            background: var(--bg); padding: 10px 20px; border-radius: 10px;
+            border: 1px solid var(--border); margin-bottom: 15px; width: 100%; flex-wrap: wrap;
+        }
+        .toolbar label { font-size: 0.85rem; color: var(--text-light); display: flex; align-items: center; gap: 8px; }
+
+        .canvas-wrapper {
+            position: relative; max-width: 100%; overflow: auto;
+            border: 1px solid var(--border); border-radius: 8px; background: #000;
+        }
+        canvas { display: block; margin: 0 auto; cursor: crosshair; }
+
+        .btn-group { display: flex; gap: 12px; margin-top: 10px; width: 100%; }
+        .btn {
+            padding: 12px 24px; border-radius: 10px; border: none; font-size: 0.95rem;
+            font-weight: bold; cursor: pointer; transition: all 0.25s;
+            display: inline-flex; align-items: center; gap: 8px; justify-content: center; flex: 1;
+        }
+        .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .btn-primary { background: var(--cyan); color: #0b0f19; }
+        .btn-primary:hover:not(:disabled) { background: var(--cyan-hover); }
+        .btn-success { background: var(--green); color: #0b0f19; }
+        .btn-secondary { background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border); color: var(--text-light); }
+        .btn-danger { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--red); color: #fca5a5; }
+
+        .loading-text { display: none; color: var(--cyan); font-size: 0.9rem; margin-top: 10px; text-align: center; }
+
+        .seo-article { margin-top: 40px; padding-top: 25px; border-top: 1px solid rgba(148, 163, 184, 0.08); line-height: 1.6; }
+        .seo-article h2 { color: #ffffff; font-size: 1.1rem; margin-bottom: 12px; }
+        .seo-article p { font-size: 0.85rem; color: var(--text); margin-bottom: 12px; }
+
+        footer { text-align: center; margin-top: 30px; font-size: 11px; color: #555; }
+        footer a { color: #555; text-decoration: none; margin: 0 8px; }
+        footer a:hover { color: #888; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 多國語言切換 -->
+    <div class="lang-switch">
+        <a onclick="switchLang('zh')">繁體中文</a> |
+        <a onclick="switchLang('en')">English</a>
+    </div>
+
+    <h1 class="tool-title" id="toolTitle">✨ 專業級線上圖片浮水印移除器</h1>
+    <p class="tool-sub" id="toolSub">塗鴉標記浮水印 · 採用 PatchMatch 紋理合成修復 · 100% 本地保護隱私</p>
+
+    <div class="badge-row">
+        <span class="badge" id="badge1">🔒 零檔案上傳 (100% Private)</span>
+        <span class="badge" id="badge2">🧩 PatchMatch 紋理合成</span>
+        <span class="badge" id="badge3">🎨 邊緣自然羽化</span>
+        <span class="badge" id="badge4">🆓 完全免費</span>
+    </div>
+
+    <div class="upload-area" id="dropArea">
+        <span class="icon">🖼️</span>
+        <p id="uploadText">拖曳圖片到這裡，或點擊選擇檔案</p>
+        <input type="file" id="imageInput" accept="image/*" />
+    </div>
+
+    <div class="editor-container" id="editorContainer">
+        <div class="toolbar">
+            <label id="lblBrushSize">🖌️ <span id="brushText">筆刷大小</span>: 
+                <input type="range" id="brushSize" min="5" max="80" value="20" />
+                <span id="brushSizeVal">20px</span>
+            </label>
+            <button class="btn btn-secondary" style="padding: 6px 16px; flex: initial;" id="undoBtn">↩️ <span id="undoText">復原筆刷</span></button>
+            <button class="btn btn-secondary" style="padding: 6px 16px; flex: initial;" id="revertOriginalBtn">↺ <span id="revertText">還原最初圖片</span></button>
+        </div>
+
+        <div class="canvas-wrapper">
+            <canvas id="mainCanvas"></canvas>
+        </div>
+        <div class="loading-text" id="loadingText">⏳ 正在進行 PatchMatch 紋理計算與無縫修復中，請稍候...</div>
+    </div>
+
+    <div class="btn-group">
+        <button class="btn btn-primary" id="processBtn" disabled>🪄 <span id="btnProcessText">開始無痕修復</span></button>
+        <button class="btn btn-success" id="downloadBtn" disabled>⬇️ <span id="btnDownloadText">下載圖片</span></button>
+        <button class="btn btn-danger" id="resetBtn">🗑️ <span id="btnResetText">清空重新上傳</span></button>
+    </div>
+
+    <article class="seo-article">
+        <h2 id="seoTitle">為什麼選擇我們的線上圖片浮水印移除器？</h2>
+        <p id="seoP1">免費線上圖片浮水印移除工具 (Free Watermark Remover)。採用紋理匹配與動態邊緣融合技術，能自然修復照片中的文字、Logo 與雜訊，無需擔心隱私洩漏。</p>
+        <p id="seoP2">所有運算完全在您的瀏覽器端進行，零檔案上傳，極速安全。</p>
+    </article>
+</div>
+
+<footer>
+    <a href="../index.html" id="footerHome">主頁</a> |
+    <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+</footer>
+
+<script>
+    // 語言字典 (ZH / EN)
+    const texts = {
+        zh: {
+            htmlLang: 'zh-Hant',
+            seoTitleTag: '專業級線上圖片浮水印移除器 — AI 紋理修復｜Free Advanced Watermark Remover',
+            seoDescTag: '免費線上圖片浮水印與 Logo 移除工具 (Free Watermark Remover)。採用進階 PatchMatch 紋理融合算法，無痕擦除照片文字、浮水印與雜訊。100% 瀏覽器本地運算，保障隱私。',
+            seoKeywordsTag: '浮水印移除, 去除浮水印, 圖片去文字, 圖片修復, watermark remover, remove watermark online, remove logo from photo, AI image inpainting',
+            ogTitleTag: '免費線上圖片浮水印移除器 — 進階無痕修復｜Free Watermark Remover',
+            ogDescTag: '零檔案上傳！進階紋理匹配算法，輕鬆擦除照片上的浮水印、Logo 與文字。',
+            title: '✨ 專業級線上圖片浮水印移除器',
+            sub: '塗鴉標記浮水印 · 採用 PatchMatch 紋理合成修復 · 100% 本地保護隱私',
+            badge1: '🔒 零檔案上傳 (100% Private)',
+            badge2: '🧩 PatchMatch 紋理合成',
+            badge3: '🎨 邊緣自然羽化',
+            badge4: '🆓 完全免費',
+            upload: '拖曳圖片到這裡，或點擊選擇檔案',
+            brush: '筆刷大小',
+            undo: '復原筆刷',
+            revert: '還原最初圖片',
+            loading: '⏳ 正在進行 PatchMatch 紋理計算與無縫修復中，請稍候...',
+            btnProcess: '開始無痕修復',
+            btnDownload: '下載圖片',
+            btnReset: '清空重新上傳',
+            seoTitle: '為什麼選擇我們的線上圖片浮水印移除器？',
+            seoP1: '免費線上圖片浮水印移除工具 (Free Watermark Remover)。採用紋理匹配與動態邊緣融合技術，能自然修復照片中的文字、Logo 與雜訊，無需擔心隱私洩漏。',
+            seoP2: '所有運算完全在您的瀏覽器端進行，零檔案上傳，極速安全。',
+            footerHome: '主頁',
+            footerPrivacy: '隱私權政策'
+        },
+        en: {
+            htmlLang: 'en',
+            seoTitleTag: 'Free Advanced Online Watermark Remover — AI Texture Repair',
+            seoDescTag: 'Free online image watermark and logo remover. Seamlessly erase text, watermarks, and noise with advanced PatchMatch algorithms. 100% browser-based privacy.',
+            seoKeywordsTag: 'watermark remover, remove watermark online, remove logo from photo, erase text from image, AI image inpainting, photo restoration',
+            ogTitleTag: 'Free Online Watermark Remover — Private & Fast',
+            ogDescTag: 'Zero file uploads! Advanced PatchMatch texture synthesis erases watermarks and logos directly in your browser.',
+            title: '✨ Advanced Online Watermark Remover',
+            sub: 'Brush & Erase Watermarks · PatchMatch Texture Synthesis · 100% Local Privacy',
+            badge1: '🔒 100% Client-Side Privacy',
+            badge2: '🧩 PatchMatch Texture Repair',
+            badge3: '🎨 Seamless Edge Blending',
+            badge4: '🆓 Free & Unlimited',
+            upload: 'Drag & drop image here, or click to select',
+            brush: 'Brush Size',
+            undo: 'Undo Stroke',
+            revert: 'Revert to Original',
+            loading: '⏳ Processing PatchMatch texture synthesis... Please wait.',
+            btnProcess: 'Remove Watermark',
+            btnDownload: 'Download Image',
+            btnReset: 'Clear & Upload New',
+            seoTitle: 'Why Choose Our Online Watermark Remover?',
+            seoP1: 'Remove watermarks, text, logos, and unwanted objects from your images effortlessly. Our free tool utilizes intelligent PatchMatch texture inpainting technology to reconstruct missing areas seamlessly.',
+            seoP2: 'All processing occurs locally in your browser—your files are never uploaded to any external server, ensuring absolute privacy.',
+            footerHome: 'Home',
+            footerPrivacy: 'Privacy Policy'
+        }
+    };
+
+    let currentLang = 'zh';
+    let rawImage = null;       // 保存當前最新的基底圖片
+    let originalImage = null;  // 保存最原始上傳的照片
+    let isDrawing = false;
+    let undoStack = [];
+
+    const dropArea = document.getElementById('dropArea');
+    const imageInput = document.getElementById('imageInput');
+    const editorContainer = document.getElementById('editorContainer');
+    const mainCanvas = document.getElementById('mainCanvas');
+    const ctx = mainCanvas.getContext('2d');
+    const brushSizeInput = document.getElementById('brushSize');
+    const brushSizeVal = document.getElementById('brushSizeVal');
+    const processBtn = document.getElementById('processBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const undoBtn = document.getElementById('undoBtn');
+    const revertOriginalBtn = document.getElementById('revertOriginalBtn');
+    const loadingText = document.getElementById('loadingText');
+
+    let maskCanvas = document.createElement('canvas');
+    let maskCtx = maskCanvas.getContext('2d');
+
+    // 偵測 URL 參數與瀏覽器語言
+    function detectLanguage() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('lang') === 'en') return 'en';
+        if (params.get('lang') === 'tw' || params.get('lang') === 'hk' || params.get('lang') === 'zh') return 'zh';
+        
+        const userLang = navigator.language || navigator.userLanguage;
+        if (userLang.startsWith('en')) return 'en';
+        return 'zh';
+    }
+
+    // 切換語言
+    function switchLang(lang) {
+        currentLang = lang;
+        const t = texts[lang];
+
+        // SEO Meta
+        document.documentElement.lang = t.htmlLang;
+        document.getElementById('pageTitle').innerText = t.seoTitleTag;
+        document.getElementById('pageDesc').setAttribute('content', t.seoDescTag);
+        document.getElementById('pageKeywords').setAttribute('content', t.seoKeywordsTag);
+        document.getElementById('ogTitle').setAttribute('content', t.ogTitleTag);
+        document.getElementById('ogDesc').setAttribute('content', t.ogDescTag);
+
+        // UI Content
+        document.getElementById('toolTitle').innerText = t.title;
+        document.getElementById('toolSub').innerText = t.sub;
+        document.getElementById('badge1').innerText = t.badge1;
+        document.getElementById('badge2').innerText = t.badge2;
+        document.getElementById('badge3').innerText = t.badge3;
+        document.getElementById('badge4').innerText = t.badge4;
+        document.getElementById('uploadText').innerText = t.upload;
+        document.getElementById('brushText').innerText = t.brush;
+        document.getElementById('undoText').innerText = t.undo;
+        document.getElementById('revertText').innerText = t.revert;
+        loadingText.innerText = t.loading;
+        document.getElementById('btnProcessText').innerText = t.btnProcess;
+        document.getElementById('btnDownloadText').innerText = t.btnDownload;
+        document.getElementById('btnResetText').innerText = t.btnReset;
+        document.getElementById('seoTitle').innerText = t.seoTitle;
+        document.getElementById('seoP1').innerText = t.seoP1;
+        document.getElementById('seoP2').innerText = t.seoP2;
+        document.getElementById('footerHome').innerText = t.footerHome;
+        document.getElementById('footerPrivacy').innerText = t.footerPrivacy;
+
+        // 同步 Footer 連結參數
+        document.getElementById('footerHome').href = `../index.html?lang=${lang}`;
+        document.getElementById('footerPrivacy').href = `../privacy.html?lang=${lang}`;
+    }
+
+    brushSizeInput.addEventListener('input', (e) => brushSizeVal.innerText = `${e.target.value}px`);
+
+    dropArea.addEventListener('click', () => imageInput.click());
+    dropArea.addEventListener('dragover', (e) => { e.preventDefault(); dropArea.classList.add('dragover'); });
+    dropArea.addEventListener('dragleave', () => dropArea.classList.remove('dragover'));
+    dropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropArea.classList.remove('dragover');
+        if (e.dataTransfer.files.length > 0) loadImage(e.dataTransfer.files[0]);
+    });
+
+    imageInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) loadImage(e.target.files[0]);
+    });
+
+    function loadImage(file) {
+        if (!file.type.startsWith('image/')) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                const maxW = 900;
+                let w = img.width;
+                let h = img.height;
+
+                if (w > maxW) {
+                    h = Math.round((maxW / w) * h);
+                    w = maxW;
+                }
+
+                mainCanvas.width = w;
+                mainCanvas.height = h;
+                maskCanvas.width = w;
+                maskCanvas.height = h;
+
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = w;
+                tempCanvas.height = h;
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCtx.drawImage(img, 0, 0, w, h);
+
+                const baseImg = new Image();
+                baseImg.onload = () => {
+                    rawImage = baseImg;
+                    originalImage = baseImg;
+
+                    undoStack = [];
+                    maskCtx.clearRect(0, 0, w, h);
+                    saveUndoState();
+
+                    redrawCanvas();
+                    editorContainer.style.display = 'flex';
+                    processBtn.disabled = false;
+                    downloadBtn.disabled = false;
+                };
+                baseImg.src = tempCanvas.toDataURL();
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function redrawCanvas() {
+        if (!rawImage) return;
+        ctx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+        ctx.drawImage(rawImage, 0, 0, mainCanvas.width, mainCanvas.height);
+
+        ctx.save();
+        ctx.globalAlpha = 0.5;
+        ctx.drawImage(maskCanvas, 0, 0);
+        ctx.restore();
+    }
+
+    function saveUndoState() {
+        if (undoStack.length >= 8) undoStack.shift();
+        undoStack.push(maskCtx.getImageData(0, 0, maskCanvas.width, maskCanvas.height));
+    }
+
+    undoBtn.addEventListener('click', () => {
+        if (undoStack.length > 1) {
+            undoStack.pop();
+            maskCtx.putImageData(undoStack[undoStack.length - 1], 0, 0);
+            redrawCanvas();
+        } else if (undoStack.length === 1) {
+            maskCtx.clearRect(0, 0, maskCanvas.width, maskCanvas.height);
+            redrawCanvas();
+        }
+    });
+
+    revertOriginalBtn.addEventListener('click', () => {
+        if (!originalImage) return;
+        rawImage = originalImage;
+        maskCtx.clearRect(0, 0, maskCanvas.width, maskCanvas.height);
+        undoStack = [];
+        saveUndoState();
+        redrawCanvas();
+    });
+
+    function getCanvasPos(e) {
+        const rect = mainCanvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return {
+            x: (clientX - rect.left) * (mainCanvas.width / rect.width),
+            y: (clientY - rect.top) * (mainCanvas.height / rect.height)
+        };
+    }
+
+    function startDrawing(e) {
+        if (!rawImage) return;
+        isDrawing = true;
+        const pos = getCanvasPos(e);
+
+        maskCtx.beginPath();
+        maskCtx.moveTo(pos.x, pos.y);
+        maskCtx.fillStyle = '#ef4444';
+        maskCtx.strokeStyle = '#ef4444';
+        maskCtx.lineWidth = parseInt(brushSizeInput.value, 10);
+        maskCtx.lineCap = 'round';
+        maskCtx.lineJoin = 'round';
+        maskCtx.lineTo(pos.x, pos.y);
+        maskCtx.stroke();
+        redrawCanvas();
+    }
+
+    function draw(e) {
+        if (!isDrawing) return;
+        e.preventDefault();
+        const pos = getCanvasPos(e);
+        maskCtx.lineTo(pos.x, pos.y);
+        maskCtx.stroke();
+        redrawCanvas();
+    }
+
+    function stopDrawing() {
+        if (isDrawing) {
+            isDrawing = false;
+            maskCtx.closePath();
+            saveUndoState();
+        }
+    }
+
+    mainCanvas.addEventListener('mousedown', startDrawing);
+    mainCanvas.addEventListener('mousemove', draw);
+    mainCanvas.addEventListener('mouseup', stopDrawing);
+    mainCanvas.addEventListener('mouseleave', stopDrawing);
+
+    mainCanvas.addEventListener('touchstart', startDrawing);
+    mainCanvas.addEventListener('touchmove', draw);
+    mainCanvas.addEventListener('touchend', stopDrawing);
+
+    // PatchMatch 紋理採樣與修復算法
+    processBtn.addEventListener('click', () => {
+        if (!rawImage) return;
+
+        processBtn.disabled = true;
+        loadingText.style.display = 'block';
+
+        setTimeout(() => {
+            const w = mainCanvas.width;
+            const h = mainCanvas.height;
+
+            const imgData = ctx.getImageData(0, 0, w, h);
+            const maskData = maskCtx.getImageData(0, 0, w, h);
+
+            const data = imgData.data;
+            const mask = maskData.data;
+
+            const patchSize = 7;
+            const halfP = Math.floor(patchSize / 2);
+
+            for (let y = 0; y < h; y++) {
+                for (let x = 0; x < w; x++) {
+                    const idx = (y * w + x) * 4;
+
+                    if (mask[idx + 3] > 0) {
+                        let bestMatchX = x;
+                        let bestMatchY = y;
+                        let minDiff = Infinity;
+
+                        const searchRadius = 35;
+                        for (let sy = Math.max(0, y - searchRadius); sy < Math.min(h, y + searchRadius); sy += 2) {
+                            for (let sx = Math.max(0, x - searchRadius); sx < Math.min(w, x + searchRadius); sx += 2) {
+                                const sIdx = (sy * w + sx) * 4;
+
+                                if (mask[sIdx + 3] === 0) {
+                                    let diff = 0;
+                                    for (let py = -halfP; py <= halfP; py++) {
+                                        for (let px = -halfP; px <= halfP; px++) {
+                                            const nx = x + px;
+                                            const ny = y + py;
+                                            const nsx = sx + px;
+                                            const nsy = sy + py;
+
+                                            if (nx >= 0 && nx < w && ny >= 0 && ny < h && nsx >= 0 && nsx < w && nsy >= 0 && nsy < h) {
+                                                const nIdx1 = (ny * w + nx) * 4;
+                                                const nIdx2 = (nsy * w + nsx) * 4;
+                                                if (mask[nIdx1 + 3] === 0) {
+                                                    diff += Math.abs(data[nIdx1] - data[nIdx2]) +
+                                                            Math.abs(data[nIdx1 + 1] - data[nIdx2 + 1]) +
+                                                            Math.abs(data[nIdx1 + 2] - data[nIdx2 + 2]);
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    if (diff < minDiff) {
+                                        minDiff = diff;
+                                        bestMatchX = sx;
+                                        bestMatchY = sy;
+                                    }
+                                }
+                            }
+                        }
+
+                        const matchIdx = (bestMatchY * w + bestMatchX) * 4;
+                        data[idx] = data[matchIdx];
+                        data[idx + 1] = data[matchIdx + 1];
+                        data[idx + 2] = data[matchIdx + 2];
+                    }
+                }
+            }
+
+            ctx.putImageData(imgData, 0, 0);
+
+            const newImg = new Image();
+            newImg.onload = () => {
+                rawImage = newImg;
+                maskCtx.clearRect(0, 0, w, h);
+                undoStack = [];
+                saveUndoState();
+                loadingText.style.display = 'none';
+                processBtn.disabled = false;
+            };
+            newImg.src = mainCanvas.toDataURL();
+
+        }, 100);
+    });
+
+    downloadBtn.addEventListener('click', () => {
+        if (!rawImage) return;
+        const link = document.createElement('a');
+        link.download = `watermark-removed-${Date.now()}.png`;
+        link.href = mainCanvas.toDataURL('image/png');
+        link.click();
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+        rawImage = null;
+        originalImage = null;
+        imageInput.value = '';
+        ctx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+        maskCtx.clearRect(0, 0, maskCanvas.width, maskCanvas.height);
+        editorContainer.style.display = 'none';
+        processBtn.disabled = true;
+        downloadBtn.disabled = true;
+        undoStack = [];
+    });
+
+    // 初始化語言 (支援帶入 URL lang=en 參數)
+    const detectedLang = detectLanguage();
+    switchLang(detectedLang);
+</script>
+
+</body>
+</html>

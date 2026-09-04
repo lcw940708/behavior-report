@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>正則表達式測試器 — Regex Tester 線上測試｜ABRG 免費工具</title>
+    <meta name="description" content="免費正則表達式測試器，即時測試 Regex 匹配結果，支援 flags，開發者必備工具。純前端處理。" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/regex-tester.html" />
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --green: #10b981;
+            --red: #ef4444;
+            --yellow: #fbbf24;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 860px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .lang-switch a {
+            color: var(--cyan);
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .lang-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .tool-title .emoji {
+            font-size: 1.8rem;
+        }
+
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 10px 0 25px;
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        /* ===== 輸入區 ===== */
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .input-row .field {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .input-row .field label {
+            display: block;
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+
+        .input-row .field input,
+        .input-row .field select {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text-light);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s;
+            font-family: 'Courier New', monospace;
+        }
+
+        .input-row .field input:focus,
+        .input-row .field select:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.08);
+        }
+
+        .input-row .field select option {
+            background: var(--card);
+        }
+
+        .flags-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 8px 14px;
+            background: var(--bg);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .flags-row .flag-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+
+        .flags-row .flag-item input[type="checkbox"] {
+            accent-color: var(--cyan);
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .test-text-area {
+            width: 100%;
+            min-height: 120px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+            outline: none;
+            transition: all 0.2s;
+            line-height: 1.7;
+        }
+
+        .test-text-area:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.08);
+        }
+
+        /* ===== 結果區 ===== */
+        .result-section {
+            margin-top: 16px;
+        }
+
+        .result-section .stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding: 10px 14px;
+            background: var(--bg);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .result-section .stats .stat-item .num {
+            color: var(--cyan);
+            font-weight: bold;
+        }
+
+        .result-section .stats .stat-item .num.error {
+            color: var(--red);
+        }
+
+        .result-output {
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            min-height: 80px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            word-break: break-all;
+            color: var(--text-light);
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .result-output .match {
+            background: rgba(34, 211, 238, 0.15);
+            color: var(--cyan);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+
+        .result-output .empty {
+            color: #475569;
+        }
+
+        .result-output .error-text {
+            color: var(--red);
+        }
+
+        /* ===== 快捷範例 ===== */
+        .examples {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .examples .example-btn {
+            padding: 4px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text);
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Courier New', monospace;
+        }
+
+        .examples .example-btn:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        /* ===== 按鈕 ===== */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 12px 0;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-primary {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background: var(--cyan-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: var(--green);
+            color: #0b0f19;
+        }
+        .btn-success:hover:not(:disabled) {
+            background: #34d399;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        .btn-outline:hover:not(:disabled) {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--red);
+            color: #fca5a5;
+        }
+        .btn-danger:hover:not(:disabled) {
+            background: rgba(239, 68, 68, 0.25);
+        }
+
+        /* ===== Story suggest ===== */
+        .story-suggest {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+
+        .story-suggest .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .story-suggest .items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .story-suggest .items a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .other-tools {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .other-tools a {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #fca5a5;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .other-tools a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #555;
+        }
+
+        footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+
+        footer a:hover {
+            color: #888;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 18px;
+            }
+
+            .input-row {
+                flex-direction: column;
+            }
+
+            .input-row .field {
+                min-width: 100%;
+            }
+
+            .flags-row {
+                gap: 8px;
+            }
+
+            .btn {
+                flex: none;
+                width: 100%;
+            }
+
+            .result-section .stats {
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="lang-switch">
+            <a onclick="switchLang('hk')">🇭🇰 港版</a> |
+            <a onclick="switchLang('tw')">🇹🇼 台版</a> |
+            <a onclick="switchLang('en')">🇬🇧 English</a>
+        </div>
+
+        <h1 class="tool-title" id="toolTitle"><span class="emoji">🔍</span> 正則表達式測試器</h1>
+        <p class="tool-sub" id="toolSub">即時測試 Regex 匹配結果 · 開發者必備</p>
+
+        <div class="badge-row">
+            <span class="badge" id="badge1">🔍 即時匹配</span>
+            <span class="badge" id="badge2">🎯 高亮顯示</span>
+            <span class="badge" id="badge3">📊 匹配統計</span>
+            <span class="badge" id="badge4">🆓 完全免費</span>
+        </div>
+
+        <!-- ===== 快捷範例 ===== -->
+        <div class="examples">
+            <span style="font-size:0.75rem;color:#64748b;align-self:center;" id="examplesLabel">📝 範例：</span>
+            <button class="example-btn" data-pattern="[0-9]+" data-text="我今年25歲，體重70公斤">數字</button>
+            <button class="example-btn" data-pattern="[a-zA-Z]+" data-text="Hello 世界 123">英文字</button>
+            <button class="example-btn" data-pattern="\b[A-Z][a-z]+\b" data-text="Apple Banana Cat dog">大楷開頭</button>
+            <button class="example-btn" data-pattern="[\u4e00-\u9fa5]+" data-text="Hello 世界 123">中文字</button>
+            <button class="example-btn" data-pattern="\d{4}-\d{2}-\d{2}" data-text="2026-08-21 係今日">日期</button>
+        </div>
+
+        <!-- ===== 輸入區 ===== -->
+        <div class="input-section">
+            <div class="input-row">
+                <div class="field">
+                    <label id="labelPattern">📐 正則表達式</label>
+                    <input type="text" id="patternInput" placeholder="e.g. [0-9]+" value="[0-9]+" />
+                </div>
+                <div class="field">
+                    <label id="labelFlags">🚩 Flags</label>
+                    <select id="flagsSelect">
+                        <option value="">無</option>
+                        <option value="g">g (全局)</option>
+                        <option value="i">i (不分大小寫)</option>
+                        <option value="m">m (多行)</option>
+                        <option value="s">s (dot all)</option>
+                        <option value="gi">gi</option>
+                        <option value="gm">gm</option>
+                        <option value="gim">gim</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flags-row">
+                <span style="font-size:0.75rem;color:#64748b;">或手動剔選：</span>
+                <label class="flag-item">
+                    <input type="checkbox" value="g" /> g
+                </label>
+                <label class="flag-item">
+                    <input type="checkbox" value="i" /> i
+                </label>
+                <label class="flag-item">
+                    <input type="checkbox" value="m" /> m
+                </label>
+                <label class="flag-item">
+                    <input type="checkbox" value="s" /> s
+                </label>
+            </div>
+        </div>
+
+        <div class="input-section">
+            <label style="font-size:0.8rem;color:#64748b;" id="labelTestText">📝 測試文字</label>
+            <textarea class="test-text-area" id="testText" placeholder="輸入要測試嘅文字...">我今年25歲，體重70公斤</textarea>
+        </div>
+
+        <!-- ===== 按鈕 ===== -->
+        <div class="btn-group">
+            <button class="btn btn-primary" id="testBtn">▶️ <span id="testText">測試</span></button>
+            <button class="btn btn-success" id="copyBtn">📋 <span id="copyText">複製結果</span></button>
+            <button class="btn btn-outline" id="clearBtn">🗑️ <span id="clearText">清空</span></button>
+        </div>
+
+        <!-- ===== 結果區 ===== -->
+        <div class="result-section">
+            <div class="stats" id="statsBar">
+                <span class="stat-item"><span id="labelMatches">匹配數</span>：<span class="num" id="matchCount">0</span></span>
+                <span class="stat-item"><span id="labelGroups">捕獲組</span>：<span class="num" id="groupCount">0</span></span>
+                <span class="stat-item"><span id="labelError">狀態</span>：<span class="num" id="statusText" style="color:var(--green);">✅ 有效</span></span>
+            </div>
+            <div class="result-output" id="resultOutput"><span class="empty">等待測試...</span></div>
+        </div>
+
+        <!-- ===== Story suggest ===== -->
+        <div class="story-suggest">
+            <div class="label" id="storyLabel">📖 你可能會中意嘅連載或測驗</div>
+            <div class="items">
+                <a href="../story_01.html">《你睡著以後》</a>
+                <a href="../story_02.html">《貓狗人格》</a>
+                <a href="../quiz-01.html">隱私天平</a>
+                <a href="../index.html">🏠 返回主頁</a>
+            </div>
+            <div class="other-tools">
+                <span style="font-size:0.75rem;color:#64748b;align-self:center;" id="otherToolsLabel">🔧 其他工具：</span>
+                <a href="json-formatter.html">🔧 JSON 格式化</a>
+                <a href="url-encoder.html">🔗 URL 編解碼</a>
+                <a href="uuid-generator.html">🆔 UUID 生成器</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+    </footer>
+
+    <script>
+        // =============================================================
+        // 語言文字
+        // =============================================================
+        const texts = {
+            hk: {
+                title: '🔍 正則表達式測試器',
+                sub: '即時測試 Regex 匹配結果 · 開發者必備',
+                badge1: '🔍 即時匹配',
+                badge2: '🎯 高亮顯示',
+                badge3: '📊 匹配統計',
+                badge4: '🆓 完全免費',
+                storyLabel: '📖 你可能會中意嘅連載或測驗',
+                otherTools: '🔧 其他工具：',
+                examplesLabel: '📝 範例：',
+                labelPattern: '📐 正則表達式',
+                labelFlags: '🚩 Flags',
+                labelTestText: '📝 測試文字',
+                test: '▶️ 測試',
+                copy: '📋 複製結果',
+                clear: '🗑️ 清空',
+                labelMatches: '匹配數',
+                labelGroups: '捕獲組',
+                labelError: '狀態',
+                statusValid: '✅ 有效',
+                statusInvalid: '❌ 無效',
+                statusEmpty: '等待測試...',
+                copied: '✅ 已複製！',
+                noMatch: '沒有匹配結果',
+                error: '錯誤：'
+            },
+            tw: {
+                title: '🔍 正則表達式測試器',
+                sub: '即時測試 Regex 匹配結果 · 開發者必備',
+                badge1: '🔍 即時匹配',
+                badge2: '🎯 高亮顯示',
+                badge3: '📊 匹配統計',
+                badge4: '🆓 完全免費',
+                storyLabel: '📖 你可能會喜歡的連載或測驗',
+                otherTools: '🔧 其他工具：',
+                examplesLabel: '📝 範例：',
+                labelPattern: '📐 正則表達式',
+                labelFlags: '🚩 Flags',
+                labelTestText: '📝 測試文字',
+                test: '▶️ 測試',
+                copy: '📋 複製結果',
+                clear: '🗑️ 清空',
+                labelMatches: '匹配數',
+                labelGroups: '捕獲組',
+                labelError: '狀態',
+                statusValid: '✅ 有效',
+                statusInvalid: '❌ 無效',
+                statusEmpty: '等待測試...',
+                copied: '✅ 已複製！',
+                noMatch: '沒有匹配結果',
+                error: '錯誤：'
+            },
+            en: {
+                title: '🔍 Regex Tester',
+                sub: 'Instant regex matching · Developer essential',
+                badge1: '🔍 Instant Match',
+                badge2: '🎯 Highlight',
+                badge3: '📊 Match Stats',
+                badge4: '🆓 Free',
+                storyLabel: '📖 You might also like',
+                otherTools: '🔧 Other Tools:',
+                examplesLabel: '📝 Examples：',
+                labelPattern: '📐 Pattern',
+                labelFlags: '🚩 Flags',
+                labelTestText: '📝 Test Text',
+                test: '▶️ Test',
+                copy: '📋 Copy Result',
+                clear: '🗑️ Clear',
+                labelMatches: 'Matches',
+                labelGroups: 'Groups',
+                labelError: 'Status',
+                statusValid: '✅ Valid',
+                statusInvalid: '❌ Invalid',
+                statusEmpty: 'Waiting for test...',
+                copied: '✅ Copied!',
+                noMatch: 'No matches found',
+                error: 'Error：'
+            }
+        };
+
+        let lang = 'hk';
+
+        // =============================================================
+        // DOM refs
+        // =============================================================
+        const langBtns = document.querySelectorAll('.lang-switch a');
+        const toolTitle = document.getElementById('toolTitle');
+        const toolSub = document.getElementById('toolSub');
+        const badge1 = document.getElementById('badge1');
+        const badge2 = document.getElementById('badge2');
+        const badge3 = document.getElementById('badge3');
+        const badge4 = document.getElementById('badge4');
+        const storyLabel = document.getElementById('storyLabel');
+        const otherToolsLabel = document.getElementById('otherToolsLabel');
+        const examplesLabel = document.getElementById('examplesLabel');
+        const labelPattern = document.getElementById('labelPattern');
+        const labelFlags = document.getElementById('labelFlags');
+        const labelTestText = document.getElementById('labelTestText');
+        const testText = document.getElementById('testText');
+        const copyText = document.getElementById('copyText');
+        const clearText = document.getElementById('clearText');
+        const labelMatches = document.getElementById('labelMatches');
+        const labelGroups = document.getElementById('labelGroups');
+        const labelError = document.getElementById('labelError');
+        const statusText = document.getElementById('statusText');
+
+        const patternInput = document.getElementById('patternInput');
+        const flagsSelect = document.getElementById('flagsSelect');
+        const flagCheckboxes = document.querySelectorAll('.flag-item input[type="checkbox"]');
+        const testTextArea = document.getElementById('testText');
+        const testBtn = document.getElementById('testBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const resultOutput = document.getElementById('resultOutput');
+        const matchCount = document.getElementById('matchCount');
+        const groupCount = document.getElementById('groupCount');
+
+        // =============================================================
+        // 語言切換
+        // =============================================================
+        function switchLang(l) {
+            lang = l;
+            const t = texts[l];
+
+            toolTitle.innerHTML = t.title;
+            toolSub.innerText = t.sub;
+            badge1.innerText = t.badge1;
+            badge2.innerText = t.badge2;
+            badge3.innerText = t.badge3;
+            badge4.innerText = t.badge4;
+            storyLabel.innerText = t.storyLabel;
+            otherToolsLabel.innerText = t.otherTools;
+            examplesLabel.innerText = t.examplesLabel;
+            labelPattern.innerText = t.labelPattern;
+            labelFlags.innerText = t.labelFlags;
+            labelTestText.innerText = t.labelTestText;
+            testText.innerText = t.test;
+            copyText.innerText = t.copy;
+            clearText.innerText = t.clear;
+            labelMatches.innerText = t.labelMatches;
+            labelGroups.innerText = t.labelGroups;
+            labelError.innerText = t.labelError;
+
+            document.querySelectorAll('.story-suggest .items a, .other-tools a').forEach(a => {
+                try {
+                    const url = new URL(a.href);
+                    url.searchParams.set('lang', l);
+                    a.href = url.toString();
+                } catch (e) {}
+            });
+
+            testRegex();
+        }
+
+        function detectLanguage() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('lang') === 'en') return 'en';
+            if (params.get('lang') === 'tw') return 'tw';
+            if (params.get('lang') === 'hk') return 'hk';
+            const userLang = navigator.language || navigator.userLanguage;
+            if (userLang.startsWith('en')) return 'en';
+            if (userLang.includes('zh')) {
+                if (userLang.includes('TW') || userLang.includes('tw')) return 'tw';
+                return 'hk';
+            }
+            return 'hk';
+        }
+
+        langBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const l = this.textContent.includes('English') ? 'en' :
+                    this.textContent.includes('台') ? 'tw' : 'hk';
+                switchLang(l);
+            });
+        });
+
+        // =============================================================
+        // Flags sync
+        // =============================================================
+        function syncFlags() {
+            const checked = [];
+            flagCheckboxes.forEach(cb => {
+                if (cb.checked) checked.push(cb.value);
+            });
+
+            // Update select
+            const flagsStr = checked.join('');
+            flagsSelect.value = flagsStr;
+
+            // Update select if empty
+            if (flagsStr === '') flagsSelect.value = '';
+        }
+
+        flagCheckboxes.forEach(cb => {
+            cb.addEventListener('change', syncFlags);
+        });
+
+        flagsSelect.addEventListener('change', function() {
+            const val = this.value;
+            flagCheckboxes.forEach(cb => {
+                cb.checked = val.includes(cb.value);
+            });
+        });
+
+        // =============================================================
+        // 範例
+        // =============================================================
+        document.querySelectorAll('.example-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                patternInput.value = this.dataset.pattern;
+                testTextArea.value = this.dataset.text;
+                // Reset flags
+                flagCheckboxes.forEach(cb => cb.checked = false);
+                flagsSelect.value = '';
+                testRegex();
+            });
+        });
+
+        // =============================================================
+        // 核心測試
+        // =============================================================
+        function testRegex() {
+            const t = texts[lang];
+            const pattern = patternInput.value.trim();
+            const text = testTextArea.value;
+            const flags = flagsSelect.value || '';
+
+            if (!pattern) {
+                resultOutput.innerHTML = `<span class="empty">${t.statusEmpty}</span>`;
+                matchCount.textContent = '0';
+                groupCount.textContent = '0';
+                statusText.textContent = t.statusEmpty;
+                statusText.style.color = '#64748b';
+                return;
+            }
+
+            try {
+                const regex = new RegExp(pattern, flags);
+                let matches = [];
+                let match;
+
+                // 用 matchAll 或 exec
+                if (flags.includes('g')) {
+                    const allMatches = text.matchAll(regex);
+                    matches = Array.from(allMatches);
+                } else {
+                    const firstMatch = regex.exec(text);
+                    if (firstMatch) matches = [firstMatch];
+                }
+
+                // 統計
+                matchCount.textContent = matches.length;
+
+                let groupCountNum = 0;
+                if (matches.length > 0 && matches[0].length > 1) {
+                    groupCountNum = matches[0].length - 1;
+                }
+                groupCount.textContent = groupCountNum;
+
+                statusText.textContent = t.statusValid;
+                statusText.style.color = 'var(--green)';
+
+                // 顯示結果（高亮）
+                if (matches.length === 0) {
+                    resultOutput.textContent = t.noMatch;
+                    return;
+                }
+
+                // 高亮匹配
+                let highlighted = text;
+                const replacements = [];
+
+                // 收集所有匹配位置（由後往前取代，避免偏移）
+                const positions = [];
+                if (flags.includes('g')) {
+                    const regexClone = new RegExp(pattern, flags);
+                    let m;
+                    while ((m = regexClone.exec(text)) !== null) {
+                        positions.push({ index: m.index, length: m[0].length });
+                    }
+                } else {
+                    const regexClone = new RegExp(pattern, flags);
+                    const m = regexClone.exec(text);
+                    if (m) {
+                        positions.push({ index: m.index, length: m[0].length });
+                    }
+                }
+
+                // 由後往前取代
+                let result = text;
+                for (let i = positions.length - 1; i >= 0; i--) {
+                    const pos = positions[i];
+                    const before = result.substring(0, pos.index);
+                    const matchText = result.substring(pos.index, pos.index + pos.length);
+                    const after = result.substring(pos.index + pos.length);
+                    result = before + `<span class="match">${escapeHtml(matchText)}</span>` + after;
+                }
+
+                // 如果有 capture groups，顯示詳細
+                let detail = '';
+                if (matches.length > 0 && matches[0].length > 1) {
+                    detail = '\n\n📋 捕獲組：';
+                    matches.forEach((m, idx) => {
+                        detail += `\n  Match ${idx + 1}:`;
+                        for (let i = 1; i < m.length; i++) {
+                            detail += `\n    Group ${i}: "${m[i] || '(empty)'}"`;
+                        }
+                    });
+                }
+
+                resultOutput.innerHTML = result + escapeHtml(detail);
+
+            } catch (err) {
+                matchCount.textContent = '0';
+                groupCount.textContent = '0';
+                statusText.textContent = t.statusInvalid;
+                statusText.style.color = 'var(--red)';
+                resultOutput.innerHTML = `<span class="error-text">${t.error}${err.message}</span>`;
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // =============================================================
+        // 複製
+        // =============================================================
+        function copyResult() {
+            const t = texts[lang];
+            const text = resultOutput.textContent;
+            if (!text || text === t.statusEmpty || text === t.noMatch) {
+                alert(t.noMatch || '沒有可複製嘅內容');
+                return;
+            }
+
+            navigator.clipboard.writeText(text).then(() => {
+                const original = copyBtn.innerHTML;
+                copyBtn.innerHTML = t.copied;
+                setTimeout(() => {
+                    copyBtn.innerHTML = original;
+                }, 2000);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                const original = copyBtn.innerHTML;
+                copyBtn.innerHTML = t.copied;
+                setTimeout(() => {
+                    copyBtn.innerHTML = original;
+                }, 2000);
+            });
+        }
+
+        // =============================================================
+        // 清空
+        // =============================================================
+        function clearAll() {
+            const t = texts[lang];
+            patternInput.value = '';
+            testTextArea.value = '';
+            flagCheckboxes.forEach(cb => cb.checked = false);
+            flagsSelect.value = '';
+            resultOutput.innerHTML = `<span class="empty">${t.statusEmpty}</span>`;
+            matchCount.textContent = '0';
+            groupCount.textContent = '0';
+            statusText.textContent = t.statusEmpty;
+            statusText.style.color = '#64748b';
+        }
+
+        // =============================================================
+        // Events
+        // =============================================================
+        testBtn.addEventListener('click', testRegex);
+        copyBtn.addEventListener('click', copyResult);
+        clearBtn.addEventListener('click', clearAll);
+
+        patternInput.addEventListener('input', testRegex);
+        testTextArea.addEventListener('input', testRegex);
+        flagsSelect.addEventListener('change', testRegex);
+        flagCheckboxes.forEach(cb => {
+            cb.addEventListener('change', testRegex);
+        });
+
+        // Ctrl+Enter shortcut
+        testTextArea.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                testRegex();
+            }
+        });
+
+        // =============================================================
+        // Init
+        // =============================================================
+        const detectedLang = detectLanguage();
+        switchLang(detectedLang);
+        setTimeout(testRegex, 100);
+    </script>
+
+</body>
+
+</html>

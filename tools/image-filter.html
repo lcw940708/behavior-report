@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO Title & Description (中英雙語關鍵字優化) -->
+    <title>免費線上圖片濾鏡工具 — 黑白/復古/暖色/冷色/銳化/模糊｜Free Online Photo Filter Tool</title>
+    <meta name="description" content="免費線上圖片濾鏡工具 (Free Online Photo Filter Tool)。提供黑白、復古 (Sepia)、暖色、冷色、銳化 (Sharpen) 與模糊 (Blur) 等多種影像濾鏡效果。純瀏覽器本地處理，零檔案上傳，100% 保障隱私安全。" />
+    <meta name="keywords" content="圖片濾鏡, 線上圖片濾鏡, 照片特效, 黑白濾鏡, 復古濾鏡, 照片銳化, 圖片模糊, photo filter, image filters online, photo effects, grayscale filter, sepia filter, sharpen image, blur image, online photo editor" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/image-filter.html" />
+
+    <!-- Open Graph (社交分享優化) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="免費線上圖片濾鏡工具 — 多種專業照片特效｜Free Online Photo Filters" />
+    <meta property="og:description" content="零檔案上傳！直接在瀏覽器內套用黑白、復古、暖色、冷色、銳化與模糊效果，打造專屬影像質感。" />
+    <meta property="og:url" content="https://www.behavior-report.com/tools/image-filter.html" />
+
+    <!-- Schema.org 結構化資料 (提升 Google 搜尋 Rich Snippet) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "線上圖片濾鏡特效工具 (Free Online Photo Filter Generator)",
+      "url": "https://www.behavior-report.com/tools/image-filter.html",
+      "description": "免費線上圖片濾鏡工具，支援黑白、復古、暖色、冷色、銳化與模糊等濾鏡效果。100% 瀏覽器端本地處理，安全保護隱私。",
+      "applicationCategory": "GraphicsApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --green: #10b981;
+            --red: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .lang-switch a {
+            color: var(--cyan);
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .lang-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 10px 0 25px;
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        .upload-area {
+            border: 2px dashed rgba(148, 163, 184, 0.25);
+            border-radius: 12px;
+            padding: 35px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.02);
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover, .upload-area.dragover {
+            border-color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .upload-area .icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .upload-area p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        .upload-area .hint {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        #imageInput {
+            display: none;
+        }
+
+        /* 濾鏡按鈕網格 */
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            background: var(--bg);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .filter-btn {
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--text-light);
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        .filter-btn.active {
+            background: rgba(34, 211, 238, 0.15);
+            border-color: var(--cyan);
+            color: var(--cyan);
+            box-shadow: 0 0 10px rgba(34, 211, 238, 0.2);
+        }
+
+        .filter-btn .icon {
+            font-size: 1.2rem;
+        }
+
+        /* 微調滑桿 */
+        .control-group {
+            background: var(--bg);
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-group label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .control-group label span {
+            color: var(--cyan);
+            font-weight: normal;
+        }
+
+        input[type="range"] {
+            accent-color: var(--cyan);
+            cursor: pointer;
+        }
+
+        /* 預覽區 */
+        .preview-box {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid var(--border);
+            text-align: center;
+            margin-bottom: 20px;
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            display: none;
+        }
+
+        .preview-placeholder {
+            color: #475569;
+            font-size: 0.9rem;
+        }
+
+        /* 操作按鈕 */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .btn-primary { background: var(--cyan); color: #0b0f19; }
+        .btn-primary:hover:not(:disabled) { background: var(--cyan-hover); }
+
+        .btn-danger { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--red); color: #fca5a5; }
+        .btn-danger:hover:not(:disabled) { background: rgba(239, 68, 68, 0.25); }
+
+        /* SEO 文章區段 */
+        .seo-article {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+            line-height: 1.6;
+        }
+
+        .seo-article h2 {
+            color: #ffffff;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+
+        .seo-article p {
+            font-size: 0.85rem;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #555;
+        }
+        footer a { color: #555; text-decoration: none; margin: 0 8px; }
+        footer a:hover { color: #888; }
+
+        @media (max-width: 600px) {
+            .container { padding: 18px; }
+            .filter-grid { grid-template-columns: repeat(2, 1fr); }
+            .btn-group { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 多國語言切換 -->
+    <div class="lang-switch">
+        <a onclick="switchLang('zh')">繁體中文</a> |
+        <a onclick="switchLang('en')">English</a>
+    </div>
+
+    <!-- 標題與簡介 -->
+    <h1 class="tool-title" id="toolTitle">🎨 免費線上圖片濾鏡工具</h1>
+    <p class="tool-sub" id="toolSub">黑白 · 復古 · 暖色 · 冷色 · 銳化 · 模糊 — 100% 本地運算保護隱私</p>
+
+    <!-- 特色標籤 -->
+    <div class="badge-row">
+        <span class="badge" id="badge1">🔒 100% 隱私安全（零上傳）</span>
+        <span class="badge" id="badge2">⚡ 即時原畫高畫質處理</span>
+        <span class="badge" id="badge3">🎛️ 6 大專業級濾鏡效果</span>
+        <span class="badge" id="badge4">🆓 完全免費無限次數</span>
+    </div>
+
+    <!-- 圖片上傳區 -->
+    <div class="upload-area" id="dropArea">
+        <span class="icon">🖼️</span>
+        <p id="uploadText">拖曳圖片到這裡，或點擊選擇檔案</p>
+        <span class="hint" id="uploadHint">支援 JPG, PNG, WebP, GIF 等常見圖片格式</span>
+        <input type="file" id="imageInput" accept="image/*" />
+    </div>
+
+    <!-- 濾鏡選擇區 -->
+    <div class="filter-grid">
+        <button class="filter-btn active" onclick="selectFilter('none')" id="btnFilterNone">
+            <span class="icon">✨</span>
+            <span id="nameFilterNone">原圖 (Original)</span>
+        </button>
+        <button class="filter-btn" onclick="selectFilter('grayscale')" id="btnFilterGrayscale">
+            <span class="icon">🖤</span>
+            <span id="nameFilterGrayscale">黑白 (Grayscale)</span>
+        </button>
+        <button class="filter-btn" onclick="selectFilter('sepia')" id="btnFilterSepia">
+            <span class="icon">📜</span>
+            <span id="nameFilterSepia">復古 (Sepia)</span>
+        </button>
+        <button class="filter-btn" onclick="selectFilter('warm')" id="btnFilterWarm">
+            <span class="icon">☀️</span>
+            <span id="nameFilterWarm">暖色 (Warm)</span>
+        </button>
+        <button class="filter-btn" onclick="selectFilter('cool')" id="btnFilterCool">
+            <span class="icon">❄️</span>
+            <span id="nameFilterCool">冷色 (Cool)</span>
+        </button>
+        <button class="filter-btn" onclick="selectFilter('sharpen')" id="btnFilterSharpen">
+            <span class="icon">🗡️</span>
+            <span id="nameFilterSharpen">銳化 (Sharpen)</span>
+        </button>
+        <button class="filter-btn" onclick="selectFilter('blur')" id="btnFilterBlur">
+            <span class="icon">💧</span>
+            <span id="nameFilterBlur">模糊 (Blur)</span>
+        </button>
+    </div>
+
+    <!-- 強度微調面板 -->
+    <div class="control-group">
+        <label id="lblIntensity">濾鏡強度 (Filter Intensity) <span id="intensityVal">100%</span></label>
+        <input type="range" id="filterIntensity" min="0" max="100" value="100" />
+    </div>
+
+    <!-- 預覽畫布 -->
+    <div class="preview-box">
+        <span class="preview-placeholder" id="previewPlaceholder">等待上傳圖片... (Waiting for image upload...)</span>
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <!-- 按鈕組 -->
+    <div class="btn-group">
+        <button class="btn btn-primary" id="downloadBtn" disabled>⬇️ <span id="btnDownloadText">下載濾鏡圖片 (Download)</span></button>
+        <button class="btn btn-danger" id="resetBtn">🗑️ <span id="btnResetText">清空 (Clear)</span></button>
+    </div>
+
+    <!-- SEO 文章區塊（中英雙語關鍵字佈局） -->
+    <article class="seo-article">
+        <h2 id="seoTitle">為什麼選擇我們的線上圖片濾鏡工具？(Why Choose Our Online Photo Filter Tool?)</h2>
+        <p id="seoP1">
+            想要為照片增添質感或調校氛圍嗎？我們的免費線上圖片濾鏡工具提供經典黑白、懷舊復古 (Sepia)、溫暖日系暖色、沉靜冷色調、細節銳化 (Sharpen) 與柔焦模糊 (Blur) 等多款經典特效。無需下載安裝任何軟體，開啟網頁即可輕鬆調色。
+        </p>
+        <p id="seoP2">
+            Professional photo editing made simple and private. Our client-side image filter app lets you transform pictures instantly with Grayscale, Sepia, Warmth, Cool tone, Sharpening, and Gaussian Blur filters. All processing runs entirely inside your Web Browser through HTML5 Canvas — zero file upload, ultra-fast performance, and maximum data privacy.
+        </p>
+    </article>
+</div>
+
+<footer>
+    <a href="../index.html">主頁 (Home)</a> |
+    <a href="../privacy.html">隱私權政策 (Privacy Policy)</a>
+</footer>
+
+<script>
+    // 多國語言字典 (ZH / EN)
+    const texts = {
+        zh: {
+            title: '🎨 免費線上圖片濾鏡工具',
+            sub: '黑白 · 復古 · 暖色 · 冷色 · 銳化 · 模糊 — 100% 本地運算保護隱私',
+            badge1: '🔒 100% 隱私安全（零上傳）',
+            badge2: '⚡ 即時原畫高畫質處理',
+            badge3: '🎛️ 6 大專業級濾鏡效果',
+            badge4: '🆓 完全免費無限次數',
+            upload: '拖曳圖片到這裡，或點擊選擇檔案',
+            hint: '支援 JPG, PNG, WebP, GIF 等常見圖片格式',
+            lblIntensity: '濾鏡強度',
+            placeholder: '等待上傳圖片...',
+            btnDownload: '下載濾鏡圖片',
+            btnReset: '清空',
+            filterNone: '原圖',
+            filterGrayscale: '黑白',
+            filterSepia: '復古',
+            filterWarm: '暖色',
+            filterCool: '冷色',
+            filterSharpen: '銳化',
+            filterBlur: '模糊',
+            seoTitle: '為什麼選擇我們的線上圖片濾鏡工具？',
+            seoP1: '想要為照片增添質感或調校氛圍嗎？我們的免費線上圖片濾鏡工具提供經典黑白、懷舊復古 (Sepia)、溫暖日系暖色、沉靜冷色調、細節銳化 (Sharpen) 與柔焦模糊 (Blur) 等多款經典特效。無需下載安裝任何軟體，開啟網頁即可輕鬆調色。',
+            seoP2: '本工具採用最先進的 HTML5 Canvas 技術，所有圖片處理 100% 在您的手機或電腦瀏覽器端完成，檔案絕不上傳至任何伺服器，速度極快且徹底保障個人數據隱私。'
+        },
+        en: {
+            title: '🎨 Free Online Photo Filter Tool',
+            sub: 'Grayscale · Sepia · Warm · Cool · Sharpen · Blur — 100% Client-Side Privacy',
+            badge1: '🔒 100% Privacy (No Upload)',
+            badge2: '⚡ Instant High Quality',
+            badge3: '🎛️ 6 Professional Filters',
+            badge4: '🆓 Unlimited & Free',
+            upload: 'Drag & drop image here, or click to select',
+            hint: 'Supports JPG, PNG, WebP, GIF formats',
+            lblIntensity: 'Filter Intensity',
+            placeholder: 'Waiting for image upload...',
+            btnDownload: 'Download Filtered Image',
+            btnReset: 'Clear',
+            filterNone: 'Original',
+            filterGrayscale: 'Grayscale',
+            filterSepia: 'Sepia',
+            filterWarm: 'Warm',
+            filterCool: 'Cool',
+            filterSharpen: 'Sharpen',
+            filterBlur: 'Blur',
+            seoTitle: 'Why Choose Our Online Photo Filter Tool?',
+            seoP1: 'Professional photo editing made simple and private. Our client-side image filter app lets you transform pictures instantly with Grayscale, Sepia, Warmth, Cool tone, Sharpening, and Gaussian Blur filters. All processing runs entirely inside your Web Browser through HTML5 Canvas — zero file upload, ultra-fast performance, and maximum data privacy.',
+            seoP2: 'Whether you are a photographer, content creator, or casual user, customize image intensity on-the-fly and download high-resolution photos without watermarks or subscription fees.'
+        }
+    };
+
+    let currentLang = 'zh';
+    // 偵測 URL 參數語言
+function detectLanguage() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('lang') === 'en') return 'en';
+    if (params.get('lang') === 'tw') return 'zh';
+    if (params.get('lang') === 'hk') return 'zh';
+    
+    // 如果無參數，用瀏覽器語言
+    const userLang = navigator.language || navigator.userLanguage;
+    if (userLang.startsWith('en')) return 'en';
+    if (userLang.includes('TW') || userLang.includes('tw')) return 'zh';
+    return 'zh';
+}
+    let currentFilter = 'none';
+    let mainImage = null;
+
+    // DOM 元素
+    const dropArea = document.getElementById('dropArea');
+    const imageInput = document.getElementById('imageInput');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const previewPlaceholder = document.getElementById('previewPlaceholder');
+    const filterIntensity = document.getElementById('filterIntensity');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    // 切換語言
+    function switchLang(lang) {
+        currentLang = lang;
+        const t = texts[lang];
+        document.getElementById('toolTitle').innerText = t.title;
+        document.getElementById('toolSub').innerText = t.sub;
+        document.getElementById('badge1').innerText = t.badge1;
+        document.getElementById('badge2').innerText = t.badge2;
+        document.getElementById('badge3').innerText = t.badge3;
+        document.getElementById('badge4').innerText = t.badge4;
+        document.getElementById('uploadText').innerText = t.upload;
+        document.getElementById('uploadHint').innerText = t.hint;
+        document.getElementById('lblIntensity').childNodes[0].nodeValue = t.lblIntensity + ' ';
+        previewPlaceholder.innerText = t.placeholder;
+        document.getElementById('btnDownloadText').innerText = t.btnDownload;
+        document.getElementById('btnResetText').innerText = t.btnReset;
+
+        document.getElementById('nameFilterNone').innerText = t.filterNone + ' (Original)';
+        document.getElementById('nameFilterGrayscale').innerText = t.filterGrayscale + ' (Grayscale)';
+        document.getElementById('nameFilterSepia').innerText = t.filterSepia + ' (Sepia)';
+        document.getElementById('nameFilterWarm').innerText = t.filterWarm + ' (Warm)';
+        document.getElementById('nameFilterCool').innerText = t.filterCool + ' (Cool)';
+        document.getElementById('nameFilterSharpen').innerText = t.filterSharpen + ' (Sharpen)';
+        document.getElementById('nameFilterBlur').innerText = t.filterBlur + ' (Blur)';
+
+        document.getElementById('seoTitle').innerText = t.seoTitle;
+        document.getElementById('seoP1').innerText = t.seoP1;
+        document.getElementById('seoP2').innerText = t.seoP2;
+    }
+
+    // 上傳邏輯
+    dropArea.addEventListener('click', () => imageInput.click());
+    dropArea.addEventListener('dragover', (e) => { e.preventDefault(); dropArea.classList.add('dragover'); });
+    dropArea.addEventListener('dragleave', () => dropArea.classList.remove('dragover'));
+    dropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropArea.classList.remove('dragover');
+        if (e.dataTransfer.files.length > 0) handleImageSelect(e.dataTransfer.files[0]);
+    });
+
+    imageInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) handleImageSelect(e.target.files[0]);
+    });
+
+    function handleImageSelect(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            mainImage = new Image();
+            mainImage.onload = () => {
+                canvas.width = mainImage.width;
+                canvas.height = mainImage.height;
+                canvas.style.display = 'block';
+                previewPlaceholder.style.display = 'none';
+                downloadBtn.disabled = false;
+                applyFilter();
+            };
+            mainImage.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // 選擇濾鏡
+    function selectFilter(filterName) {
+        currentFilter = filterName;
+        const btns = document.querySelectorAll('.filter-btn');
+        btns.forEach(btn => btn.classList.remove('active'));
+        
+        const activeBtn = document.getElementById('btnFilter' + filterName.charAt(0).toUpperCase() + filterName.slice(1));
+        if (activeBtn) activeBtn.classList.add('active');
+
+        applyFilter();
+    }
+
+    // 滑桿強度監聽
+    filterIntensity.addEventListener('input', (e) => {
+        document.getElementById('intensityVal').innerText = e.target.value + '%';
+        applyFilter();
+    });
+
+    // 核心濾鏡繪製引擎
+    function applyFilter() {
+        if (!mainImage) return;
+
+        // 重設畫布
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(mainImage, 0, 0);
+
+        const factor = parseFloat(filterIntensity.value) / 100;
+        if (currentFilter === 'none' || factor === 0) return;
+
+        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imgData.data;
+
+        if (currentFilter === 'grayscale') {
+            for (let i = 0; i < data.length; i += 4) {
+                const avg = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+                data[i] = data[i] * (1 - factor) + avg * factor;
+                data[i + 1] = data[i + 1] * (1 - factor) + avg * factor;
+                data[i + 2] = data[i + 2] * (1 - factor) + avg * factor;
+            }
+            ctx.putImageData(imgData, 0, 0);
+        } else if (currentFilter === 'sepia') {
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i], g = data[i + 1], b = data[i + 2];
+                const sr = Math.min(255, (r * 0.393) + (g * 0.769) + (b * 0.189));
+                const sg = Math.min(255, (r * 0.349) + (g * 0.686) + (b * 0.168));
+                const sb = Math.min(255, (r * 0.272) + (g * 0.534) + (b * 0.131));
+                data[i] = r * (1 - factor) + sr * factor;
+                data[i + 1] = g * (1 - factor) + sg * factor;
+                data[i + 2] = b * (1 - factor) + sb * factor;
+            }
+            ctx.putImageData(imgData, 0, 0);
+        } else if (currentFilter === 'warm') {
+            for (let i = 0; i < data.length; i += 4) {
+                data[i] = Math.min(255, data[i] + (30 * factor));     // 增強紅
+                data[i + 1] = Math.min(255, data[i + 1] + (15 * factor)); // 微增綠
+                data[i + 2] = Math.max(0, data[i + 2] - (20 * factor));  // 減少藍
+            }
+            ctx.putImageData(imgData, 0, 0);
+        } else if (currentFilter === 'cool') {
+            for (let i = 0; i < data.length; i += 4) {
+                data[i] = Math.max(0, data[i] - (20 * factor));       // 減少紅
+                data[i + 1] = Math.min(255, data[i + 1] + (10 * factor)); // 微增綠
+                data[i + 2] = Math.min(255, data[i + 2] + (30 * factor)); // 增強藍
+            }
+            ctx.putImageData(imgData, 0, 0);
+        } else if (currentFilter === 'sharpen') {
+            // 3x3 銳化卷積陣列
+            const k = factor * 1.2;
+            const kernel = [
+                0, -k, 0,
+               -k, 1 + 4 * k, -k,
+                0, -k, 0
+            ];
+            applyConvolution(kernel);
+        } else if (currentFilter === 'blur') {
+            // 3x3 高斯模糊卷積陣列
+            const b = factor;
+            const kernel = [
+                1/16*b, 2/16*b, 1/16*b,
+                2/16*b, 4/16*b, 2/16*b,
+                1/16*b, 2/16*b, 1/16*b
+            ];
+            applyConvolution(kernel);
+        }
+    }
+
+    // 卷積矩陣處理 (用於銳化與模糊)
+    function applyConvolution(kernel) {
+        const srcData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const output = ctx.createImageData(canvas.width, canvas.height);
+        const src = srcData.data;
+        const dst = output.data;
+        const w = canvas.width;
+        const h = canvas.height;
+
+        for (let y = 1; y < h - 1; y++) {
+            for (let x = 1; x < w - 1; x++) {
+                let r = 0, g = 0, b = 0;
+                for (let ky = -1; ky <= 1; ky++) {
+                    for (let kx = -1; kx <= 1; kx++) {
+                        const px = (y + ky) * w + (x + kx);
+                        const weight = kernel[(ky + 1) * 3 + (kx + 1)];
+                        const idx = px * 4;
+                        r += src[idx] * weight;
+                        g += src[idx + 1] * weight;
+                        b += src[idx + 2] * weight;
+                    }
+                }
+                const dstIdx = (y * w + x) * 4;
+                dst[dstIdx] = Math.min(255, Math.max(0, r));
+                dst[dstIdx + 1] = Math.min(255, Math.max(0, g));
+                dst[dstIdx + 2] = Math.min(255, Math.max(0, b));
+                dst[dstIdx + 3] = src[dstIdx + 3]; // Alpha 保持不變
+            }
+        }
+        ctx.putImageData(output, 0, 0);
+    }
+
+    // 下載成果
+    downloadBtn.addEventListener('click', () => {
+        if (!mainImage) return;
+        const a = document.createElement('a');
+        a.download = `filtered-image-${currentFilter}.png`;
+        a.href = canvas.toDataURL('image/png');
+        a.click();
+    });
+
+    // 重設清空
+    document.getElementById('resetBtn').addEventListener('click', () => {
+        mainImage = null;
+        imageInput.value = '';
+        canvas.style.display = 'none';
+        previewPlaceholder.style.display = 'inline';
+        downloadBtn.disabled = true;
+        selectFilter('none');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+    const detectedLang = detectLanguage();
+switchLang(detectedLang);
+</script>
+
+</body>
+</html>

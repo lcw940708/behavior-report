@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【影片靜音教學】免費移除影片背景聲音｜MP4/MOV/WEBM 去聲｜Free Mute Video Guide</title>
+    <meta name="description" content="影片靜音完整教學！一鍵移除 MP4、MOV、WEBM 影片中的音軌，導出無聲影片。100% 瀏覽器處理保護私隱。Free online mute video tool guide.">
+    <meta name="keywords" content="影片靜音, 移除影片聲音, 影片去聲, 刪除影片音軌, 無聲影片, mute video, remove audio from video, silent video, remove sound from mp4, video muter, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/mute-video-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【影片靜音教學】免費移除影片背景聲音 — MP4/MOV/WEBM 去聲｜Free Mute Video Guide">
+    <meta property="og:description" content="一鍵移除 MP4、MOV、WEBM 影片中的音軌，導出無聲影片。100% 瀏覽器處理保護私隱。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/mute-video-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Mute Video Guide – Remove Audio from Videos">
+    <meta name="twitter:description" content="Remove audio tracks from MP4, MOV, and WEBM videos. Create silent videos. 100% client-side privacy.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "影片靜音教學：免費移除影片背景聲音 — MP4/MOV/WEBM 去聲",
+      "description": "介紹如何使用影片靜音工具從 MP4、MOV、WEBM 影片中移除音軌，導出無聲影片，適用於社交媒體、簡報背景與影片編輯。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: #ffffff;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>影片靜音教學：免費移除影片背景聲音 — MP4/MOV/WEBM 去聲</h1>
+
+        <h2>1. 導言</h2>
+        <p>你試過拍咗一段靚片，但係背景聲音好嘈、有雜音，或者有版權音樂唔可以公開播放？你唔想重新錄過，但又需要用段片——點算好？<strong>影片靜音（Mute Video）</strong> 就係為咗呢個情況而設。我哋嘅免費影片靜音工具可以一鍵移除 <strong>MP4、MOV、WEBM</strong> 影片入面嘅所有音軌，輸出完全無聲嘅影片。所有運算喺瀏覽器入面完成，影片唔會離開你嘅裝置，私隱 100% 安全。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>影片靜音（Video Mute）</strong> 係將影片檔案入面嘅音軌完全移除，只保留視覺畫面嘅編輯操作。主要應用包括：</p>
+        <ul>
+            <li><strong>移除背景噪音：</strong> 去除拍攝時嘅風聲、交通聲、人群雜音等不需要嘅聲音。</li>
+            <li><strong>迴避版權問題：</strong> 移除有版權嘅背景音樂，避免社交媒體平台嘅版權偵測。</li>
+            <li><strong>製作純視覺內容：</strong> 為簡報、教學影片、社交媒體貼文製作無聲背景影片。</li>
+            <li><strong>後製準備：</strong> 先移除原有音軌，準備加入新嘅配音或配樂。</li>
+        </ul>
+        <p>我哋嘅工具採用瀏覽器內建嘅 Canvas 與 MediaRecorder API，將影片嘅視覺畫面重新編碼為不包含音軌嘅新影片。所有處理 100% 客戶端進行，影片檔案絕不會上傳到任何伺服器。</p>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>社交媒體短片：</strong> 移除 TikTok、Reels、Shorts 影片中嘅背景音樂，避免版權問題。</li>
+            <li><strong>教學影片：</strong> 移除錄影時嘅環境噪音，準備加入清晰嘅旁白。</li>
+            <li><strong>簡報背景：</strong> 製作無聲嘅循環背景影片，用於展覽、簡報或活動。</li>
+            <li><strong>影片編輯：</strong> 先將影片靜音，再混入新嘅音軌或配樂。</li>
+            <li><strong>私隱保護：</strong> 移除影片中嘅對話或敏感聲音內容。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>上傳影片：</strong> 點擊或拖曳影片到上傳區域。支援 MP4、MOV、WEBM 等格式。</li>
+            <li><strong>預覽原始影片：</strong> 上傳後會顯示原始影片，你可以確認聲音內容。</li>
+            <li><strong>移除聲音：</strong> 點擊「移除聲音」，工具會自動將音軌分離並導出無聲影片。</li>
+            <li><strong>預覽結果：</strong> 轉換完成後會顯示靜音後嘅影片，你可以檢查效果。</li>
+            <li><strong>下載：</strong> 滿意後點擊「下載無聲影片」儲存。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站前端工具</th>
+                    <th>手機 App</th>
+                    <th>桌面剪片軟件</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>免費或付費</td>
+                    <td>付費或需安裝</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>⚠️ 視乎 App</td>
+                    <td>✅ 本地處理</td>
+                </tr>
+                <tr>
+                    <td><strong>一鍵靜音</strong></td>
+                    <td>✅ 即時處理</td>
+                    <td>⚠️ 通常需手動編輯</td>
+                    <td>✅ 支援</td>
+                </tr>
+                <tr>
+                    <td><strong>保留畫質</strong></td>
+                    <td>✅ 無損畫質</td>
+                    <td>⚠️ 視乎 App</td>
+                    <td>✅ 可調整</td>
+                </tr>
+                <tr>
+                    <td><strong>無需安裝</strong></td>
+                    <td>✅ 瀏覽器即用</td>
+                    <td>❌ 需下載 App</td>
+                    <td>❌ 需安裝軟件</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>低</td>
+                    <td>中等</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「朋友結婚嗰日我幫手拍片，返到屋企先發現段片勁多風聲同背景雜音。唔想煩到新人重拍，但又想交到貨。最後我用呢個工具一鍵靜音，再搵條靚嘅背景音樂 merge 上去——條片最後仲靚過原本。靜音唔係『熄聲』，佢係一個 <strong>重新定義你段片點樣被感知</strong> 嘅工具。一段有噪音嘅片，俾人嘅感覺係『求其』、『業餘』；靜音之後，佢變成一個 <strong>空白畫布</strong>——你可以加任何你想要嘅聲音上去。靜音俾你嘅，係一個 <strong>重新開始嘅機會</strong>。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">🔇 需要移除影片聲音？一鍵靜音！</h3>
+            <p style="margin:0; font-size:0.9rem;">一鍵移除影片音軌，導出無聲影片，完全免費且保護私隱。</p>
+            <a href="../tools/mute-video.html?lang=hk" class="cta-btn-link" id="ctaBtn">👉 立即免費試用影片靜音工具</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Mute Video Guide: Remove Audio from MP4/MOV/WEBM — Create Silent Videos</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Ever recorded a great video but the background noise was terrible? Or had copyrighted music that you can't use publicly? You don't want to reshoot, but you need the footage—what do you do? <strong>Video muting</strong> is exactly for this situation. Our free video muter tool removes all audio tracks from <strong>MP4, MOV, and WEBM</strong> videos with one click, outputting completely silent videos. All processing happens in your browser—your videos never leave your device, ensuring 100% privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>Video muting</strong> is the process of removing the audio track from a video file while preserving the visual content. Key applications include:</p>
+        <ul>
+            <li><strong>Remove Background Noise:</strong> Eliminate wind, traffic, crowd noise, and other unwanted sounds.</li>
+            <li><strong>Avoid Copyright Issues:</strong> Remove copyrighted background music to avoid detection on social media platforms.</li>
+            <li><strong>Pure Visual Content:</strong> Create silent background videos for presentations, tutorials, and social media posts.</li>
+            <li><strong>Post-Production Prep:</strong> Remove existing audio tracks to prepare for new voiceovers or soundtracks.</li>
+        </ul>
+        <p>Our tool uses browser Canvas and MediaRecorder APIs to re-encode the video without audio tracks. All processing is 100% client-side—your video files never leave your device.</p>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Social Media Shorts:</strong> Remove background music from TikTok, Reels, and Shorts to avoid copyright claims.</li>
+            <li><strong>Educational Videos:</strong> Remove environmental noise from recordings before adding clear voiceovers.</li>
+            <li><strong>Presentation Backgrounds:</strong> Create silent loop videos for exhibitions, presentations, or events.</li>
+            <li><strong>Video Editing:</strong> Mute videos before mixing in new audio tracks or soundtracks.</li>
+            <li><strong>Privacy Protection:</strong> Remove sensitive conversations or audio content from videos.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Upload Video:</strong> Click or drag your video to the upload area. Supports MP4, MOV, WEBM, and more.</li>
+            <li><strong>Preview Original:</strong> After upload, the original video appears for you to confirm the audio content.</li>
+            <li><strong>Remove Audio:</strong> Click "Remove Audio Track" to separate and export the silent video.</li>
+            <li><strong>Preview Result:</strong> The muted video appears for you to check the effect.</li>
+            <li><strong>Download:</strong> Click "Download Muted Video" to save when satisfied.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Client-Side Tool (Us)</th>
+                    <th>Mobile App</th>
+                    <th>Desktop Video Software</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Free or Paid</td>
+                    <td>Paid / Install</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>⚠️ App-dependent</td>
+                    <td>✅ Local</td>
+                </tr>
+                <tr>
+                    <td><strong>One-Click Mute</strong></td>
+                    <td>✅ Instant</td>
+                    <td>⚠️ Manual editing</td>
+                    <td>✅ Supported</td>
+                </tr>
+                <tr>
+                    <td><strong>Preserve Quality</strong></td>
+                    <td>✅ Lossless</td>
+                    <td>⚠️ App-dependent</td>
+                    <td>✅ Adjustable</td>
+                </tr>
+                <tr>
+                    <td><strong>No Installation</strong></td>
+                    <td>✅ Browser</td>
+                    <td>❌ App Required</td>
+                    <td>❌ Software</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Low</td>
+                    <td>Medium</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"I was filming a friend's wedding, and when I got home, I realized the audio was full of wind noise and background chatter. I didn't want to bother the couple for a reshoot, but I still needed to deliver. One-click mute, then merged in a nice background track—the final video ended up better than the original. Muting isn't 'turning off sound'—it's a tool for <strong>redefining how your video is perceived</strong>. A noisy video feels 'sloppy' and 'amateur.' Muted, it becomes a <strong>blank canvas</strong>—ready for any audio you want to add. Muting gives you a <strong>fresh start</strong>."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">🔇 Need to Remove Audio from a Video? One-Click Mute!</h3>
+            <p style="margin:0; font-size:0.9rem;">Remove video audio tracks instantly and create silent videos—completely free with privacy protection.</p>
+            <a href="../tools/mute-video.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Video Muter Tool Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtn = document.getElementById('ctaBtn');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtn.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtn.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

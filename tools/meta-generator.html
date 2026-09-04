@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>網頁 Meta 產生器 — OG Tags 生成器｜ABRG 免費工具</title>
+    <meta name="description" content="免費網頁 Meta 產生器，生成 Open Graph (OG) Tags，一鍵複製 HTML 代碼。內容創作者必備。" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/meta-generator.html" />
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --green: #10b981;
+            --red: #ef4444;
+            --yellow: #fbbf24;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 820px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .lang-switch a {
+            color: var(--cyan);
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .lang-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .tool-title .emoji {
+            font-size: 1.8rem;
+        }
+
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 10px 0 25px;
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        /* ===== 輸入區 ===== */
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .input-group label {
+            font-size: 0.8rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .input-group label .required {
+            color: var(--red);
+        }
+
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text-light);
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .input-group input:focus,
+        .input-group textarea:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.08);
+        }
+
+        .input-group textarea {
+            min-height: 60px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        .input-group .char-count {
+            text-align: right;
+            font-size: 0.7rem;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        .input-group .char-count .over {
+            color: var(--red);
+        }
+
+        /* ===== 預覽區 ===== */
+        .preview-section {
+            margin: 16px 0;
+            padding: 16px;
+            background: var(--bg);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .preview-section .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .preview-card {
+            background: var(--card);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            max-width: 500px;
+        }
+
+        .preview-card .preview-image {
+            width: 100%;
+            aspect-ratio: 1.91/1;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #475569;
+            font-size: 0.85rem;
+            overflow: hidden;
+        }
+
+        .preview-card .preview-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .preview-card .preview-image .no-image {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .preview-card .preview-image .no-image .icon {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .preview-card .preview-text {
+            padding: 12px 16px;
+        }
+
+        .preview-card .preview-text .title {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .preview-card .preview-text .desc {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .preview-card .preview-text .url {
+            font-size: 0.7rem;
+            color: #64748b;
+            margin-top: 4px;
+            word-break: break-all;
+        }
+
+        /* ===== 輸出區 ===== */
+        .output-section {
+            margin-top: 16px;
+        }
+
+        .output-section .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .output-section .output-box {
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            line-height: 1.8;
+            color: var(--text-light);
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .output-section .output-box .empty {
+            color: #475569;
+        }
+
+        /* ===== 按鈕 ===== */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 16px 0;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-primary {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background: var(--cyan-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: var(--green);
+            color: #0b0f19;
+        }
+        .btn-success:hover:not(:disabled) {
+            background: #34d399;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        .btn-outline:hover:not(:disabled) {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        /* ===== Story suggest ===== */
+        .story-suggest {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+
+        .story-suggest .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .story-suggest .items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .story-suggest .items a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .other-tools {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .other-tools a {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #fca5a5;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .other-tools a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #555;
+        }
+
+        footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+
+        footer a:hover {
+            color: #888;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 18px;
+            }
+
+            .btn {
+                flex: none;
+                width: 100%;
+            }
+
+            .preview-card {
+                max-width: 100%;
+            }
+
+            .output-section .output-box {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="lang-switch">
+            <a onclick="switchLang('hk')">🇭🇰 港版</a> |
+            <a onclick="switchLang('tw')">🇹🇼 台版</a> |
+            <a onclick="switchLang('en')">🇬🇧 English</a>
+        </div>
+
+        <h1 class="tool-title" id="toolTitle"><span class="emoji">📋</span> 網頁 Meta 產生器</h1>
+        <p class="tool-sub" id="toolSub">生成 Open Graph (OG) Tags · 社交媒體分享必備</p>
+
+        <div class="badge-row">
+            <span class="badge" id="badge1">📋 OG Tags</span>
+            <span class="badge" id="badge2">🖼️ 圖片預覽</span>
+            <span class="badge" id="badge3">📋 一鍵複製</span>
+            <span class="badge" id="badge4">🆓 完全免費</span>
+        </div>
+
+        <!-- ===== 輸入區 ===== -->
+        <div class="input-section">
+            <div class="input-group">
+                <label>🌐 網址 <span class="required">*</span></label>
+                <input type="url" id="urlInput" placeholder="https://www.behavior-report.com/story_01.html" value="https://www.behavior-report.com" />
+            </div>
+            <div class="input-group">
+                <label>📝 標題 <span class="required">*</span></label>
+                <input type="text" id="titleInput" placeholder="頁面標題，建議 50-60 字" value="ABRG 大數據行為觀察中心" />
+                <div class="char-count"><span id="titleCount">0</span> / 60</div>
+            </div>
+            <div class="input-group">
+                <label>📄 描述 <span class="required">*</span></label>
+                <textarea id="descInput" placeholder="頁面描述，建議 150-160 字">港台打工仔嘅深夜避難所。用測驗解剖日常內耗，用連載故事陪你捱過每一晚。</textarea>
+                <div class="char-count"><span id="descCount">0</span> / 160</div>
+            </div>
+            <div class="input-group">
+                <label>🖼️ 圖片網址</label>
+                <input type="url" id="imageInput" placeholder="https://example.com/og-image.jpg" />
+                <div style="font-size:0.7rem;color:#64748b;margin-top:2px;">建議尺寸：1200 x 630 (1.91:1)</div>
+            </div>
+            <div class="input-group">
+                <label>🏷️ 網站名稱（可選）</label>
+                <input type="text" id="siteNameInput" placeholder="例如：ABRG 工具" value="ABRG 大數據行為觀察中心" />
+            </div>
+            <div class="input-group">
+                <label>🐦 Twitter 用戶名（可選）</label>
+                <input type="text" id="twitterInput" placeholder="@username" />
+            </div>
+        </div>
+
+        <!-- ===== 預覽 ===== -->
+        <div class="preview-section">
+            <div class="label" id="previewLabel">👁️ 社交媒體預覽</div>
+            <div class="preview-card">
+                <div class="preview-image" id="previewImage">
+                    <div class="no-image">
+                        <span class="icon">🖼️</span>
+                        <span id="noImageText">輸入圖片網址顯示預覽</span>
+                    </div>
+                </div>
+                <div class="preview-text">
+                    <div class="title" id="previewTitle">ABRG 大數據行為觀察中心</div>
+                    <div class="desc" id="previewDesc">港台打工仔嘅深夜避難所。用測驗解剖日常內耗，用連載故事陪你捱過每一晚。</div>
+                    <div class="url" id="previewUrl">https://www.behavior-report.com</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== 輸出 ===== -->
+        <div class="output-section">
+            <div class="label" id="outputLabel">📄 Meta Tags HTML 代碼</div>
+            <div class="output-box" id="outputBox"><span class="empty" id="emptyText">輸入資料後自動生成...</span></div>
+            <div class="btn-group" style="margin-top:10px;">
+                <button class="btn btn-success" id="copyBtn">📋 <span id="copyText">複製代碼</span></button>
+                <button class="btn btn-outline" id="clearBtn">🗑️ <span id="clearText">清空</span></button>
+            </div>
+        </div>
+
+        <!-- ===== Story suggest ===== -->
+        <div class="story-suggest">
+            <div class="label" id="storyLabel">📖 你可能會中意嘅連載或測驗</div>
+            <div class="items">
+                <a href="../story_01.html">《你睡著以後》</a>
+                <a href="../story_02.html">《貓狗人格》</a>
+                <a href="../quiz-01.html">隱私天平</a>
+                <a href="../index.html">🏠 返回主頁</a>
+            </div>
+            <div class="other-tools">
+                <span style="font-size:0.75rem;color:#64748b;align-self:center;" id="otherToolsLabel">🔧 其他工具：</span>
+                <a href="html-escape.html">🔣 HTML 轉義</a>
+                <a href="json-formatter.html">🔧 JSON 格式化</a>
+                <a href="markdown-editor.html">📝 Markdown 編輯器</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+    </footer>
+
+    <script>
+        // =============================================================
+        // 語言文字
+        // =============================================================
+        const texts = {
+            hk: {
+                title: '📋 網頁 Meta 產生器',
+                sub: '生成 Open Graph (OG) Tags · 社交媒體分享必備',
+                badge1: '📋 OG Tags',
+                badge2: '🖼️ 圖片預覽',
+                badge3: '📋 一鍵複製',
+                badge4: '🆓 完全免費',
+                storyLabel: '📖 你可能會中意嘅連載或測驗',
+                otherTools: '🔧 其他工具：',
+                previewLabel: '👁️ 社交媒體預覽',
+                outputLabel: '📄 Meta Tags HTML 代碼',
+                noImage: '輸入圖片網址顯示預覽',
+                copy: '📋 複製代碼',
+                clear: '🗑️ 清空',
+                empty: '輸入資料後自動生成...',
+                copied: '✅ 已複製！',
+                noData: '請輸入必要資料（網址、標題、描述）'
+            },
+            tw: {
+                title: '📋 網頁 Meta 產生器',
+                sub: '生成 Open Graph (OG) Tags · 社群媒體分享必備',
+                badge1: '📋 OG Tags',
+                badge2: '🖼️ 圖片預覽',
+                badge3: '📋 一鍵複製',
+                badge4: '🆓 完全免費',
+                storyLabel: '📖 你可能會喜歡的連載或測驗',
+                otherTools: '🔧 其他工具：',
+                previewLabel: '👁️ 社群媒體預覽',
+                outputLabel: '📄 Meta Tags HTML 代碼',
+                noImage: '輸入圖片網址顯示預覽',
+                copy: '📋 複製代碼',
+                clear: '🗑️ 清空',
+                empty: '輸入資料後自動生成...',
+                copied: '✅ 已複製！',
+                noData: '請輸入必要資料（網址、標題、描述）'
+            },
+            en: {
+                title: '📋 Meta Tags Generator',
+                sub: 'Generate Open Graph (OG) Tags · Social media sharing essential',
+                badge1: '📋 OG Tags',
+                badge2: '🖼️ Image Preview',
+                badge3: '📋 One-click Copy',
+                badge4: '🆓 Free',
+                storyLabel: '📖 You might also like',
+                otherTools: '🔧 Other Tools:',
+                previewLabel: '👁️ Social Media Preview',
+                outputLabel: '📄 Meta Tags HTML Code',
+                noImage: 'Enter image URL to preview',
+                copy: '📋 Copy Code',
+                clear: '🗑️ Clear',
+                empty: 'Enter data to generate...',
+                copied: '✅ Copied!',
+                noData: 'Please enter required fields (URL, Title, Description)'
+            }
+        };
+
+        let lang = 'hk';
+
+        // =============================================================
+        // DOM refs
+        // =============================================================
+        const langBtns = document.querySelectorAll('.lang-switch a');
+        const toolTitle = document.getElementById('toolTitle');
+        const toolSub = document.getElementById('toolSub');
+        const badge1 = document.getElementById('badge1');
+        const badge2 = document.getElementById('badge2');
+        const badge3 = document.getElementById('badge3');
+        const badge4 = document.getElementById('badge4');
+        const storyLabel = document.getElementById('storyLabel');
+        const otherToolsLabel = document.getElementById('otherToolsLabel');
+        const previewLabel = document.getElementById('previewLabel');
+        const outputLabel = document.getElementById('outputLabel');
+        const noImageText = document.getElementById('noImageText');
+        const copyText = document.getElementById('copyText');
+        const clearText = document.getElementById('clearText');
+        const emptyText = document.getElementById('emptyText');
+
+        const urlInput = document.getElementById('urlInput');
+        const titleInput = document.getElementById('titleInput');
+        const descInput = document.getElementById('descInput');
+        const imageInput = document.getElementById('imageInput');
+        const siteNameInput = document.getElementById('siteNameInput');
+        const twitterInput = document.getElementById('twitterInput');
+
+        const titleCount = document.getElementById('titleCount');
+        const descCount = document.getElementById('descCount');
+
+        const previewTitle = document.getElementById('previewTitle');
+        const previewDesc = document.getElementById('previewDesc');
+        const previewUrl = document.getElementById('previewUrl');
+        const previewImage = document.getElementById('previewImage');
+
+        const outputBox = document.getElementById('outputBox');
+        const copyBtn = document.getElementById('copyBtn');
+        const clearBtn = document.getElementById('clearBtn');
+
+        let currentOutput = '';
+
+        // =============================================================
+        // 語言切換
+        // =============================================================
+        function switchLang(l) {
+            lang = l;
+            const t = texts[l];
+
+            toolTitle.innerHTML = t.title;
+            toolSub.innerText = t.sub;
+            badge1.innerText = t.badge1;
+            badge2.innerText = t.badge2;
+            badge3.innerText = t.badge3;
+            badge4.innerText = t.badge4;
+            storyLabel.innerText = t.storyLabel;
+            otherToolsLabel.innerText = t.otherTools;
+            previewLabel.innerText = t.previewLabel;
+            outputLabel.innerText = t.outputLabel;
+            noImageText.innerText = t.noImage;
+            copyText.innerText = t.copy;
+            clearText.innerText = t.clear;
+            emptyText.innerText = t.empty;
+
+            document.querySelectorAll('.story-suggest .items a, .other-tools a').forEach(a => {
+                try {
+                    const url = new URL(a.href);
+                    url.searchParams.set('lang', l);
+                    a.href = url.toString();
+                } catch (e) {}
+            });
+
+            generate();
+        }
+
+        function detectLanguage() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('lang') === 'en') return 'en';
+            if (params.get('lang') === 'tw') return 'tw';
+            if (params.get('lang') === 'hk') return 'hk';
+            const userLang = navigator.language || navigator.userLanguage;
+            if (userLang.startsWith('en')) return 'en';
+            if (userLang.includes('zh')) {
+                if (userLang.includes('TW') || userLang.includes('tw')) return 'tw';
+                return 'hk';
+            }
+            return 'hk';
+        }
+
+        langBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const l = this.textContent.includes('English') ? 'en' :
+                    this.textContent.includes('台') ? 'tw' : 'hk';
+                switchLang(l);
+            });
+        });
+
+        // =============================================================
+        // 字數統計
+        // =============================================================
+        titleInput.addEventListener('input', function() {
+            titleCount.textContent = this.value.length;
+            if (this.value.length > 60) {
+                titleCount.className = 'over';
+            } else {
+                titleCount.className = '';
+            }
+            generate();
+        });
+
+        descInput.addEventListener('input', function() {
+            descCount.textContent = this.value.length;
+            if (this.value.length > 160) {
+                descCount.className = 'over';
+            } else {
+                descCount.className = '';
+            }
+            generate();
+        });
+
+        // =============================================================
+        // 生成
+        // =============================================================
+        function generate() {
+            const url = urlInput.value.trim();
+            const title = titleInput.value.trim();
+            const desc = descInput.value.trim();
+            const image = imageInput.value.trim();
+            const siteName = siteNameInput.value.trim();
+            const twitter = twitterInput.value.trim();
+
+            // 更新預覽
+            previewTitle.textContent = title || '（請輸入標題）';
+            previewDesc.textContent = desc || '（請輸入描述）';
+            previewUrl.textContent = url || '（請輸入網址）';
+
+            // 圖片預覽
+            if (image) {
+                previewImage.innerHTML = `<img src="${image}" alt="OG Image" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="no-image" style="display:none;"><span class="icon">🖼️</span><span>${texts[lang].noImage}</span></div>`;
+            } else {
+                previewImage.innerHTML =
+                    `<div class="no-image"><span class="icon">🖼️</span><span>${texts[lang].noImage}</span></div>`;
+            }
+
+            // 生成 HTML
+            if (!url || !title || !desc) {
+                outputBox.innerHTML = `<span class="empty">${texts[lang].empty}</span>`;
+                currentOutput = '';
+                return;
+            }
+
+            let html = '';
+            html += `<!-- ===== Primary Meta Tags ===== -->\n`;
+            html += `<meta charset="UTF-8" />\n`;
+            html += `<meta name="viewport" content="width=device-width, initial-scale=1.0" />\n`;
+            html += `<title>${escapeHtml(title)}</title>\n`;
+            html += `<meta name="description" content="${escapeHtml(desc)}" />\n`;
+            html += `<link rel="canonical" href="${escapeHtml(url)}" />\n\n`;
+
+            html += `<!-- ===== Open Graph (OG) Tags ===== -->\n`;
+            html += `<meta property="og:type" content="website" />\n`;
+            html += `<meta property="og:url" content="${escapeHtml(url)}" />\n`;
+            html += `<meta property="og:title" content="${escapeHtml(title)}" />\n`;
+            html += `<meta property="og:description" content="${escapeHtml(desc)}" />\n`;
+            if (image) {
+                html += `<meta property="og:image" content="${escapeHtml(image)}" />\n`;
+            }
+            if (siteName) {
+                html += `<meta property="og:site_name" content="${escapeHtml(siteName)}" />\n`;
+            }
+            html += `<meta property="og:locale" content="zh_HK" />\n\n`;
+
+            html += `<!-- ===== Twitter Cards ===== -->\n`;
+            html += `<meta name="twitter:card" content="${image ? 'summary_large_image' : 'summary'}" />\n`;
+            if (twitter) {
+                html += `<meta name="twitter:site" content="${escapeHtml(twitter)}" />\n`;
+            }
+            html += `<meta name="twitter:title" content="${escapeHtml(title)}" />\n`;
+            html += `<meta name="twitter:description" content="${escapeHtml(desc)}" />\n`;
+            if (image) {
+                html += `<meta name="twitter:image" content="${escapeHtml(image)}" />\n`;
+            }
+
+            outputBox.textContent = html;
+            currentOutput = html;
+        }
+
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
+
+        // =============================================================
+        // 複製
+        // =============================================================
+        function copyOutput() {
+            const t = texts[lang];
+            if (!currentOutput) {
+                alert(t.noData);
+                return;
+            }
+
+            navigator.clipboard.writeText(currentOutput).then(() => {
+                const original = copyBtn.innerHTML;
+                copyBtn.innerHTML = t.copied;
+                copyBtn.classList.add('copied');
+                setTimeout(() => {
+                    copyBtn.innerHTML = original;
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = currentOutput;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                const original = copyBtn.innerHTML;
+                copyBtn.innerHTML = t.copied;
+                copyBtn.classList.add('copied');
+                setTimeout(() => {
+                    copyBtn.innerHTML = original;
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        // =============================================================
+        // 清空
+        // =============================================================
+        function clearAll() {
+            const t = texts[lang];
+            urlInput.value = '';
+            titleInput.value = '';
+            descInput.value = '';
+            imageInput.value = '';
+            siteNameInput.value = '';
+            twitterInput.value = '';
+            titleCount.textContent = '0';
+            descCount.textContent = '0';
+            titleCount.className = '';
+            descCount.className = '';
+            outputBox.innerHTML = `<span class="empty">${t.empty}</span>`;
+            currentOutput = '';
+            previewTitle.textContent = '（請輸入標題）';
+            previewDesc.textContent = '（請輸入描述）';
+            previewUrl.textContent = '（請輸入網址）';
+            previewImage.innerHTML =
+                `<div class="no-image"><span class="icon">🖼️</span><span>${t.noImage}</span></div>`;
+        }
+
+        // =============================================================
+        // Events
+        // =============================================================
+        urlInput.addEventListener('input', generate);
+        imageInput.addEventListener('input', generate);
+        siteNameInput.addEventListener('input', generate);
+        twitterInput.addEventListener('input', generate);
+
+        copyBtn.addEventListener('click', copyOutput);
+        clearBtn.addEventListener('click', clearAll);
+
+        // =============================================================
+        // Init
+        // =============================================================
+        const detectedLang = detectLanguage();
+        switchLang(detectedLang);
+        setTimeout(generate, 100);
+    </script>
+
+</body>
+
+</html>

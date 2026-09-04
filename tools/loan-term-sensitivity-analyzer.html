@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="seo-title">貸款期數靈敏度分析器 | Loan Term Sensitivity Analyzer - ABRG</title>
+    <meta id="seo-desc" name="description" content="免費線上貸款期數靈敏度分析器。以可視化圖表比較 12、24、36、48、60 個月還款期下的每月供款與總利息變化，助你評估最佳貸款方案。">
+    <meta id="seo-keywords" name="keywords" content="貸款期數靈敏度分析, 貸款利息比較, 每月供款計算, Loan Term Sensitivity, Monthly Payment vs Total Interest, APR Calculator">
+    <link rel="canonical" href="https://www.behavior-report.com/tools/loan-term-sensitivity-analyzer.html" />
+    
+    <style>
+        :root { 
+            --bg-color: #0b0f19; 
+            --card-bg: #151d30; 
+            --input-bg: #1e293b;
+            --text-color: #94a3b8; 
+            --heading-color: #ffffff;
+            --accent-cyan: #22d3ee; 
+            --accent-red: #ef4444;
+            --accent-green: #22c55e;
+            --border-color: rgba(148, 163, 184, 0.15);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
+        .container { max-width: 900px; width: 100%; }
+
+        .top-bar { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 20px; 
+        }
+        .back-link {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+        
+        .lang-switch button {
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+            padding: 4px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .lang-switch button:hover {
+            background: var(--accent-cyan);
+            color: #0b0f19;
+        }
+
+        .hero { text-align: center; margin-bottom: 25px; }
+        .hero h1 { font-size: 1.8rem; color: var(--heading-color); margin-bottom: 8px; }
+        .hero p { font-size: 0.95rem; color: var(--text-color); }
+
+        .calculator-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .grid-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 600px) {
+            .grid-form { grid-template-columns: 1fr; }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .form-group label {
+            font-size: 0.85rem;
+            color: var(--heading-color);
+            font-weight: bold;
+        }
+        .form-group input {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus {
+            border-color: var(--accent-cyan);
+        }
+
+        .chart-container {
+            background: rgba(11, 15, 25, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .chart-title {
+            font-size: 0.95rem;
+            color: var(--heading-color);
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        canvas {
+            width: 100% !important;
+            max-height: 320px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: right;
+            font-size: 0.9rem;
+        }
+        th, td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        th {
+            background: rgba(34, 211, 238, 0.08);
+            color: var(--accent-cyan);
+            font-weight: bold;
+            text-align: right;
+        }
+        th:first-child, td:first-child {
+            text-align: center;
+        }
+        tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .info-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+        .info-section h2 {
+            color: var(--heading-color);
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+        .info-section p { margin-bottom: 12px; }
+        .info-section ul { margin-left: 20px; margin-bottom: 12px; }
+        .info-section li { margin-bottom: 6px; }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; }
+        .footer a:hover { color: #aaa; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="top-bar">
+        <a href="../index.html" class="back-link" id="btn-back">← 返回主頁</a>
+        <div class="lang-switch">
+            <button id="btn-lang" onclick="toggleLanguage()">English</button>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h1 id="txt-title">貸款期數靈敏度分析器</h1>
+        <p id="txt-subtitle">分析相同貸款金額與 APR 下，不同還款期數對每月供款與總利息支出的影響</p>
+    </div>
+
+    <div class="calculator-card">
+        <div class="grid-form">
+            <div class="form-group">
+                <label id="lbl-amount" for="amount">貸款金額 ($)</label>
+                <input type="number" id="amount" value="300000" min="0" step="10000" oninput="calculate()">
+            </div>
+            <div class="form-group">
+                <label id="lbl-apr" for="apr">實際年利率 APR (%)</label>
+                <input type="number" id="apr" value="4.5" min="0" step="0.1" oninput="calculate()">
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-title" id="txt-chart-title">每月供款 vs 總利息 取捨關係圖</div>
+            <canvas id="sensitivityChart" height="280"></canvas>
+        </div>
+
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th id="th-term">還款期數</th>
+                        <th id="th-monthly">每月供款 ($)</th>
+                        <th id="th-interest">總利息支出 ($)</th>
+                        <th id="th-total">總還款額 ($)</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <!-- JavaScript 動態渲染 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="info-section">
+        <h2 id="txt-info-title">如何選擇最佳貸款期數？</h2>
+        <p id="txt-info-p1"><strong>「每月供款 vs 總利息」的權衡法則：</strong>選擇貸款期數時，你需要權衡即時的現金流壓力與長期的總利息成本。</p>
+        <ul>
+            <li id="txt-info-li1"><strong>較短期數（如 12–24 個月）：</strong>每月供款金額較高，但由於本金還款速度快，累積的總利息支出極低。適合現金流充足、希望盡快清還債務的人士。</li>
+            <li id="txt-info-li2"><strong>較長期數（如 48–60 個月）：</strong>大幅拉低每月供款金額，有效減輕每月財務負擔，但總利息支出會大幅增加。適合資金周轉需求高或希望保留現金作投資的人士。</li>
+        </ul>
+        <p id="txt-info-p2"><strong>靈敏度分析的作用：</strong>此工具能幫你直觀地找出利息與供款之間的「甜蜜點」（Sweet Spot），避免為了追求低供款而付出不成比例的高額利息。</p>
+    </div>
+
+    <div class="footer">
+        &copy; 2026 ABRG 大數據行為觀察中心 | <a href="../index.html">主頁</a>
+    </div>
+
+</div>
+
+<script>
+    let currentLang = 'zh';
+
+    const translations = {
+        zh: {
+            pageTitle: "貸款期數靈敏度分析器 | Loan Term Sensitivity Analyzer - ABRG",
+            metaDesc: "免費線上貸款期數靈敏度分析器。以可視化圖表比較 12、24、36、48、60 個月還款期下的每月供款與總利息變化，助你評估最佳貸款方案。",
+            metaKeywords: "貸款期數靈敏度分析, 貸款利息比較, 每月供款計算, Loan Term Sensitivity, Monthly Payment vs Total Interest, APR Calculator",
+            btnBack: "← 返回主頁",
+            btnLang: "English",
+            title: "貸款期數靈敏度分析器",
+            subtitle: "分析相同貸款金額與 APR 下，不同還款期數對每月供款與總利息支出的影響",
+            lblAmount: "貸款金額 ($)",
+            lblApr: "實際年利率 APR (%)",
+            chartTitle: "每月供款 vs 總利息 取捨關係圖",
+            thTerm: "還款期數",
+            thMonthly: "每月供款 ($)",
+            thInterest: "總利息支出 ($)",
+            thTotal: "總還款額 ($)",
+            infoTitle: "如何選擇最佳貸款期數？",
+            infoP1: "<strong>「每月供款 vs 總利息」的權衡法則：</strong>選擇貸款期數時，你需要權衡即時的現金流壓力與長期的總利息成本。",
+            infoLi1: "<strong>較短期數（如 12–24 個月）：</strong>每月供款金額較高，但由於本金還款速度快，累積的總利息支出極低。適合現金流充足、希望盡快清還債務的人士。",
+            infoLi2: "<strong>較長期數（如 48–60 個月）：</strong>大幅拉低每月供款金額，有效減輕每月財務負擔，但總利息支出會大幅增加。適合資金周轉需求高或希望保留現金作投資的人士。",
+            infoP2: "<strong>靈敏度分析的作用：</strong>此工具能幫你直觀地找出利息與供款之間的「甜蜜點」（Sweet Spot），避免為了追求低供款而付出不成比例的高額利息。",
+            legendMonthly: "每月供款 ($)",
+            legendInterest: "總利息支出 ($)",
+            unitMonth: "個月"
+        },
+        en: {
+            pageTitle: "Loan Term Sensitivity Analyzer | Calculator - ABRG",
+            metaDesc: "Free online Loan Term Sensitivity Analyzer. Visualize trade-offs between monthly payments and total interest across 12, 24, 36, 48, and 60-month loan terms.",
+            metaKeywords: "Loan term sensitivity, Loan duration comparison, Monthly payment vs total interest, Personal loan calculator, Loan APR analysis",
+            btnBack: "← Back to Home",
+            btnLang: "繁體中文",
+            title: "Loan Term Sensitivity Analyzer",
+            subtitle: "Analyze trade-offs between monthly payments and total interest across various loan tenures",
+            lblAmount: "Loan Amount ($)",
+            lblApr: "Annual Percentage Rate APR (%)",
+            chartTitle: "Monthly Payment vs. Total Interest Trade-off Chart",
+            thTerm: "Loan Term",
+            thMonthly: "Monthly Payment ($)",
+            thInterest: "Total Interest ($)",
+            thTotal: "Total Cost ($)",
+            infoTitle: "How to Choose the Optimal Loan Term?",
+            infoP1: "<strong>The Trade-off Rule:</strong> When selecting a loan duration, you must balance immediate cash flow constraints with long-term interest costs.",
+            infoLi1: "<strong>Shorter Terms (e.g., 12–24 Months):</strong> Higher monthly payments, but significantly lower overall interest costs due to rapid principal amortization. Ideal for borrowers with strong cash flows.",
+            infoLi2: "<strong>Longer Terms (e.g., 48–60 Months):</strong> Significantly lowers monthly installment, easing cash flow pressure, but increases total interest paid over time. Ideal for preserving liquidity.",
+            infoP2: "<strong>Why Sensitivity Analysis Matters:</strong> This tool helps you identify the 'sweet spot' between manageable payments and interest minimization.",
+            legendMonthly: "Monthly Payment ($)",
+            legendInterest: "Total Interest ($)",
+            unitMonth: "Mos"
+        }
+    };
+
+    function toggleLanguage() {
+        currentLang = currentLang === 'zh' ? 'en' : 'zh';
+        const t = translations[currentLang];
+
+        document.getElementById('seo-title').innerText = t.pageTitle;
+        document.getElementById('seo-desc').setAttribute('content', t.metaDesc);
+        document.getElementById('seo-keywords').setAttribute('content', t.metaKeywords);
+
+        document.getElementById('btn-back').innerText = t.btnBack;
+        document.getElementById('btn-lang').innerText = t.btnLang;
+        document.getElementById('txt-title').innerText = t.title;
+        document.getElementById('txt-subtitle').innerText = t.subtitle;
+
+        document.getElementById('lbl-amount').innerText = t.lblAmount;
+        document.getElementById('lbl-apr').innerText = t.lblApr;
+        document.getElementById('txt-chart-title').innerText = t.chartTitle;
+
+        document.getElementById('th-term').innerText = t.thTerm;
+        document.getElementById('th-monthly').innerText = t.thMonthly;
+        document.getElementById('th-interest').innerText = t.thInterest;
+        document.getElementById('th-total').innerText = t.thTotal;
+
+        document.getElementById('txt-info-title').innerText = t.infoTitle;
+        document.getElementById('txt-info-p1').innerHTML = t.infoP1;
+        document.getElementById('txt-info-li1').innerHTML = t.infoLi1;
+        document.getElementById('txt-info-li2').innerHTML = t.infoLi2;
+        document.getElementById('txt-info-p2').innerHTML = t.infoP2;
+
+        document.documentElement.lang = currentLang === 'zh' ? 'zh-Hant-HK' : 'en';
+        calculate();
+    }
+
+    function calculatePMT(principal, annualRate, months) {
+        if (annualRate === 0) return principal / months;
+        const monthlyRate = annualRate / 100 / 12;
+        return (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+    }
+
+    function calculate() {
+        const principal = parseFloat(document.getElementById('amount').value) || 0;
+        const apr = parseFloat(document.getElementById('apr').value) || 0;
+        const terms = [12, 24, 36, 48, 60];
+
+        const results = terms.map(term => {
+            const pmt = calculatePMT(principal, apr, term);
+            const totalRepayment = pmt * term;
+            const totalInterest = totalRepayment - principal;
+            return {
+                term,
+                pmt: Math.round(pmt),
+                totalInterest: Math.round(totalInterest),
+                totalRepayment: Math.round(totalRepayment)
+            };
+        });
+
+        renderTable(results);
+        drawChart(results);
+    }
+
+    function renderTable(results) {
+        const tbody = document.getElementById('table-body');
+        const unit = translations[currentLang].unitMonth;
+        tbody.innerHTML = '';
+
+        results.forEach(res => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><strong>${res.term} ${unit}</strong></td>
+                <td style="color: var(--accent-cyan); font-weight: bold;">$${res.pmt.toLocaleString()}</td>
+                <td style="color: var(--accent-red); font-weight: bold;">$${res.totalInterest.toLocaleString()}</td>
+                <td>$${res.totalRepayment.toLocaleString()}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function drawChart(results) {
+        const canvas = document.getElementById('sensitivityChart');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = 280 * dpr;
+        ctx.scale(dpr, dpr);
+
+        const width = rect.width;
+        const height = 280;
+
+        ctx.clearRect(0, 0, width, height);
+
+        if (results.length === 0) return;
+
+        const padding = { top: 30, right: 20, bottom: 40, left: 20 };
+        const chartWidth = width - padding.left - padding.right;
+        const chartHeight = height - padding.top - padding.bottom;
+
+        const maxPmt = Math.max(...results.map(r => r.pmt));
+        const maxInterest = Math.max(...results.map(r => r.totalInterest));
+        const maxVal = Math.max(maxPmt, maxInterest) * 1.15;
+
+        const numItems = results.length;
+        const step = chartWidth / (numItems - 1);
+
+        // 背景網格
+        ctx.strokeStyle = 'rgba(148, 163, 184, 0.1)';
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 4; i++) {
+            const y = padding.top + (chartHeight / 4) * i;
+            ctx.beginPath();
+            ctx.moveTo(padding.left, y);
+            ctx.lineTo(width - padding.right, y);
+            ctx.stroke();
+        }
+
+        // 繪製每月供款折線 (Cyan)
+        ctx.beginPath();
+        ctx.strokeStyle = '#22d3ee';
+        ctx.lineWidth = 3;
+        results.forEach((res, index) => {
+            const x = padding.left + index * step;
+            const y = height - padding.bottom - (res.pmt / maxVal) * chartHeight;
+            if (index === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+
+        // 繪製總利息折線 (Red)
+        ctx.beginPath();
+        ctx.strokeStyle = '#ef4444';
+        ctx.lineWidth = 3;
+        results.forEach((res, index) => {
+            const x = padding.left + index * step;
+            const y = height - padding.bottom - (res.totalInterest / maxVal) * chartHeight;
+            if (index === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+
+        // 繪製節點與文字標籤
+        const unit = translations[currentLang].unitMonth;
+        results.forEach((res, index) => {
+            const x = padding.left + index * step;
+            
+            // 每月供款點
+            const yPmt = height - padding.bottom - (res.pmt / maxVal) * chartHeight;
+            ctx.fillStyle = '#22d3ee';
+            ctx.beginPath();
+            ctx.arc(x, yPmt, 5, 0, Math.PI * 2);
+            ctx.fill();
+
+            // 總利息點
+            const yInt = height - padding.bottom - (res.totalInterest / maxVal) * chartHeight;
+            ctx.fillStyle = '#ef4444';
+            ctx.beginPath();
+            ctx.arc(x, yInt, 5, 0, Math.PI * 2);
+            ctx.fill();
+
+            // X 軸標籤 (期數)
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '12px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(`${res.term}${unit}`, x, height - 12);
+        });
+
+        // 圖例
+        const legendT = translations[currentLang];
+        ctx.font = '12px sans-serif';
+        
+        ctx.fillStyle = '#22d3ee';
+        ctx.fillRect(padding.left, 10, 12, 12);
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'left';
+        ctx.fillText(legendT.legendMonthly, padding.left + 18, 20);
+
+        ctx.fillStyle = '#ef4444';
+        ctx.fillRect(padding.left + 140, 10, 12, 12);
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText(legendT.legendInterest, padding.left + 158, 20);
+    }
+
+window.onload = function() {
+    // 偵測 URL 語言參數
+    const urlParams = new URLSearchParams(window.location.search);
+    const langParam = urlParams.get('lang');
+    if (langParam === 'en') {
+        if (currentLang !== 'en') {
+            toggleLanguage();
+        }
+    } else if (langParam === 'hk' || langParam === 'tw') {
+        if (currentLang !== 'zh') {
+            toggleLanguage();
+        }
+    }
+    calculate();
+    window.addEventListener('resize', calculate);
+};
+</script>
+</body>
+</html>

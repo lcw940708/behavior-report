@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小費與帳單分攤計算器 — Tip & Split Bill Calculator | ABRG</title>
+    <meta name="description" content="免費線上小費與AA制分攤計算器！快速計算小費金額、總帳單及每人應付金額。支援自訂小費比例與聚會人數。Calculate tip amount, total bill, and split per person effortlessly." />
+    <meta name="keywords" content="小費計算器, 帳單分攤, AA制計算器, Tip Calculator, Split Bill Calculator, 聚會分帳, 餐廳小費, 每人應付" />
+    <link rel="canonical" href="https://www.behavior-report.com/tip-split-calculator.html" />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="小費與帳單分攤計算器 — Free Tip & Split Bill Calculator | ABRG" />
+    <meta property="og:description" content="聚會用餐結帳必備！輸入總額、小費比例與人數，即時算清每人應付金額 (Bilingual Chinese & English)." />
+    <meta property="og:url" content="https://www.behavior-report.com/tip-split-calculator.html" />
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Tip & Split Bill Calculator | ABRG" />
+    <meta name="twitter:description" content="Easily calculate tip options and split bills among friends with custom currency and rounding options." />
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "小費與帳單分攤計算器 / Tip & Split Bill Calculator",
+      "url": "https://www.behavior-report.com/tip-split-calculator.html",
+      "description": "計算餐廳小費與多人分攤帳單金額的線上工具。Calculate tips and split total bills evenly per person.",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "All",
+      "inLanguage": ["zh-HK", "zh-TW", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root { 
+            --bg-color: #0b0f19; 
+            --card-bg: #151d30; 
+            --text-color: #94a3b8; 
+            --accent-cyan: #22d3ee; 
+            --accent-amber: #f59e0b;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+        }
+        * { box-sizing: border-box; }
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            margin: 0; 
+            padding: 15px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
+        .container { max-width: 980px; width: 100%; }
+        
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0 15px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 15px;
+        }
+        .brand {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-green); }
+        .back-link {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        /* ===== Language Switcher ===== */
+        .lang-switch {
+            display: flex;
+            gap: 6px;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+        .lang-btn {
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-color);
+            font-size: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .lang-btn.active {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.08);
+        }
+        .lang-btn:hover:not(.active) {
+            border-color: #cbd5e1;
+            color: #cbd5e1;
+        }
+
+        .page-title {
+            font-size: 1.4rem;
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        .page-desc {
+            font-size: 0.85rem;
+            color: var(--text-color);
+            margin-bottom: 20px;
+        }
+
+        /* ===== Calculator Layout ===== */
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 820px) {
+            .calculator-grid { grid-template-columns: 1fr; }
+        }
+
+        .panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .panel-title {
+            font-size: 1.05rem;
+            color: var(--accent-green);
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-weight: 700;
+            border-left: 3px solid var(--accent-green);
+            padding-left: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.82rem;
+            color: #cbd5e1;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .form-control {
+            width: 100%;
+            padding: 9px 12px;
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-control:focus {
+            border-color: var(--accent-green);
+        }
+        .unit-suffix {
+            position: absolute;
+            right: 10px;
+            color: #64748b;
+            font-size: 0.8rem;
+            pointer-events: none;
+        }
+
+        /* 小費快選按鈕列 */
+        .tip-options {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+        .tip-btn {
+            padding: 7px;
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: #cbd5e1;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tip-btn.active {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 11px;
+            background: var(--accent-green);
+            color: #0b0f19;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.92rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: opacity 0.2s;
+        }
+        .btn-submit:hover { opacity: 0.9; }
+
+        /* ===== Verdict Banner ===== */
+        .verdict-banner {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--accent-green);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .verdict-title {
+            font-size: 0.82rem;
+            color: var(--text-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .verdict-text {
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: var(--accent-green);
+            margin: 4px 0;
+        }
+        .verdict-sub {
+            font-size: 0.8rem;
+            color: #cbd5e1;
+        }
+
+        /* ===== Result Cards ===== */
+        .comparison-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        @media (max-width: 480px) {
+            .comparison-cards { grid-template-columns: 1fr; }
+        }
+
+        .result-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 14px;
+        }
+        .result-label {
+            font-size: 0.82rem;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+        .result-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-top: 4px;
+            color: var(--accent-cyan);
+        }
+
+        .breakdown-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.78rem;
+            margin-top: 10px;
+        }
+        .breakdown-table td {
+            padding: 6px 0;
+            color: #94a3b8;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+        }
+        .breakdown-table td:last-child {
+            text-align: right;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .footer { 
+            margin-top: 40px; 
+            padding-top: 15px; 
+            border-top: 1px solid rgba(148, 163, 184, 0.1); 
+            text-align: center; 
+            font-size: 0.78rem; 
+            color: #555; 
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 8px; }
+        .footer a:hover { color: #aaa; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-switch">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文 (HK)</button>
+        <button class="lang-btn" data-lang="tw">🇹🇼 繁體中文 (TW)</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <h1 class="page-title" id="pageTitle">🍽️ 小費與帳單分攤計算器</h1>
+    <p class="page-desc" id="pageDesc">輸入帳單總額、小費百分比及聚會人數，即時算清小費總額與每人應付的 AA 制金額。</p>
+
+    <div class="calculator-grid">
+        <!-- 輸入參數面板 -->
+        <div class="panel">
+            <h2 class="panel-title" id="inputPanelTitle">⚙️ 帳單與分攤設定</h2>
+
+            <div class="form-group">
+                <label id="lblBill" for="billAmount">帳單原始總額 ($)</label>
+                <div class="input-wrapper">
+                    <input type="number" id="billAmount" class="form-control" value="800" step="10" min="0">
+                </div>
+            </div>
+
+            <!-- 小費快速按鈕與自訂輸入 -->
+            <div class="form-group">
+                <label id="lblTipPercent">小費百分比 (%)</label>
+                <div class="tip-options">
+                    <button type="button" class="tip-btn" data-tip="5">5%</button>
+                    <button type="button" class="tip-btn active" data-tip="10">10%</button>
+                    <button type="button" class="tip-btn" data-tip="15">15%</button>
+                    <button type="button" class="tip-btn" data-tip="20">20%</button>
+                </div>
+                <div class="input-wrapper">
+                    <input type="number" id="customTip" class="form-control" value="10" step="1" min="0" max="100">
+                    <span class="unit-suffix">%</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label id="lblPeople" for="peopleCount">分攤人數 (人)</label>
+                <div class="input-wrapper">
+                    <input type="number" id="peopleCount" class="form-control" value="4" step="1" min="1" max="100">
+                    <span class="unit-suffix" id="unitPeople">人</span>
+                </div>
+            </div>
+
+            <button type="button" class="btn-submit" id="btnCalculate">即時計算 / Calculate</button>
+        </div>
+
+        <!-- 輸出結果面板 -->
+        <div class="panel">
+            <h2 class="panel-title" id="resultPanelTitle">📊 分攤結果與細項</h2>
+
+            <!-- 核心 Banner -->
+            <div class="verdict-banner">
+                <div class="verdict-title" id="verdictHeader">每人應付總額 (PER PERSON)</div>
+                <div class="verdict-text" id="valPerPerson">$220.00</div>
+                <div class="verdict-sub" id="verdictSub">包含小費每人負擔 $20.00</div>
+            </div>
+
+            <!-- 數據對比卡片 -->
+            <div class="comparison-cards">
+                <div class="result-card">
+                    <div class="result-label" id="lblTipTotal">💡 小費總額</div>
+                    <div class="result-value" id="valTipTotal">$80.00</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label" id="lblGrandTotal">🧾 含小費總帳單</div>
+                    <div class="result-value" id="valGrandTotal">$880.00</div>
+                </div>
+            </div>
+
+            <!-- 明細 breakdown -->
+            <div class="result-card">
+                <div class="result-label" id="lblBreakdownTitle">📋 每人消費明細拆解 Breakdown</div>
+                <table class="breakdown-table">
+                    <tr><td id="tdPerPersonBase">每人餐費本金:</td><td id="valPerPersonBase">$200.00</td></tr>
+                    <tr><td id="tdPerPersonTip">每人分攤小費:</td><td id="valPerPersonTip">$20.00</td></tr>
+                    <tr><td id="tdTotalPeople">總參與分攤人數:</td><td id="valTotalPeople">4 人</td></tr>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footHome">主頁</a> |
+        <a href="../blog.html" id="footBlog">最新文章</a> |
+        <a href="../about.html" id="footAbout">關於我</a> |
+        <a href="../privacy.html" id="footPrivacy">隱私權政策</a>
+        <br><br>
+        &copy; 2026 ABRG 大數據趣味行為觀察社
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    // 介面語言多語系翻譯
+    const i18n = {
+        zh: {
+            back: "← 文章列表",
+            title: "🍽️ 小費與帳單分攤計算器",
+            desc: "輸入帳單總額、小費百分比及聚會人數，即時算清小費總額與每人應付的 AA 制金額。",
+            inputTitle: "⚙️ 帳單與分攤設定",
+            lblBill: "帳單原始總額 ($)",
+            lblTipPercent: "小費百分比 (%)",
+            lblPeople: "分攤人數 (人)",
+            unitPeople: "人",
+            btnCalc: "即時計算",
+            resultTitle: "📊 分攤結果與細項",
+            verdictHeader: "每人應付總額 (PER PERSON)",
+            lblTipTotal: "💡 小費總額",
+            lblGrandTotal: "🧾 含小費總帳單",
+            lblBreakdownTitle: "📋 每人消費明細拆拆 Breakdown",
+            tdPerPersonBase: "每人餐費本金:",
+            tdPerPersonTip: "每人分攤小費:",
+            tdTotalPeople: "總參與分攤人數:",
+            subPrefix: "包含小費每人負擔 ",
+            unitPersonSuffix: " 人",
+            footHome: "主頁",
+            footBlog: "最新文章",
+            footAbout: "關於我",
+            footPrivacy: "隱私權政策"
+        },
+        en: {
+            back: "← Articles",
+            title: "🍽️ Tip & Split Bill Calculator",
+            desc: "Calculate total tips, grand total, and equal split per person effortlessly.",
+            inputTitle: "⚙️ Bill & Split Settings",
+            lblBill: "Original Bill Amount ($)",
+            lblTipPercent: "Tip Percentage (%)",
+            lblPeople: "Split Persons",
+            unitPeople: "persons",
+            btnCalc: "Calculate Now",
+            resultTitle: "📊 Split Result Breakdown",
+            verdictHeader: "AMOUNT PER PERSON",
+            lblTipTotal: "💡 Total Tip",
+            lblGrandTotal: "🧾 Grand Total",
+            lblBreakdownTitle: "📋 Detailed Breakdown per Person",
+            tdPerPersonBase: "Base Bill per Person:",
+            tdPerPersonTip: "Tip per Person:",
+            tdTotalPeople: "Total People:",
+            subPrefix: "Includes tip of ",
+            unitPersonSuffix: " persons",
+            footHome: "Home",
+            footBlog: "Blog",
+            footAbout: "About",
+            footPrivacy: "Privacy Policy"
+        }
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentLang = urlParams.get('lang') || 'hk';
+
+    function formatCurrency(amount) {
+        return '$' + amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    // 主計算邏輯
+    function calculateSplit() {
+        const bill = parseFloat(document.getElementById('billAmount').value) || 0;
+        const tipRate = (parseFloat(document.getElementById('customTip').value) || 0) / 100;
+        const people = Math.max(1, parseInt(document.getElementById('peopleCount').value) || 1);
+
+        const tipTotal = bill * tipRate;
+        const grandTotal = bill + tipTotal;
+        
+        const perPersonTotal = grandTotal / people;
+        const perPersonBase = bill / people;
+        const perPersonTip = tipTotal / people;
+
+        const isEn = (currentLang === 'en');
+        const langData = isEn ? i18n.en : i18n.zh;
+
+        // UI 渲染
+        document.getElementById('valPerPerson').textContent = formatCurrency(perPersonTotal);
+        document.getElementById('valTipTotal').textContent = formatCurrency(tipTotal);
+        document.getElementById('valGrandTotal').textContent = formatCurrency(grandTotal);
+
+        document.getElementById('verdictSub').textContent = `${langData.subPrefix}${formatCurrency(perPersonTip)}`;
+        
+        document.getElementById('valPerPersonBase').textContent = formatCurrency(perPersonBase);
+        document.getElementById('valPerPersonTip').textContent = formatCurrency(perPersonTip);
+        document.getElementById('valTotalPeople').textContent = `${people} ${langData.unitPersonSuffix}`;
+    }
+
+    // 多語系渲染
+    function renderPage(langKey) {
+        currentLang = langKey;
+        const isEn = (langKey === 'en');
+        const langData = isEn ? i18n.en : i18n.zh;
+
+        document.getElementById('backLink').textContent = langData.back;
+        document.getElementById('pageTitle').textContent = langData.title;
+        document.getElementById('pageDesc').textContent = langData.desc;
+        document.getElementById('inputPanelTitle').textContent = langData.inputTitle;
+
+        document.getElementById('lblBill').textContent = langData.lblBill;
+        document.getElementById('lblTipPercent').textContent = langData.lblTipPercent;
+        document.getElementById('lblPeople').textContent = langData.lblPeople;
+        document.getElementById('unitPeople').textContent = langData.unitPeople;
+
+        document.getElementById('btnCalculate').textContent = langData.btnCalc;
+        document.getElementById('resultPanelTitle').textContent = langData.resultTitle;
+        document.getElementById('verdictHeader').textContent = langData.verdictHeader;
+
+        document.getElementById('lblTipTotal').textContent = langData.lblTipTotal;
+        document.getElementById('lblGrandTotal').textContent = langData.lblGrandTotal;
+        document.getElementById('lblBreakdownTitle').textContent = langData.lblBreakdownTitle;
+
+        document.getElementById('tdPerPersonBase').textContent = langData.tdPerPersonBase;
+        document.getElementById('tdPerPersonTip').textContent = langData.tdPerPersonTip;
+        document.getElementById('tdTotalPeople').textContent = langData.tdTotalPeople;
+
+        document.getElementById('footHome').textContent = langData.footHome;
+        document.getElementById('footBlog').textContent = langData.footBlog;
+        document.getElementById('footAbout').textContent = langData.footAbout;
+        document.getElementById('footPrivacy').textContent = langData.footPrivacy;
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.lang === langKey) {
+                btn.classList.add('active');
+            }
+        });
+
+        calculateSplit();
+    }
+
+    // 事件監聽：小費按鈕快選
+    document.querySelectorAll('.tip-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.tip-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            document.getElementById('customTip').value = this.dataset.tip;
+            calculateSplit();
+        });
+    });
+
+    // 事件監聽：輸入連動
+    document.querySelectorAll('.form-control').forEach(input => {
+        input.addEventListener('input', function() {
+            if (this.id === 'customTip') {
+                const val = this.value;
+                document.querySelectorAll('.tip-btn').forEach(b => {
+                    b.classList.toggle('active', b.dataset.tip === val);
+                });
+            }
+            calculateSplit();
+        });
+    });
+
+    document.getElementById('btnCalculate').addEventListener('click', calculateSplit);
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.dataset.lang;
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            renderPage(selectedLang);
+        });
+    });
+
+    renderPage(currentLang);
+});
+</script>
+<!-- 語言參數接收與傳遞 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang');
+    if (lang) {
+        if (typeof setLang === 'function') {
+            setLang(lang);
+        }
+        document.querySelectorAll('a[href]').forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('../')) {
+                const url = new URL(href, window.location.href);
+                url.searchParams.set('lang', lang);
+                link.setAttribute('href', url.toString());
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

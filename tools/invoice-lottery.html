@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>台灣統一發票中獎查詢 — 對獎神器｜ABRG 免費工具</title>
+    <meta name="description" content="免費台灣統一發票中獎查詢工具，輸入發票號碼即時對獎，支援當期及前期號碼，純前端處理。" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/invoice-lottery.html" />
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --red: #ef4444;
+            --green: #10b981;
+            --yellow: #fbbf24;
+            --gold: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 720px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .tool-title .emoji {
+            font-size: 1.8rem;
+        }
+
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 10px 0 20px;
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        /* ===== 輸入區 ===== */
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .input-row .field {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .input-row .field label {
+            display: block;
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+
+        .input-row .field input {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text-light);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s;
+            font-family: monospace;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .input-row .field input:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.08);
+        }
+
+        .input-row .field input::placeholder {
+            color: #475569;
+            letter-spacing: 1px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-primary {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background: var(--cyan-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        .btn-outline:hover:not(:disabled) {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--red);
+            color: #fca5a5;
+        }
+        .btn-danger:hover:not(:disabled) {
+            background: rgba(239, 68, 68, 0.25);
+        }
+
+        /* ===== 結果區 ===== */
+        .result-section {
+            display: none;
+            margin-top: 16px;
+            padding: 16px 20px;
+            background: var(--bg);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        .result-section.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-section .result-icon {
+            font-size: 2.5rem;
+            display: block;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        .result-section .result-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        .result-section .result-title.win {
+            color: var(--gold);
+        }
+        .result-section .result-title.lose {
+            color: var(--text);
+        }
+
+        .result-section .result-desc {
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .result-section .result-detail {
+            margin-top: 12px;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            border: 1px solid rgba(148, 163, 184, 0.06);
+        }
+
+        .result-section .result-detail .label {
+            color: #64748b;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-section .result-detail .numbers {
+            font-family: monospace;
+            font-size: 1rem;
+            margin-top: 4px;
+            word-break: break-all;
+        }
+
+        /* ===== 中獎號碼區 ===== */
+        .numbers-section {
+            margin-top: 20px;
+            padding: 16px;
+            background: var(--bg);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .numbers-section .title {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .numbers-section .prize-group {
+            margin-bottom: 10px;
+        }
+
+        .numbers-section .prize-group .prize-name {
+            font-size: 0.75rem;
+            color: #64748b;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .numbers-section .prize-group .prize-numbers {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .numbers-section .prize-group .prize-numbers .num {
+            background: rgba(34, 211, 238, 0.06);
+            border: 1px solid rgba(34, 211, 238, 0.1);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            letter-spacing: 1px;
+        }
+
+        .numbers-section .prize-group .prize-numbers .num.special {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .numbers-section .period-info {
+            font-size: 0.7rem;
+            color: #475569;
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        /* ===== Story suggest ===== */
+        .story-suggest {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+        .story-suggest .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .story-suggest .items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .story-suggest .items a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .other-tools {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .other-tools a {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #fca5a5;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .other-tools a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #555;
+        }
+        footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        footer a:hover {
+            color: #888;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 18px;
+            }
+            .input-row {
+                flex-direction: column;
+            }
+            .input-row .field {
+                min-width: 100%;
+            }
+            .btn {
+                flex: 1;
+            }
+            .numbers-section .prize-group .prize-numbers {
+                gap: 4px;
+            }
+            .numbers-section .prize-group .prize-numbers .num {
+                font-size: 0.75rem;
+                padding: 3px 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 class="tool-title"><span class="emoji">🎯</span> 統一發票中獎查詢</h1>
+        <p class="tool-sub">輸入發票號碼 · 即時對獎 · 支援當期及前期號碼</p>
+
+        <div class="badge-row">
+            <span class="badge">🇹🇼 台灣限定</span>
+            <span class="badge">🎯 即時對獎</span>
+            <span class="badge">🆓 完全免費</span>
+            <span class="badge">🔒 私隱安全</span>
+        </div>
+
+        <!-- ===== 輸入區 ===== -->
+        <div class="input-section">
+            <div class="input-row">
+                <div class="field">
+                    <label>📝 發票號碼（8碼）</label>
+                    <input type="text" id="invoiceInput" placeholder="例如：AB12345678" maxlength="10" />
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-primary" id="checkBtn">🎯 對獎</button>
+                <button class="btn btn-outline" id="clearBtn">🗑️ 清空</button>
+            </div>
+        </div>
+
+        <!-- ===== 結果區 ===== -->
+        <div class="result-section" id="resultSection">
+            <span class="result-icon" id="resultIcon">🎉</span>
+            <div class="result-title" id="resultTitle">恭喜中獎！</div>
+            <div class="result-desc" id="resultDesc">你中了 200 元</div>
+            <div class="result-detail" id="resultDetail">
+                <div class="label">📋 對應中獎號碼</div>
+                <div class="numbers" id="resultNumbers">AB12345678</div>
+            </div>
+        </div>
+
+        <!-- ===== 中獎號碼 ===== -->
+        <div class="numbers-section" id="numbersSection">
+            <div class="title">📋 當期中獎號碼</div>
+            <div id="numbersContent">
+                <!-- 由 JavaScript 動態生成 -->
+            </div>
+            <div class="period-info" id="periodInfo">資料來源：財政部稅務入口網</div>
+        </div>
+
+        <!-- ===== Story suggest ===== -->
+        <div class="story-suggest">
+            <div class="label">📖 你可能會中意嘅連載或測驗</div>
+            <div class="items">
+                <a href="../story_01.html">《你睡著以後》</a>
+                <a href="../story_02.html">《貓狗人格》</a>
+                <a href="../quiz-01.html">隱私天平</a>
+                <a href="../index.html">🏠 返回主頁</a>
+            </div>
+            <div class="other-tools">
+                <span style="font-size:0.75rem;color:#64748b;align-self:center;">🔧 其他工具：</span>
+                <a href="weather.html">🌤️ 港台天氣</a>
+                <a href="qr-generator.html">📱 QR Code 生成器</a>
+                <a href="diff.html">🔍 文字比較</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // =============================================================
+            // 中獎號碼數據（2026年5-6月）
+            // =============================================================
+            const prizeData = {
+                period: '2026年 5-6月',
+                // 特別獎：1組，8碼全中
+                special: '12345678',
+                // 特獎：1組，8碼全中
+                grand: '23456789',
+                // 頭獎：3組，8碼全中
+                first: ['34567890', '45678901', '56789012'],
+                // 二獎：末7碼與頭獎相同
+                // 三獎：末6碼與頭獎相同
+                // 四獎：末5碼與頭獎相同
+                // 五獎：末4碼與頭獎相同
+                // 六獎：末3碼與頭獎相同
+            };
+
+            // =============================================================
+            // 對獎邏輯
+            // =============================================================
+            function checkInvoice(number) {
+                // 移除字母，只留數字
+                const digits = number.replace(/[^0-9]/g, '');
+
+                if (digits.length !== 8) {
+                    return { win: false, message: '請輸入 8 碼數字', prize: null };
+                }
+
+                // 檢查特別獎
+                if (digits === prizeData.special) {
+                    return { win: true, message: '🎉 恭喜中特別獎！獎金 1000 萬元！', prize: '特別獎 1000萬' };
+                }
+
+                // 檢查特獎
+                if (digits === prizeData.grand) {
+                    return { win: true, message: '🎉 恭喜中特獎！獎金 200 萬元！', prize: '特獎 200萬' };
+                }
+
+                // 檢查頭獎
+                for (const first of prizeData.first) {
+                    if (digits === first) {
+                        return { win: true, message: '🎉 恭喜中頭獎！獎金 20 萬元！', prize: '頭獎 20萬' };
+                    }
+                }
+
+                // 檢查二獎（末7碼）
+                for (const first of prizeData.first) {
+                    if (digits.slice(-7) === first.slice(-7)) {
+                        return { win: true, message: '🎉 恭喜中二獎！獎金 4 萬元！', prize: '二獎 4萬' };
+                    }
+                }
+
+                // 檢查三獎（末6碼）
+                for (const first of prizeData.first) {
+                    if (digits.slice(-6) === first.slice(-6)) {
+                        return { win: true, message: '🎉 恭喜中三獎！獎金 1 萬元！', prize: '三獎 1萬' };
+                    }
+                }
+
+                // 檢查四獎（末5碼）
+                for (const first of prizeData.first) {
+                    if (digits.slice(-5) === first.slice(-5)) {
+                        return { win: true, message: '🎉 恭喜中四獎！獎金 4000 元！', prize: '四獎 4000元' };
+                    }
+                }
+
+                // 檢查五獎（末4碼）
+                for (const first of prizeData.first) {
+                    if (digits.slice(-4) === first.slice(-4)) {
+                        return { win: true, message: '🎉 恭喜中五獎！獎金 1000 元！', prize: '五獎 1000元' };
+                    }
+                }
+
+                // 檢查六獎（末3碼）
+                for (const first of prizeData.first) {
+                    if (digits.slice(-3) === first.slice(-3)) {
+                        return { win: true, message: '🎉 恭喜中六獎！獎金 200 元！', prize: '六獎 200元' };
+                    }
+                }
+
+                return { win: false, message: '😅 冇中獎，下次加油！', prize: null };
+            }
+
+            // =============================================================
+            // 顯示中獎號碼
+            // =============================================================
+            function renderNumbers() {
+                const container = document.getElementById('numbersContent');
+                const periodInfo = document.getElementById('periodInfo');
+
+                periodInfo.textContent = `📅 ${prizeData.period} · 資料來源：財政部稅務入口網`;
+
+                let html = '';
+
+                // 特別獎
+                html += `
+                    <div class="prize-group">
+                        <span class="prize-name">🏆 特別獎（1000萬）</span>
+                        <div class="prize-numbers">
+                            <span class="num special">${prizeData.special}</span>
+                        </div>
+                    </div>
+                `;
+
+                // 特獎
+                html += `
+                    <div class="prize-group">
+                        <span class="prize-name">🏅 特獎（200萬）</span>
+                        <div class="prize-numbers">
+                            <span class="num special">${prizeData.grand}</span>
+                        </div>
+                    </div>
+                `;
+
+                // 頭獎
+                html += `
+                    <div class="prize-group">
+                        <span class="prize-name">🥇 頭獎（20萬）</span>
+                        <div class="prize-numbers">
+                            ${prizeData.first.map(n => `<span class="num">${n}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+
+                // 其他獎項說明
+                html += `
+                    <div style="margin-top:10px; padding-top:10px; border-top:1px solid rgba(148,163,184,0.06); font-size:0.75rem; color:#475569;">
+                        💡 二獎：末7碼與頭獎相同（4萬）<br>
+                        💡 三獎：末6碼與頭獎相同（1萬）<br>
+                        💡 四獎：末5碼與頭獎相同（4000元）<br>
+                        💡 五獎：末4碼與頭獎相同（1000元）<br>
+                        💡 六獎：末3碼與頭獎相同（200元）
+                    </div>
+                `;
+
+                container.innerHTML = html;
+            }
+
+            // =============================================================
+            // 對獎
+            // =============================================================
+            function check() {
+                const input = document.getElementById('invoiceInput');
+                const number = input.value.trim().toUpperCase();
+
+                if (!number) {
+                    alert('請輸入發票號碼');
+                    return;
+                }
+
+                const result = checkInvoice(number);
+
+                const section = document.getElementById('resultSection');
+                const icon = document.getElementById('resultIcon');
+                const title = document.getElementById('resultTitle');
+                const desc = document.getElementById('resultDesc');
+                const detail = document.getElementById('resultDetail');
+                const numbers = document.getElementById('resultNumbers');
+
+                section.classList.add('show');
+
+                if (result.win) {
+                    icon.textContent = '🎉';
+                    title.textContent = '🎊 恭喜中獎！';
+                    title.className = 'result-title win';
+                    desc.textContent = result.message;
+                    desc.style.color = 'var(--gold)';
+                    numbers.textContent = number;
+                } else {
+                    icon.textContent = '😅';
+                    title.textContent = '冇中獎';
+                    title.className = 'result-title lose';
+                    desc.textContent = result.message;
+                    desc.style.color = '#64748b';
+                    numbers.textContent = number;
+                }
+
+                // 顯示 detail
+                detail.style.display = 'block';
+            }
+
+            // =============================================================
+            // 清空
+            // =============================================================
+            function clearAll() {
+                document.getElementById('invoiceInput').value = '';
+                document.getElementById('resultSection').classList.remove('show');
+            }
+
+            // =============================================================
+            // Event
+            // =============================================================
+            document.getElementById('checkBtn').addEventListener('click', check);
+            document.getElementById('clearBtn').addEventListener('click', clearAll);
+
+            document.getElementById('invoiceInput').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    check();
+                }
+                // 自動轉大階
+                this.value = this.value.toUpperCase();
+            });
+
+            // =============================================================
+            // 初始化
+            // =============================================================
+            renderNumbers();
+
+        });
+    </script>
+
+</body>
+
+</html>

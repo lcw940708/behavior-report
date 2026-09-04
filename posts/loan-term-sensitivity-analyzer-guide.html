@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【貸款期數靈敏度分析器教學】每月供款 vs 總利息｜最佳貸款期數選擇｜Free Loan Term Sensitivity Analyzer Guide</title>
+    <meta name="description" content="貸款期數靈敏度分析器完整教學！比較 12-60 個月還款期對每月供款與總利息嘅影響，圖表化視覺分析幫你搵出最佳貸款方案。Free loan term sensitivity analyzer guide.">
+    <meta name="keywords" content="貸款期數分析, 貸款靈敏度, 每月供款計算, 總利息比較, Loan Term Sensitivity, 貸款選擇, 借貸規劃, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/loan-term-sensitivity-analyzer-guide.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="【貸款期數靈敏度分析器教學】每月供款 vs 總利息｜最佳貸款期數選擇｜Free Loan Term Sensitivity Analyzer Guide">
+    <meta property="og:description" content="比較 12-60 個月還款期對每月供款與總利息嘅影響，圖表化視覺分析幫你搵出最佳貸款方案。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/loan-term-sensitivity-analyzer-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Loan Term Sensitivity Analyzer Guide – Find Your Optimal Loan Term">
+    <meta name="twitter:description" content="Compare monthly payments vs total interest across 12-60 month terms with visual charts.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "貸款期數靈敏度分析器教學：每月供款 vs 總利息 — 最佳貸款期數選擇",
+      "description": "介紹如何使用貸款期數靈敏度分析器比較不同還款期數對每月供款與總利息的影響，適用於私人貸款、房貸、車貸的期數決策。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-amber: #f59e0b;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .insight-quote {
+            background: rgba(245, 158, 11, 0.05);
+            border-left: 4px solid var(--accent-amber);
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .insight-quote strong {
+            color: var(--accent-amber);
+        }
+
+        .insight-quote .story-highlight {
+            color: #cbd5e1;
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .insight-quote .emoji-highlight {
+            font-style: normal;
+        }
+
+        .cta-box {
+            background: rgba(245, 158, 11, 0.05);
+            border: 1px solid var(--accent-amber);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--accent-amber);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- ==================== 中文內容 ==================== -->
+    <div id="content-zh">
+        <h1>貸款期數靈敏度分析器教學：每月供款 vs 總利息 — 最佳貸款期數選擇</h1>
+
+        <h2>1. 導言</h2>
+        <p>你打算借 $30 萬，銀行俾你揀 <strong>12 個月、24 個月、36 個月、48 個月定 60 個月</strong>還款，你知唔知每個選擇會差幾多？<strong>還款期越短，每月供款越高，但總利息越少；還款期越長，每月供款越低，但總利息越多</strong>—呢個就係貸款期數嘅 <strong>「靈敏度」</strong>。我哋嘅免費貸款期數靈敏度分析器幫你輸入 <strong>貸款金額同 APR</strong>，即時以 <strong>圖表同數據表</strong> 比較 5 種常見還款期嘅 <strong>每月供款、總利息同總還款額</strong>。所有運算喺瀏覽器入面完成，數據唔會離開你嘅裝置，私隱 100% 安全。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p><strong>貸款期數（Loan Term）</strong> 係決定每月還款壓力同總利息成本嘅關鍵因素。主要概念包括：</p>
+        <ul>
+            <li><strong>每月供款（Monthly Payment）：</strong> 每期需要償還嘅固定金額，包含本金同利息部分。</li>
+            <li><strong>總利息支出（Total Interest）：</strong> 成個還款期內支付嘅所有利息總和。</li>
+            <li><strong>利息計算方式：</strong> 貸款利息按「剩餘本金」計算，期數越長，本金還得越慢，累積利息越多。</li>
+            <li><strong>靈敏度分析（Sensitivity Analysis）：</strong> 改變一個變數（還款期數）去觀察另一個變數（每月供款 / 總利息）嘅變化幅度。</li>
+            <li><strong>甜蜜點（Sweet Spot）：</strong> 每月供款同總利息之間嘅最佳平衡點，即「供款可以負擔，利息又唔會太貴」嘅期數。</li>
+        </ul>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>私人貸款期數選擇：</strong> 比較 12-60 個月嘅每月供款同總利息，搵出最啱自己嘅期數。</li>
+            <li><strong>買樓按揭規劃：</strong> 分析不同按揭年期（10/15/20/25/30 年）對供款同利息嘅影響。</li>
+            <li><strong>汽車貸款決策：</strong> 比較 24/36/48/60 個月車貸方案，平衡供款能力同總成本。</li>
+            <li><strong>債務整合評估：</strong> 將多筆高息貸款整合為一筆低息貸款時，選擇最合適嘅還款期。</li>
+            <li><strong>現金流規劃：</strong> 評估不同還款期對每月現金流同長期財務目標嘅影響。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>輸入基本資料：</strong>
+                <ul>
+                    <li>💰 貸款金額（Loan Amount）</li>
+                    <li>📊 實際年利率 APR（%）</li>
+                </ul>
+            </li>
+            <li><strong>即時分析：</strong> 輸入會自動更新結果，無需點擊按鈕。</li>
+            <li><strong>檢視圖表：</strong>
+                <ul>
+                    <li>📈 每月供款 vs 總利息 取捨關係圖</li>
+                    <li>🔵 藍色折線：每月供款變化趨勢</li>
+                    <li>🔴 紅色折線：總利息變化趨勢</li>
+                </ul>
+            </li>
+            <li><strong>檢視數據表：</strong>
+                <ul>
+                    <li>📊 5 種還款期嘅每月供款、總利息、總還款額</li>
+                    <li>📊 一目了然比較不同期數嘅成本差異</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站貸款期數靈敏度分析器</th>
+                    <th>銀行網站試算</th>
+                    <th>Excel 手動計算</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>通常免費</td>
+                    <td>需購買軟件</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>✅ 100% 本地處理</td>
+                    <td>⚠️ 可能記錄</td>
+                    <td>✅ 本地處理</td>
+                </tr>
+                <tr>
+                    <td><strong>計算速度</strong></td>
+                    <td>⚡ 即時</td>
+                    <td>⚡ 即時</td>
+                    <td>🐢 需設定公式</td>
+                </tr>
+                <tr>
+                    <td><strong>同時比較多種期數</strong></td>
+                    <td>✅ 5 種同時顯示</td>
+                    <td>❌ 通常逐次</td>
+                    <td>⚠️ 需逐一計算</td>
+                </tr>
+                <tr>
+                    <td><strong>可視化圖表</strong></td>
+                    <td>✅ 自動繪製</td>
+                    <td>❌ 通常無</td>
+                    <td>⚠️ 需手動</td>
+                </tr>
+                <tr>
+                    <td><strong>甜蜜點判斷</strong></td>
+                    <td>✅ 圖表直觀顯示</td>
+                    <td>❌ 需自行判斷</td>
+                    <td>⚠️ 需自行判斷</td>
+                </tr>
+                <tr>
+                    <td><strong>使用門檻</strong></td>
+                    <td>極低</td>
+                    <td>低</td>
+                    <td>中等</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p><span class="emoji-highlight">🏦</span> 我朋友阿強最近諗住借 $30 萬裝修屋企。銀行俾咗個 offer，APR 4.5%，<span class="story-highlight">可以揀 12 到 60 個月還款</span>。佢本來諗住揀 60 個月，因為 <strong>每月供款最平</strong>，$5,592 蚊就搞得掂。</p>
+            <p>但我叫佢 <strong>用呢個工具睇吓先</strong>。結果佢發現，雖然 60 個月每月只係 $5,592，但 <span class="story-highlight">總利息要成 $35,500</span>！如果佢揀 36 個月，每月供款 $8,955，但 <span class="story-highlight">總利息只係 $22,400</span>，足足 <strong>慳咗 $13,100</strong>。佢諗咗一陣，話：「<span class="story-highlight">每個月俾多 $3,363，但 3 年後就還清，仲慳咗萬幾蚊利息</span>」—最後佢揀咗 36 個月。</p>
+            <p><span class="emoji-highlight">📊</span> 呢個故事教識我哋：<span class="story-highlight">「每月供款平」唔代表「總成本平」</span>。延長還款期嘅代價就係 <strong>大量額外利息</strong>。呢個工具嘅圖表可以 <span class="story-highlight">一眼睇晒每月供款同總利息嘅「取捨關係」</span>—幫你 <strong>唔好淨係睇每月供款，要睇埋總成本</strong>。</p>
+            <p style="margin-top:10px; font-style:normal;">記住：<strong>貸款期數嘅選擇，就係喺「現金流」同「總成本」之間搵平衡。</strong> 用圖表睇清楚，先做決定。</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">📊 想知貸款揀幾多年最抵？即時做期數靈敏度分析！</h3>
+            <p style="margin:0; font-size:0.9rem;">輸入貸款金額同 APR，即時比較 5 種還款期嘅每月供款、總利息同總還款額，圖表化顯示取捨關係，完全免費且保護私隱。</p>
+            <a href="../tools/loan-term-sensitivity-analyzer.html?lang=hk" class="cta-btn-link" id="ctaBtnZh">👉 立即免費試用貸款期數靈敏度分析器</a>
+        </div>
+    </div>
+
+    <!-- ==================== 英文內容 ==================== -->
+    <div id="content-en" style="display: none;">
+        <h1>Loan Term Sensitivity Analyzer Guide: Monthly Payment vs Total Interest — Find Your Optimal Loan Term</h1>
+
+        <h2>1. Introduction</h2>
+        <p>You're planning to borrow $30,000, and the bank offers you <strong>12, 24, 36, 48, or 60 months</strong> to repay. Do you know how much difference each choice makes? <strong>Shorter terms mean higher monthly payments but lower total interest; longer terms mean lower monthly payments but higher total interest</strong>—this is the <strong>"sensitivity"</strong> of loan terms. Our free Loan Term Sensitivity Analyzer lets you enter <strong>loan amount and APR</strong> to instantly compare <strong>monthly payments, total interest, and total cost</strong> across 5 common loan terms, with <strong>visual charts and data tables</strong>. All processing happens in your browser—your data never leaves your device, ensuring 100% privacy.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p><strong>Loan Term</strong> is a key factor determining monthly repayment pressure and total interest cost. Key concepts include:</p>
+        <ul>
+            <li><strong>Monthly Payment:</strong> The fixed amount to repay each period, including both principal and interest.</li>
+            <li><strong>Total Interest:</strong> The sum of all interest payments over the entire repayment period.</li>
+            <li><strong>Interest Calculation:</strong> Loan interest is calculated on the "remaining principal." The longer the term, the slower principal is repaid, and the more interest accumulates.</li>
+            <li><strong>Sensitivity Analysis:</strong> Changing one variable (loan term) to observe the impact on another variable (monthly payment / total interest).</li>
+            <li><strong>Sweet Spot:</strong> The optimal balance between affordable monthly payments and reasonable total interest.</li>
+        </ul>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Personal Loan Term Selection:</strong> Compare monthly payments and total interest across 12-60 months to find the right term.</li>
+            <li><strong>Mortgage Planning:</strong> Analyze how different mortgage terms (10/15/20/25/30 years) affect payments and interest.</li>
+            <li><strong>Car Loan Decisions:</strong> Compare 24/36/48/60 month auto loan options—balance affordability and total cost.</li>
+            <li><strong>Debt Consolidation:</strong> Choose the optimal repayment term when consolidating multiple high-interest loans.</li>
+            <li><strong>Cash Flow Planning:</strong> Assess how different loan terms impact monthly cash flow and long-term financial goals.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Enter Basic Information:</strong>
+                <ul>
+                    <li>💰 Loan Amount</li>
+                    <li>📊 Annual Percentage Rate APR (%)</li>
+                </ul>
+            </li>
+            <li><strong>Calculate:</strong> Inputs auto-update results instantly—no button clicks needed.</li>
+            <li><strong>View Chart:</strong>
+                <ul>
+                    <li>📈 Monthly Payment vs Total Interest Trade-off Chart</li>
+                    <li>🔵 Blue line: Monthly payment trend</li>
+                    <li>🔴 Red line: Total interest trend</li>
+                </ul>
+            </li>
+            <li><strong>View Data Table:</strong>
+                <ul>
+                    <li>📊 Monthly payment, total interest, and total cost across 5 terms</li>
+                    <li>📊 Easy comparison of cost differences across terms</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Loan Term Analyzer (Us)</th>
+                    <th>Bank Calculators</th>
+                    <th>Excel Manual</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Usually Free</td>
+                    <td>Software Purchase</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ 100% Local</td>
+                    <td>⚠️ May track</td>
+                    <td>✅ Local</td>
+                </tr>
+                <tr>
+                    <td><strong>Speed</strong></td>
+                    <td>⚡ Instant</td>
+                    <td>⚡ Instant</td>
+                    <td>🐢 Formula setup</td>
+                </tr>
+                <tr>
+                    <td><strong>Multi-Term Comparison</strong></td>
+                    <td>✅ 5 terms at once</td>
+                    <td>❌ Usually one at a time</td>
+                    <td>⚠️ One by one</td>
+                </tr>
+                <tr>
+                    <td><strong>Visual Chart</strong></td>
+                    <td>✅ Auto-generated</td>
+                    <td>❌ Usually not</td>
+                    <td>⚠️ Manual</td>
+                </tr>
+                <tr>
+                    <td><strong>Sweet Spot Identification</strong></td>
+                    <td>✅ Intuitive chart</td>
+                    <td>❌ Manual judgment</td>
+                    <td>⚠️ Manual judgment</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>Low</td>
+                    <td>Medium</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p><span class="emoji-highlight">🏦</span> My friend Kevin recently wanted to borrow $30,000 for home renovations. The bank offered him an APR of 4.5%, with <span class="story-highlight">terms ranging from 12 to 60 months</span>. He was leaning toward 60 months because <strong>the monthly payment was the lowest</strong>—just $5,592.</p>
+            <p>But I told him to <strong>try this tool first</strong>. He discovered that while 60 months meant only $5,592 per month, <span class="story-highlight">the total interest would be $35,500</span>! If he chose 36 months, his monthly payment would be $8,955, but <span class="story-highlight">total interest would be just $22,400</span>—saving <strong>$13,100</strong>. He thought about it and said: "<span class="story-highlight">Paying an extra $3,363 per month means I'm debt-free in 3 years and save over $13,000 in interest.</span>" He chose 36 months.</p>
+            <p><span class="emoji-highlight">📊</span> This story taught us: <span class="story-highlight">"Low monthly payment" doesn't mean "low total cost."</span> Extending your loan term comes at the price of <strong>significant extra interest</strong>. This tool's chart helps you <span class="story-highlight">see the "trade-off" between monthly payments and total interest at a glance</span>—so you <strong>don't just look at monthly payments, but also the total cost</strong>.</p>
+            <p style="margin-top:10px; font-style:normal;">Remember: <strong>Choosing a loan term is about balancing "cash flow" and "total cost."</strong> Use the chart to see clearly before making a decision.</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">📊 Want to Find Your Optimal Loan Term? Run a Sensitivity Analysis Now!</h3>
+            <p style="margin:0; font-size:0.9rem;">Enter loan amount and APR for instant comparison of 5 terms—monthly payment, total interest, and total cost with visual charts. Completely free with privacy protection.</p>
+            <a href="../tools/loan-term-sensitivity-analyzer.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Loan Term Sensitivity Analyzer Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" id="footerHome">主頁</a> |
+        <a href="../blog.html" id="footerBlog">文章 Blog</a> |
+        <a href="../about.html" id="footerAbout">關於我</a> |
+        <a href="../privacy.html" id="footerPrivacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+// ============================================================
+// 語言切換邏輯
+// ============================================================
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtnZh = document.getElementById('ctaBtnZh');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+    const footerHome = document.getElementById('footerHome');
+    const footerBlog = document.getElementById('footerBlog');
+    const footerAbout = document.getElementById('footerAbout');
+    const footerPrivacy = document.getElementById('footerPrivacy');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtnZh.style.display = 'none';
+        ctaBtnEn.style.display = 'inline-block';
+        brandLink.href = `../index.html?lang=en`;
+        footerHome.textContent = "Home";
+        footerHome.href = `../index.html?lang=en`;
+        footerBlog.textContent = "Blog";
+        footerBlog.href = `../blog.html?lang=en`;
+        footerAbout.textContent = "About";
+        footerAbout.href = `../about.html?lang=en`;
+        footerPrivacy.textContent = "Privacy Policy";
+        footerPrivacy.href = `../privacy.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtnZh.style.display = 'inline-block';
+        ctaBtnEn.style.display = 'none';
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        footerHome.textContent = "主頁";
+        footerHome.href = `../index.html?lang=${targetLang}`;
+        footerBlog.textContent = "文章 Blog";
+        footerBlog.href = `../blog.html?lang=${targetLang}`;
+        footerAbout.textContent = "關於我";
+        footerAbout.href = `../about.html?lang=${targetLang}`;
+        footerPrivacy.textContent = "隱私權政策";
+        footerPrivacy.href = `../privacy.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

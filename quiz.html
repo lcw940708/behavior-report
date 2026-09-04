@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">2026 大數據智庫盲測中心</title>
+    <style>
+        :root { --bg-color: #0b0f19; --card-bg: #151d30; --text-color: #f3f4f6; --accent-green: #10b981; --accent-blue: #3b82f6; --border-color: #24324f; --glow-color: #06b6d4; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; box-sizing: border-box; }
+        .matrix-container { max-width: 600px; width: 100%; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 30px 25px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); box-sizing: border-box; }
+        .main-title { font-size: 1.5rem; color: #ffffff; text-align: center; margin-top: 0; margin-bottom: 8px; font-weight: 700; }
+        .sub-stat { font-size: 0.85rem; color: var(--accent-green); text-align: center; margin-bottom: 30px; font-family: monospace; }
+        .scenario-box { border: 2px solid var(--glow-color); border-radius: 12px; padding: 20px; background-color: rgba(6, 182, 212, 0.03); box-shadow: 0 0 15px rgba(6, 182, 212, 0.1); margin-bottom: 20px; }
+        .scenario-title { color: var(--glow-color); font-weight: bold; font-size: 1.05rem; margin-top: 0; margin-bottom: 12px; }
+        .scenario-text { font-size: 0.95rem; line-height: 1.6; color: #d1d5db; margin: 0; }
+        .prompt-text { font-size: 0.85rem; color: #9ca3af; margin-top: 25px; margin-bottom: 15px; }
+        .options-group { display: flex; flex-direction: column; gap: 15px; }
+        .option-btn { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-radius: 12px; text-decoration: none; color: #ffffff; font-size: 0.95rem; font-weight: 500; transition: all 0.2s ease; cursor: pointer; text-align: left; background-color: rgba(36, 50, 79, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); width: 100%; box-sizing: border-box;}
+        .option-btn:hover { border-color: var(--accent-blue); background-color: rgba(59, 130, 246, 0.08); transform: translateY(-2px); box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
+        .btn-icon { font-size: 1.2rem; flex-shrink: 0; }
+        .lang-switch { text-align: center; margin-bottom: 20px; }
+        .lang-switch a { color: var(--accent-cyan); text-decoration: none; margin: 0 10px; font-size: 0.9rem; }
+        .lang-switch a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="matrix-container">
+    <!-- 🆕 語言切換按鈕 -->
+    <div class="lang-switch">
+        <a href="#" id="lang-hk">🇭🇰 港版</a> | <a href="#" id="lang-tw">🇹🇼 台版</a>
+    </div>
+
+    <h1 class="main-title" id="main-title">ABRG 大數據智庫盲測中心</h1>
+<div class="sub-stat" id="sub-stat">CONNECTING OBSERVED DATA CHANNELS SECURE...</div>    <div class="scenario-box">
+        <h2 class="scenario-title" id="scenario-title">正在連線字庫...</h2>
+        <p class="scenario-text" id="scenario-text">正在讀取大數據臨床特徵...</p>
+    </div>
+    <p class="prompt-text" id="prompt-text">基於你的第一直覺，作法隨點擊下方選擇：</p>
+    <div class="options-group" id="options-box"></div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let quizId = urlParams.get('id') || '01';
+    
+    // 🆕 讀取語言參數，預設為 hk
+    let lang = urlParams.get('lang') || 'hk';
+    if (lang !== 'hk' && lang !== 'tw') lang = 'hk';
+
+    // 🆕 更新語言切換連結
+    document.getElementById('lang-hk').href = `?id=${quizId}&lang=hk`;
+    document.getElementById('lang-tw').href = `?id=${quizId}&lang=tw`;
+
+    fetch("https://api.github.com/gists/b157b49b782bb7cfa244492d768288d7") 
+    .then(res => res.json())
+    .then(raw => {
+        const files = raw.files;
+        const firstKey = Object.keys(files)[0];
+        const config = JSON.parse(files[firstKey].content);
+        const quizData = config[quizId];
+        if (!quizData) {
+            document.getElementById("scenario-text").innerText = "404：話題尚未解鎖。";
+            return;
+        }
+
+        // 🆕 根據語言選取對應的 field
+        const pageTitle = quizData['pageTitle_' + lang] || quizData.pageTitle_hk;
+        const mainTitle = quizData['mainTitle_' + lang] || quizData.mainTitle_hk;
+        const title = quizData['title_' + lang] || quizData.title_hk;
+        const text = quizData['text_' + lang] || quizData.text_hk;
+
+        document.title = pageTitle;
+        document.getElementById("main-title").innerText = mainTitle;
+        document.getElementById("scenario-title").innerText = title;
+        document.getElementById("scenario-text").innerText = text;
+
+        const optionsBox = document.getElementById("options-box");
+        optionsBox.innerHTML = "";
+
+        quizData.options.forEach(opt => {
+            // 🆕 根據語言選取選項文字
+            const strong = opt['strong_' + lang] || opt.strong_hk;
+            const text = opt['text_' + lang] || opt.text_hk;
+            
+            let btn = document.createElement("button");
+            btn.className = "option-btn";
+            btn.innerHTML = `<span class="btn-icon">${opt.icon}</span><span><strong>${strong}</strong>${text}</span>`;
+            btn.onclick = function() {
+                let safeAns = opt.val.toUpperCase();
+                // 🆕 將語言參數傳遞到 advice.html
+                window.location.href = `advice.html?id=${quizId}&ans=${safeAns}&lang=${lang}`;
+            };
+            optionsBox.appendChild(btn);
+        });
+    }).catch(err => {
+        document.getElementById("scenario-text").innerText = "安全通道連線超時，請重新刷新網頁。";
+    });
+});
+</script>
+
+<footer style="text-align: center; margin-top: 60px; padding-bottom: 30px; font-size: 11px; color: #555; font-family: sans-serif; letter-spacing: 0.5px;">
+    <a href="index.html" style="color: #555; text-decoration: none; margin: 0 8px;">主頁</a> |
+    <a href="story_01.html" style="color: #555; text-decoration: none; margin: 0 8px;">情感連載 01</a> | 
+    <a href="story_02.html" style="color: #555; text-decoration: none; margin: 0 8px;">職場連載 02</a> | 
+    <a href="story_03.html" style="color: #555; text-decoration: none; margin: 0 8px;">社畜連載 03</a> | 
+    <a href="story_04.html" style="color: #555; text-decoration: none; margin: 0 8px;">星座黑化 04</a> | 
+    <a href="story_05.html" style="color: #555; text-decoration: none; margin: 0 8px;">已讀不回 05</a> | 
+    <a href="about.html" style="color: #555; text-decoration: none; margin: 0 8px;">關於我</a> |
+    <a href="contact.html" style="color: #555; text-decoration: none; margin: 0 8px;">聯絡我們</a> |
+    <a href="privacy.html" style="color: #555; text-decoration: none; margin: 0 8px;">隱私權政策</a>
+</footer>
+
+</body>
+</html>

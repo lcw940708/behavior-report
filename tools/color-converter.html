@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>顏色轉換器 — HEX / RGB / HSL 即時互轉｜ABRG 免費工具</title>
+    <meta name="description" content="免費顏色轉換器，支援 HEX、RGB、HSL 即時互轉，設計師開發者必備。純前端處理。" />
+    <link rel="canonical" href="https://www.behavior-report.com/tools/color-converter.html" />
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #151d30;
+            --text: #94a3b8;
+            --text-light: #cbd5e1;
+            --cyan: #22d3ee;
+            --cyan-hover: #67e8f9;
+            --border: #24324f;
+            --green: #10b981;
+            --red: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 780px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .lang-switch {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .lang-switch a {
+            color: var(--cyan);
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .lang-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .tool-title .emoji {
+            font-size: 1.8rem;
+        }
+
+        .tool-sub {
+            text-align: center;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin: 10px 0 25px;
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--cyan);
+        }
+
+        /* ===== 顏色預覽 ===== */
+        .color-preview {
+            width: 100%;
+            height: 80px;
+            border-radius: 10px;
+            border: 2px solid var(--border);
+            margin-bottom: 20px;
+            transition: background 0.15s;
+            background: #22d3ee;
+        }
+
+        /* ===== 輸入區 ===== */
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 8px 14px;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .input-group:focus-within {
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.08);
+        }
+
+        .input-group .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-weight: bold;
+            min-width: 40px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-group .label .format-label {
+            font-size: 0.6rem;
+            font-weight: normal;
+            color: #475569;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 10px 6px;
+            border: none;
+            background: transparent;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-family: 'Courier New', monospace;
+            outline: none;
+            min-width: 80px;
+        }
+
+        .input-group input::placeholder {
+            color: #475569;
+        }
+
+        .input-group .copy-btn {
+            padding: 4px 12px;
+            border-radius: 4px;
+            border: none;
+            background: rgba(34, 211, 238, 0.06);
+            color: var(--text);
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .input-group .copy-btn:hover {
+            background: rgba(34, 211, 238, 0.12);
+            color: var(--cyan);
+        }
+
+        .input-group .copy-btn.copied {
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--green);
+        }
+
+        /* ===== 色板 ===== */
+        .palette-section {
+            margin-top: 16px;
+            padding: 16px;
+            background: var(--bg);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .palette-section .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 6px;
+        }
+
+        .palette-grid .color-swatch {
+            aspect-ratio: 1;
+            border-radius: 6px;
+            border: 2px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .palette-grid .color-swatch:hover {
+            transform: scale(1.05);
+            border-color: var(--cyan);
+            z-index: 1;
+        }
+
+        .palette-grid .color-swatch .tooltip {
+            position: absolute;
+            bottom: 110%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--card);
+            color: var(--text-light);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.6rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            border: 1px solid var(--border);
+        }
+
+        .palette-grid .color-swatch:hover .tooltip {
+            opacity: 1;
+        }
+
+        /* ===== 按鈕 ===== */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-primary {
+            background: var(--cyan);
+            color: #0b0f19;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background: var(--cyan-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        .btn-outline:hover:not(:disabled) {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        /* ===== Story suggest ===== */
+        .story-suggest {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.08);
+        }
+
+        .story-suggest .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .story-suggest .items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .story-suggest .items a {
+            background: rgba(36, 50, 79, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .story-suggest .items a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        .other-tools {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .other-tools a {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #fca5a5;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .other-tools a:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.04);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #555;
+        }
+
+        footer a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+
+        footer a:hover {
+            color: #888;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 18px;
+            }
+
+            .input-group {
+                flex-wrap: wrap;
+                padding: 8px 12px;
+            }
+
+            .input-group .label {
+                min-width: 30px;
+                font-size: 0.65rem;
+            }
+
+            .input-group input {
+                font-size: 0.85rem;
+                padding: 8px 4px;
+            }
+
+            .btn {
+                flex: none;
+                width: 100%;
+            }
+
+            .palette-grid {
+                grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="lang-switch">
+            <a onclick="switchLang('hk')">🇭🇰 港版</a> |
+            <a onclick="switchLang('tw')">🇹🇼 台版</a> |
+            <a onclick="switchLang('en')">🇬🇧 English</a>
+        </div>
+
+        <h1 class="tool-title" id="toolTitle"><span class="emoji">🎨</span> 顏色轉換器</h1>
+        <p class="tool-sub" id="toolSub">HEX / RGB / HSL 即時互轉 · 設計師開發者必備</p>
+
+        <div class="badge-row">
+            <span class="badge" id="badge1">🎨 HEX / RGB / HSL</span>
+            <span class="badge" id="badge2">⚡ 即時轉換</span>
+            <span class="badge" id="badge3">📋 一鍵複製</span>
+            <span class="badge" id="badge4">🆓 完全免費</span>
+        </div>
+
+        <!-- ===== 顏色預覽 ===== -->
+        <div class="color-preview" id="colorPreview" style="background:#22d3ee;"></div>
+
+        <!-- ===== 輸入區 ===== -->
+        <div class="input-section">
+            <div class="input-group">
+                <span class="label">HEX</span>
+                <input type="text" id="hexInput" placeholder="#22d3ee" value="#22d3ee" />
+                <button class="copy-btn" data-target="hex">📋 複製</button>
+            </div>
+            <div class="input-group">
+                <span class="label">RGB</span>
+                <input type="text" id="rgbInput" placeholder="rgb(34, 211, 238)" value="rgb(34, 211, 238)" />
+                <button class="copy-btn" data-target="rgb">📋 複製</button>
+            </div>
+            <div class="input-group">
+                <span class="label">HSL</span>
+                <input type="text" id="hslInput" placeholder="hsl(187, 86%, 53%)" value="hsl(187, 86%, 53%)" />
+                <button class="copy-btn" data-target="hsl">📋 複製</button>
+            </div>
+        </div>
+
+        <!-- ===== 色板 ===== -->
+        <div class="palette-section">
+            <div class="label" id="paletteLabel">🎨 色板（點擊選色）</div>
+            <div class="palette-grid" id="paletteGrid"></div>
+        </div>
+
+        <!-- ===== 按鈕 ===== -->
+        <div class="btn-group">
+            <button class="btn btn-outline" id="randomBtn">🎲 <span id="randomText">隨機顏色</span></button>
+            <button class="btn btn-outline" id="resetBtn">↩️ <span id="resetText">重設</span></button>
+        </div>
+
+        <!-- ===== Story suggest ===== -->
+        <div class="story-suggest">
+            <div class="label" id="storyLabel">📖 你可能會中意嘅連載或測驗</div>
+            <div class="items">
+                <a href="../story_01.html">《你睡著以後》</a>
+                <a href="../story_02.html">《貓狗人格》</a>
+                <a href="../quiz-01.html">隱私天平</a>
+                <a href="../index.html">🏠 返回主頁</a>
+            </div>
+            <div class="other-tools">
+                <span style="font-size:0.75rem;color:#64748b;align-self:center;" id="otherToolsLabel">🔧 其他工具：</span>
+                <a href="color-picker.html">🎨 顏色選取器</a>
+                <a href="resize-image.html">📐 圖片縮放</a>
+                <a href="crop-image.html">✂️ 圖片裁剪</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="../index.html">主頁</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+    </footer>
+
+    <script>
+        // =============================================================
+        // 語言文字
+        // =============================================================
+        const texts = {
+            hk: {
+                title: '🎨 顏色轉換器',
+                sub: 'HEX / RGB / HSL 即時互轉 · 設計師開發者必備',
+                badge1: '🎨 HEX / RGB / HSL',
+                badge2: '⚡ 即時轉換',
+                badge3: '📋 一鍵複製',
+                badge4: '🆓 完全免費',
+                storyLabel: '📖 你可能會中意嘅連載或測驗',
+                otherTools: '🔧 其他工具：',
+                paletteLabel: '🎨 色板（點擊選色）',
+                random: '🎲 隨機顏色',
+                reset: '↩️ 重設',
+                copied: '✅ 已複製！',
+                invalid: '❌ 無效'
+            },
+            tw: {
+                title: '🎨 顏色轉換器',
+                sub: 'HEX / RGB / HSL 即時互轉 · 設計師開發者必備',
+                badge1: '🎨 HEX / RGB / HSL',
+                badge2: '⚡ 即時轉換',
+                badge3: '📋 一鍵複製',
+                badge4: '🆓 完全免費',
+                storyLabel: '📖 你可能會喜歡的連載或測驗',
+                otherTools: '🔧 其他工具：',
+                paletteLabel: '🎨 色板（點擊選色）',
+                random: '🎲 隨機顏色',
+                reset: '↩️ 重設',
+                copied: '✅ 已複製！',
+                invalid: '❌ 無效'
+            },
+            en: {
+                title: '🎨 Color Converter',
+                sub: 'HEX / RGB / HSL instant conversion · Designer & Developer essential',
+                badge1: '🎨 HEX / RGB / HSL',
+                badge2: '⚡ Instant Convert',
+                badge3: '📋 One-click Copy',
+                badge4: '🆓 Free',
+                storyLabel: '📖 You might also like',
+                otherTools: '🔧 Other Tools:',
+                paletteLabel: '🎨 Palette (click to select)',
+                random: '🎲 Random Color',
+                reset: '↩️ Reset',
+                copied: '✅ Copied!',
+                invalid: '❌ Invalid'
+            }
+        };
+
+        let lang = 'hk';
+
+        // =============================================================
+        // DOM refs
+        // =============================================================
+        const langBtns = document.querySelectorAll('.lang-switch a');
+        const toolTitle = document.getElementById('toolTitle');
+        const toolSub = document.getElementById('toolSub');
+        const badge1 = document.getElementById('badge1');
+        const badge2 = document.getElementById('badge2');
+        const badge3 = document.getElementById('badge3');
+        const badge4 = document.getElementById('badge4');
+        const storyLabel = document.getElementById('storyLabel');
+        const otherToolsLabel = document.getElementById('otherToolsLabel');
+        const paletteLabel = document.getElementById('paletteLabel');
+        const randomText = document.getElementById('randomText');
+        const resetText = document.getElementById('resetText');
+
+        const hexInput = document.getElementById('hexInput');
+        const rgbInput = document.getElementById('rgbInput');
+        const hslInput = document.getElementById('hslInput');
+        const colorPreview = document.getElementById('colorPreview');
+        const paletteGrid = document.getElementById('paletteGrid');
+        const randomBtn = document.getElementById('randomBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const copyBtns = document.querySelectorAll('.copy-btn');
+
+        let isUpdating = false;
+
+        // =============================================================
+        // 語言切換
+        // =============================================================
+        function switchLang(l) {
+            lang = l;
+            const t = texts[l];
+
+            toolTitle.innerHTML = t.title;
+            toolSub.innerText = t.sub;
+            badge1.innerText = t.badge1;
+            badge2.innerText = t.badge2;
+            badge3.innerText = t.badge3;
+            badge4.innerText = t.badge4;
+            storyLabel.innerText = t.storyLabel;
+            otherToolsLabel.innerText = t.otherTools;
+            paletteLabel.innerText = t.paletteLabel;
+            randomText.innerText = t.random;
+            resetText.innerText = t.reset;
+
+            document.querySelectorAll('.story-suggest .items a, .other-tools a').forEach(a => {
+                try {
+                    const url = new URL(a.href);
+                    url.searchParams.set('lang', l);
+                    a.href = url.toString();
+                } catch (e) {}
+            });
+        }
+
+        function detectLanguage() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('lang') === 'en') return 'en';
+            if (params.get('lang') === 'tw') return 'tw';
+            if (params.get('lang') === 'hk') return 'hk';
+            const userLang = navigator.language || navigator.userLanguage;
+            if (userLang.startsWith('en')) return 'en';
+            if (userLang.includes('zh')) {
+                if (userLang.includes('TW') || userLang.includes('tw')) return 'tw';
+                return 'hk';
+            }
+            return 'hk';
+        }
+
+        langBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const l = this.textContent.includes('English') ? 'en' :
+                    this.textContent.includes('台') ? 'tw' : 'hk';
+                switchLang(l);
+            });
+        });
+
+        // =============================================================
+        // 顏色轉換函數
+        // =============================================================
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        function rgbToHex(r, g, b) {
+            return '#' + [r, g, b].map(c => {
+                const hex = Math.round(c).toString(16);
+                return hex.length === 1 ? '0' + hex : hex;
+            }).join('');
+        }
+
+        function rgbToHsl(r, g, b) {
+            r /= 255;
+            g /= 255;
+            b /= 255;
+            const max = Math.max(r, g, b);
+            const min = Math.min(r, g, b);
+            let h, s, l = (max + min) / 2;
+
+            if (max === min) {
+                h = s = 0;
+            } else {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                    case r:
+                        h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+                        break;
+                    case g:
+                        h = ((b - r) / d + 2) / 6;
+                        break;
+                    case b:
+                        h = ((r - g) / d + 4) / 6;
+                        break;
+                }
+            }
+
+            return {
+                h: Math.round(h * 360),
+                s: Math.round(s * 100),
+                l: Math.round(l * 100)
+            };
+        }
+
+        function hslToRgb(h, s, l) {
+            h /= 360;
+            s /= 100;
+            l /= 100;
+            let r, g, b;
+
+            if (s === 0) {
+                r = g = b = l;
+            } else {
+                const hue2rgb = (p, q, t) => {
+                    if (t < 0) t += 1;
+                    if (t > 1) t -= 1;
+                    if (t < 1 / 6) return p + (q - p) * 6 * t;
+                    if (t < 1 / 2) return q;
+                    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+                    return p;
+                };
+                const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                const p = 2 * l - q;
+                r = hue2rgb(p, q, h + 1 / 3);
+                g = hue2rgb(p, q, h);
+                b = hue2rgb(p, q, h - 1 / 3);
+            }
+
+            return {
+                r: Math.round(r * 255),
+                g: Math.round(g * 255),
+                b: Math.round(b * 255)
+            };
+        }
+
+        function parseRgb(str) {
+            const match = str.match(/rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/i);
+            if (match) {
+                return { r: parseInt(match[1]), g: parseInt(match[2]), b: parseInt(match[3]) };
+            }
+            return null;
+        }
+
+        function parseHsl(str) {
+            const match = str.match(/hsl\(\s*(\d+)\s*,\s*(\d+)%\s*,\s*(\d+)%\s*\)/i);
+            if (match) {
+                return { h: parseInt(match[1]), s: parseInt(match[2]), l: parseInt(match[3]) };
+            }
+            return null;
+        }
+
+        // =============================================================
+        // 更新 UI
+        // =============================================================
+        function updateFromHex(hex) {
+            if (isUpdating) return;
+            isUpdating = true;
+
+            const rgb = hexToRgb(hex);
+            if (!rgb) {
+                isUpdating = false;
+                return;
+            }
+
+            const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+
+            rgbInput.value = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+            hslInput.value = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+            colorPreview.style.background = hex;
+
+            isUpdating = false;
+        }
+
+        function updateFromRgb(str) {
+            if (isUpdating) return;
+            isUpdating = true;
+
+            const rgb = parseRgb(str);
+            if (!rgb) {
+                isUpdating = false;
+                return;
+            }
+
+            const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
+            const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+
+            hexInput.value = hex;
+            hslInput.value = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+            colorPreview.style.background = hex;
+
+            isUpdating = false;
+        }
+
+        function updateFromHsl(str) {
+            if (isUpdating) return;
+            isUpdating = true;
+
+            const hsl = parseHsl(str);
+            if (!hsl) {
+                isUpdating = false;
+                return;
+            }
+
+            const rgb = hslToRgb(hsl.h, hsl.s, hsl.l);
+            const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
+
+            hexInput.value = hex;
+            rgbInput.value = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+            colorPreview.style.background = hex;
+
+            isUpdating = false;
+        }
+
+        function updateAll() {
+            // 由 HEX 做主
+            const hex = hexInput.value.trim();
+            if (hex.match(/^#?[a-f\d]{6}$/i)) {
+                const fullHex = hex.startsWith('#') ? hex : '#' + hex;
+                updateFromHex(fullHex);
+                if (!hex.startsWith('#')) {
+                    hexInput.value = fullHex;
+                }
+            } else {
+                // Try RGB
+                const rgb = parseRgb(rgbInput.value);
+                if (rgb) {
+                    updateFromRgb(rgbInput.value);
+                    return;
+                }
+                // Try HSL
+                const hsl = parseHsl(hslInput.value);
+                if (hsl) {
+                    updateFromHsl(hslInput.value);
+                    return;
+                }
+            }
+        }
+
+        // =============================================================
+        // 色板
+        // =============================================================
+        const presetColors = [
+            '#22d3ee', '#ef4444', '#f97316', '#eab308', '#22c55e',
+            '#3b82f6', '#8b5cf6', '#ec4899', '#14b8a6', '#f472b6',
+            '#6b7280', '#1e293b', '#f8fafc', '#fcd34d', '#a78bfa',
+            '#34d399', '#f87171', '#60a5fa', '#fb923c', '#e879f9'
+        ];
+
+        function renderPalette() {
+            paletteGrid.innerHTML = '';
+            presetColors.forEach(color => {
+                const swatch = document.createElement('div');
+                swatch.className = 'color-swatch';
+                swatch.style.background = color;
+                swatch.innerHTML = `<span class="tooltip">${color}</span>`;
+                swatch.addEventListener('click', function() {
+                    hexInput.value = color;
+                    updateFromHex(color);
+                    // Highlight
+                    document.querySelectorAll('.color-swatch').forEach(s => s.style.outline = 'none');
+                    this.style.outline = '2px solid var(--cyan)';
+                    setTimeout(() => {
+                        this.style.outline = 'none';
+                    }, 1000);
+                });
+                paletteGrid.appendChild(swatch);
+            });
+        }
+
+        // =============================================================
+        // 複製
+        // =============================================================
+        copyBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const target = this.dataset.target;
+                let text = '';
+                if (target === 'hex') text = hexInput.value;
+                else if (target === 'rgb') text = rgbInput.value;
+                else if (target === 'hsl') text = hslInput.value;
+
+                if (!text || text.includes('無效') || text.includes('Invalid')) return;
+
+                navigator.clipboard.writeText(text).then(() => {
+                    const original = this.textContent;
+                    const t = texts[lang];
+                    this.textContent = t.copied;
+                    this.classList.add('copied');
+                    setTimeout(() => {
+                        this.textContent = original;
+                        this.classList.remove('copied');
+                    }, 2000);
+                }).catch(() => {
+                    const textarea = document.createElement('textarea');
+                    textarea.value = text;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    const original = this.textContent;
+                    const t = texts[lang];
+                    this.textContent = t.copied;
+                    this.classList.add('copied');
+                    setTimeout(() => {
+                        this.textContent = original;
+                        this.classList.remove('copied');
+                    }, 2000);
+                });
+            });
+        });
+
+        // =============================================================
+        // 隨機顏色
+        // =============================================================
+        function randomColor() {
+            const hex = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+            hexInput.value = hex;
+            updateFromHex(hex);
+        }
+
+        // =============================================================
+        // 重設
+        // =============================================================
+        function resetColor() {
+            hexInput.value = '#22d3ee';
+            updateFromHex('#22d3ee');
+        }
+
+        // =============================================================
+        // Events
+        // =============================================================
+        hexInput.addEventListener('input', function() {
+            const val = this.value.trim();
+            if (val.match(/^#?[a-f\d]{6}$/i)) {
+                const hex = val.startsWith('#') ? val : '#' + val;
+                if (hex.length === 7) updateFromHex(hex);
+            }
+        });
+
+        rgbInput.addEventListener('input', function() {
+            const rgb = parseRgb(this.value);
+            if (rgb) updateFromRgb(this.value);
+        });
+
+        hslInput.addEventListener('input', function() {
+            const hsl = parseHsl(this.value);
+            if (hsl) updateFromHsl(this.value);
+        });
+
+        randomBtn.addEventListener('click', randomColor);
+        resetBtn.addEventListener('click', resetColor);
+
+        // =============================================================
+        // Init
+        // =============================================================
+        const detectedLang = detectLanguage();
+        switchLang(detectedLang);
+        renderPalette();
+
+        // 初始顏色
+        hexInput.value = '#22d3ee';
+        updateFromHex('#22d3ee');
+    </script>
+
+</body>
+</html>

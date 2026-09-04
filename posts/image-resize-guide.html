@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【免費圖片縮放工具教學】調整圖片尺寸、保持比例｜Free Image Resizer Guide</title>
+    <meta name="description" content="免費且安全的線上圖片縮放工具！自訂圖片尺寸、保持長寬比例、即時預覽，純前端運算保護圖片私隱。適用於網頁設計、社交媒體貼文、產品圖片優化。Free online image resizer guide.">
+    <meta name="keywords" content="圖片縮放, 調整圖片尺寸, 圖片大小調整, 保持比例縮放, 免費圖片縮放工具, Image Resizer, Resize Image Online, Free Image Resizer, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/image-resize-guide.html">
+
+    <!-- Open Graph (社交媒體優化) -->
+    <meta property="og:title" content="【免費圖片縮放工具教學】調整圖片尺寸、保持比例 — Image Resizer Guide">
+    <meta property="og:description" content="100% 純前端運算！教你免費調整圖片尺寸，保持長寬比例，適用於網頁設計與社交媒體。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/image-resize-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Image Resizer Guide – Resize Images Online">
+    <meta name="twitter:description" content="Learn how to resize images online with custom dimensions while keeping aspect ratio, with 100% client-side privacy.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "免費圖片縮放工具教學：調整圖片尺寸、保持比例",
+      "description": "介紹如何使用純前端技術嘅圖片縮放工具，適用於網頁設計、社交媒體貼文與產品圖片優化。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- 中文內容區塊 -->
+    <div id="content-zh">
+        <h1>免費圖片縮放工具教學：調整圖片尺寸、保持比例</h1>
+
+        <h2>1. 導言</h2>
+        <p>無論你係要將產品圖片調整到網店要求嘅尺寸、製作社交媒體貼文時需要特定比例，定係想縮小圖片檔案方便傳送，圖片縮放都係最常用嘅功能之一。但市面上好多縮放工具一係要下載軟件，一係要將圖片上傳到雲端伺服器，私隱風險高。我哋嘅免費線上圖片縮放工具專為解決呢啲問題而設：自訂寬度高度、保持長寬比例、即時預覽結果，而且 100% 純前端運算，圖片唔會離開你嘅瀏覽器。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p>圖片縮放（Image Resizing）係指改變圖片嘅尺寸（寬度同高度），同時保持或調整圖片嘅外觀比例。呢個操作喺數位內容製作中非常常見，例如將高解析度相機照片縮小到適合網站使用嘅尺寸。</p>
+        <p>縮放時最重要嘅概念係「長寬比例」（Aspect Ratio）——即圖片寬度與高度嘅比例關係。如果唔保持比例，圖片會被拉伸或壓扁，導致變形。我哋嘅工具採用 HTML5 Canvas 技術，支援「保持比例」功能，確保縮放後嘅圖片唔會變形，所有運算喺你嘅瀏覽器內完成，圖片由頭到尾都唔會離開你嘅裝置。</p>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>網頁設計與開發：</strong>將圖片調整到網站佈局所需嘅尺寸，保持加載速度同視覺一致性。</li>
+            <li><strong>社交媒體貼文製作：</strong>將圖片調整到 Instagram、Facebook、YouTube 等平台嘅推薦尺寸。</li>
+            <li><strong>產品圖片優化：</strong>將高解析度產品相縮小到電商平台要求嘅尺寸，同時保持清晰度。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>上傳圖片：</strong>點擊或拖曳上傳 JPG、PNG 或 WebP 圖片。</li>
+            <li><strong>設定尺寸：</strong>輸入你想要嘅寬度或高度，系統會自動計算另一邊（如果開啟「保持比例」）。</li>
+            <li><strong>縮放圖片：</strong>點擊「縮放圖片」按鈕，系統會即時生成縮放後嘅圖片。</li>
+            <li><strong>下載結果：</strong>預覽無誤後點擊「下載圖片」，即可儲存 PNG 檔案。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站前端工具</th>
+                    <th>Photoshop 縮放</th>
+                    <th>其他線上工具</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>昂貴訂閱或一次性購買</td>
+                    <td>免費但有廣告或限制</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>100% 本地處理</td>
+                    <td>高（本地軟件）</td>
+                    <td>低（需上傳伺服器）</td>
+                </tr>
+                <tr>
+                    <td><strong>保持比例</strong></td>
+                    <td>✅ 一鍵鎖定</td>
+                    <td>✅ 支援</td>
+                    <td>❌ 通常不支援</td>
+                </tr>
+                <tr>
+                    <td><strong>即時預覽</strong></td>
+                    <td>✅ 前後對比</td>
+                    <td>✅ 支援</td>
+                    <td>❌ 通常不支援</td>
+                </tr>
+                <tr>
+                    <td><strong>學習曲線</strong></td>
+                    <td>極低（輸入數字即可）</td>
+                    <td>高（需學習工具）</td>
+                    <td>中等</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「之前做網店嘅時候，成日要將產品相調整到統一尺寸。以前用 Photoshop 逐張開嚟改，仲要記住每張相嘅比例，好花時間。後來用咗呢個圖片縮放工具，上傳相片之後輸入想要嘅寬度，保持比例功能會自動計高度，一鍵就搞掂。對於成日要處理大量圖片嘅人嚟講，呢個工具真係幫到手。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ 需要調整圖片尺寸但唔想裝軟件？</h3>
+            <p style="margin:0; font-size:0.9rem;">自訂寬度高度、保持比例、即時預覽，完全免費且保護私隱。</p>
+            <a href="../tools/resize-image.html" class="cta-btn-link" id="ctaBtn">👉 立即免費試用圖片縮放工具</a>
+        </div>
+    </div>
+
+    <!-- English Content Section -->
+    <div id="content-en" style="display: none;">
+        <h1>Free Image Resizer Guide: Resize Images Online with Custom Dimensions</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Whether you need to adjust product images to e-commerce requirements, create social media posts with specific dimensions, or reduce image file sizes for sharing, image resizing is an essential tool. Many resizing tools either require software installation or upload your images to cloud servers—creating privacy risks. Our free online image resizer solves these problems: custom width and height, keep aspect ratio, instant preview, and 100% client-side processing.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p>Image resizing changes the dimensions (width and height) of an image while maintaining or adjusting its appearance. This is a common operation in digital content creation, such as downsizing high-resolution camera photos for web use.</p>
+        <p>The key concept in resizing is "Aspect Ratio"—the proportional relationship between width and height. Without maintaining aspect ratio, images become stretched or squashed, causing distortion. Our tool leverages HTML5 Canvas technology with a "Keep Aspect Ratio" feature—all processing happens locally in your browser, and your images never leave your device.</p>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Web Design & Development:</strong> Resize images to match website layouts while maintaining loading speed and visual consistency.</li>
+            <li><strong>Social Media Posts:</strong> Adjust images to recommended sizes for Instagram, Facebook, and YouTube.</li>
+            <li><strong>Product Image Optimization:</strong> Downsize high-resolution product photos to e-commerce platform requirements while preserving clarity.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Upload Image:</strong> Click or drag-and-drop JPG, PNG, or WebP images.</li>
+            <li><strong>Set Dimensions:</strong> Enter your desired width or height—the other dimension auto-calculates when "Keep Ratio" is enabled.</li>
+            <li><strong>Resize Image:</strong> Click "Resize Image" to generate the resized version instantly.</li>
+            <li><strong>Download Result:</strong> Preview and click "Download Image" to save as PNG.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Client-Side Tool (Us)</th>
+                    <th>Photoshop</th>
+                    <th>Other Online Tools</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Expensive</td>
+                    <td>Freemium / Ads</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>100% Local Processing</td>
+                    <td>High (Local)</td>
+                    <td>Low (Server Upload)</td>
+                </tr>
+                <tr>
+                    <td><strong>Keep Aspect Ratio</strong></td>
+                    <td>✅ One-Click Lock</td>
+                    <td>✅ Supported</td>
+                    <td>❌ Usually Not</td>
+                </tr>
+                <tr>
+                    <td><strong>Instant Preview</strong></td>
+                    <td>✅ Before/After</td>
+                    <td>✅ Supported</td>
+                    <td>❌ Usually Not</td>
+                </tr>
+                <tr>
+                    <td><strong>Ease of Use</strong></td>
+                    <td>Very Low</td>
+                    <td>High (Skill Required)</td>
+                    <td>Medium</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"When I was running an online store, I used to resize product images to uniform dimensions in Photoshop—each image took time, and I had to remember aspect ratios manually. Now I upload the image, enter the desired width, and the tool auto-calculates the height with the keep-ratio feature. For anyone handling bulk images, this tool is a lifesaver."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ Need to Resize Images Without Software?</h3>
+            <p style="margin:0; font-size:0.9rem;">Custom width and height, keep aspect ratio, instant preview—completely free with privacy protection.</p>
+            <a href="../tools/resize-image.html?lang=en" class="cta-btn-link" id="ctaBtn">👉 Try the Free Image Resizer Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html">主頁</a> |
+        <a href="../blog.html">文章 Blog</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtn = document.getElementById('ctaBtn');
+    const brandLink = document.getElementById('brandLink');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        ctaBtn.href = `../tools/resize-image.html?lang=en`;
+        brandLink.href = `../index.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        ctaBtn.href = `../tools/resize-image.html?lang=${targetLang}`;
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+// 頁面載入時執行
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+
+    // 語言按鈕切換
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', newUrl);
+            setLang(selectedLang);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

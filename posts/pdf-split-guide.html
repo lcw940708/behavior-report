@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO & AdSense 元數據 -->
+    <title>【PDF 拆分教學】從 PDF 抽出特定頁面｜Free PDF Split Guide</title>
+    <meta name="description" content="免費且安全的線上 PDF 拆分工具！從 PDF 揀選特定頁面，拆出獨立新 PDF，支援逐頁勾選、全選/取消全選，純前端運算保護文件私隱。適用於合約頁面提取、報告節錄與文件整理。Free online PDF splitter guide.">
+    <meta name="keywords" content="PDF 拆分, PDF 分割, 抽出 PDF 頁面, 免費 PDF 工具, PDF Splitter, Extract PDF Pages, Split PDF, Free PDF Tool, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/pdf-split-guide.html">
+
+    <!-- Hreflang 國際化標籤 -->
+    <link rel="alternate" hreflang="zh-Hant" href="https://www.behavior-report.com/posts/pdf-split-guide.html?lang=hk" />
+    <link rel="alternate" hreflang="en" href="https://www.behavior-report.com/posts/pdf-split-guide.html?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://www.behavior-report.com/posts/pdf-split-guide.html" />
+
+    <!-- Open Graph (社交媒體優化) -->
+    <meta property="og:title" content="【PDF 拆分教學】從 PDF 抽出特定頁面 — PDF Split Guide">
+    <meta property="og:description" content="100% 純前端運算！教你免費從 PDF 揀選頁面，拆出獨立新 PDF，保護文件私隱。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/pdf-split-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free PDF Split Guide – Extract Specific Pages from PDF">
+    <meta name="twitter:description" content="Learn how to select and extract specific pages from a PDF into a new file for free.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "PDF 拆分教學：從 PDF 抽出特定頁面",
+      "description": "介紹如何使用純前端技術嘅 PDF 拆分工具，適用於合約頁面提取、報告節錄與文件整理等場景。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn active" id="btn-zh" onclick="setLang('zh')">🇭🇰 繁體中文</button>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇬🇧 English</button>
+    </div>
+
+    <!-- 中文內容區塊 -->
+    <div id="content-zh">
+        <h1>PDF 拆分教學：從 PDF 抽出特定頁面</h1>
+
+        <h2>1. 導言</h2>
+        <p>你有冇試過收到一份幾十頁嘅 PDF 文件，但其實你只係需要入面其中幾頁？例如一份合約只需要簽名頁、一份報告只需要某個章節、一份月結單只需要特定月份。傳統做法係逐頁列印再掃描，或者用付費軟件，好麻煩。我哋嘅免費線上 PDF 拆分工具專為解決呢個問題而設：上傳 PDF、逐頁勾選、拆出一個獨立新 PDF，而且 100% 純前端運算，文件唔會離開你嘅瀏覽器。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p>PDF 拆分（PDF Split）係指從一個 PDF 文件中選取特定頁面，提取並組合成一個新嘅 PDF 文件。呢個功能喺日常工作中非常有用：例如合約只需要簽名頁、報告只需要某個章節、銀行月結單只需要特定月份、學術論文只需要引用部分。</p>
+        <p>傳統拆分方法通常使用 Adobe Acrobat Pro 等付費軟件嘅「提取頁面」功能，或者將文件上傳到第三方網站處理。前者成本高，後者有數據外洩風險。我哋嘅工具採用 PDF-lib 技術，所有拆分操作喺你嘅瀏覽器內完成，檔案由頭到尾都唔會離開你嘅裝置。</p>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>合約簽名頁提取：</strong>從多頁合約中只提取簽名頁，方便傳送俾客戶簽署。</li>
+            <li><strong>報告章節節錄：</strong>從年度報告中只提取某個章節或部門部分，發送俾相關同事。</li>
+            <li><strong>文件整理與歸檔：</strong>從大型 PDF 文件中拆分出需要嘅頁面，節省儲存空間。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>上傳 PDF 檔案：</strong>點擊或拖曳上傳你想拆分嘅 PDF 檔案。</li>
+            <li><strong>揀選頁面：</strong>逐頁勾選你想要提取嘅頁面，或使用「全選」、「取消全選」、「單數頁」、「雙數頁」快速選擇。</li>
+            <li><strong>確認已揀選頁數：</strong>頂部會顯示已揀選嘅頁數，確保選擇正確。</li>
+            <li><strong>下載拆分後 PDF：</strong>點擊「下載已揀選頁面」，即可取得只包含所選頁面嘅新 PDF。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站前端工具</th>
+                    <th>Adobe Acrobat Pro</th>
+                    <th>其他線上工具</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>昂貴訂閱（~$20/月）</td>
+                    <td>免費但有廣告或限制</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>100% 本地處理</td>
+                    <td>需上傳雲端</td>
+                    <td>低（需上傳伺服器）</td>
+                </tr>
+                <tr>
+                    <td><strong>逐頁勾選</strong></td>
+                    <td>✅ 支援</td>
+                    <td>✅ 支援</td>
+                    <td>❌ 通常只支援頁碼範圍</td>
+                </tr>
+                <tr>
+                    <td><strong>快速選擇</strong></td>
+                    <td>✅ 全選/取消/單數/雙數</td>
+                    <td>✅ 支援</td>
+                    <td>❌ 通常不支援</td>
+                </tr>
+                <tr>
+                    <td><strong>操作時間</strong></td>
+                    <td>數秒</td>
+                    <td>數秒</td>
+                    <td>數秒</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「之前有次要將一份 50 頁合約入面嘅簽名頁抽出嚟俾客戶簽署，如果逐頁 Print 再 Scan 返，搞嚟搞去要半個鐘。後來用咗呢個 PDF 拆分工具，上傳之後直接勾選簽名頁嘅頁碼，10 秒就拆出一個得兩頁嘅 PDF。對於成日要處理文件嘅人嚟講，呢個工具真係幫到手。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ 需要從 PDF 抽出特定頁面？</h3>
+            <p style="margin:0; font-size:0.9rem;">免費、安全、無需註冊，即刻試用 PDF 拆分工具！</p>
+            <a href="../tools/pdf-split.html?lang=hk" class="cta-btn-link tool-link">👉 立即免費試用 PDF 拆分工具</a>
+        </div>
+    </div>
+
+    <!-- English Content Section -->
+    <div id="content-en" style="display: none;">
+        <h1>Free PDF Split Guide: Extract Specific Pages from a PDF</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Have you ever received a long PDF file but only needed a few pages from it? For example, only the signature page from a contract, a specific chapter from a report, or a particular month from a bank statement. Traditional methods involve printing and scanning or using expensive software—both time-consuming and inconvenient. Our free online PDF split tool solves this problem: upload a PDF, select pages individually, and extract them into a new PDF—all with 100% client-side processing.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p>PDF splitting involves selecting specific pages from a PDF document and extracting them into a new PDF file. This is a common task: extracting signature pages from contracts, specific chapters from reports, or particular months from bank statements.</p>
+        <p>Traditional methods often require paid software like Adobe Acrobat Pro's "extract pages" feature or uploading files to third-party websites—the former is expensive, the latter poses privacy risks. Our tool leverages PDF-lib technology—all splitting happens locally in your browser, and your files never leave your device.</p>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Contract Signature Page Extraction:</strong> Extract only the signature page from a multi-page contract for easy client signing.</li>
+            <li><strong>Report Chapter Extraction:</strong> Extract specific chapters or sections from annual reports for relevant colleagues.</li>
+            <li><strong>Document Organization & Archiving:</strong> Extract needed pages from large PDF files to save storage space.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Upload PDF File:</strong> Click or drag-and-drop the PDF you want to split.</li>
+            <li><strong>Select Pages:</strong> Check individual pages to extract, or use quick selection options: "Select All," "Deselect All," "Odd Pages," or "Even Pages."</li>
+            <li><strong>Confirm Selection:</strong> Review the selected page count displayed at the top.</li>
+            <li><strong>Download Extracted PDF:</strong> Click "Download Selected Pages" to get a new PDF containing only your selected pages.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Client-Side Tool (Us)</th>
+                    <th>Adobe Acrobat Pro</th>
+                    <th>Other Online Tools</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>~$20/month</td>
+                    <td>Freemium / Ads</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>100% Local Processing</td>
+                    <td>Cloud Upload Required</td>
+                    <td>Low (Server Upload)</td>
+                </tr>
+                <tr>
+                    <td><strong>Individual Page Selection</strong></td>
+                    <td>✅ Supported</td>
+                    <td>✅ Supported</td>
+                    <td>❌ Usually Range Only</td>
+                </tr>
+                <tr>
+                    <td><strong>Quick Selection</strong></td>
+                    <td>✅ Select All/Odd/Even</td>
+                    <td>✅ Supported</td>
+                    <td>❌ Usually Not</td>
+                </tr>
+                <tr>
+                    <td><strong>Time to Complete</strong></td>
+                    <td>Seconds</td>
+                    <td>Seconds</td>
+                    <td>Seconds</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"I once needed to extract the signature pages from a 50-page contract for client signing. Printing and scanning would have taken 30 minutes. Then I used this PDF split tool—uploaded the PDF, checked the signature page numbers, and 10 seconds later I had a new PDF with just two pages. For anyone who handles documents regularly, this tool is a lifesaver."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ Need to Extract Specific Pages from a PDF?</h3>
+            <p style="margin:0; font-size:0.9rem;">Free, secure, and no registration required—try the PDF split tool now.</p>
+            <a href="../tools/pdf-split.html?lang=en" class="cta-btn-link tool-link">👉 Try the Free PDF Split Tool Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html" class="footer-home">主頁</a> |
+        <a href="../blog.html" class="footer-blog">文章 Blog</a> |
+        <a href="../about.html" class="footer-about">關於我</a> |
+        <a href="../privacy.html" class="footer-privacy">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+    function setLang(lang, updateUrl = true) {
+        const zhContent = document.getElementById('content-zh');
+        const enContent = document.getElementById('content-en');
+        const btnZh = document.getElementById('btn-zh');
+        const btnEn = document.getElementById('btn-en');
+        const backLink = document.getElementById('backLink');
+        const toolLinks = document.querySelectorAll('.tool-link');
+        const footerHome = document.querySelector('.footer-home');
+        const footerBlog = document.querySelector('.footer-blog');
+        const footerAbout = document.querySelector('.footer-about');
+        const footerPrivacy = document.querySelector('.footer-privacy');
+
+        if (lang === 'en') {
+            zhContent.style.display = 'none';
+            enContent.style.display = 'block';
+            btnZh.classList.remove('active');
+            btnEn.classList.add('active');
+            backLink.textContent = "← Back to Articles";
+            document.documentElement.lang = "en";
+
+            // 更新工具連結附帶參數，確保跳轉至英文介面
+            toolLinks.forEach(link => {
+                link.href = "../tools/pdf-split.html?lang=en";
+            });
+
+            footerHome.textContent = "Home";
+            footerBlog.textContent = "Blog";
+            footerAbout.textContent = "About";
+            footerPrivacy.textContent = "Privacy Policy";
+        } else {
+            zhContent.style.display = 'block';
+            enContent.style.display = 'none';
+            btnZh.classList.add('active');
+            btnEn.classList.remove('active');
+            backLink.textContent = "← 返回文章列表";
+            document.documentElement.lang = "zh-Hant-HK";
+
+            // 更新工具連結附帶參數，確保跳轉至中文介面
+            toolLinks.forEach(link => {
+                link.href = "../tools/pdf-split.html?lang=hk";
+            });
+
+            footerHome.textContent = "主頁";
+            footerBlog.textContent = "文章 Blog";
+            footerAbout.textContent = "關於我";
+            footerPrivacy.textContent = "隱私權政策";
+        }
+
+        if (updateUrl) {
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', lang === 'en' ? 'en' : 'hk');
+            window.history.pushState({}, '', newUrl);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const langParam = urlParams.get('lang');
+        if (langParam === 'en') {
+            setLang('en', false);
+        } else {
+            setLang('zh', false);
+        }
+    });
+</script>
+
+</body>
+</html>

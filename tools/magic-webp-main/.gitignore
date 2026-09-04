@@ -1,0 +1,41 @@
+# Build output
+build/
+dist/
+lib/
+pkg/
+demo/dist/
+
+# npm packages
+*.tgz
+package/
+
+# Dependencies
+node_modules/
+pnpm-lock.yaml
+
+# Test output
+test-output/
+coverage/
+tests/build/
+tests/*.cjs
+tests/*.wasm
+
+# Emscripten SDK (large, should be installed locally)
+emsdk/
+.cmake-venv/
+
+# Editor
+.vscode/
+.idea/
+*.iml
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO & AdSense 元數據 -->
+    <title>【免費螢幕錄影工具教學】錄製瀏覽器畫面、下載 WebM 或轉 GIF｜Free Screen Recorder Guide</title>
+    <meta name="description" content="免費且安全的線上螢幕錄影工具！錄製瀏覽器分頁、下載 WebM 影片或轉換為 GIF，純前端運算保護私隱。適用於教學示範、產品演示與 Bug 回報。Free online screen recorder guide.">
+    <meta name="keywords" content="螢幕錄影, 線上螢幕錄影, 錄製畫面, WebM 錄影, GIF 轉換, Screen Recorder, Record Screen Online, Free Screen Capture, ABRG">
+    <link rel="canonical" href="https://www.behavior-report.com/posts/screen-recorder-guide.html">
+
+    <!-- Open Graph (社交媒體優化) -->
+    <meta property="og:title" content="【免費螢幕錄影工具教學】錄製瀏覽器畫面、下載 WebM 或轉 GIF — Screen Recorder Guide">
+    <meta property="og:description" content="100% 純前端運算！教你免費錄製螢幕畫面，下載 WebM 或轉換成 GIF。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.behavior-report.com/posts/screen-recorder-guide.html">
+    <meta property="og:site_name" content="ABRG 大數據行為觀察中心">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Screen Recorder Guide – Record Browser Tab, Download WebM or GIF">
+    <meta name="twitter:description" content="Learn how to record your browser tab and convert to WebM or GIF with our free, privacy-first online tool.">
+
+    <!-- JSON-LD 結構化數據 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "免費螢幕錄影工具教學：錄製瀏覽器畫面、下載 WebM 或轉 GIF",
+      "description": "介紹如何使用純前端技術嘅螢幕錄影工具，適用於教學示範、產品演示與 Bug 回報等場景。",
+      "inLanguage": ["zh-Hant-HK", "en"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ABRG 大數據行為觀察中心"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --text-color: #94a3b8;
+            --text-heading: #ffffff;
+            --primary-cyan: #22d3ee;
+            --accent-red: #ef4444;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --table-header-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .brand span { color: var(--accent-red); }
+
+        .back-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-cyan);
+            color: #0b0f19;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p { margin-bottom: 16px; }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--table-header-bg);
+            color: var(--text-heading);
+        }
+
+        .insight-quote {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--primary-cyan);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .cta-box {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn-link {
+            display: inline-block;
+            background-color: var(--primary-cyan);
+            color: #0b0f19;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .cta-btn-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .footer a { color: #666; text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: #aaa; }
+
+        @media (max-width: 600px) {
+            .blog-container { padding: 20px; }
+            .comparison-table { font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<article class="blog-container">
+    <div class="header-nav">
+        <a href="../index.html" class="brand" id="brandLink">🕵️ ABRG<span>行為觀察</span>中心</a>
+        <a href="../blog.html" class="back-link" id="backLink">← 返回文章列表</a>
+    </div>
+
+    <!-- 語言切換按鈕 -->
+    <div class="lang-control">
+        <button class="lang-btn active" data-lang="hk">🇭🇰 繁體中文</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <!-- 中文內容區塊 -->
+    <div id="content-zh">
+        <h1>免費螢幕錄影工具教學：錄製瀏覽器畫面、下載 WebM 或轉 GIF</h1>
+
+        <h2>1. 導言</h2>
+        <p>無論你係要製作軟件教學影片、記錄產品演示、回報 Bug 俾開發團隊，定係想錄低網上會議內容，螢幕錄影都係一個非常實用嘅功能。但市面上好多錄影工具一係要下載安裝軟件，一係要將影片上傳到雲端伺服器，私隱風險高。我哋嘅免費線上螢幕錄影工具專為解決呢啲問題而設：錄製瀏覽器分頁、下載 WebM 影片、仲可以轉換成 GIF，而且 100% 純前端運算，影片唔會離開你嘅瀏覽器。</p>
+
+        <h2>2. 背景與概念解釋</h2>
+        <p>螢幕錄影（Screen Recording）係指將電腦螢幕上嘅活動記錄成影片檔案。現代瀏覽器提供咗 <code>getDisplayMedia()</code> API，容許網頁應用程式直接擷取用戶嘅螢幕畫面、瀏覽器分頁或特定應用程式視窗。</p>
+        <p>傳統錄影工具通常需要安裝軟件，或者將影片上傳到第三方伺服器處理，有數據外洩風險。我哋嘅工具採用瀏覽器原生 API，所有錄影喺你嘅瀏覽器內完成，影片由頭到尾都唔會離開你嘅裝置。錄完之後，你可以選擇下載 WebM 格式嘅影片，或者轉換成 GIF 方便嵌入網頁或社交媒體。</p>
+
+        <h2>3. 實際應用場景</h2>
+        <ul>
+            <li><strong>教學與培訓影片：</strong>錄製軟件操作步驟、系統設定教學，分享俾同事或學生。</li>
+            <li><strong>產品演示與展示：</strong>將產品功能操作錄製成影片，方便向客戶或投資者展示。</li>
+            <li><strong>Bug 回報與技術支援：</strong>錄製問題發生過程，幫助開發團隊快速理解同修復問題。</li>
+            <li><strong>社交媒體內容創作：</strong>將錄製片段轉換成 GIF，分享到 Discord、Slack 或社交平台。</li>
+        </ul>
+
+        <h2>4. 使用步驟</h2>
+        <ol>
+            <li><strong>開始錄影：</strong>點擊「開始錄影」，瀏覽器會彈出選擇視窗。</li>
+            <li><strong>選擇錄製來源：</strong>揀選「Chrome 分頁」或你嘅瀏覽器分頁（建議只錄單個分頁，私隱更安全）。</li>
+            <li><strong>錄製進行中：</strong>右上角會顯示錄影時間，錄影期間你可以自由操作該分頁。</li>
+            <li><strong>停止錄影：</strong>點擊「停止錄影」或直接關閉錄影來源視窗。</li>
+            <li><strong>下載或轉換：</strong>錄影完成後，可以選擇下載 WebM 影片，或點擊「轉換 GIF」將錄影轉換成動畫 GIF。</li>
+        </ol>
+
+        <h2>5. 與其他方法比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>比較項目</th>
+                    <th>本站前端工具</th>
+                    <th>桌面錄影軟件</th>
+                    <th>其他線上工具</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>使用成本</strong></td>
+                    <td>完全免費</td>
+                    <td>免費/付費（通常需安裝）</td>
+                    <td>免費但有廣告或限制</td>
+                </tr>
+                <tr>
+                    <td><strong>數據私隱</strong></td>
+                    <td>100% 本地處理</td>
+                    <td>本地處理（但需安裝）</td>
+                    <td>低（需上傳伺服器）</td>
+                </tr>
+                <tr>
+                    <td><strong>無需安裝</strong></td>
+                    <td>✅ 即開即用</td>
+                    <td>❌ 需下載安裝</td>
+                    <td>✅ 即開即用</td>
+                </tr>
+                <tr>
+                    <td><strong>GIF 轉換</strong></td>
+                    <td>✅ 一鍵轉換</td>
+                    <td>❌ 需額外工具</td>
+                    <td>❌ 通常不支援</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. 個人經驗與觀點</h2>
+        <div class="insight-quote">
+            <p>「之前要錄製一個軟件教學俾同事睇，用過幾個線上錄影工具，但錄完之後要等好耐上傳，仲要驚影片會俾第三方拎走。後來用咗呢個螢幕錄影工具，揀『Chrome 分頁』直接錄，錄完即時下載 WebM，唔使等 upload，幾秒就搞掂。仲可以轉埋 GIF 放落公司 Slack 度，同事睇完即刻明晒。」</p>
+        </div>
+
+        <h2>7. 總結與試用呼籲 (CTA)</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ 需要快速錄製螢幕畫面？</h3>
+            <p style="margin:0; font-size:0.9rem;">免費、安全、無需安裝，即刻錄製你嘅瀏覽器分頁！</p>
+            <a href="../tools/MediaRecorder.html" class="cta-btn-link" id="ctaBtn">👉 立即免費試用螢幕錄影工具</a>
+        </div>
+    </div>
+
+    <!-- English Content Section -->
+    <div id="content-en" style="display: none;">
+        <h1>Free Screen Recorder Guide: Record Browser Tab, Download WebM or Convert to GIF</h1>
+
+        <h2>1. Introduction</h2>
+        <p>Whether you need to create software tutorials, record product demos, report bugs to developers, or capture online meetings, screen recording is a highly practical function. Our free online screen recorder solves common problems: record browser tabs, download WebM videos, or convert to GIF—all with 100% client-side processing.</p>
+
+        <h2>2. Background & Technical Concept</h2>
+        <p>Screen recording captures computer screen activity into a video file. Modern browsers provide the <code>getDisplayMedia()</code> API, allowing web applications to directly capture screen content, browser tabs, or specific application windows.</p>
+        <p>Traditional recording tools often require software installation or upload videos to third-party servers—creating privacy risks. Our tool uses browser-native APIs—all recording happens locally in your browser, and your video never leaves your device.</p>
+
+        <h2>3. Real-World Application Scenarios</h2>
+        <ul>
+            <li><strong>Training & Tutorial Videos:</strong> Record software operations and system setup guides for colleagues or students.</li>
+            <li><strong>Product Demos:</strong> Capture product functionality demonstrations for clients or investors.</li>
+            <li><strong>Bug Reporting & Tech Support:</strong> Record issue occurrences to help development teams quickly identify and fix problems.</li>
+            <li><strong>Social Media Content:</strong> Convert recordings into GIFs for Discord, Slack, or social platforms.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Usage Guide</h2>
+        <ol>
+            <li><strong>Start Recording:</strong> Click "Start Recording"—the browser will prompt a selection window.</li>
+            <li><strong>Select Source:</strong> Choose "Chrome Tab" or your browser tab (recommended for better privacy).</li>
+            <li><strong>Recording in Progress:</strong> A timer appears in the corner—you can freely operate the tab during recording.</li>
+            <li><strong>Stop Recording:</strong> Click "Stop Recording" or close the recording source window.</li>
+            <li><strong>Download or Convert:</strong> After recording, download the WebM video or click "Convert GIF" to create an animated GIF.</li>
+        </ol>
+
+        <h2>5. Comparison with Alternative Solutions</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Client-Side Tool (Us)</th>
+                    <th>Desktop Software</th>
+                    <th>Other Online Tools</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>100% Free</td>
+                    <td>Free/Paid (Requires Installation)</td>
+                    <td>Freemium / Ads</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>100% Local Processing</td>
+                    <td>Local (Requires Installation)</td>
+                    <td>Low (Server Upload)</td>
+                </tr>
+                <tr>
+                    <td><strong>No Installation</strong></td>
+                    <td>✅ Yes</td>
+                    <td>❌ Requires Download</td>
+                    <td>✅ Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>GIF Conversion</strong></td>
+                    <td>✅ One-click</td>
+                    <td>❌ Requires Extra Tools</td>
+                    <td>❌ Usually Not Supported</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Personal Insights & Expert Advice</h2>
+        <div class="insight-quote">
+            <p>"I once needed to record a software tutorial for my team. I tried several online recording tools, but after recording, I had to wait for uploads and worried about my video being accessed by third parties. Then I used this screen recorder—selected 'Chrome Tab,' recorded, and downloaded the WebM instantly without waiting for upload. I even converted it to a GIF for Slack, and my team understood everything immediately."</p>
+        </div>
+
+        <h2>7. Conclusion & CTA</h2>
+        <div class="cta-box">
+            <h3 style="color:#fff; margin:0 0 10px;">⚡ Need to Record Your Screen Quickly?</h3>
+            <p style="margin:0; font-size:0.9rem;">Free, secure, and no installation required—record your browser tab now.</p>
+            <a href="../tools/MediaRecorder.html?lang=en" class="cta-btn-link" id="ctaBtnEn">👉 Try the Free Screen Recorder Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="../index.html">主頁</a> |
+        <a href="../blog.html">文章 Blog</a> |
+        <a href="../about.html">關於我</a> |
+        <a href="../privacy.html">隱私權政策</a>
+<br><br>
+<span style="font-size: 0.75rem; color: #555;">本網站所有內容僅供參考，不構成任何專業建議。</span>
+<br>
+&copy; 2026 ABRG 大數據趣味行為觀察社    </div>
+</article>
+
+<script>
+function setLang(lang) {
+    const zhContent = document.getElementById('content-zh');
+    const enContent = document.getElementById('content-en');
+    const buttons = document.querySelectorAll('.lang-btn');
+    const backLink = document.getElementById('backLink');
+    const ctaBtn = document.getElementById('ctaBtn');
+    const ctaBtnEn = document.getElementById('ctaBtnEn');
+    const brandLink = document.getElementById('brandLink');
+
+    const isEn = (lang === 'en');
+    const targetLang = isEn ? 'en' : 'hk';
+
+    if (isEn) {
+        zhContent.style.display = 'none';
+        enContent.style.display = 'block';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+        backLink.textContent = "← Back to Articles";
+        backLink.href = `../blog.html?lang=en`;
+        if (ctaBtn) ctaBtn.href = `../tools/MediaRecorder.html?lang=en`;
+        if (ctaBtnEn) ctaBtnEn.href = `../tools/MediaRecorder.html?lang=en`;
+        brandLink.href = `../index.html?lang=en`;
+        document.documentElement.lang = "en";
+    } else {
+        zhContent.style.display = 'block';
+        enContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        backLink.textContent = "← 返回文章列表";
+        backLink.href = `../blog.html?lang=${targetLang}`;
+        if (ctaBtn) ctaBtn.href = `../tools/MediaRecorder.html?lang=${targetLang}`;
+        if (ctaBtnEn) ctaBtnEn.href = `../tools/MediaRecorder.html?lang=${targetLang}`;
+        brandLink.href = `../index.html?lang=${targetLang}`;
+        document.documentElement.lang = "zh-Hant-HK";
+    }
+}
+
+// 頁面載入時執行
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'hk';
+    setLang(currentLang);
+});
+
+// 語言按鈕切換
+document.querySelectorAll('.lang-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        const selectedLang = this.getAttribute('data-lang');
+        const newUrl = new URL(window.location);
+        newUrl.searchParams.set('lang', selectedLang);
+        window.history.pushState({}, '', newUrl);
+        setLang(selectedLang);
+    });
+});
+</script>
+
+</body>
+</html>
