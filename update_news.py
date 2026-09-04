@@ -1,9 +1,9 @@
 import os
 import sys
+import io
 import time
 import datetime
 import html
-import io
 import requests
 import feedparser
 import trafilatura
@@ -18,9 +18,9 @@ sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 SITE_DOMAIN = "https://www.behavior-report.com"
 SITE_NAME = "ABRG 大數據行為觀察中心"
 
-# Cloudflare 認證資訊
-CLOUDFLARE_ACCOUNT_ID = "d15b83e3434840eb29469592d22bb2bc"
-CLOUDFLARE_API_TOKEN = "cfut_bFpebjVaCLDDCllvcTdBdH3VdEXZUpJrMyQaxi32f67fe4fa"
+# Cloudflare 認證資訊（改由 GitHub Secrets 或本地環境變數安全讀取）
+CLOUDFLARE_ACCOUNT_ID = os.environ.get("CLOUDFLARE_ACCOUNT_ID", "d15b83e3434840eb29469592d22bb2bc")
+CLOUDFLARE_API_TOKEN = os.environ.get("CLOUDFLARE_API_TOKEN")
 
 # 使用 Mistral 7B 模型
 CF_MODEL = "@cf/mistral/mistral-7b-instruct-v0.1"
@@ -69,10 +69,10 @@ def rewrite_with_cf_ai(original_text, title):
             return content
         else:
             print(f"⚠️ Cloudflare API 回應失敗: {data}")
-            return original_text[:300] + "..."
+            return "（AI 暫時無法處理此篇內容，請點擊下方閱讀原文以獲得完整資訊。）"
     except Exception as e:
         print(f"❌ 呼叫 Cloudflare AI 發生例外錯誤: {e}")
-        return original_text[:300] + "..."
+        return "（AI 暫時無法處理此篇內容，請點擊下方閱讀原文以獲得完整資訊。）"
 
 def fetch_and_generate():
     os.makedirs("articles", exist_ok=True)
@@ -184,7 +184,6 @@ def fetch_and_generate():
             })
             
             global_article_id += 1
-            # 保持 3 秒間隔，避免 GitHub Actions 跑太快被 Cloudflare 阻擋或限流
             time.sleep(3)
 
     return all_news_items
