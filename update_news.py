@@ -12,12 +12,12 @@ from googlenewsdecoder import gnewsdecoder
 SITE_DOMAIN = "https://www.behavior-report.com"
 SITE_NAME = "ABRG 大數據行為觀察中心"
 
-# Cloudflare 認證資訊（已直接代入你的 Token）
+# Cloudflare 認證資訊
 CLOUDFLARE_ACCOUNT_ID = "d15b83e3434840eb29469592d22bb2bc"
-CLOUDFLARE_API_TOKEN = "cfat_bFpebjVaCLDDCllvcTdBdH3VdEXZUpJrMyQaxi32f67fe4fa"
+CLOUDFLARE_API_TOKEN = "cfut_bFpebjVaCLDDCllvcTdBdH3VdEXZUpJrMyQaxi32f67fe4fa"
 
-# 使用 Mistral 7B 模型，反應快且結構穩定
-CF_MODEL = "@cf/meta/llama-3.2-1b-instruct"
+# 使用 Mistral 7B 模型
+CF_MODEL = "@cf/mistral/mistral-7b-instruct-v0.1"
 CF_API_URL = f"https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}/ai/run/{CF_MODEL}"
 
 headers = {
@@ -41,7 +41,7 @@ def rewrite_with_cf_ai(original_text, title):
 
 要求：
 1. 嚴禁逐字照搬原文。請使用全新句式、中立且專業的香港中文風格重寫。
-2. 全文長度控制在 400 至 450 字內，結構分明：
+2. 全文長度控制在 300 至 350 字內，結構分明：
    - 第一段：概述事件背景與核心經過。
    - 第二段：說明關鍵細節與數據。
    - 第三段：簡述後續影響。
@@ -56,6 +56,7 @@ def rewrite_with_cf_ai(original_text, title):
         "max_tokens": 2048
     }
     try:
+        # 將 timeout 提升到 90 秒，避免 GitHub 跑嗰陣因為網絡慢而 Read timed out
         res = requests.post(CF_API_URL, headers=headers, json=payload, timeout=90)
         data = res.json()
         if data.get("success"):
@@ -63,16 +64,15 @@ def rewrite_with_cf_ai(original_text, title):
             return content
         else:
             print(f"⚠️ Cloudflare API 回應失敗: {data}")
-            return original_text[:450] + "..."
+            return original_text[:300] + "..."
     except Exception as e:
         print(f"❌ 呼叫 Cloudflare AI 發生例外錯誤: {e}")
-        return original_text[:450] + "..."
+        return original_text[:300] + "..."
 
 def fetch_and_generate():
     os.makedirs("articles", exist_ok=True)
     all_news_items = []
-global_article_id += 1
-time.sleep(3)  # 將原本嘅 0.5 秒延長至 3 秒
+    global_article_id = 1
 
     for cat in CATEGORIES:
         cat_name = cat["name"]
@@ -180,7 +180,8 @@ time.sleep(3)  # 將原本嘅 0.5 秒延長至 3 秒
             })
             
             global_article_id += 1
-            time.sleep(0.5)
+            # 增加暫停時間到 2 秒，避免 GitHub 跑太快觸發 Cloudflare 頻率限制
+            time.sleep(2)
 
     return all_news_items
 
@@ -216,7 +217,6 @@ def update_main_html(news_items):
         f.write(str(soup))
 
 def update_sitemap(news_items):
-    """自動產生含新聞主頁與 20 篇內頁的 sitemap.xml"""
     today = datetime.datetime.now().strftime("%Y-%m-%d")
 
     urls = [
