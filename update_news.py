@@ -12,11 +12,12 @@ from googlenewsdecoder import gnewsdecoder
 SITE_DOMAIN = "https://www.behavior-report.com"
 SITE_NAME = "ABRG 大數據行為觀察中心"
 
-# Cloudflare 認證資訊（改為完全從環境變數讀取，確保安全不外洩）
-CLOUDFLARE_ACCOUNT_ID = os.environ.get("CLOUDFLARE_ACCOUNT_ID", "d15b83e3434840eb29469592d22bb2bc")
-CLOUDFLARE_API_TOKEN = os.environ.get("CLOUDFLARE_API_TOKEN")
+# Cloudflare 認證資訊（已直接代入你的 Token）
+CLOUDFLARE_ACCOUNT_ID = "d15b83e3434840eb29469592d22bb2bc"
+CLOUDFLARE_API_TOKEN = "cfat_bFpebjVaCLDDCllvcTdBdH3VdEXZUpJrMyQaxi32f67fe4fa"
 
-CF_MODEL = "@cf/meta/llama-3.1-8b-instruct"
+# 使用 Mistral 7B 模型，反應快且結構穩定
+CF_MODEL = "@cf/meta/llama-3.2-1b-instruct"
 CF_API_URL = f"https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}/ai/run/{CF_MODEL}"
 
 headers = {
@@ -33,36 +34,39 @@ CATEGORIES = [
 
 def rewrite_with_cf_ai(original_text, title):
     prompt = f"""
-請擔任專業新聞觀察員，將以下新聞內容進行「深度重寫與重點提煉」。
+請擔任專業新聞觀察員，將以下新聞內容進行精簡重寫與重點提煉。
 
 新聞標題：{title}
 新聞原文：{original_text[:2000]}
 
 要求：
 1. 嚴禁逐字照搬原文。請使用全新句式、中立且專業的香港中文風格重寫。
-2. 內文分成 3 個段落（總字數約 400-500 字）：
-   - 第一段：概述事件的背景與核心經過。
-   - 第二段：詳細說明相關細節與關鍵人物/數據。
-   - 第三段：簡述事件後續影響或公眾關注焦點。
-3. 結尾附上 3 個重點摘要（Bullet Points）。
-4. 若原文涉及極端血腥、暴力或成人主題，請主動過濾並轉為客觀中性的摘要。
-5. 直接輸出正文，切勿包含任何開場白。
+2. 全文長度控制在 400 至 450 字內，結構分明：
+   - 第一段：概述事件背景與核心經過。
+   - 第二段：說明關鍵細節與數據。
+   - 第三段：簡述後續影響。
+3. 結尾必須完整列出 3 個重點摘要（Bullet Points）。
+4. 直接輸出正文，切勿包含任何開場白或結語。
 """
     payload = {
         "messages": [
-            {"role": "system", "content": "你是一個專業新聞編輯，只會輸出乾淨的新聞正文。"},
+            {"role": "system", "content": "你是一個專業新聞編輯，只輸出完整且結構清晰的新聞正文。"},
             {"role": "user", "content": prompt}
         ],
         "max_tokens": 2048
     }
     try:
-        res = requests.post(CF_API_URL, headers=headers, json=payload, timeout=20)
+        res = requests.post(CF_API_URL, headers=headers, json=payload, timeout=45)
         data = res.json()
         if data.get("success"):
-            return data["result"]["response"].replace("**", "").replace("##", "")
-        return original_text[:300] + "..."
+            content = data["result"]["response"].replace("**", "").replace("##", "").strip()
+            return content
+        else:
+            print(f"⚠️ Cloudflare API 回應失敗: {data}")
+            return original_text[:450] + "..."
     except Exception as e:
-        return original_text[:300] + "..."
+        print(f"❌ 呼叫 Cloudflare AI 發生例外錯誤: {e}")
+        return original_text[:450] + "..."
 
 def fetch_and_generate():
     os.makedirs("articles", exist_ok=True)
@@ -87,7 +91,13 @@ def fetch_and_generate():
                 real_url = decoded.get("decoded_url") if decoded.get("status") else entry.link
                 downloaded = trafilatura.fetch_url(real_url)
                 if downloaded:
-                    raw_text = trafilatura.extract(downloaded) or ""
+                    raw_text = trafilatura.extract(downloaded, include_comments=False, include_tables=False) or ""
+                    
+                    # 過濾「其他人也在看」等推薦雜訊
+                    for noise_keyword in ["其他人也在看", "熱門推介", "相關新聞", "即時熱話"]:
+                        if noise_keyword in raw_text:
+                            raw_text = raw_text.split(noise_keyword)[0]
+                            
             except Exception as e:
                 print(f"抓取內文失敗: {e}")
 
