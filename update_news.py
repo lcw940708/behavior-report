@@ -18,16 +18,13 @@ sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 SITE_DOMAIN = "https://www.behavior-report.com"
 SITE_NAME = "ABRG 大數據行為觀察中心"
 
-# Cloudflare 認證資訊（改由 GitHub Secrets 或本地環境變數安全讀取）
+# Cloudflare 認證資訊（由 GitHub Secrets 安全讀取）
 CLOUDFLARE_ACCOUNT_ID = os.environ.get("CLOUDFLARE_ACCOUNT_ID", "d15b83e3434840eb29469592d22bb2bc")
 CLOUDFLARE_API_TOKEN = os.environ.get("CLOUDFLARE_API_TOKEN")
 
 # 使用 Mistral 7B 模型
 CF_MODEL = "@cf/mistral/mistral-7b-instruct-v0.1"
 CF_API_URL = f"https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}/ai/run/{CF_MODEL}"
-
-CLOUDFLARE_API_TOKEN = os.environ.get("CLOUDFLARE_API_TOKEN")
-print(f"DEBUG - 讀取到的 Token: {repr(CLOUDFLARE_API_TOKEN)}")  # 幫手睇下係咪 None
 
 headers = {
     "Authorization": f"Bearer {CLOUDFLARE_API_TOKEN}",
@@ -98,8 +95,12 @@ def fetch_and_generate():
             try:
                 decoded = gnewsdecoder(entry.link, interval=1)
                 real_url = decoded.get("decoded_url") if decoded.get("status") else entry.link
-                downloaded = trafilatura.fetch_url(real_url)
-                if downloaded:
+                
+                headers_browsers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+                response = requests.get(real_url, headers=headers_browsers, timeout=10)
+                
+                if response.status_code == 200:
+                    downloaded = response.text
                     raw_text = trafilatura.extract(downloaded, include_comments=False, include_tables=False) or ""
                     
                     for noise_keyword in ["其他人也在看", "熱門推介", "相關新聞", "即時熱話"]:
@@ -107,7 +108,7 @@ def fetch_and_generate():
                             raw_text = raw_text.split(noise_keyword)[0]
                             
             except Exception as e:
-                print(f"抓取內文失敗: {e}")
+                print(f"抓取內文失敗 (已略過): {e}")
 
             if len(raw_text) > 100:
                 ai_content = rewrite_with_cf_ai(raw_text, entry.title)
