@@ -92,12 +92,17 @@ def fetch_and_generate():
             raw_text = ""
             real_url = entry.link
             
+            # 加入完善的防卡死保護（gnewsdecoder 及 requests 皆設有異常捕捉與 timeout）
             try:
                 decoded = gnewsdecoder(entry.link, interval=1)
-                real_url = decoded.get("decoded_url") if decoded.get("status") else entry.link
-                
+                if decoded and decoded.get("status"):
+                    real_url = decoded.get("decoded_url")
+            except Exception as e:
+                print(f"⚠️ gnewsdecoder 解碼失敗，使用原始連結: {e}")
+
+            try:
                 headers_browsers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
-                response = requests.get(real_url, headers=headers_browsers, timeout=10)
+                response = requests.get(real_url, headers=headers_browsers, timeout=8)
                 
                 if response.status_code == 200:
                     downloaded = response.text
@@ -106,9 +111,8 @@ def fetch_and_generate():
                     for noise_keyword in ["其他人也在看", "熱門推介", "相關新聞", "即時熱話"]:
                         if noise_keyword in raw_text:
                             raw_text = raw_text.split(noise_keyword)[0]
-                            
             except Exception as e:
-                print(f"抓取內文失敗 (已略過): {e}")
+                print(f"⚠️ 抓取網頁內容逾時或失敗 (已略過): {e}")
 
             if len(raw_text) > 100:
                 ai_content = rewrite_with_cf_ai(raw_text, entry.title)
@@ -188,7 +192,7 @@ def fetch_and_generate():
             })
             
             global_article_id += 1
-            time.sleep(3)
+            time.sleep(2)
 
     return all_news_items
 
