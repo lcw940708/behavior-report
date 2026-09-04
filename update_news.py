@@ -1,12 +1,18 @@
 import os
+import sys
 import time
 import datetime
 import html
+import io
 import requests
 import feedparser
 import trafilatura
 from bs4 import BeautifulSoup
 from googlenewsdecoder import gnewsdecoder
+
+# 強制 GitHub Actions 環境使用 UTF-8 編碼，防止出中文亂碼
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 
 # 網站基本設定 (SEO 用)
 SITE_DOMAIN = "https://www.behavior-report.com"
@@ -56,7 +62,6 @@ def rewrite_with_cf_ai(original_text, title):
         "max_tokens": 2048
     }
     try:
-        # 將 timeout 提升到 90 秒，避免 GitHub 跑嗰陣因為網絡慢而 Read timed out
         res = requests.post(CF_API_URL, headers=headers, json=payload, timeout=90)
         data = res.json()
         if data.get("success"):
@@ -94,7 +99,6 @@ def fetch_and_generate():
                 if downloaded:
                     raw_text = trafilatura.extract(downloaded, include_comments=False, include_tables=False) or ""
                     
-                    # 過濾「其他人也在看」等推薦雜訊
                     for noise_keyword in ["其他人也在看", "熱門推介", "相關新聞", "即時熱話"]:
                         if noise_keyword in raw_text:
                             raw_text = raw_text.split(noise_keyword)[0]
@@ -180,8 +184,8 @@ def fetch_and_generate():
             })
             
             global_article_id += 1
-            # 增加暫停時間到 2 秒，避免 GitHub 跑太快觸發 Cloudflare 頻率限制
-            time.sleep(2)
+            # 保持 3 秒間隔，避免 GitHub Actions 跑太快被 Cloudflare 阻擋或限流
+            time.sleep(3)
 
     return all_news_items
 
