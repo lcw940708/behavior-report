@@ -56,7 +56,7 @@ def rewrite_with_cf_ai(original_text, title):
         "max_tokens": 2048
     }
     try:
-        res = requests.post(CF_API_URL, headers=headers, json=payload, timeout=45)
+        res = requests.post(CF_API_URL, headers=headers, json=payload, timeout=90)
         data = res.json()
         if data.get("success"):
             content = data["result"]["response"].replace("**", "").replace("##", "").strip()
@@ -71,7 +71,8 @@ def rewrite_with_cf_ai(original_text, title):
 def fetch_and_generate():
     os.makedirs("articles", exist_ok=True)
     all_news_items = []
-    global_article_id = 1
+global_article_id += 1
+time.sleep(3)  # 將原本嘅 0.5 秒延長至 3 秒
 
     for cat in CATEGORIES:
         cat_name = cat["name"]
