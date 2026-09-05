@@ -22,7 +22,7 @@ SITE_NAME = "ABRG 大數據行為觀察中心"
 CLOUDFLARE_ACCOUNT_ID = os.environ.get("CLOUDFLARE_ACCOUNT_ID", "d15b83e3434840eb29469592d22bb2bc")
 CLOUDFLARE_API_TOKEN = os.environ.get("CLOUDFLARE_API_TOKEN")
 
-
+# 使用 Llama 3.1 8B 模型（表現更佳、支援正體中文更好）
 CF_MODEL = "@cf/meta/llama-3.1-8b-instruct"
 CF_API_URL = f"https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}/ai/run/{CF_MODEL}"
 
@@ -45,7 +45,7 @@ def rewrite_with_cf_ai(original_text, title):
 【絕對限制（嚴格執行）】
 1. 必須全程使用香港正體中文（Hong Kong Traditional Chinese）書寫。
 2. 絕對禁止出現任何簡體字。
-3. 專有名詞如需英文請保留，其餘內文必須為地道廣東話書面語風格，嚴禁夾雜大陸用語。
+3. 專有名詞如需英文請保留，其餘內文必須為地道繁體中文風格，嚴禁夾雜大陸用語。
 
 新聞標題：{title}
 新聞原文：{original_text[:2000]}
@@ -60,7 +60,7 @@ def rewrite_with_cf_ai(original_text, title):
 """
     payload = {
         "messages": [
-            {"role": "system", "content": "你是一個專業新聞編輯，只輸出完整且結構清晰的新聞正文。"},
+            {"role": "system", "content": "你是一個專業香港新聞編輯，只輸出完整且結構清晰的正體中文新聞正文。"},
             {"role": "user", "content": prompt}
         ],
         "max_tokens": 2048
@@ -91,12 +91,18 @@ def fetch_and_generate():
         feed = feedparser.parse(rss_url)
         
         for entry in feed.entries[:5]:
+            # 黑名單過濾：自動略過明報等容易卡死或鎖區的網站
+            ignored_domains = ["mingpao.com", "明報"]
+            if any(domain in entry.link or domain in entry.get("title", "") for domain in ignored_domains):
+                print(f"🚫 略過黑名單網站新聞: {entry.title}")
+                continue
+
             print(f"[{global_article_id}/20] [{cat_name}] {entry.title}")
             
             raw_text = ""
             real_url = entry.link
             
-            # 加入完善的防卡死保護（gnewsdecoder 及 requests 皆設有異常捕捉與 timeout）
+            # gnewsdecoder 防卡死
             try:
                 decoded = gnewsdecoder(entry.link, interval=1)
                 if decoded and decoded.get("status"):
@@ -104,8 +110,14 @@ def fetch_and_generate():
             except Exception as e:
                 print(f"⚠️ gnewsdecoder 解碼失敗，使用原始連結: {e}")
 
+            # 抓取網頁內容（含完整模擬瀏覽器 Headers 及 timeout=8）
             try:
-                headers_browsers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+                headers_browsers = {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+                    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+                    "Accept-Language": "zh-HK,zh;q=0.9,en-US;q=0.8,en;q=0.7",
+                    "Referer": "https://news.google.com/"
+                }
                 response = requests.get(real_url, headers=headers_browsers, timeout=8)
                 
                 if response.status_code == 200:
