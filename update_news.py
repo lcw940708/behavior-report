@@ -22,8 +22,8 @@ SITE_NAME = "ABRG 大數據行為觀察中心"
 CLOUDFLARE_ACCOUNT_ID = os.environ.get("CLOUDFLARE_ACCOUNT_ID", "d15b83e3434840eb29469592d22bb2bc")
 CLOUDFLARE_API_TOKEN = os.environ.get("CLOUDFLARE_API_TOKEN")
 
-# 使用 Mistral 7B 模型
-CF_MODEL = "@cf/mistral/mistral-7b-instruct-v0.1"
+
+CF_MODEL = "@cf/meta/llama-3-8b-instruct"
 CF_API_URL = f"https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}/ai/run/{CF_MODEL}"
 
 headers = {
