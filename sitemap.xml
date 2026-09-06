@@ -1,129 +1,1605 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://www.behavior-report.com/</loc>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://www.behavior-report.com/news.html</loc>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.behavior-report.com/articles/1.html</loc>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>daily</changefreq>
+
+  <!-- ===== 功能頁面 (8個) ===== -->
+  <url><loc>https://www.behavior-report.com/</loc></url>
+  <url><loc>https://www.behavior-report.com/index.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story.html</loc></url>
+  <url><loc>https://www.behavior-report.com/advice.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report.html</loc></url>
+  <url><loc>https://www.behavior-report.com/about.html</loc></url>
+  <url><loc>https://www.behavior-report.com/contact.html</loc></url>
+  <url><loc>https://www.behavior-report.com/privacy.html</loc></url>
+
+  <!-- ===== 故事 (175個) ===== -->
+  <url><loc>https://www.behavior-report.com/story_01.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_01_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_01_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_01_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_01_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_02.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_02_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_02_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_02_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_02_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_03.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_03_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_03_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_03_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_03_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_04.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_04_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_04_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_04_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_04_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_05.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_05_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_05_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_05_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_05_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_06.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_06_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_06_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_06_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_06_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_07.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_07_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_07_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_07_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_07_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_08.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_08_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_08_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_08_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_08_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_09.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_09_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_09_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_09_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_09_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_10.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_10_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_10_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_10_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_10_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_11.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_11_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_11_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_11_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_11_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_12.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_12_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_12_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_12_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_12_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_13.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_13_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_13_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_13_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_13_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_14.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_14_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_14_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_14_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_14_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_15.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_15_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_15_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_15_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_15_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_16.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_16_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_16_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_16_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_16_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_17.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_17_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_17_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_17_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_17_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_18.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_18_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_18_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_18_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_18_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_19.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_19_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_19_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_19_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_19_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_20.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_20_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_20_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_20_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_20_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_21.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_21_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_21_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_21_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_21_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_22.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_22_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_22_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_22_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_22_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_23.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_23_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_23_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_23_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_23_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_24.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_24_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_24_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_24_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_24_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_25.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_25_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_25_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_25_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_25_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_26.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_26_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_26_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_26_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_26_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_27.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_27_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_27_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_27_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_27_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_28.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_28_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_28_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_28_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_28_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_29.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_29_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_29_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_29_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_29_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_30.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_30_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_30_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_30_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_30_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_31.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_31_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_31_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_31_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_31_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_32.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_32_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_32_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_32_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_32_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_33.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_33_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_33_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_33_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_33_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_34.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_34_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_34_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_34_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_34_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_35.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_35_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_35_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_35_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_35_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_36.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_36_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_36_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_36_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_36_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_37.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_37_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_37_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_37_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_38_5.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_38.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_38_2.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_38_3.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_38_4.html</loc></url>
+  <url><loc>https://www.behavior-report.com/story_38_5.html</loc></url>
+  <!-- ===== 測驗 (35個) ===== -->
+  <url><loc>https://www.behavior-report.com/quiz-01.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-02.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-03.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-04.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-05.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-06.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-07.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-08.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-09.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-10.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-11.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-12.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-13.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-14.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-15.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-16.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-17.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-18.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-19.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-20.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-21.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-22.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-23.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-24.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-25.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-26.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-27.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-28.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-29.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-30.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-31.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-32.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-33.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-34.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-35.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-36.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-37.html</loc></url>
+  <url><loc>https://www.behavior-report.com/quiz-38.html</loc></url>
+
+
+  <!-- ===== 報告 (70個) ===== -->
+  <url><loc>https://www.behavior-report.com/report-01-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-01-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-02-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-02-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-03-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-03-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-04-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-04-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-05-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-05-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-06-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-06-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-07-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-07-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-08-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-08-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-09-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-09-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-10-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-10-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-11-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-11-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-12-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-12-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-13-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-13-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-14-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-14-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-15-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-15-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-16-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-16-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-17-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-17-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-18-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-18-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-19-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-19-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-20-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-20-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-21-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-21-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-22-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-22-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-23-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-23-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-24-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-24-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-25-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-25-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-26-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-26-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-27-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-27-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-28-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-28-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-29-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-29-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-30-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-30-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-31-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-31-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-32-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-32-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-33-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-33-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-34-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-34-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-35-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-35-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-36-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-36-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-37-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-37-B.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-38-A.html</loc></url>
+  <url><loc>https://www.behavior-report.com/report-38-B.html</loc></url>
+<url>
+  <loc>https://www.behavior-report.com/tools/png-to-jpg.html</loc>
+  <lastmod>2026-08-13</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/jpg-to-png.html</loc>
+  <lastmod>2026-08-13</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/to-webp.html</loc>
+  <lastmod>2026-08-13</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/ai-resignation.html</loc>
+  <lastmod>2026-08-13</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/word-counter.html</loc>
+  <lastmod>2026-08-13</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/pdf-merge.html</loc>
+  <lastmod>2026-08-13</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/images-to-pdf.html</loc>
+  <lastmod>2026-08-13</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/pdf-split.html</loc>
+  <lastmod>2026-08-13</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/password-generator.html</loc>
+  <lastmod>2026-08-13</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/percent-calculator.html</loc>
+  <lastmod>2026-08-13</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/json-formatter.html</loc>
+  <lastmod>2026-08-13</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/url-encoder.html</loc>
+  <lastmod>2026-08-13</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/loan-calculator.html</loc>
+  <lastmod>2026-08-13</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/bmi-calculator.html</loc>
+  <lastmod>2026-08-13</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/unit-converter.html</loc>
+  <lastmod>2026-08-13</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/pdf-to-word.html</loc>
+  <lastmod>2026-08-16</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/pdf-to-excel.html</loc>
+  <lastmod>2026-08-16</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/remove-bg.html</loc>
+  <lastmod>2026-08-16</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/composer.html</loc>
+  <lastmod>2026-08-16</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/qr-generator.html</loc>
+  <lastmod>2026-08-17</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/crop-image.html</loc>
+  <lastmod>2026-08-18</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/resize-image.html</loc>
+  <lastmod>2026-08-20</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/color-picker.html</loc>
+  <lastmod>2026-08-20</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/qr-decoder.html</loc>
+  <lastmod>2026-08-20</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/diff.html</loc>
+  <lastmod>2026-08-20</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/weather.html</loc>
+  <lastmod>2026-08-20</lastmod>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/invoice-lottery.html</loc>
+  <lastmod>2026-08-20</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/timestamp-converter.html</loc>
+  <lastmod>2026-08-20</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/base64-converter.html</loc>
+  <lastmod>2026-08-20</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/currency-converter.html</loc>
+  <lastmod>2026-08-20</lastmod>
+  <changefreq>hourly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/markdown-editor.html</loc>
+  <lastmod>2026-08-20</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/holiday-calendar.html</loc>
+  <lastmod>2026-08-21</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/countdown-timer.html</loc>
+  <lastmod>2026-08-21</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/timezone-converter.html</loc>
+  <lastmod>2026-08-21</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/uuid-generator.html</loc>
+  <lastmod>2026-08-21</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/regex-tester.html</loc>
+  <lastmod>2026-08-21</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/color-converter.html</loc>
+  <lastmod>2026-08-21</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/meta-generator.html</loc>
+  <lastmod>2026-08-21</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/yaml-json-converter.html</loc>
+  <lastmod>2026-08-21</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/duplicate-checker.html</loc>
+  <lastmod>2026-08-21</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/click-speed-test.html</loc>
+  <lastmod>2026-08-24</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/spacebar-counter.html</loc>
+  <lastmod>2026-08-24</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/typing-test.html</loc>
+  <lastmod>2026-08-24</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/chinese-typing-test.html</loc>
+  <lastmod>2026-08-24</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/reaction-time-test.html</loc>
+  <lastmod>2026-08-24</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/stories.html</loc>
+  <lastmod>2026-08-25</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/quizzes.html</loc>
+  <lastmod>2026-08-25</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/age-calculator.html</loc>
+  <lastmod>2026-08-25</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/coin-flip.html</loc>
+  <lastmod>2026-08-25</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/notepad.html</loc>
+  <lastmod>2026-08-25</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/pomodoro.html</loc>
+  <lastmod>2026-08-25</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/youtube-duration-calculator.html</loc>
+  <lastmod>2026-08-25</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/random-number-generator.html</loc>
+  <lastmod>2026-08-25</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/egg-timer.html</loc>
+  <lastmod>2026-08-25</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/quote-generator.html</loc>
+  <lastmod>2026-08-25</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/image-converter.html</loc>
+  <lastmod>2026-08-25</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/timestamp-converter-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/hashtag-generator.html</loc>
+  <lastmod>2026-08-25</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/video-to-gif.html</loc>
+  <lastmod>2026-08-26</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/gif-to-video.html</loc>
+  <lastmod>2026-08-26</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/video-compressor.html</loc>
+  <lastmod>2026-08-26</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/video-converter.html</loc>
+  <lastmod>2026-08-26</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/video-trimmer.html</loc>
+  <lastmod>2026-08-26</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/image-watermark.html</loc>
+  <lastmod>2026-08-26</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/image-filter.html</loc>
+  <lastmod>2026-08-26</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/image-stitch.html</loc>
+  <lastmod>2026-08-26</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/image-grid-splitter.html</loc>
+  <lastmod>2026-08-26</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/image-rounded-corners.html</loc>
+  <lastmod>2026-08-26</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/video-merger.html</loc>
+  <lastmod>2026-08-27</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/video-cropper.html</loc>
+  <lastmod>2026-08-27</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/video-rotate.html</loc>
+  <lastmod>2026-08-27</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/video-speed.html</loc>
+  <lastmod>2026-08-27</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/video-reverse.html</loc>
+  <lastmod>2026-08-27</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/image-to-text.html</loc>
+  <lastmod>2026-08-27</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.85</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/watermark-remover.html</loc>
+  <lastmod>2026-08-27</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.85</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/image-flip.html</loc>
+  <lastmod>2026-08-27</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/image-rotate.html</loc>
+  <lastmod>2026-08-27</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/image-art-style.html</loc>
+  <lastmod>2026-08-27</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.85</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/video-to-audio.html</loc>
+  <lastmod>2026-08-28</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.85</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/mute-video.html</loc>
+  <lastmod>2026-08-28</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/screen-recorder.html</loc>
+  <lastmod>2026-08-28</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.85</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/thumbnail-maker.html</loc>
+  <lastmod>2026-08-28</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/add-border.html</loc>
+  <lastmod>2026-08-28</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/alt-generator.html</loc>
+  <lastmod>2026-08-28</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.85</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/case-converter.html</loc>
+  <lastmod>2026-08-28</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/line-sorter.html</loc>
+  <lastmod>2026-08-28</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/tts-converter.html</loc>
+  <lastmod>2026-08-28</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/bmr-tdee-calculator.html</loc>
+  <lastmod>2026-08-28</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/mortgage-calculator.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.85</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/apr-calculator.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.85</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/debt-consolidation-calculator.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.85</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/loan-eligibility-calculator.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.85</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/extra-payment-calculator.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.85</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/roi-calculator.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.85</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/wacc-calculator.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.85</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/payroll-calculator.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.85</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/inflation-calculator.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.85</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/tools/compound-interest-calculator.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.85</priority>
+</url>
+<!-- ===== Blog 文章 ===== -->
+<url>
+  <loc>https://www.behavior-report.com/blog.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/word-counter-guide.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/jpg-to-png-guide.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/png-to-jpg-guide.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/markdown-editor-guide.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<!-- ===== Blog 文章（新） ===== -->
+<url>
+  <loc>https://www.behavior-report.com/posts/url-encoder-guide.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/loan-calculator-guide.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/json-formatter-guide.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/percent-calculator-guide.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/password-generator-guide.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<!-- ===== Blog 文章（新 10 篇） ===== -->
+<url>
+  <loc>https://www.behavior-report.com/posts/pdf-merge-guide.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/pdf-split-guide.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/images-to-pdf-guide.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/pdf-to-word-guide.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/pdf-to-excel-guide.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/ai-document-generator-guide.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/bmi-calculator-guide.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/unit-converter-guide.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/qr-generator-guide.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/image-cropper-guide.html</loc>
+  <lastmod>2026-08-31</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/screen-recorder-guide.html</loc>
+  <lastmod>2026-09-01</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/remove-bg-guide.html</loc>
+  <lastmod>2026-09-01</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/image-composer-guide.html</loc>
+  <lastmod>2026-09-01</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/image-resize-guide.html</loc>
+  <lastmod>2026-09-01</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/color-picker-guide.html</loc>
+  <lastmod>2026-09-01</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/qr-decoder-guide.html</loc>
+  <lastmod>2026-09-01</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/text-diff-guide.html</loc>
+  <lastmod>2026-09-01</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/base64-guide.html</loc>
+  <lastmod>2026-09-01</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/to-webp-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.behavior-report.com/articles/2.html</loc>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>daily</changefreq>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/countdown-timer-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.behavior-report.com/articles/3.html</loc>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>daily</changefreq>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/html-escape-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.behavior-report.com/articles/4.html</loc>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>daily</changefreq>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/uuid-generator-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.behavior-report.com/articles/5.html</loc>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>daily</changefreq>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/regex-tester-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.behavior-report.com/articles/6.html</loc>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>daily</changefreq>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/color-converter-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.behavior-report.com/articles/7.html</loc>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>daily</changefreq>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/meta-generator-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.behavior-report.com/articles/8.html</loc>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>daily</changefreq>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/yaml-json-converter-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.behavior-report.com/articles/9.html</loc>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>daily</changefreq>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/duplicate-checker-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.behavior-report.com/articles/10.html</loc>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>daily</changefreq>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/timezone-converter-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.behavior-report.com/articles/11.html</loc>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>daily</changefreq>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/currency-converter-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.behavior-report.com/articles/12.html</loc>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>daily</changefreq>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/age-calculator-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.behavior-report.com/articles/13.html</loc>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>daily</changefreq>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/tools/tip-split-calculator.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/tools/rule-of-72-calculator.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/tools/effective-interest-calculator.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/tools/leverage-calculator.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/tools/bond-calculator.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/tools/auto-lease-vs-buy-calculator.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/tools/auto-loan-calculator.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/tools/npv-irr-calculator.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/tools/rent-vs-buy-calculator.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/tools/retirement-planner.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/tools/monthly-flat-rate-to-apr.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/tools/credit-card-installment-true-cost.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/tools/loan-term-sensitivity-analyzer.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/tools/loan-affordability-dsr-calculator.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/tools/personal-loan-rate-comparator.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/notepad-guide.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.behavior-report.com/articles/14.html</loc>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>daily</changefreq>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/pomodoro-guide.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.behavior-report.com/articles/15.html</loc>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>daily</changefreq>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/youtube-duration-calculator-guide.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.behavior-report.com/articles/16.html</loc>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>daily</changefreq>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/egg-timer-guide.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.behavior-report.com/articles/17.html</loc>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>daily</changefreq>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/quote-generator-guide.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.behavior-report.com/articles/18.html</loc>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>daily</changefreq>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/hashtag-generator-guide.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.behavior-report.com/articles/19.html</loc>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>daily</changefreq>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/image-converter-guide.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/video-to-gif-guide.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/gif-to-video-guide.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/video-compressor-guide.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/video-converter-guide.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/video-trimmer-guide.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/image-watermark-guide.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/image-filter-guide.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/image-stitch-guide.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/image-grid-splitter-guide.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/image-rounded-corners-guide.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/watermark-remover-guide.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/video-merger-guide.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/video-cropper-guide.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+</url>
+<url>
+    <loc>https://www.behavior-report.com/posts/video-rotate-guide.html</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/video-speed-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/video-reverse-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/image-to-text-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/image-flip-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/image-rotate-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/image-art-style-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/video-to-audio-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/mute-video-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/thumbnail-maker-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/add-border-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/alt-generator-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/case-converter-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/line-sorter-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/bmr-tdee-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/tts-converter-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/mortgage-calculator-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/extra-payment-calculator-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/loan-eligibility-calculator-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/debt-consolidation-calculator-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/apr-calculator-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/compound-interest-calculator-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/inflation-calculator-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/payroll-calculator-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/wacc-calculator-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/roi-calculator-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/retirement-planner-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/rent-vs-buy-calculator-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/npv-irr-calculator-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/auto-loan-calculator-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/auto-lease-vs-buy-calculator-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/bond-calculator-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/leverage-calculator-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/effective-interest-calculator-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/rule-of-72-calculator-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/monthly-flat-rate-to-apr-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/credit-card-installment-true-cost-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/loan-term-sensitivity-analyzer-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/personal-loan-rate-comparator-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://www.behavior-report.com/posts/loan-affordability-dsr-calculator-guide.html</loc>
+  <lastmod>2026-09-03</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
 </urlset>
