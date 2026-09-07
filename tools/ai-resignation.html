@@ -247,28 +247,6 @@
             border-color: rgba(34, 211, 238, 0.15);
         }
 
-        .other-tools {
-            margin-top: 16px;
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .other-tools a {
-            background: rgba(239, 68, 68, 0.08);
-            border: 1px solid rgba(239, 68, 68, 0.15);
-            padding: 6px 16px;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            color: #fca5a5;
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-        .other-tools a:hover {
-            border-color: var(--cyan);
-            color: var(--cyan);
-            background: rgba(34, 211, 238, 0.04);
-        }
-
         .story-suggest {
             margin-top: 40px;
             padding-top: 25px;
@@ -452,7 +430,7 @@
                 download: '⬇️ 下載 .txt',
                 disclaimer: '⚠️ 本工具僅供參考，內容由 AI 生成，不代表本網站立場。使用者需自行判斷內容是否適合使用。',
                 copied: '✅ 已複製！',
-                networkError: '❌ 網絡連線失敗，請檢查網絡後再試'
+                networkError: '❌ 網絡連線失敗或被 Service Worker 攔截，請確保網絡正常'
             },
             tw: {
                 title: '📄 AI 萬用文件生成器',
@@ -482,7 +460,7 @@
                 download: '⬇️ 下載 .txt',
                 disclaimer: '⚠️ 本工具僅供參考，內容由 AI 生成，不代表本網站立場。使用者需自行判斷內容是否適合使用。',
                 copied: '✅ 已複製！',
-                networkError: '❌ 網路連線失敗，請檢查網路後再試'
+                networkError: '❌ 網路連線失敗或被 Service Worker 攔截，請確保網路正常'
             },
             en: {
                 title: '📄 AI Document Generator',
@@ -512,15 +490,12 @@
                 download: '⬇️ Download .txt',
                 disclaimer: '⚠️ This tool is for reference only. Content is AI-generated and does not represent the views of this site. Users should judge the suitability of the content.',
                 copied: '✅ Copied!',
-                networkError: '❌ Network connection failed, please check your connection and try again'
+                networkError: '❌ Network connection failed or blocked by Service Worker'
             }
         };
 
         let lang = 'hk';
 
-        // =============================================================
-        // 語言切換
-        // =============================================================
         function switchLang(l) {
             lang = l;
             const t = texts[l];
@@ -563,9 +538,6 @@
             renderFields(document.getElementById('docType').value, l);
         }
 
-        // =============================================================
-        // 偵測語言（URL 參數優先）
-        // =============================================================
         function detectLanguage() {
             const params = new URLSearchParams(window.location.search);
             if (params.get('lang') === 'en') return 'en';
@@ -580,9 +552,6 @@
             return 'hk';
         }
 
-        // =============================================================
-        // 文件類型配置
-        // =============================================================
         const docConfigs = {
             'resignation': {
                 label: { hk: '✍️ 辭職信', tw: '✍️ 辭職信', en: '✍️ Resignation Letter' },
@@ -774,9 +743,6 @@
             }
         };
 
-        // =============================================================
-        // 動態生成輸入欄位
-        // =============================================================
         const dynamicFields = document.getElementById('dynamicFields');
 
         function renderFields(docType, lang) {
@@ -798,22 +764,13 @@
             dynamicFields.innerHTML = html;
         }
 
-        // =============================================================
-        // 監聽文件類型切換
-        // =============================================================
         document.getElementById('docType').addEventListener('change', function() {
             renderFields(this.value, lang);
         });
 
-        // =============================================================
-        // 初始化
-        // =============================================================
         const detectedLang = detectLanguage();
         switchLang(detectedLang);
 
-        // =============================================================
-        // 工具核心
-        // =============================================================
         const workerUrl = 'https://little-rice-42fa.lcw940708.workers.dev';
 
         const generateBtn = document.getElementById('generateBtn');
@@ -844,8 +801,11 @@
             resultBox.classList.remove('show');
 
             try {
+                // 💡 關鍵修復：加入 { cache: "no-store", mode: "cors" } 避免 Service Worker 誤將 POST 請求塞入 Cache 導致 crash
                 const response = await fetch(workerUrl, {
                     method: 'POST',
+                    mode: 'cors',
+                    cache: 'no-store',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         prompt: userPrompt,
@@ -864,6 +824,7 @@
                     error.classList.add('show');
                 }
             } catch (err) {
+                console.error(err);
                 error.innerText = t.networkError;
                 error.classList.add('show');
             }
