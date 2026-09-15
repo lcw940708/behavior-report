@@ -47,10 +47,10 @@
             --red: #ef4444;
         }
 
-        * {
+        *, *::before, *::after {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         body {
@@ -157,7 +157,7 @@
             display: none;
         }
 
-        /* 影片清單排序區 */
+        /* 影片清單排序區 (支援 HTML5 Drag & Drop) */
         .video-list-title {
             color: #ffffff;
             font-size: 0.95rem;
@@ -178,21 +178,33 @@
         .video-item {
             background: var(--bg);
             border: 1px solid var(--border);
-            padding: 10px 15px;
+            padding: 12px 15px;
             border-radius: 8px;
             display: flex;
             align-items: center;
             gap: 12px;
             cursor: grab;
+            transition: border-color 0.2s, background 0.2s;
         }
 
         .video-item:active {
             cursor: grabbing;
         }
 
+        .video-item.dragging {
+            opacity: 0.4;
+            border: 1px dashed var(--cyan);
+        }
+
+        .video-item.drag-over {
+            border-color: var(--cyan);
+            background: rgba(34, 211, 238, 0.08);
+        }
+
         .video-item .drag-handle {
             color: #64748b;
             font-size: 1.2rem;
+            cursor: grab;
         }
 
         .video-item .name {
@@ -243,6 +255,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            position: relative;
         }
 
         video {
@@ -256,6 +269,53 @@
         .preview-placeholder {
             color: #475569;
             font-size: 0.9rem;
+        }
+
+        /* 自訂即時預覽進度條容器 */
+        .custom-scrubber-container {
+            width: 100%;
+            margin-top: 15px;
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .scrubber-track {
+            position: relative;
+            width: 100%;
+            height: 10px;
+            background: var(--border);
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .scrubber-segment {
+            height: 100%;
+            border-right: 1px solid var(--bg);
+            transition: opacity 0.2s;
+        }
+        .scrubber-segment:hover {
+            opacity: 0.8;
+        }
+
+        .scrubber-thumb-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: var(--cyan);
+            pointer-events: none;
+            width: 0%;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .scrubber-time-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: #94a3b8;
         }
 
         .progress-bar-wrap {
@@ -369,8 +429,8 @@
     <!-- 特色標籤 -->
     <div class="badge-row">
         <span class="badge" id="badge1">🔒 100% 隱私安全（零上傳）</span>
-        <span class="badge" id="badge2">↕️ 支援拖曳調整影片順序</span>
-        <span class="badge" id="badge3">👁️ 合併後無縫即時預覽</span>
+        <span class="badge" id="badge2">↕️ 支援滑鼠拖放排序影片</span>
+        <span class="badge" id="badge3">👁️ 拖放進度條即時預覽合併</span>
         <span class="badge" id="badge4">🆓 完全免費無限次數</span>
     </div>
 
@@ -385,7 +445,7 @@
     <!-- 影片列表 (排序區) -->
     <div id="videoListContainer" style="display: none;">
         <div class="video-list-title">
-            <span id="lblVideoList">影片序列與順序調整 (Sequence)</span>
+            <span id="lblVideoList">影片序列與順序調整 (可直接上下拖放排序)</span>
             <span id="totalDurationText" style="font-size: 0.8rem; color: var(--cyan);">總時長: 0s</span>
         </div>
         <div class="video-list" id="videoList"></div>
@@ -393,8 +453,20 @@
 
     <!-- 預覽與播放器區 -->
     <div class="preview-box">
-        <span class="preview-placeholder" id="previewPlaceholder">等待上傳影片並合併... (Waiting for videos...)</span>
+        <span class="preview-placeholder" id="previewPlaceholder">等待上傳影片並合併預覽... (Waiting for videos...)</span>
         <video id="previewPlayer" controls></video>
+        
+        <!-- 自訂即時預覽拖放進度條 -->
+        <div class="custom-scrubber-container" id="scrubberContainer">
+            <div class="scrubber-track" id="scrubberTrack" title="點擊或拖放以即時預覽各片段">
+                <div class="scrubber-thumb-bar" id="scrubberThumbBar"></div>
+            </div>
+            <div class="scrubber-time-info">
+                <span id="currentTimeLabel">0:00</span>
+                <span id="totalTimeLabel">0:00</span>
+            </div>
+        </div>
+
         <div class="progress-bar-wrap" id="progressWrap">
             <div class="progress-bar" id="progressBar"></div>
         </div>
@@ -403,7 +475,7 @@
 
     <!-- 按鈕組 -->
     <div class="btn-group">
-        <button class="btn btn-primary" id="mergeBtn" disabled>⚡ <span id="btnMergeText">開始合併並預覽 (Merge & Preview)</span></button>
+        <button class="btn btn-primary" id="mergeBtn" disabled>⚡ <span id="btnMergeText">匯出合併後影片 (Export Merged Video)</span></button>
         <button class="btn btn-success" id="downloadBtn" disabled>⬇️ <span id="btnDownloadText">下載合併影片 (Download)</span></button>
         <button class="btn btn-danger" id="resetBtn">🗑️ <span id="btnResetText">清空 (Clear)</span></button>
     </div>
@@ -412,10 +484,10 @@
     <article class="seo-article">
         <h2 id="seoTitle">為什麼選擇我們的線上影片合併工具？(Why Choose Our Online Video Merger?)</h2>
         <p id="seoP1">
-            無論是製作社群媒體 短影音（Reels/TikTok）、婚禮紀錄片拼接，還是教學影片組合，我們的免費線上影片合併工具都能為您輕鬆處理。支援匯入多段不同格式的影片檔，透過直覺的按鈕與拖曳即可靈活調整播放順序，合併完成後更提供內建播放器供您在下載前完整預覽。
+            無論是製作社群媒體 短影音（Reels/TikTok）、婚禮紀錄片拼接，還是教學影片組合，我們的免費線上影片合併工具都能為您輕鬆處理。支援匯入多段不同格式的影片檔，透過直覺的滑鼠拖放即可靈活調整播放順序，合併完成後更提供即時互動預覽進度條，支援隨意拖放快進與即時畫面預覽。
         </p>
         <p id="seoP2">
-            Merge and combine multiple video clips into one seamless video file online for free. Our Online Video Joiner allows you to reorder videos effortlessly and preview the combined result before downloading. Built with 100% client-side HTML5 APIs, your video files are processed entirely inside your local browser without uploading to any server, guaranteeing top-level privacy and zero wait time.
+            Merge and combine multiple video clips into one seamless video file online for free. Our Online Video Joiner allows you to reorder videos effortlessly via drag-and-drop and scrub through the combined timeline before downloading. Built with 100% client-side HTML5 APIs, your video files are processed entirely inside your local browser without uploading to any server, guaranteeing top-level privacy and zero wait time.
         </p>
     </article>
 </div>
@@ -430,63 +502,61 @@
     const texts = {
         zh: {
             title: '🎬 免費線上影片合併工具',
-            sub: '多段影片快速拼接合併 · 自由調整播放順序 · 下載前即時預覽 · 100% 本地處理保護隱私',
+            sub: '多段影片快速拼接合併 · 滑鼠拖放調整順序 · 拖放進度條即時預覽 · 100% 本地處理保護隱私',
             badge1: '🔒 100% 隱私安全（零上傳）',
-            badge2: '↕️ 支援調整影片順序',
-            badge3: '👁️ 合併後無縫即時預覽',
+            badge2: '↕️ 滑鼠拖放調整影片次序',
+            badge3: '👁️ 拖放進度條即時預覽畫面',
             badge4: '🆓 完全免費無限次數',
             upload: '拖曳多段影片到這裡，或點擊選擇檔案',
             hint: '可一次選擇多個 MP4, WebM, MOV 影片檔案',
-            lblVideoList: '影片序列與順序調整',
-            placeholder: '等待上傳影片並合併...',
-            btnMerge: '開始合併並預覽',
+            lblVideoList: '影片序列與順序調整 (可直接拖放排序)',
+            placeholder: '等待上傳影片並合併預覽...',
+            btnMerge: '匯出合併後影片',
             btnDownload: '下載合併影片',
             btnReset: '清空',
             statusMerging: '正在拼接影片音訊與畫面，請稍候...',
-            statusComplete: '合併完成！您可以在上方播放器預覽或點擊下載。',
+            statusComplete: '合併完成！您可以在下方播放器預覽或點擊下載。',
             seoTitle: '為什麼選擇我們的線上影片合併工具？',
-            seoP1: '無論是製作社群媒體 短影音（Reels/TikTok）、婚禮紀錄片拼接，還是教學影片組合，我們的免費線上影片合併工具都能為您輕鬆處理。支援匯入多段不同格式的影片檔，透過直覺的按鈕與拖曳即可靈活調整播放順序，合併完成後更提供內建播放器供您在下載前完整預覽。',
+            seoP1: '無論是製作社群媒體 短影音（Reels/TikTok）、婚禮紀錄片拼接，還是教學影片組合，我們的免費線上影片合併工具都能為您輕鬆處理。支援匯入多段不同格式的影片檔，透過直覺的滑鼠拖放即可靈活調整播放順序，合併完成後更提供即時互動預覽進度條，支援隨意拖放快進與即時畫面預覽。',
             seoP2: '本工具採用現代瀏覽器端技術，所有影片拼接過程 100% 在您的個人電腦或手機端運算，絕不傳輸任何資料至外部伺服器，速度極快且隱私無虞。'
         },
         en: {
             title: '🎬 Free Online Video Merger & Joiner',
-            sub: 'Combine Multiple Video Clips · Reorder Clips Easily · Preview Before Download · 100% Client-Side Privacy',
+            sub: 'Combine Multiple Video Clips · Drag & Drop Reordering · Interactive Timeline Scrubber · 100% Client-Side Privacy',
             badge1: '🔒 100% Privacy (No Upload)',
-            badge2: '↕️ Flexible Clip Reordering',
-            badge3: '👁️ Instant Preview Before Export',
+            badge2: '↕️ Drag & Drop Clip Reordering',
+            badge3: '👁️ Interactive Timeline Preview',
             badge4: '🆓 Unlimited & Free',
             upload: 'Drag & drop multiple videos here, or click to select',
             hint: 'Select multiple MP4, WebM, MOV video files at once',
-            lblVideoList: 'Video Clip Sequence & Order',
+            lblVideoList: 'Video Clip Sequence (Drag to Reorder)',
             placeholder: 'Waiting for videos upload...',
-            btnMerge: 'Merge & Preview',
+            btnMerge: 'Export Merged Video',
             btnDownload: 'Download Merged Video',
             btnReset: 'Clear',
             statusMerging: 'Stitching video tracks and audio... Please wait.',
             statusComplete: 'Merge complete! Preview above or click Download.',
             seoTitle: 'Why Choose Our Online Video Merger?',
-            seoP1: 'Merge and combine multiple video clips into one seamless video file online for free. Our Online Video Joiner allows you to reorder videos effortlessly and preview the combined result before downloading. Built with 100% client-side HTML5 APIs, your video files are processed entirely inside your local browser without uploading to any server, guaranteeing top-level privacy and zero wait time.',
+            seoP1: 'Merge and combine multiple video clips into one seamless video file online for free. Our Online Video Joiner allows you to reorder videos effortlessly via drag-and-drop and scrub through the combined timeline before downloading. Built with 100% client-side HTML5 APIs, your video files are processed entirely inside your local browser without uploading to any server, guaranteeing top-level privacy and zero wait time.',
             seoP2: 'Ideal for social media creators, vloggers, and educators seeking a fast and safe way to join video clips without downloading heavy editing software.'
         }
     };
 
-let currentLang = 'zh';
+    let currentLang = 'zh';
 
-// 偵測 URL 參數語言
-function detectLanguage() {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('lang') === 'en') return 'en';
-    if (params.get('lang') === 'tw') return 'zh';
-    if (params.get('lang') === 'hk') return 'zh';
-    
-    // 如果無參數，用瀏覽器語言
-    const userLang = navigator.language || navigator.userLanguage;
-    if (userLang.startsWith('en')) return 'en';
-    if (userLang.includes('TW') || userLang.includes('tw')) return 'zh';
-    return 'zh';
-}
+    function detectLanguage() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('lang') === 'en') return 'en';
+        if (params.get('lang') === 'tw' || params.get('lang') === 'hk') return 'zh';
+        
+        const userLang = navigator.language || navigator.userLanguage;
+        if (userLang.startsWith('en')) return 'en';
+        return 'zh';
+    }
+
     let videoFiles = []; // { file, name, duration, url }
     let mergedBlobUrl = null;
+    let draggedIndex = null;
 
     // DOM 元素
     const dropArea = document.getElementById('dropArea');
@@ -496,6 +566,11 @@ function detectLanguage() {
     const totalDurationText = document.getElementById('totalDurationText');
     const previewPlayer = document.getElementById('previewPlayer');
     const previewPlaceholder = document.getElementById('previewPlaceholder');
+    const scrubberContainer = document.getElementById('scrubberContainer');
+    const scrubberTrack = document.getElementById('scrubberTrack');
+    const scrubberThumbBar = document.getElementById('scrubberThumbBar');
+    const currentTimeLabel = document.getElementById('currentTimeLabel');
+    const totalTimeLabel = document.getElementById('totalTimeLabel');
     const progressWrap = document.getElementById('progressWrap');
     const progressBar = document.getElementById('progressBar');
     const statusText = document.getElementById('statusText');
@@ -515,7 +590,7 @@ function detectLanguage() {
         document.getElementById('uploadText').innerText = t.upload;
         document.getElementById('uploadHint').innerText = t.hint;
         document.getElementById('lblVideoList').innerText = t.lblVideoList;
-        if (!mergedBlobUrl) previewPlaceholder.innerText = t.placeholder;
+        if (!mergedBlobUrl && videoFiles.length === 0) previewPlaceholder.innerText = t.placeholder;
         document.getElementById('btnMergeText').innerText = t.btnMerge;
         document.getElementById('btnDownloadText').innerText = t.btnDownload;
         document.getElementById('btnResetText').innerText = t.btnReset;
@@ -560,12 +635,13 @@ function detectLanguage() {
                 loadedCount++;
                 if (loadedCount === fileArr.length) {
                     renderVideoList();
+                    updateMultiPreviewTimeline();
                 }
             };
         });
     }
 
-    // 渲染影片列表與排序按鈕
+    // 渲染影片列表與 HTML5 拖放排序 (支援第 2、3 片以上上下拖放次序)
     function renderVideoList() {
         if (videoFiles.length === 0) {
             videoListContainer.style.display = 'none';
@@ -583,14 +659,52 @@ function detectLanguage() {
 
             const el = document.createElement('div');
             el.className = 'video-item';
+            el.draggable = true;
+            el.dataset.index = index;
+
             el.innerHTML = `
-                <span class="drag-handle">☰</span>
+                <span class="drag-handle" title="按住拖放調整順序">☰</span>
                 <span class="name">${index + 1}. ${item.name}</span>
                 <span class="duration">${formatTime(item.duration)}</span>
                 <button class="item-btn" onclick="moveItem(${index}, -1)" ${index === 0 ? 'disabled' : ''}>▲</button>
                 <button class="item-btn" onclick="moveItem(${index}, 1)" ${index === videoFiles.length - 1 ? 'disabled' : ''}>▼</button>
                 <button class="item-btn remove" onclick="removeItem(${index})">✕</button>
             `;
+
+            // HTML5 Drag and Drop events for reordering
+            el.addEventListener('dragstart', (e) => {
+                draggedIndex = index;
+                e.dataTransfer.effectAllowed = 'move';
+                el.classList.add('dragging');
+            });
+
+            el.addEventListener('dragend', () => {
+                el.classList.remove('dragging');
+                document.querySelectorAll('.video-item').forEach(item => item.classList.remove('drag-over'));
+            });
+
+            el.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                el.classList.add('drag-over');
+            });
+
+            el.addEventListener('dragleave', () => {
+                el.classList.remove('drag-over');
+            });
+
+            el.addEventListener('drop', (e) => {
+                e.preventDefault();
+                el.classList.remove('drag-over');
+                const targetIndex = parseInt(el.dataset.index);
+                if (draggedIndex !== null && draggedIndex !== targetIndex) {
+                    const movedItem = videoFiles.splice(draggedIndex, 1)[0];
+                    videoFiles.splice(targetIndex, 0, movedItem);
+                    renderVideoList();
+                    updateMultiPreviewTimeline();
+                }
+            });
+
             videoList.appendChild(el);
         });
 
@@ -599,6 +713,7 @@ function detectLanguage() {
     }
 
     function formatTime(sec) {
+        if (isNaN(sec) || sec < 0) return '0:00';
         const m = Math.floor(sec / 60);
         const s = Math.floor(sec % 60);
         return `${m}:${s < 10 ? '0' : ''}${s}`;
@@ -611,15 +726,163 @@ function detectLanguage() {
         videoFiles[index] = videoFiles[target];
         videoFiles[target] = temp;
         renderVideoList();
+        updateMultiPreviewTimeline();
     }
 
     function removeItem(index) {
         URL.revokeObjectURL(videoFiles[index].url);
         videoFiles.splice(index, 1);
         renderVideoList();
+        updateMultiPreviewTimeline();
     }
 
-    // 核心影片合併邏輯（利用 Canvas + MediaRecorder 本地渲染）
+    // 即時預覽時間軸與拖放bar設置 (未合併前亦可透過 scrubber 即時切換預覽各段影片)
+    let totalCombinedDuration = 0;
+    function updateMultiPreviewTimeline() {
+        if (videoFiles.length === 0) {
+            scrubberContainer.style.display = 'none';
+            previewPlayer.style.display = 'none';
+            previewPlaceholder.style.display = 'block';
+            previewPlaceholder.innerText = texts[currentLang].placeholder;
+            return;
+        }
+
+        scrubberContainer.style.display = 'flex';
+        previewPlayer.style.display = 'block';
+        previewPlaceholder.style.display = 'none';
+
+        // 重新構建 scrubber 軌道片段
+        scrubberTrack.innerHTML = '<div class="scrubber-thumb-bar" id="scrubberThumbBar"></div>';
+        totalCombinedDuration = videoFiles.reduce((acc, curr) => acc + curr.duration, 0);
+        totalTimeLabel.innerText = formatTime(totalCombinedDuration);
+        currentTimeLabel.innerText = '0:00';
+
+        const colors = ['#22d3ee', '#34d399', '#f472b6', '#fbbf24', '#a78bfa', '#60a5fa'];
+        videoFiles.forEach((item, idx) => {
+            const seg = document.createElement('div');
+            seg.className = 'scrubber-segment';
+            const pct = totalCombinedDuration > 0 ? (item.duration / totalCombinedDuration) * 100 : 0;
+            seg.style.width = pct + '%';
+            seg.style.backgroundColor = colors[idx % colors.length];
+            seg.title = `${idx + 1}. ${item.name} (${formatTime(item.duration)})`;
+            
+            // 點擊即時跳轉預覽該片段
+            seg.addEventListener('click', (e) => {
+                e.stopPropagation();
+                jumpToTimeInTimeline(getStartTimeOfIndex(idx));
+            });
+
+            scrubberTrack.appendChild(seg);
+        });
+
+        // 預設載入第一支影片
+        previewPlayer.src = videoFiles[0].url;
+        previewPlayer.load();
+    }
+
+    function getStartTimeOfIndex(targetIdx) {
+        let t = 0;
+        for (let i = 0; i < targetIdx; i++) {
+            t += videoFiles[i].duration;
+        }
+        return t;
+    }
+
+    function getSegmentAndLocalTime(globalTime) {
+        let accumulated = 0;
+        for (let i = 0; i < videoFiles.length; i++) {
+            const dur = videoFiles[i].duration;
+            if (globalTime <= accumulated + dur) {
+                return { index: i, localTime: globalTime - accumulated };
+            }
+            accumulated += dur;
+        }
+        const lastIdx = videoFiles.length - 1;
+        return { index: lastIdx, localTime: videoFiles[lastIdx]?.duration || 0 };
+    }
+
+    // 點擊或拖放 scrubber bar 即時預覽影片畫面
+    let isDraggingScrubber = false;
+
+    function handleScrubberInteraction(e) {
+        if (videoFiles.length === 0 || totalCombinedDuration <= 0) return;
+        const rect = scrubberTrack.getBoundingClientRect();
+        const pos = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        const targetGlobalTime = pos * totalCombinedDuration;
+
+        jumpToTimeInTimeline(targetGlobalTime);
+    }
+
+    function jumpToTimeInTimeline(globalTime) {
+        const { index, localTime } = getSegmentAndLocalTime(globalTime);
+        const targetItem = videoFiles[index];
+        if (!targetItem) return;
+
+        currentTimeLabel.innerText = formatTime(globalTime);
+        const pct = (globalTime / totalCombinedDuration) * 100;
+        const thumb = document.getElementById('scrubberThumbBar');
+        if (thumb) thumb.style.width = pct + '%';
+
+        if (previewPlayer.src !== targetItem.url) {
+            previewPlayer.src = targetItem.url;
+            previewPlayer.currentTime = localTime;
+        } else {
+            previewPlayer.currentTime = localTime;
+        }
+    }
+
+    scrubberTrack.addEventListener('mousedown', (e) => {
+        isDraggingScrubber = true;
+        handleScrubberInteraction(e);
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!isDraggingScrubber) return;
+        handleScrubberInteraction(e);
+    });
+
+    window.addEventListener('mouseup', () => {
+        isDraggingScrubber = false;
+    });
+
+    // 播放時同步更新 scrubber 進度條
+    previewPlayer.addEventListener('timeupdate', () => {
+        if (videoFiles.length === 0 || isDraggingScrubber) return;
+        let currentGlobalTime = 0;
+        let activeIdx = 0;
+        for (let i = 0; i < videoFiles.length; i++) {
+            if (previewPlayer.src === window.location.origin + '/' + videoFiles[i].url || previewPlayer.src === videoFiles[i].url) {
+                activeIdx = i;
+                break;
+            }
+        }
+        for (let i = 0; i < activeIdx; i++) {
+            currentGlobalTime += videoFiles[i].duration;
+        }
+        currentGlobalTime += previewPlayer.currentTime || 0;
+
+        currentTimeLabel.innerText = formatTime(currentGlobalTime);
+        const pct = totalCombinedDuration > 0 ? (currentGlobalTime / totalCombinedDuration) * 100 : 0;
+        const thumb = document.getElementById('scrubberThumbBar');
+        if (thumb) thumb.style.width = pct + '%';
+    });
+
+    // 自動順暢串接播放下一段影片
+    previewPlayer.addEventListener('ended', () => {
+        let activeIdx = -1;
+        for (let i = 0; i < videoFiles.length; i++) {
+            if (previewPlayer.src === videoFiles[i].url) {
+                activeIdx = i;
+                break;
+            }
+        }
+        if (activeIdx !== -1 && activeIdx < videoFiles.length - 1) {
+            previewPlayer.src = videoFiles[activeIdx + 1].url;
+            previewPlayer.play().catch(()=>{});
+        }
+    });
+
+    // 核心影片合併匯出邏輯（Canvas + MediaRecorder）
     mergeBtn.addEventListener('click', async () => {
         if (videoFiles.length === 0) return;
 
@@ -633,7 +896,6 @@ function detectLanguage() {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
 
-        // 先讀取第一個影片尺寸作為預設畫布寬高
         const vTemp = document.createElement('video');
         vTemp.src = videoFiles[0].url;
         await vTemp.play().catch(()=>{});
@@ -642,11 +904,10 @@ function detectLanguage() {
         canvas.width = vTemp.videoWidth || 1280;
         canvas.height = vTemp.videoHeight || 720;
 
-        const stream = canvas.captureStream(30); // 30 FPS
+        const stream = canvas.captureStream(30);
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const audioDestination = audioCtx.createMediaStreamDestination();
 
-        // 結合視覺與音訊 Stream
         const combinedStream = new MediaStream([
             ...stream.getVideoTracks(),
             ...audioDestination.stream.getAudioTracks()
@@ -664,10 +925,10 @@ function detectLanguage() {
             if (mergedBlobUrl) URL.revokeObjectURL(mergedBlobUrl);
             mergedBlobUrl = URL.createObjectURL(blob);
 
-            // 載入至播放器預覽
             previewPlayer.src = mergedBlobUrl;
             previewPlayer.style.display = 'block';
             previewPlaceholder.style.display = 'none';
+            scrubberContainer.style.display = 'none'; // 匯出後轉為標準播放模式
 
             statusText.innerText = texts[currentLang].statusComplete;
             progressWrap.style.display = 'none';
@@ -677,7 +938,6 @@ function detectLanguage() {
 
         mediaRecorder.start();
 
-        // 逐一繪製每段影片
         let totalDuration = videoFiles.reduce((acc, curr) => acc + curr.duration, 0);
         let processedDuration = 0;
 
@@ -688,7 +948,6 @@ function detectLanguage() {
             v.muted = false;
             v.crossOrigin = 'anonymous';
 
-            // 建立 Web Audio 節點連接音訊
             const source = audioCtx.createMediaElementSource(v);
             source.connect(audioDestination);
 
@@ -702,12 +961,10 @@ function detectLanguage() {
                         return;
                     }
 
-                    // 縮放畫布適應
                     ctx.fillStyle = '#000';
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
                     ctx.drawImage(v, 0, 0, canvas.width, canvas.height);
 
-                    // 更新進度條
                     const currentTotalProgress = ((processedDuration + v.currentTime) / totalDuration) * 100;
                     progressBar.style.width = Math.min(100, currentTotalProgress) + '%';
 
@@ -741,7 +998,9 @@ function detectLanguage() {
         previewPlayer.pause();
         previewPlayer.src = '';
         previewPlayer.style.display = 'none';
+        scrubberContainer.style.display = 'none';
         previewPlaceholder.style.display = 'block';
+        previewPlaceholder.innerText = texts[currentLang].placeholder;
         videoListContainer.style.display = 'none';
 
         mergeBtn.disabled = true;
@@ -749,9 +1008,9 @@ function detectLanguage() {
         progressWrap.style.display = 'none';
         statusText.style.display = 'none';
     });
-    // 初始化 - 使用偵測到的語言
-const detectedLang = detectLanguage();
-switchLang(detectedLang);
+
+    const detectedLang = detectLanguage();
+    switchLang(detectedLang);
 </script>
 
 </body>
